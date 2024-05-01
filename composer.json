@@ -1,0 +1,16 @@
+{
+    "name": "ic/veterinaria-unesc",
+    "description": "Sistema para controle de diagnósticos e análises clinicas da clínica UNESC",
+    "autoload": {
+        "psr-4": {
+            "App\\": "App/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Lucas Faé Baldan",
+            "email": "lucasbaldan2014@gmail.com"
+        }
+    ],
+    "require": {}
+}
