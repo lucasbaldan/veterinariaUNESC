@@ -20,7 +20,7 @@ class ViewTeste{
             <title>Document</title>
         </head>
         <body>
-            <h2>EAE VETERINARIvghygchcdhkdfhxdkxdyhkdhdkA</h2>
+            <h2>EAE </h2>
             
         </body>
         </html>';
