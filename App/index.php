@@ -21,7 +21,6 @@ class ViewTeste{
         </head>
         <body>
             <h2>EAE </h2>
-            
         </body>
         </html>';
         return $response;
