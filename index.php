@@ -15,7 +15,7 @@ $app->setBasePath('/veterinariaUNESC');
 $app->addRoutingMiddleware();
 $app->addErrorMiddleware(true, true, true);
 
-$twig = Twig::create(__DIR__ . '/App/Views/Templates', ['cache' => false]);
+$twig = Twig::create(__DIR__ . '/App/Views/paginas', ['cache' => false]);
 $app->add(TwigMiddleware::create($app, $twig));
 
 /////////////////////// ROTAS DE REQUISIÇÕES PARA PROCESSAMENTO DE TELAS
