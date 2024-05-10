@@ -10,10 +10,16 @@ use Slim\Views\TwigMiddleware;
 
 require __DIR__ . '/vendor/autoload.php';
 
+$config = json_decode(file_get_contents(__DIR__ . '/Configurations.json'), true);
+
+foreach ($config as $key => $value) {
+    $GLOBALS[$key] = $value;
+}
+
 $app = AppFactory::create();
 $app->setBasePath('/veterinariaUNESC');
 $app->addRoutingMiddleware();
-$app->addErrorMiddleware(true, true, true);
+$app->addErrorMiddleware($GLOBALS['desenvolvimento'], true, true);
 
 $twig = Twig::create(__DIR__ . '/App/Views/paginas', ['cache' => false]);
 $app->add(TwigMiddleware::create($app, $twig));
