@@ -38,10 +38,15 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
+    $group->get('/inicial', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\InicialPage($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
 
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
-    if (!in_array($uri, ['/veterinariaUNESC/paginas/login', '/veterinariaUNESC/paginas/formularioLPV', '/veterinariaUNESC/paginas/outra'])) {
+    if (!in_array($uri, ['/veterinariaUNESC/paginas/login', '/veterinariaUNESC/paginas/formularioLPV', '/veterinariaUNESC/paginas/inicial'])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
         return $response->withStatus(400)->withHeader('Content-Type', 'application/json');

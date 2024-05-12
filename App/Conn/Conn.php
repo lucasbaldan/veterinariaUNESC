@@ -1,22 +1,14 @@
 <?php
 
-/**
- * Conn.class [ CONEXÃO ]
- * Classe abstrata de conexão padrão SingleTon.
- * Retorna um objeto PDO pelo método estático getCoon();
- * 
- * @copyright (c) 2017, Emanuel Marques CREATIVE DESIGN PROJECTS
- */
-
 namespace App\Conn;
 
 class Conn {
 
-    private static $Host = HOST;
-    private static $Driver = DRIVER;
-    private static $User = USER;
-    private static $Pass = PASS;
-    private static $Dbsa = DBSA;
+    private static $Host;
+    private static $Driver;
+    private static $User;
+    private static $Pass;
+    private static $Dbsa;
 
     /** @var PDO */
     private static $Connect = null;
@@ -37,7 +29,7 @@ class Conn {
                 $options = self::$Driver == 'mysql' ? [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8, sql_mode=\'STRICT_ALL_TABLES\''] : []; 
                 self::$Connect = new \PDO($dsn, self::$User, self::$Pass, $options); 
             }
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             PHPExcept($e);
             //PHPErro($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
             die;
@@ -46,8 +38,17 @@ class Conn {
         return self::$Connect;
     }
 
+    private static function setEnderecoBanco(){
+        self::$Host = $GLOBALS['host'];
+        self::$Driver = $GLOBALS['driver'];
+        self::$User = $GLOBALS['user'];;
+        self::$Pass = $GLOBALS['password'];;
+        self::$Dbsa = $GLOBALS['database'];;
+    }
+
     /** Retorna um objeto PDO Singleton Pattern. */
     public static function getConn($trasaction = false) {
+        self::setEnderecoBanco();
         $conn = self::Conectar();
         if ($trasaction) {
             $conn->setAttribute(\PDO::ATTR_AUTOCOMMIT, 0);

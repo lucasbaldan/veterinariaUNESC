@@ -3,7 +3,8 @@
         "host": "localhost",
         "username": "root",
         "password": "",
-        "database": "nome_do_banco"
+        "database": "vetbase",
+        "driver": "mysql"
     },
     "desenvolvimento": true
 }
