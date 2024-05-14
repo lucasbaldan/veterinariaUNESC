@@ -108,6 +108,9 @@
 
         $('#formLogin').submit(function (event) {
             event.preventDefault();
+
+            var dadosForm = $(this).serialize();
+
             var validarTela = false;
             if ($('#usuario').val() === '') {
                 $('#usuario').addClass('is-invalid');
@@ -126,7 +129,20 @@
             if (validarTela) {
                 return;
             }
-            //this.submit();
+
+            $.ajax({
+            url: '/veterinariaUNESC/server/login',
+            type: 'POST',
+            dataType: 'json',
+            data: dadosForm,
+            success: function(response) {
+                alert(response);
+            },
+            error: function(xhr, status, error) {
+                alert(error);
+            }
+        });
+
             notificacao.push("<b>Usuário ou senha inválidos</b><br><br> Por favor verifique os dados de acesso e tente novamente.", 'warning');
         });
     });

@@ -30,7 +30,7 @@ class Conn {
                 self::$Connect = new \PDO($dsn, self::$User, self::$Pass, $options); 
             }
         } catch (\PDOException $e) {
-            PHPExcept($e);
+            //PHPExcept($e);
             //PHPErro($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
             die;
         }
@@ -39,11 +39,11 @@ class Conn {
     }
 
     private static function setEnderecoBanco(){
-        self::$Host = $GLOBALS['host'];
-        self::$Driver = $GLOBALS['driver'];
-        self::$User = $GLOBALS['user'];;
-        self::$Pass = $GLOBALS['password'];;
-        self::$Dbsa = $GLOBALS['database'];;
+        self::$Host = $GLOBALS['database']['host'];
+        self::$Driver = $GLOBALS['database']['driver'];
+        self::$User = $GLOBALS['database']['username'];
+        self::$Pass = $GLOBALS['database']['password'];
+        self::$Dbsa = $GLOBALS['database']['database'];
     }
 
     /** Retorna um objeto PDO Singleton Pattern. */

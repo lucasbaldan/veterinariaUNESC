@@ -61,10 +61,10 @@ $app->group('/server', function (RouteCollectorProxy $group) {
 
     // Definição das rotas dentro do grupo /pessoas
 
-    $group->get('/teste',  App\Controllers\Pessoas::class . ':exibir');
+    $group->post('/login',  App\Controllers\Pessoas::class . ':efetuarLogin');
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
-    if (!in_array($uri, ['/veterinariaUNESC/server/teste'])) {
+    if (!in_array($uri, ['/veterinariaUNESC/server/login'])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisição foi efetuada de maneira incorreta.']));
         return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
