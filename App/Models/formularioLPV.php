@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Exception;
@@ -8,7 +9,11 @@ class FormularioLPV
   private $cdFichaLPV;
   private $dtFicha;
   private $animal;
-  private $cdUsuarioVeterinario;
+  private $nmVeterinarioRemetente;
+  private $crmvVeterinarioRemetente;
+  private $nrTelVeterinarioRemetente;
+  private $dsEmailVeterinarioRemetente;
+  private $nmCidadeVeterinarioRemetente;
   private $cdUsuarioPlantonista;
   private $nmProprietario;
   private $nrTelefoneProprietario;
@@ -26,6 +31,7 @@ class FormularioLPV
   private $dsNomeAnimal;
   private $dsEpidemiologiaHistoriaClinica;
   private $dsLesoesMacroscopicas;
+  private $dsLesoesHistologicas;
   private $dsDiagnostico;
   private $dsRelatorio;
   private $Return;
@@ -33,12 +39,16 @@ class FormularioLPV
   private $Message;
 
 
-  function __construct($cdfichalpv = null, $dtficha, $animal, $cdusuarioveterinario, $cdusuarioplantonista, $nmproprietario, $nrtelefoneproprietario, $cidadepropriedade, $dsespecie, $dsraca, $dssexo, $idade, $totalanimais, $qtdanimaisdoentes, $qtdanimaismortos, $dsMaterialRecebido, $dsdiagnosticopresuntivo, $flAvaliacaoTumoralComMargem, $dsnomeanimal, $dsepidemiologiahistoriaclinica, $dslesoesmacroscopicas, $dsdiagnostico, $dsrelatorio)
+  function __construct($dtficha, $animal, $nmveterinarioremetente, $crmvveterinarioremetente, $nrtelveterinarioremetente, $dsemailveterinarioremetente, $nmcidadeveterinarioremetente,   $cdusuarioplantonista, $nmproprietario, $nrtelefoneproprietario, $cidadepropriedade, $dsespecie, $dsraca, $dssexo, $idade, $totalanimais, $qtdanimaisdoentes, $qtdanimaismortos, $dsMaterialRecebido, $dsdiagnosticopresuntivo, $flAvaliacaoTumoralComMargem, $dsnomeanimal, $dsepidemiologiahistoriaclinica, $dslesoesmacroscopicas, $dslesoeshistologicas, $dsdiagnostico, $dsrelatorio, $cdfichalpv = null)
   {
     $this->cdFichaLPV = $cdfichalpv;
     $this->dtFicha = $dtficha;
     $this->animal = $animal;
-    $this->cdUsuarioVeterinario = $cdusuarioveterinario;
+    $this->nmVeterinarioRemetente = $nmveterinarioremetente;
+    $this->crmvVeterinarioRemetente = $crmvveterinarioremetente;
+    $this->nrTelVeterinarioRemetente = $nrtelveterinarioremetente;
+    $this->dsEmailVeterinarioRemetente = $dsemailveterinarioremetente;
+    $this->nmCidadeVeterinarioRemetente = $nmcidadeveterinarioremetente;
     $this->cdUsuarioPlantonista = $cdusuarioplantonista;
     $this->nmProprietario = $nmproprietario;
     $this->nrTelefoneProprietario = $nrtelefoneproprietario;
@@ -56,9 +66,10 @@ class FormularioLPV
     $this->dsNomeAnimal = $dsnomeanimal;
     $this->dsEpidemiologiaHistoriaClinica = $dsepidemiologiahistoriaclinica;
     $this->dsLesoesMacroscopicas = $dslesoesmacroscopicas;
+    $this->dsLesoesHistologicas = $dslesoeshistologicas;
     $this->dsDiagnostico = $dsdiagnostico;
     $this->dsRelatorio = $dsrelatorio;
-  
+
     // $this->cdPessoa = $codPessoa;
     // $this->nmPessoa = mb_strtoupper($nmPessoa);
     // $this->login = $login_pessoa;
@@ -67,15 +78,20 @@ class FormularioLPV
 
 
 
-  public function Insert($insert)
+  public function Insert()
   {
-
+    $insert = new \App\Conn\Insert();
+    
     try {
       $insert->ExeInsert("FICHA_LPV", [
         // "CD_FICHA_LPV" => $this->cdFichaLPV,
         "DT_FICHA" => $this->dtFicha,
         "ANIMAL" => $this->animal,
-        "CD_USUARIO_VETERINARIO" => $this->cdUsuarioVeterinario,
+        "NM_VET_REMETENTE" => $this->nmVeterinarioRemetente,
+        "NR_TEL_VET_REMETENTE" => $this->nrTelVeterinarioRemetente,
+        "DS_EMAIL_VET_REMETENTE" => $this->dsEmailVeterinarioRemetente,
+        "CRMV_VET_REMETENTE" => $this->crmvVeterinarioRemetente,
+        "NM_CIDADE_VET_REMETENTE" => $this->nmCidadeVeterinarioRemetente,
         "CD_USUARIO_PLANTONISTA" => $this->cdUsuarioPlantonista,
         "NM_PROPRIETARIO" => $this->nmProprietario,
         "NR_TELEFONE_PROPRIETARIO" => $this->nrTelefoneProprietario,
@@ -93,8 +109,10 @@ class FormularioLPV
         "DS_NOME_ANIMAL" => $this->dsNomeAnimal,
         "DS_EPIDEMIOLOGIA_HISTORIA_CLINICA" => $this->dsEpidemiologiaHistoriaClinica,
         "DS_LESOES_MACROSCOPICAS" => $this->dsLesoesMacroscopicas,
+        "DS_LESOES_HISTOLOGICAS" => $this->dsLesoesHistologicas,
         "DS_DIAGNOSTICO" => $this->dsDiagnostico,
-        "DS_RELATORIO" => $this->dsRelatorio]);
+        "DS_RELATORIO" => $this->dsRelatorio
+      ]);
 
       if (!$insert->getResult()) {
         throw new Exception($insert->getError());
@@ -108,18 +126,21 @@ class FormularioLPV
 
 
 
-  public function Update($update)
+  public function Update()
   {
+    $read = new \App\Conn\Read();
     try {
-      $read = new \App\Conn\Read();
-
       $read->ExeRead("FICHA_LPV", "WHERE CD_FICHA_LPV = :C", "C=$this->cdFichaLPV");
       $dadosFicha = $read->getResult()[0] ?? [];
       if ($dadosFicha) {
         $dadosUpdate = [
           "DT_FICHA" => $this->dtFicha,
           "ANIMAL" => $this->animal,
-          "CD_USUARIO_VETERINARIO" => $this->cdUsuarioVeterinario,
+          "NM_VET_REMETENTE" => $this->nmVeterinarioRemetente,
+          "NR_TEL_VET_REMETENTE" => $this->nrTelVeterinarioRemetente,
+          "DS_EMAIL_VET_REMETENTE" => $this->dsEmailVeterinarioRemetente,
+          "CRMV_VET_REMETENTE" => $this->crmvVeterinarioRemetente,
+          "NM_CIDADE_VET_REMETENTE" => $this->nmCidadeVeterinarioRemetente,
           "CD_USUARIO_PLANTONISTA" => $this->cdUsuarioPlantonista,
           "NM_PROPRIETARIO" => $this->nmProprietario,
           "NR_TELEFONE_PROPRIETARIO" => $this->nrTelefoneProprietario,
@@ -137,8 +158,12 @@ class FormularioLPV
           "DS_NOME_ANIMAL" => $this->dsNomeAnimal,
           "DS_EPIDEMIOLOGIA_HISTORIA_CLINICA" => $this->dsEpidemiologiaHistoriaClinica,
           "DS_LESOES_MACROSCOPICAS" => $this->dsLesoesMacroscopicas,
+          "DS_LESOES_HISTOLOGICAS" => $this->dsLesoesHistologicas,
           "DS_DIAGNOSTICO" => $this->dsDiagnostico,
-          "DS_RELATORIO" => $this->dsRelatorio];
+          "DS_RELATORIO" => $this->dsRelatorio
+        ];
+
+        $update = new \App\Conn\Update();
 
         $update->ExeUpdate("FICHA_LPV", $dadosUpdate, "WHERE CD_FICHA_LPV = :C", "C=$this->cdFichaLPV");
         $atualizado = !empty($update->getResult());

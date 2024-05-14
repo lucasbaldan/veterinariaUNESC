@@ -2,8 +2,13 @@
     <div class="card rounded" style="width: 100%;">
         <div class="card-body border border-1S rounded-2">
 
-            <form action="">
-                <div class="row">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+    {% include 'importadoresLink.twig' %}
+    <link rel="stylesheet" href="/veterinariaUNESC/public/css/formularioLPV.css">
+</head>
 
                     <div class="mb-3 col-md-2">
                         <label for="cdFichaLPV" class="form-label">Ficha</label>
@@ -162,10 +167,257 @@
 
                 <div class="text-end">
 
-                    <button type="button" class="btn btn-danger">Excluir</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </div>
-            </form>
+
+                <form action="formularioLPV.twig" id="formularioLPV" name="formularioLPV">
+                    <div class="row">
+
+                        <div class="mb-3 col-md-2">
+                            <label for="cdFichaLPV" class="form-label">Ficha</label>
+                            <input type="number" class="form-control" id="cdFichaLPV" name="cdFichaLPV" placeholder=" "
+                                disabled>
+                        </div>
+
+                        <div class="mb-3 col-md-4">
+                            <label for="dtFicha" class="form-label">Data</label>
+                            <input type="date" class="form-control" id="dtFicha" name="dtFicha" placeholder=" ">
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="animal" class="form-label">Nome Animal</label>
+                            <input type="text" class="form-control" id="animal" name="animal" placeholder=" ">
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="nmVeterinarioRemetente" class="form-label">Veterinário Remetente</label>
+                            <input type="text" class="form-control" id="nmVeterinarioRemetente"
+                                name="nmVeterinarioRemetente" placeholder=" ">
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="crmvVeterinarioRemetente" class="form-label">CRMV</label>
+                            <input type="text" class="form-control" id="crmvVeterinarioRemetente"
+                                name="crmvVeterinarioRemetente" placeholder=" ">
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label for="nrTelVeterinarioRemetente" class="form-label">Telefone</label>
+                            <input type="text" class="form-control" id="nrTelVeterinarioRemetente"
+                                name="nrTelVeterinarioRemetente" placeholder=" ">
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label for="dsEmailVeterinarioRemetente" class="form-label">E-mail</label>
+                            <input type="text" class="form-control" id="dsEmailVeterinarioRemetente"
+                                name="dsEmailVeterinarioRemetente" placeholder=" ">
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label for="nmCidadeVeterinarioRemetente" class="form-label">Cidade</label>
+                            <input type="text" class="form-control" id="nmCidadeVeterinarioRemetente"
+                                name="nmCidadeVeterinarioRemetente" placeholder=" ">
+                        </div>
+
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+
+                        <div class="mb-3 col-md-4">
+                            <label for="nmProprietario" class="form-label">Proprietário</label>
+                            <input type="text" class="form-control" id="nmProprietario" name="nmProprietario"
+                                placeholder=" ">
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label for="nrTelefoneProprietario" class="form-label">Telefone do Proprietário</label>
+                            <input type="text" class="form-control" id="nrTelefoneProprietario"
+                                name="nrTelefoneProprietario" placeholder=" ">
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label for="cidadePropriedade" class="form-label">Município Propriedade</label>
+                            <input type="text" class="form-control" id="cidadePropriedade" name="cidadePropriedade"
+                                placeholder=" ">
+                        </div>
+
+                        <div class="mb-3 col-md-4">
+                            <label for="dsEspecie" class="form-label">Espécie</label>
+                            <input type="text" class="form-control" id="dsEspecie" name="dsEspecie" placeholder=" ">
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label for="dsRaca" class="form-label">Raça</label>
+                            <input type="text" class="form-control" id="dsRaca" name="dsRaca" placeholder=" ">
+                        </div>
+                        <div class="mb-3 col-md-2">
+                            <label for="dsSexo" class="form-label">Sexo</label>
+                            <select class="form-select" name="dsSexo" id="dsSexo" name="dsSexo">
+                                <option value="">Selecione...</option>
+                                <option value="M">Macho</option>
+                                <option value="F">Fêmea</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-2">
+                            <label for="idade" class="form-label">Idade</label>
+                            <input type="number" class="form-control" id="idade" name="idade" placeholder=" ">
+                        </div>
+
+                        <div class="mb-3 col-md-3">
+                            <label for="totalAnimais" class="form-label">Total de animais da propriedade</label>
+                            <input type="number" class="form-control" id="totalAnimais" name="totalAnimais"
+                                placeholder=" ">
+                        </div>
+                        <div class="mb-3 col-md-2">
+                            <label for="qtdAnimaisDoentes" class="form-label">Doentes</label>
+                            <input type="number" class="form-control" id="qtdAnimaisDoentes" name="qtdAnimaisDoentes"
+                                placeholder=" ">
+                        </div>
+                        <div class="mb-3 col-md-2">
+                            <label for="qtdAnimaisMortos" class="form-label">Mortos</label>
+                            <input type="number" class="form-control" id="qtdAnimaisMortos" name="qtdAnimaisMortos"
+                                placeholder=" ">
+                        </div>
+                        <div class="mb-3 col-md-5">
+                            <label for="dsMaterialRecebido" class="form-label">Material Recebido</label>
+                            <input type="text" class="form-control" id="dsMaterialRecebido" name="dsMaterialRecebido"
+                                placeholder=" ">
+                        </div>
+
+                        <div class="mb-3 col-md-4">
+                            <label for="dsDiagnosticoPresuntivo" class="form-label">Diagnóstico Presuntivo</label>
+                            <input type="text" class="form-control" id="dsDiagnosticoPresuntivo"
+                                name="dsDiagnosticoPresuntivo" placeholder=" ">
+                        </div>
+                        <div class="mb-3 col-md-3">
+                            <label for="flAvaliacaoTumoralComMargem" class="form-label">Avaliação tumoral com
+                                margem?</label>
+                            <select class="form-select" id="flAvaliacaoTumoralComMargem"
+                                name="flAvaliacaoTumoralComMargem">
+                                <option value="N">Não</option>
+                                <option value="S">Sim</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-5">
+                            <label for="dsNomeAnimal" class="form-label">Nome do Animal</label>
+                            <input type="text" class="form-control" id="dsNomeAnimal" name="dsNomeAnimal"
+                                placeholder=" ">
+                        </div>
+
+                        <div class="mb-3 col-md-12">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here"
+                                    id="dsEpidemiologiaHistoriaClinica" name="dsEpidemiologiaHistoriaClinica"
+                                    style="height: 250px"></textarea>
+                                <label for="floatingTextarea2">Epidemiologia e História
+                                    Clínica</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-md-12">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here"
+                                    id="dsLesoesMacroscopicas" name="dsLesoesMacroscopicas"
+                                    style="height: 250px"></textarea>
+                                <label for="dsLesoesMacroscopicas">Lesões Macroscópicas</label>
+                            </div>
+                        </div>
+                        <div class="mb-3 col-md-12">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here"
+                                    id="dsLesoesHistologicas" name="dsLesoesHistologicas"
+                                    style="height: 250px"></textarea>
+                                <label for="dsLesoesHistologicas">Lesões Histológicas</label>
+                            </div>
+                        </div>
+                        <div class="mb-3 col-md-12">
+                            <label for="dsDiagnostico" class="form-label">Diagnóstico</label>
+                            <input type="text" class="form-control" id="dsDiagnostico" name="dsDiagnostico"
+                                placeholder=" ">
+                        </div>
+
+                        <div class="mb-3 col-md-12">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="dsRelatorio"
+                                    name="dsRelatorio" style="height: 250px"></textarea>
+                                <label for="dsRelatorio">Relatório</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+
+                        <button type="button" class="btn btn-danger">Excluir</button>
+                        <button type="button" class="btn btn-primary" id="btnSalvarFormularioLPV">Salvar</button>
+                    </div>
+                </form>
+            </div>
         </div>
+        <div id="ResultDados"></div>
     </div>
-</div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $('#btnSalvarFormularioLPV').on('click', function (event) {
+
+            event.preventDefault();
+            // var formData = $(this).serialize();
+
+            // console.log('FORMULARIO: ', formData);
+            // return;
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    cdFichaLPV : $('#cdFichaLPV').val(),
+                    dtFicha : $('#dtFicha').val(),
+                    animal : $('#animal').val(),
+                    nmVeterinarioRemetente : $('#nmVeterinarioRemetente').val(),
+                    crmvVeterinarioRemetente : $('#crmvVeterinarioRemetente').val(),
+                    nrTelVeterinarioRemetente : $('#nrTelVeterinarioRemetente').val(),
+                    dsEmailVeterinarioRemetente : $('#dsEmailVeterinarioRemetente').val(),
+                    nmCidadeVeterinarioRemetente : $('#nmCidadeVeterinarioRemetente').val(),
+                    // cdUsuarioPlantonista : $('#cdFichaLPV'),
+                    nmProprietario : $('#nmProprietario').val(),
+                    nrTelefoneProprietario : $('#nrTelefoneProprietario').val(),
+                    cidadePropriedade : $('#cidadePropriedade').val(),
+                    dsEspecie : $('#dsEspecie').val(),
+                    dsRaca : $('#dsRaca').val(),
+                    dsSexo : $('#dsSexo').val(),
+                    idade : $('#idade').val(),
+                    totalAnimais : $('#totalAnimais').val(),
+                    qtdAnimaisDoentes : $('#qtdAnimaisDoentes').val(),
+                    qtdAnimaisMortos : $('#qtdAnimaisMortos').val(),
+                    dsMaterialRecebido : $('#dsMaterialRecebido').val(),
+                    dsDiagnosticoPresuntivo : $('#dsDiagnosticoPresuntivo'),
+                    flAvaliacaoTumoralComMargem : $('#flAvaliacaoTumoralComMargem').val(),
+                    dsNomeAnimal : $('#dsNomeAnimal').val(),
+                    dsEpidemiologiaHistoriaClinica : $('#dsEpidemiologiaHistoriaClinica').val(),
+                    dsLesoesMacroscopicas : $('#dsLesoesMacroscopicas').val(),
+                    dsLesoesHistologicas : $('#dsLesoesHistologicas').val(),
+                    dsDiagnostico : $('#dsDiagnostico').val(),
+                    dsRelatorio : $('#dsRelatorio').val(),
+                },
+                url: window.HOME + 'Controllers/formulario-lpv/salvar',
+                beforeSend: function () { },
+                complete: function () { },
+                success: function (data) {
+                    $("#ResultDados").html(data);
+                }
+            });
+
+            event.preventDefault();
+            var validarTela = false;
+            if ($('#usuario').val() === '') {
+                $('#usuario').addClass('is-invalid');
+                validarTela = true;
+            }
+            else {
+                $('#usuario').removeClass('is-invalid');
+            }
+            if ($('#senha').val() === '') {
+                $('#senha').addClass('is-invalid');
+                validarTela = true;
+            } else {
+                $('#senha').removeClass('is-invalid');
+            }
+
+            if (validarTela) {
+                return;
+            }
+            //this.submit();
+            notificacao.push("<b>Usuário ou senha inválidos</b><br><br> Por favor verifique os dados de acesso e tente novamente.", 'warning');
+        });
+    </script>
+</body>
+</html>
