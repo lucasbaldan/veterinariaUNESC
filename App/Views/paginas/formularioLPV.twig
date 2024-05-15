@@ -26,7 +26,8 @@
                     </div>
 
                     <div class="col-md-4 d-flex align-items-end justify-content-end">
-                        <button class="btn btn-primary rounded-pill m-4" type="button">Expandir Ficha <i class="bi bi-arrows-expand"></i></button>
+                        <button class="btn btn-primary rounded-pill m-4" type="button">Expandir Ficha <i
+                                class="bi bi-arrows-expand"></i></button>
                     </div>
                 </div>
 
@@ -37,17 +38,77 @@
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
                                 aria-controls="panelsStayOpen-collapseOne">
-                                Animal e Veterinário Responsável
+                                Animal Diagnosticado
                             </button>
                         </h2>
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                             <div class="accordion-body">
-                                <strong>This is the first item's accordion body.</strong> It is shown by default, until
-                                the collapse plugin adds the appropriate classes that we use to style each element.
-                                These classes control the overall appearance, as well as the showing and hiding via CSS
-                                transitions. You can modify any of this with custom CSS or overriding our default
-                                variables. It's also worth noting that just about any HTML can go within the
-                                <code>.accordion-body</code>, though the transition does limit overflow.
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="animal" name="animal"
+                                                placeholder="">
+                                            <label for="animal">Nome do Animal</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="tpAnimal" name="tpAnimal"
+                                                placeholder="">
+                                            <label for="tpAnimal">Tipo de Animal</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="dsEspecie" name="dsEspecie"
+                                                placeholder="">
+                                            <label for="dsEspecie">Espécie</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="dsRaca" name="dsRaca"
+                                                placeholder="">
+                                            <label for="dsRaca">Raça</label>
+                                        </div>
+                                    </div>  
+                                </div>  
+                                
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="dsSexo" name="dsSexo" aria-label="Sexo Animal">
+                                                <option value="">Selecione...</option>
+                                                <option value="M">Macho</option>
+                                                <option value="F">Fêmea</option>
+                                            </select>
+                                            <label for="dsSexo">Sexo do animal</label>
+                                          </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" maxlength="2" class="form-control" id="idade" name="idade"
+                                                placeholder="">
+                                            <label for="idade">Idade Aproximada</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="anoNascimento" name="anoNascimento"
+                                                placeholder="">
+                                            <label for="anoNascimento">Ano de nascimento</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -93,11 +154,6 @@
 
 
 
-
-                <div class="mb-3 col-md-6">
-                    <label for="animal" class="form-label">Nome Animal</label>
-                    <input type="text" class="form-control" id="animal" name="animal" placeholder=" ">
-                </div>
                 <div class="mb-3 col-md-6">
                     <label for="nmVeterinarioRemetente" class="form-label">Veterinário Remetente</label>
                     <input type="text" class="form-control" id="nmVeterinarioRemetente" name="nmVeterinarioRemetente"
@@ -143,27 +199,6 @@
                         placeholder=" ">
                 </div>
 
-                <div class="mb-3 col-md-4">
-                    <label for="dsEspecie" class="form-label">Espécie</label>
-                    <input type="text" class="form-control" id="dsEspecie" name="dsEspecie" placeholder=" ">
-                </div>
-                <div class="mb-3 col-md-4">
-                    <label for="dsRaca" class="form-label">Raça</label>
-                    <input type="text" class="form-control" id="dsRaca" name="dsRaca" placeholder=" ">
-                </div>
-                <div class="mb-3 col-md-2">
-                    <label for="dsSexo" class="form-label">Sexo</label>
-                    <select class="form-select" name="dsSexo" id="dsSexo" name="dsSexo">
-                        <option value="">Selecione...</option>
-                        <option value="M">Macho</option>
-                        <option value="F">Fêmea</option>
-                    </select>
-                </div>
-                <div class="mb-3 col-md-2">
-                    <label for="idade" class="form-label">Idade</label>
-                    <input type="number" class="form-control" id="idade" name="idade" placeholder=" ">
-                </div>
-
                 <div class="mb-3 col-md-3">
                     <label for="totalAnimais" class="form-label">Total de animais da propriedade</label>
                     <input type="number" class="form-control" id="totalAnimais" name="totalAnimais" placeholder=" ">
@@ -196,10 +231,6 @@
                         <option value="N">Não</option>
                         <option value="S">Sim</option>
                     </select>
-                </div>
-                <div class="mb-3 col-md-5">
-                    <label for="dsNomeAnimal" class="form-label">Nome do Animal</label>
-                    <input type="text" class="form-control" id="dsNomeAnimal" name="dsNomeAnimal" placeholder=" ">
                 </div>
 
                 <div class="mb-3 col-md-12">
