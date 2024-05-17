@@ -14,3 +14,8 @@ body::before {
     height: 100%;
     z-index: -1;
 }
+
+.accordion-button {
+    background-color: #e2e2e2; /* Cor de fundo padrão para cabeçalhos fechados */
+    color: #000000; /* Cor do texto padrão para cabeçalhos fechados */
+}
