@@ -139,11 +139,9 @@
                 alert(response);
             },
             error: function(xhr, status, error) {
-                alert(error);
+                notificacao.push(xhr.responseJSON.MESSAGE, 'warning');
             }
         });
-
-            notificacao.push("<b>Usuário ou senha inválidos</b><br><br> Por favor verifique os dados de acesso e tente novamente.", 'warning');
         });
     });
 </script>

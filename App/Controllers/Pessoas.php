@@ -23,11 +23,15 @@ class Pessoas {
         $dadosUsuario = new \App\Models\Pessoas($login, $senha);
         $dadosUsuario = $dadosUsuario->verificarAcesso();
 
+        if(!$dadosUsuario){
+            throw new Exception("<b>Usuário ou senha inválidos</b><br><br> Por favor verifique os dados de acesso e tente novamente.", 400);  
+        }
+
         $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $dadosUsuario];
         $codigoHTTP = 200;
         }
         catch(Exception $e){
-        $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => 'OCORREU UM ERRO AO EFETUAR OPERACAO', "RETURN" => ''];
+        $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
         $codigoHTTP = $e->getCode();
         }
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));

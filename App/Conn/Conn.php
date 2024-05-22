@@ -2,6 +2,8 @@
 
 namespace App\Conn;
 
+use Exception;
+
 class Conn {
 
     private static $Host;
@@ -30,8 +32,7 @@ class Conn {
                 self::$Connect = new \PDO($dsn, self::$User, self::$Pass, $options); 
             }
         } catch (\PDOException $e) {
-            //PHPExcept($e);
-            //PHPErro($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
+            throw new Exception($e->getMessage());
             die;
         }
         self::$Connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);

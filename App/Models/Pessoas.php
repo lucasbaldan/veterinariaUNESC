@@ -22,6 +22,9 @@ class Pessoas{
 
         $read->FullRead("SELECT * FROM USUARIOS WHERE USUARIOS.USUARIO =:L AND USUARIOS.SENHA = :S LIMIT 1", "L=$this->login&S=$this->senha");
 
+        if ($read->getRowCount() == 0) {
+            return null;
+        }
         return $read->getResult();
     }
 }
