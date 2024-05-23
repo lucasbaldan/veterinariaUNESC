@@ -62,9 +62,12 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     // Definição das rotas dentro do grupo /pessoas
 
     $group->post('/login',  App\Controllers\Pessoas::class . ':efetuarLogin');
+
+    $group->post('/salvaFormularioLPV',  App\Controllers\FormularioLPV::class . ':Salvar');
+
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
-    if (!in_array($uri, ['/veterinariaUNESC/server/login'])) {
+    if (!in_array($uri, ['/veterinariaUNESC/server/login', '/veterinariaUNESC/server/salvaFormularioLPV'])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisição foi efetuada de maneira incorreta.']));
         return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
