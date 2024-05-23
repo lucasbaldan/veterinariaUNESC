@@ -9,53 +9,30 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class GruposUsuarios
 {
 
-    public static function CriarGruposUsuarios(Request $request, Response $response)
+    public static function Salvar(Request $request, Response $response)
     {
 
         try {
             $Formulario = $request->getParsedBody();
 
-            $nmGrupoUsuarios = !empty($Formulario['nmGrupoUsuarios']) ? $Formulario['nmGrupoUsuarios'] : '';
-            $flAcessar = !empty($Formulario['flAcessar']) ? $Formulario['flAcessar'] : '';
-            $flEditar = !empty($Formulario['flEditar']) ? $Formulario['flEditar'] : '';
-            $flExcluir = !empty($Formulario['flExcluir']) ? $Formulario['flExcluir'] : '';
-
-
-            $dadosGrupoUsuarios = new \App\Models\GruposUsuarios($nmGrupoUsuarios, $flAcessar, $flEditar, $flExcluir);
-            $retorno = $dadosGrupoUsuarios->Insert();
-
-            if (!$retorno) {
-                throw new Exception("<b>Erro ao criar o grupo de usuários</b><br><br> Por favor, tente novamente.", 400);
-            }
-
-            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno];
-            $codigoHTTP = 200;
-        } catch (Exception $e) {
-            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
-            $codigoHTTP = $e->getCode();
-        }
-        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
-        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
-    }
-
-    public static function AtualizarGruposUsuarios(Request $request, Response $response)
-    {
-
-        try {
-            $Formulario = $request->getParsedBody();
-
-            $nmGrupoUsuarios = !empty($Formulario['nmGrupoUsuarios']) ? $Formulario['nmGrupoUsuarios'] : '';
-            $flAcessar = !empty($Formulario['flAcessar']) ? $Formulario['flAcessar'] : '';
-            $flEditar = !empty($Formulario['flEditar']) ? $Formulario['flEditar'] : '';
-            $flExcluir = !empty($Formulario['flExcluir']) ? $Formulario['flExcluir'] : '';
             $cdGrupoUsuarios = !empty($Formulario['cdGrupoUsuarios']) ? $Formulario['cdGrupoUsuarios'] : '';
+            $nmGrupoUsuarios = !empty($Formulario['nmGrupoUsuarios']) ? $Formulario['nmGrupoUsuarios'] : '';
+            $flAcessar = !empty($Formulario['flAcessar']) ? $Formulario['flAcessar'] : '';
+            $flEditar = !empty($Formulario['flEditar']) ? $Formulario['flEditar'] : '';
+            $flExcluir = !empty($Formulario['flExcluir']) ? $Formulario['flExcluir'] : '';
 
 
             $dadosGrupoUsuarios = new \App\Models\GruposUsuarios($nmGrupoUsuarios, $flAcessar, $flEditar, $flExcluir, $cdGrupoUsuarios);
-            $retorno = $dadosGrupoUsuarios->Update();
+            
+            if(empty($cdGrupoUsuarios)){
+                $retorno = $dadosGrupoUsuarios->Insert();
+            }else{
+                $retorno = $dadosGrupoUsuarios->Update();
+            }
+            
 
             if (!$retorno) {
-                throw new Exception("<b>Erro ao atualizar o grupo de usuários</b><br><br> Por favor, tente novamente.", 400);
+                throw new Exception("<b>Erro ao criar o grupo de usuários</b><br><br> Por favor, tente novamente.", 400);
             }
 
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno];
