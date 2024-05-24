@@ -81,9 +81,9 @@ class FormularioLPV
   public function Insert()
   {
     $insert = new \App\Conn\Insert();
-    
+
     try {
-      $insert->ExeInsert("FICHA_LPV", [
+      $insert->ExeInsert("ficha_lpv", [
         // "CD_FICHA_LPV" => $this->cdFichaLPV,
         "DT_FICHA" => $this->dtFicha,
         "ANIMAL" => $this->animal,
@@ -130,7 +130,7 @@ class FormularioLPV
   {
     $read = new \App\Conn\Read();
     try {
-      $read->ExeRead("FICHA_LPV", "WHERE CD_FICHA_LPV = :C", "C=$this->cdFichaLPV");
+      $read->ExeRead("ficha_lpv", "WHERE CD_FICHA_LPV = :C", "C=$this->cdFichaLPV");
       $dadosFicha = $read->getResult()[0] ?? [];
       if ($dadosFicha) {
         $dadosUpdate = [
@@ -193,64 +193,19 @@ class FormularioLPV
     return $read->getResult();
   }
 
-  public static function listarPessoas($codigo)
+  public static function RetornarDadosFichaLPV($cdFichaLPV)
   {
     $read = new \App\Conn\Read();
-    if ($codigo) {
-      $read->FullRead("SELECT *
-                    FROM PESSOAS P 
-                    WHERE P.CD_PESSOA =:C", "C=$codigo");
-    } else {
-      $read->FullRead("SELECT P.CD_PESSOA, NM_PESSOA, E.NM_EMPRESA, P.SENHA, P.LOGIN
-                    FROM PESSOAS P 
-                    INNER JOIN EMPRESAS E ON (P.CD_EMPRESA = E.CD_EMPRESA);");
-    }
+    $read->FullRead("SELECT F.* FROM FICHA_LPV F  WHERE F.CD_FICHA_LPV = :C", "C=$cdFichaLPV");
+
     return $read->getResult();
   }
 
-  public static function listarLogins($codPessoa)
+  public static function Delete($cdFichaLPV)
   {
-    $read = new \App\Conn\Read();
+    $delete = new \App\Conn\delete();
 
-    $read->FullRead("SELECT *
-                    FROM PESSOAS P 
-                    WHERE P.CD_PESSOA =:C", "C=$codPessoa");
-    return $read->getResult();
-  }
-  public static function validarLogin($login, $senha, $token = null)
-  {
-    $conn = \App\Conn\Conn::getConn(true);
-    $read = new \App\Conn\Read($conn);
-
-    $read->FullRead("SELECT DISTINCT P.CD_PESSOA, P.NM_PESSOA 
-   FROM PESSOAS P
-   WHERE P.LOGIN =:C AND P.SENHA =:E", "C=$login&E=$senha");
-
-    if ($read->getRowCount() > 0) {
-      //( SELECT MAX(C.CD_CHAMADA) FROM CHAMADAS C WHERE C.CD_PROFESSOR = P.CD_PESSOA) as tem_reg_professor, ( SELECT MAX(C2.CD_CHAMADA) FROM CHAMADAS C2  WHERE C2.CD_ALUNO = P.CD_PESSOA) as tem_reg_aluno
-
-      if ($token) {
-        $update = new \App\Conn\Update($conn);
-        $cdPessoa = $read->getResult()[0]["CD_PESSOA"];
-
-        $update->ExeUpdate("PESSOAS", ["TOKEN_DISPOSITIVO" => $token], "WHERE CD_PESSOA =:C", "C=$cdPessoa");
-
-        if (!$update->getResult()) {
-          $update->Rollback();
-          return false;
-        }
-        $update->Commit();
-      }
-      return $read->getResult();
-    } else {
-      $read = null;
-      return false;
-    }
-  }
-
-  public static function excluirPessoas($delete, $codPessoa)
-  {
-    $delete->ExeDelete("PESSOAS", "WHERE CD_PESSOA =:C", "C=$codPessoa");
+    $delete->ExeDelete("ficha_lpv", "WHERE CD_FICHA_LPV =:C", "C=$cdFichaLPV");
     $deletado = !empty($delete->getResult());
 
     if ($deletado) {
@@ -259,39 +214,6 @@ class FormularioLPV
       return false;
     }
   }
-
-  public static function buscaTokens($conn = null)
-  {
-    $read = new \App\Conn\Read($conn);
-    $read->FullRead("SELECT C.CD_CHAMADA, P.TOKEN_DISPOSITIVO, 'INICIO' AS HORA_AULA
-    FROM PESSOAS P 
-    INNER JOIN CHAMADAS C ON P.CD_PESSOA = C.CD_ALUNO
-    WHERE C.DT_CHAMADA = CURRENT_DATE()
-            
-    AND DATE_FORMAT(DATE_SUB(concat(C.DT_CHAMADA,' ', C.HR_INICIAL), INTERVAL 20 MINUTE), '%Y-%m-%d %H:%i:%s')  <= CURRENT_TIMESTAMP()
-    AND DATE_FORMAT(concat(C.DT_CHAMADA,' ', C.HR_INICIAL), '%Y-%m-%d %H:%i:%s') >= CURRENT_TIMESTAMP()        
-                  
-    AND P.TOKEN_DISPOSITIVO IS NOT NULL
-    AND (C.FL_NOTIFICACAO_INICIO IS NULL OR C.FL_NOTIFICACAO_INICIO = 'N')
-    GROUP BY C.CD_CHAMADA, P.TOKEN_DISPOSITIVO, HORA_AULA
-    UNION ALL
-    SELECT C.CD_CHAMADA, P.TOKEN_DISPOSITIVO, 'FIM' AS HORA_AULA 
-    FROM PESSOAS P 
-    INNER JOIN CHAMADAS C ON P.CD_PESSOA = C.CD_ALUNO
-    WHERE C.DT_CHAMADA = CURRENT_DATE()
-    
-    AND DATE_FORMAT(DATE_SUB(concat(C.DT_CHAMADA,' ', C.HR_FINAL), INTERVAL 15 MINUTE), '%Y-%m-%d %H:%i:%s')  <= CURRENT_TIMESTAMP()
-    AND DATE_FORMAT(concat(C.DT_CHAMADA,' ', C.HR_FINAL), '%Y-%m-%d %H:%i:%s') >= CURRENT_TIMESTAMP()
-    
-    AND P.TOKEN_DISPOSITIVO IS NOT NULL
-    AND C.FL_PRESENTE = 'N'
-    AND (C.FL_NOTIFICACAO_SAIDA IS NULL OR C.FL_NOTIFICACAO_SAIDA = 'N')
-    GROUP BY C.CD_CHAMADA, P.TOKEN_DISPOSITIVO, HORA_AULA");
-
-    return $read->getResult();
-  }
-
-
 
   public function GetMessage()
   {
