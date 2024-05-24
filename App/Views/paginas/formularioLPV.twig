@@ -9,7 +9,7 @@
 </nav>
 
 <div class="container-fluid d-flex justify-content-center align-items-center mt-2">
-    <div class="card rounded">
+    <div class="card rounded" style="min-width: 100%;">
         <div class="card-body border border-1S rounded-2">
 
             <form id="formularioLPV">
@@ -26,29 +26,89 @@
                     </div>
 
                     <div class="col-md-4 d-flex align-items-end justify-content-end">
-                        <button class="btn btn-primary rounded-pill m-4" type="button">Expandir Ficha <i
+                        <button class="btn btn-primary rounded-pill m-4" id="ExpandFicha" type="button">Expandir Ficha <i
                                 class="bi bi-arrows-expand"></i></button>
                     </div>
                 </div>
 
 
-                <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion mb-3" id="accordionPanelsStayOpenExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
                                 aria-controls="panelsStayOpen-collapseOne">
-                                Animal e Veterinário Responsável
+                                Animal Diagnosticado
                             </button>
                         </h2>
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                             <div class="accordion-body">
-                                <strong>This is the first item's accordion body.</strong> It is shown by default, until
-                                the collapse plugin adds the appropriate classes that we use to style each element.
-                                These classes control the overall appearance, as well as the showing and hiding via CSS
-                                transitions. You can modify any of this with custom CSS or overriding our default
-                                variables. It's also worth noting that just about any HTML can go within the
-                                <code>.accordion-body</code>, though the transition does limit overflow.
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="animal" name="animal"
+                                                placeholder="">
+                                            <label for="animal">Nome do Animal</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="tpAnimal" name="tpAnimal"
+                                                placeholder="">
+                                            <label for="tpAnimal">Tipo de Animal</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="dsEspecie" name="dsEspecie"
+                                                placeholder="">
+                                            <label for="dsEspecie">Espécie</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="dsRaca" name="dsRaca"
+                                                placeholder="">
+                                            <label for="dsRaca">Raça</label>
+                                        </div>
+                                    </div>  
+                                </div>  
+                                
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="dsSexo" name="dsSexo" aria-label="Sexo Animal">
+                                                <option value="">Selecione...</option>
+                                                <option value="M">Macho</option>
+                                                <option value="F">Fêmea</option>
+                                            </select>
+                                            <label for="dsSexo">Sexo do animal</label>
+                                          </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" maxlength="2" class="form-control" id="idade" name="idade"
+                                                placeholder="">
+                                            <label for="idade">Idade Aproximada</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="anoNascimento" name="anoNascimento"
+                                                placeholder="">
+                                            <label for="anoNascimento">Ano de nascimento</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -57,17 +117,32 @@
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
                                 aria-controls="panelsStayOpen-collapseTwo">
-                                Accordion Item #2
+                                Proprietário do Animal
                             </button>
                         </h2>
                         <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
                             <div class="accordion-body">
-                                <strong>This is the second item's accordion body.</strong> It is hidden by default,
-                                until the collapse plugin adds the appropriate classes that we use to style each
-                                element. These classes control the overall appearance, as well as the showing and hiding
-                                via CSS transitions. You can modify any of this with custom CSS or overriding our
-                                default variables. It's also worth noting that just about any HTML can go within the
-                                <code>.accordion-body</code>, though the transition does limit overflow.
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="nmProprietario" name="nmProprietario"
+                                            placeholder="">
+                                        <label for="nmProprietario">Nome Completo</label>
+                                    </div>
+                                </div>
+                               
+
+                                
+                                    <div class="col-md-4">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="nrTelefoneProprietario" name="nrTelefoneProprietario"
+                                                placeholder="">
+                                            <label for="nrTelefoneProprietario">Telefone / Celular</label>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -76,116 +151,113 @@
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
                                 aria-controls="panelsStayOpen-collapseThree">
-                                Accordion Item #3
+                                Veterinário Remetente
                             </button>
                         </h2>
                         <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
                             <div class="accordion-body">
-                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until
-                                the collapse plugin adds the appropriate classes that we use to style each element.
-                                These classes control the overall appearance, as well as the showing and hiding via CSS
-                                transitions. You can modify any of this with custom CSS or overriding our default
-                                variables. It's also worth noting that just about any HTML can go within the
-                                <code>.accordion-body</code>, though the transition does limit overflow.
+
+                                <div class="row">
+                                    <div class="col-md-9">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="nmVeterinarioRemetente" name="nmVeterinarioRemetente"
+                                            placeholder="">
+                                        <label for="nmVeterinarioRemetente">Nome Completo</label>
+                                    </div>
+                                </div>
+                                
+                                    <div class="col-md-3">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="crmvVeterinarioRemetente" name="crmvVeterinarioRemetente"
+                                                placeholder="">
+                                            <label for="crmvVeterinarioRemetente">CRMV</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="nrTelVeterinarioRemetente" name="nrTelVeterinarioRemetente"
+                                                placeholder="">
+                                            <label for="nrTelVeterinarioRemetente">Telefone / Celular</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="dsEmailVeterinarioRemetente" name="dsEmailVeterinarioRemetente"
+                                                placeholder="">
+                                            <label for="dsEmailVeterinarioRemetente">Email</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="nmCidadeVeterinarioRemetente" name="nmCidadeVeterinarioRemetente"
+                                                placeholder="">
+                                            <label for="nmCidadeVeterinarioRemetente">Município de Residência</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseFour">
+                                Propriedade de Origem
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="cidadePropriedade" name="cidadePropriedade"
+                                                placeholder="">
+                                            <label for="cidadePropriedade">Município</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="totalAnimais" name="totalAnimais"
+                                                placeholder="">
+                                            <label for="totalAnimais">Total de Animais da Propriedade</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="qtdAnimaisDoentes" name="qtdAnimaisDoentes"
+                                                placeholder="">
+                                            <label for="qtdAnimaisDoentes">Doentes</label>
+                                        </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-floating mb-3">
+                                                <input type="number" class="form-control" id="qtdAnimaisMortos" name="qtdAnimaisMortos"
+                                                    placeholder="">
+                                                <label for="qtdAnimaisMortos">Mortos</label>
+                                            </div>
+                                        </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <hr>
+                <hr>
+                <h3> Detalhes do Diagnóstico </h3>
+                <br>
 
-
-
-                <div class="mb-3 col-md-6">
-                    <label for="animal" class="form-label">Nome Animal</label>
-                    <input type="text" class="form-control" id="animal" name="animal" placeholder=" ">
-                </div>
-                <div class="mb-3 col-md-6">
-                    <label for="nmVeterinarioRemetente" class="form-label">Veterinário Remetente</label>
-                    <input type="text" class="form-control" id="nmVeterinarioRemetente" name="nmVeterinarioRemetente"
-                        placeholder=" ">
-                </div>
-                <div class="mb-3 col-md-6">
-                    <label for="crmvVeterinarioRemetente" class="form-label">CRMV</label>
-                    <input type="text" class="form-control" id="crmvVeterinarioRemetente"
-                        name="crmvVeterinarioRemetente" placeholder=" ">
-                </div>
-                <div class="mb-3 col-md-4">
-                    <label for="nrTelVeterinarioRemetente" class="form-label">Telefone</label>
-                    <input type="text" class="form-control" id="nrTelVeterinarioRemetente"
-                        name="nrTelVeterinarioRemetente" placeholder=" ">
-                </div>
-                <div class="mb-3 col-md-4">
-                    <label for="dsEmailVeterinarioRemetente" class="form-label">E-mail</label>
-                    <input type="text" class="form-control" id="dsEmailVeterinarioRemetente"
-                        name="dsEmailVeterinarioRemetente" placeholder=" ">
-                </div>
-                <div class="mb-3 col-md-4">
-                    <label for="nmCidadeVeterinarioRemetente" class="form-label">Cidade</label>
-                    <input type="text" class="form-control" id="nmCidadeVeterinarioRemetente"
-                        name="nmCidadeVeterinarioRemetente" placeholder=" ">
-                </div>
-
-                <div class="col-md-12">
-                    <hr>
-                </div>
-
-                <div class="mb-3 col-md-4">
-                    <label for="nmProprietario" class="form-label">Proprietário</label>
-                    <input type="text" class="form-control" id="nmProprietario" name="nmProprietario" placeholder=" ">
-                </div>
-                <div class="mb-3 col-md-4">
-                    <label for="nrTelefoneProprietario" class="form-label">Telefone do Proprietário</label>
-                    <input type="text" class="form-control" id="nrTelefoneProprietario" name="nrTelefoneProprietario"
-                        placeholder=" ">
-                </div>
-                <div class="mb-3 col-md-4">
-                    <label for="cidadePropriedade" class="form-label">Município Propriedade</label>
-                    <input type="text" class="form-control" id="cidadePropriedade" name="cidadePropriedade"
-                        placeholder=" ">
-                </div>
-
-                <div class="mb-3 col-md-4">
-                    <label for="dsEspecie" class="form-label">Espécie</label>
-                    <input type="text" class="form-control" id="dsEspecie" name="dsEspecie" placeholder=" ">
-                </div>
-                <div class="mb-3 col-md-4">
-                    <label for="dsRaca" class="form-label">Raça</label>
-                    <input type="text" class="form-control" id="dsRaca" name="dsRaca" placeholder=" ">
-                </div>
-                <div class="mb-3 col-md-2">
-                    <label for="dsSexo" class="form-label">Sexo</label>
-                    <select class="form-select" name="dsSexo" id="dsSexo" name="dsSexo">
-                        <option value="">Selecione...</option>
-                        <option value="M">Macho</option>
-                        <option value="F">Fêmea</option>
-                    </select>
-                </div>
-                <div class="mb-3 col-md-2">
-                    <label for="idade" class="form-label">Idade</label>
-                    <input type="number" class="form-control" id="idade" name="idade" placeholder=" ">
-                </div>
-
-                <div class="mb-3 col-md-3">
-                    <label for="totalAnimais" class="form-label">Total de animais da propriedade</label>
-                    <input type="number" class="form-control" id="totalAnimais" name="totalAnimais" placeholder=" ">
-                </div>
-                <div class="mb-3 col-md-2">
-                    <label for="qtdAnimaisDoentes" class="form-label">Doentes</label>
-                    <input type="number" class="form-control" id="qtdAnimaisDoentes" name="qtdAnimaisDoentes"
-                        placeholder=" ">
-                </div>
-                <div class="mb-3 col-md-2">
-                    <label for="qtdAnimaisMortos" class="form-label">Mortos</label>
-                    <input type="number" class="form-control" id="qtdAnimaisMortos" name="qtdAnimaisMortos"
-                        placeholder=" ">
-                </div>
-                <div class="mb-3 col-md-5">
+                <div class="mb-3 col-md-12">
                     <label for="dsMaterialRecebido" class="form-label">Material Recebido</label>
                     <input type="text" class="form-control" id="dsMaterialRecebido" name="dsMaterialRecebido"
                         placeholder=" ">
                 </div>
 
-                <div class="mb-3 col-md-4">
+                <div class="mb-3 col-md-12">
                     <label for="dsDiagnosticoPresuntivo" class="form-label">Diagnóstico Presuntivo</label>
                     <input type="text" class="form-control" id="dsDiagnosticoPresuntivo" name="dsDiagnosticoPresuntivo"
                         placeholder=" ">
@@ -197,10 +269,6 @@
                         <option value="N">Não</option>
                         <option value="S">Sim</option>
                     </select>
-                </div>
-                <div class="mb-3 col-md-5">
-                    <label for="dsNomeAnimal" class="form-label">Nome do Animal</label>
-                    <input type="text" class="form-control" id="dsNomeAnimal" name="dsNomeAnimal" placeholder=" ">
                 </div>
 
                 <div class="mb-3 col-md-12">
@@ -238,12 +306,6 @@
                             name="dsRelatorio" style="height: 250px"></textarea>
                         <label for="dsRelatorio">Relatório</label>
                     </div>
-                </div>
-
-                <div class="text-end">
-
-                    <button type="button" class="btn btn-danger">Excluir</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
                 </div>
             </form>
         </div>
