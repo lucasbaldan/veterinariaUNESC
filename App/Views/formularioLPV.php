@@ -19,9 +19,12 @@ class FormularioLPV
     {
         // Renderiza a tela de login usando o Twig
         $formulario = $this->twig->fetch('formularioLPV.twig');
+        $conteudoTela = $this->twig->fetch('TelaComMenus.twig', ['conteudo_tela' => $formulario]);
 
-        return $this->twig->render($response, 'TelaBaseComMenus.twig', [
-            'conteudo_tela' => $formulario,
+        return $this->twig->render($response, 'TelaBase.twig', [
+            'cssLinks' => 'TelaMenus.css;formularioLPV.css',
+            'jsLinks' => 'formularioLPV.js',
+            'conteudo_tela' => $conteudoTela,
         ]);
     }
 }

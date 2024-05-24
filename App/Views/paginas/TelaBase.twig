@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'importadoresLink.twig' %}
+    {% set cssArray = cssLinks | split(';') %}
+  {% for link in cssArray %}
+    <link href="/veterinariaUNESC/public/css/{{ link }}" rel="stylesheet">
+  {% endfor %}
+</head>
+
+<body>
+
+    <div class="loading-screen d-none" id="loading">
+        <div class="text-center text-white">
+          <div class="spinner-border" role="status">
+          </div>
+          <div class="mt-3">Carregando...</div>
+        </div>
+      </div>
+
+      {{ conteudo_tela|raw }}
+
+</body>
+{% include 'importadoresScript.twig' %}
+{% set jsArray = jsLinks | split(';') %}
+  {% for link in jsArray %}
+ <script src="/veterinariaUNESC/public/js/{{ link }}"></script>    
+  {% endfor %}
+</html>

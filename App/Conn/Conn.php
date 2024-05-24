@@ -32,7 +32,7 @@ class Conn {
                 self::$Connect = new \PDO($dsn, self::$User, self::$Pass, $options); 
             }
         } catch (\PDOException $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception($e->getMessage(), 500);
             die;
         }
         self::$Connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);

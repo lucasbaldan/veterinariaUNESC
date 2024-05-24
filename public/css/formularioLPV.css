@@ -1,20 +1,3 @@
-body {
-    background-image: url('/veterinariaUNESC/public/img/fundoPatas.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
- }
-
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-
 .accordion-button {
     background-color: #e2e2e2; /* Cor de fundo padrão para cabeçalhos fechados */
     color: #000000; /* Cor do texto padrão para cabeçalhos fechados */

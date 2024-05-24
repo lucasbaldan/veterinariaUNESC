@@ -19,9 +19,11 @@ class InicialPage
     {
         // Renderiza a tela de login usando o Twig
         
-        $conteudoTela = $this->twig->fetch('inicial.twig');
+        $inicial = $this->twig->fetch('inicial.twig');
+        $conteudoTela = $this->twig->fetch('TelaComMenus.twig', [ 'conteudo_tela' => $inicial]);
 
-        return $this->twig->render($response, 'TelaBaseComMenus.twig', [
+        return $this->twig->render($response, 'TelaBase.twig', [
+            'cssLinks' => 'TelaMenus.css',
             'conteudo_tela' => $conteudoTela,
         ]);
     }

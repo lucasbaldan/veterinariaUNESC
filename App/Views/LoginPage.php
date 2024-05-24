@@ -17,7 +17,13 @@ class LoginPage
 
     public function exibir(Request $request, Response $response, $args)
     {
-        // Renderiza a tela de login usando o Twig
-        return $this->twig->render($response, 'login.twig');
+
+        $tela = $this->twig->fetch('login.twig');
+
+        return $this->twig->render($response, 'TelaBase.twig', [
+            'cssLinks' => "login.css",
+            'jsLinks' => "login.js",
+            'conteudo_tela' => $tela,
+        ]);
     }
 }

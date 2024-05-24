@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% include 'importadoresLink.twig' %}
-    <link rel="stylesheet" href="/veterinariaUNESC/public/css/login.css">
-</head>
-
-<body>
     <section class="p-3 p-md-4 p-xl-4">
         <div class="container">
             <div class="d-flex align-items-center vh-75">
@@ -86,64 +75,3 @@
 
         </div>
     </section>
-
-</body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-<script src="/veterinariaUNESC/public/js/notyf.js"></script>
-
-<script>
-    $(document).ready(function () {
-
-        const notificacao = new Notificacao({
-            duration: 10000,
-            position: {
-                x: 'center',
-                y: 'bottom',
-            },
-        });
-
-        $('#formLogin').submit(function (event) {
-            event.preventDefault();
-
-            var dadosForm = $(this).serialize();
-
-            var validarTela = false;
-            if ($('#usuario').val() === '') {
-                $('#usuario').addClass('is-invalid');
-                validarTela = true;
-            }
-            else {
-                $('#usuario').removeClass('is-invalid');
-            }
-            if ($('#senha').val() === '') {
-                $('#senha').addClass('is-invalid');
-                validarTela = true;
-            } else {
-                $('#senha').removeClass('is-invalid');
-            }
-
-            if (validarTela) {
-                return;
-            }
-
-            $.ajax({
-            url: '/veterinariaUNESC/server/login',
-            type: 'POST',
-            dataType: 'json',
-            data: dadosForm,
-            success: function(response) {
-                alert(response);
-            },
-            error: function(xhr, status, error) {
-                notificacao.push(xhr.responseJSON.MESSAGE, 'warning');
-            }
-        });
-        });
-    });
-</script>
-
-</html>

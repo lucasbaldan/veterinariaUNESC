@@ -41,4 +41,19 @@ class Notificacao {
 }
 
 // Adiciona a classe Notificacao ao escopo global (window)
+
+class Loading{
+     static on() {
+        $('#loading').removeClass('d-none');
+    }
+
+    static off(){
+        $('#loading').addClass('d-none');
+    }
+}
+
+
+
+
+
 window.Notificacao = Notificacao;
