@@ -61,8 +61,10 @@ $app->group('/server', function (RouteCollectorProxy $group) {
 
     // Definição das rotas dentro do grupo /pessoas
 
+    // ==== PESSOAS
     $group->post('/login',  App\Controllers\Pessoas::class . ':efetuarLogin');
 
+    // ==== FICHA LPV
     $group->post('/salvaFichaLPV',  App\Controllers\FormularioLPV::class . ':Salvar');
 
     $group->post('/retornaFichaLPV',  App\Controllers\FormularioLPV::class . ':RetornarFichasLPV');
@@ -71,6 +73,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     
     $group->post('/apagaFichaLPV',  App\Controllers\FormularioLPV::class . ':ApagarFichaLPV');
     
+    // ==== GRUPOS USUÁRIOS
     $group->post('/salvaGrupoUsuarios',  App\Controllers\GruposUsuarios::class . ':Salvar');
     
     $group->post('/excluiGruposUsuarios',  App\Controllers\GruposUsuarios::class . ':ExcluirGruposUsuarios');
@@ -78,10 +81,21 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     $group->post('/retornaGruposUsuarios',  App\Controllers\GruposUsuarios::class . ':RetornarGruposUsuarios');
     
     $group->post('/retornaDadosGrupoUsuarios',  App\Controllers\GruposUsuarios::class . ':RetornarDadosGrupoUsuario');
+    
+    // ==== USUÁRIOS
+    $group->post('/salvaUsuario',  App\Controllers\Usuarios::class . ':Salvar');
+
+    $group->post('/excluiUsuario',  App\Controllers\Usuarios::class . ':ExcluirUsuario');
+
+    $group->post('/retornaUsuarios',  App\Controllers\Usuarios::class . ':RetornarUsuarios');
+
+    $group->post('/retornaDadosUsuario',  App\Controllers\Usuarios::class . ':RetornarDadosUsuario');
+
+    $group->post('/ativaDesativaUsuario',  App\Controllers\Usuarios::class . ':AtivarDesativarUsuario');
 
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
-    if (!in_array($uri, ['/veterinariaUNESC/server/login', '/veterinariaUNESC/server/salvaFichaLPV', '/veterinariaUNESC/server/retornaFichaLPV', '/veterinariaUNESC/server/retornaDadosFichaLPV', '/veterinariaUNESC/server/apagaFichaLPV', '/veterinariaUNESC/server/salvaGrupoUsuarios', '/veterinariaUNESC/server/excluiGruposUsuarios', '/veterinariaUNESC/server/retornaGruposUsuarios', '/veterinariaUNESC/server/retornaDadosGrupoUsuarios'])) {
+    if (!in_array($uri, ['/veterinariaUNESC/server/login', '/veterinariaUNESC/server/salvaFichaLPV', '/veterinariaUNESC/server/retornaFichaLPV', '/veterinariaUNESC/server/retornaDadosFichaLPV', '/veterinariaUNESC/server/apagaFichaLPV', '/veterinariaUNESC/server/salvaGrupoUsuarios', '/veterinariaUNESC/server/excluiGruposUsuarios', '/veterinariaUNESC/server/retornaGruposUsuarios', '/veterinariaUNESC/server/retornaDadosGrupoUsuarios', '/veterinariaUNESC/server/salvaUsuario', '/veterinariaUNESC/server/excluiUsuario', '/veterinariaUNESC/server/retornaUsuarios', '/veterinariaUNESC/server/retornaDadosUsuario', '/veterinariaUNESC/server/ativaDesativaUsuario'])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisição foi efetuada de maneira incorreta.']));
         return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
