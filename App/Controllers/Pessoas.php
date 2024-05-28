@@ -27,7 +27,9 @@ class Pessoas {
             throw new Exception("<b>Usuário ou senha inválidos</b><br><br> Por favor verifique os dados de acesso e tente novamente.", 400);  
         }
 
-        $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $dadosUsuario];
+        
+
+        $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
         $codigoHTTP = 200;
         }
         catch(Exception $e){

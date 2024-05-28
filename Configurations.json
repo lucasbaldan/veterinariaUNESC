@@ -6,5 +6,6 @@
         "database": "vetbase",
         "driver": "mysql"
     },
-    "desenvolvimento": true
+    "desenvolvimento": true,
+    "timesession": 10800
 }
