@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 07/05/2024 às 01:12
--- Versão do servidor: 10.4.28-MariaDB
--- Versão do PHP: 8.0.28
+-- Tempo de geração: 28/05/2024 às 14:48
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,7 +44,11 @@ CREATE TABLE `ficha_lpv` (
   `CD_FICHA_LPV` int(11) NOT NULL,
   `DT_FICHA` date DEFAULT NULL,
   `ANIMAL` varchar(45) DEFAULT NULL,
-  `CD_USUARIO_VETERINARIO` int(11) DEFAULT NULL,
+  `NM_VET_REMETENTE` varchar(50) DEFAULT NULL,
+  `NR_TEL_VET_REMETENTE` varchar(50) DEFAULT NULL,
+  `DS_EMAIL_VET_REMETENTE` varchar(50) DEFAULT NULL,
+  `CRMV_VET_REMETENTE` varchar(50) DEFAULT NULL,
+  `NM_CIDADE_VET_REMETENTE` varchar(50) DEFAULT NULL,
   `CD_USUARIO_PLANTONISTA` int(11) DEFAULT NULL,
   `NM_PROPRIETARIO` varchar(45) DEFAULT NULL,
   `NR_TELEFONE_PROPRIETARIO` varchar(45) DEFAULT NULL,
@@ -56,12 +60,29 @@ CREATE TABLE `ficha_lpv` (
   `TOTAL_ANIMAIS` int(11) DEFAULT NULL,
   `QTD_ANIMAIS_MORTOS` int(11) DEFAULT NULL,
   `QTD_ANIMAIS_DOENTES` int(11) DEFAULT NULL,
+  `DS_MATERIAL_RECEBIDO` varchar(50) DEFAULT NULL,
   `DS_DIAGNOSTICO_PRESUNTIVO` varchar(45) DEFAULT NULL,
+  `FL_AVALIACAO_TUMORAL_COM_MARGEM` char(1) DEFAULT 'N',
   `DS_NOME_ANIMAL` varchar(45) DEFAULT NULL,
   `DS_EPIDEMIOLOGIA_HISTORIA_CLINICA` varchar(500) DEFAULT NULL,
   `DS_LESOES_MACROSCOPICAS` varchar(300) DEFAULT NULL,
+  `DS_LESOES_HISTOLOGICAS` varchar(300) DEFAULT NULL,
   `DS_DIAGNOSTICO` varchar(100) DEFAULT NULL,
   `DS_RELATORIO` varchar(500) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `grupos_usuarios`
+--
+
+CREATE TABLE `grupos_usuarios` (
+  `CD_GRUPO_USUARIOS` int(11) NOT NULL,
+  `NM_GRUPO_USUARIOS` varchar(45) NOT NULL,
+  `FL_ACESSAR` int(11) DEFAULT NULL,
+  `FL_EDITAR` int(11) DEFAULT NULL,
+  `FL_EXCLUIR` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -96,22 +117,6 @@ CREATE TABLE `pessoas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tipos_acessos_usuarios`
---
-
-CREATE TABLE `tipos_acessos_usuarios` (
-  `CD_TIPO_USUARIO` int(11) NOT NULL,
-  `NM_TIPO_USUARIO` varchar(45) NOT NULL,
-  `FL_ACESSAR` int(11) DEFAULT NULL,
-  `FL_EDITAR` int(11) DEFAULT NULL,
-  `FL_EXCLUIR` int(11) DEFAULT NULL,
-  `ACESSOS_TIPOS_USUARIOS_CD_ACESSO_TIPO_USUARIO` int(11) NOT NULL,
-  `ACESSOS_TIPOS_USUARIOS_USUARIOS_CD_USUARIO` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estrutura para tabela `usuarios`
 --
 
@@ -121,9 +126,15 @@ CREATE TABLE `usuarios` (
   `USUARIO` varchar(45) DEFAULT NULL,
   `SENHA` varchar(45) DEFAULT NULL,
   `FL_ATIVO` char(1) DEFAULT 'S',
-  `PESSOAS_CD_PESSOA` int(11) NOT NULL,
-  `CD_TIPO_USUARIO` int(11) DEFAULT NULL
+  `CD_GRUPO_USUARIOS` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`CD_USUARIO`, `CD_PESSOA`, `USUARIO`, `SENHA`, `FL_ATIVO`, `CD_GRUPO_USUARIOS`) VALUES
+(1, 1, 'carlos', 'carlos', 'S', 2);
 
 --
 -- Índices para tabelas despejadas
@@ -142,6 +153,12 @@ ALTER TABLE `ficha_lpv`
   ADD PRIMARY KEY (`CD_FICHA_LPV`);
 
 --
+-- Índices de tabela `grupos_usuarios`
+--
+ALTER TABLE `grupos_usuarios`
+  ADD PRIMARY KEY (`CD_GRUPO_USUARIOS`);
+
+--
 -- Índices de tabela `logs`
 --
 ALTER TABLE `logs`
@@ -152,12 +169,6 @@ ALTER TABLE `logs`
 --
 ALTER TABLE `pessoas`
   ADD PRIMARY KEY (`CD_PESSOA`);
-
---
--- Índices de tabela `tipos_acessos_usuarios`
---
-ALTER TABLE `tipos_acessos_usuarios`
-  ADD PRIMARY KEY (`CD_TIPO_USUARIO`);
 
 --
 -- Índices de tabela `usuarios`
@@ -182,6 +193,12 @@ ALTER TABLE `ficha_lpv`
   MODIFY `CD_FICHA_LPV` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `grupos_usuarios`
+--
+ALTER TABLE `grupos_usuarios`
+  MODIFY `CD_GRUPO_USUARIOS` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `logs`
 --
 ALTER TABLE `logs`
@@ -194,16 +211,10 @@ ALTER TABLE `pessoas`
   MODIFY `CD_PESSOA` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tipos_acessos_usuarios`
---
-ALTER TABLE `tipos_acessos_usuarios`
-  MODIFY `CD_TIPO_USUARIO` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `CD_USUARIO` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `CD_USUARIO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
