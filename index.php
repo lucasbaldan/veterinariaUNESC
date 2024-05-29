@@ -67,14 +67,17 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
 
 $app->group('/server', function (RouteCollectorProxy $group) {
 
-    // Definição das rotas dentro do grupo /pessoas
+    $group->group('/pessoas', function (RouteCollectorProxy $pessoasGroup) {
+        $pessoasGroup->post('/login', App\Controllers\Pessoas::class . ':efetuarLogin');
+    });
 
-    // ==== PESSOAS
-    $group->post('/login',  App\Controllers\Pessoas::class . ':efetuarLogin');
+    $group->group('/tipoAnimal', function (RouteCollectorProxy $pessoasGroup) {
+        $pessoasGroup->post('/grid', App\Controllers\TiposAnimais::class . ':efetuarLogin');
+    });
 
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
-    if (!in_array($uri, ['/veterinariaUNESC/server/login'])) {
+    if (!in_array($uri, ['/veterinariaUNESC/server/pessoas/login'])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisição foi efetuada de maneira incorreta.']));
         return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
