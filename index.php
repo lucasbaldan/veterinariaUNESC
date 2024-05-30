@@ -72,12 +72,13 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     });
 
     $group->group('/tipoAnimal', function (RouteCollectorProxy $pessoasGroup) {
-        $pessoasGroup->post('/grid', App\Controllers\TiposAnimais::class . ':efetuarLogin');
+        $pessoasGroup->post('/grid', App\Controllers\TiposAnimais::class . ':montarGrid');
     });
 
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
-    if (!in_array($uri, ['/veterinariaUNESC/server/pessoas/login'])) {
+    if (!in_array($uri, ['/veterinariaUNESC/server/pessoas/login',
+                         '/veterinariaUNESC/server/tipoAnimal/grid'])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisição foi efetuada de maneira incorreta.']));
         return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
