@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28/05/2024 às 14:48
+-- Tempo de geração: 31/05/2024 às 03:43
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -117,6 +117,47 @@ CREATE TABLE `pessoas` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `tipo_animal`
+--
+
+CREATE TABLE `tipo_animal` (
+  `cd_tipo_animal` int(11) NOT NULL,
+  `descricao` varchar(200) NOT NULL,
+  `fl_ativo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Despejando dados para a tabela `tipo_animal`
+--
+
+INSERT INTO `tipo_animal` (`cd_tipo_animal`, `descricao`, `fl_ativo`) VALUES
+(1, 'Anta', 0),
+(2, 'Ariranha', 0),
+(3, 'Bicho-preguiça', 0),
+(4, 'Bugio', 0),
+(5, 'Cachorro', 0),
+(6, 'Cavalo', 0),
+(7, 'Coati', 0),
+(8, 'Cotia', 0),
+(9, 'Cutia', 0),
+(10, 'Esquilo', 0),
+(11, 'Gato', 0),
+(12, 'Jaguatirica', 0),
+(13, 'Lobo-guará', 0),
+(14, 'Morcego', 0),
+(15, 'Onça', 0),
+(16, 'Paca', 0),
+(17, 'Porco-do-mato', 0),
+(18, 'Quati', 0),
+(19, 'Raposa', 0),
+(20, 'Sagui', 0),
+(21, 'Tamanduá', 0),
+(22, 'Tatu', 0),
+(23, 'Veado', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `usuarios`
 --
 
@@ -171,6 +212,12 @@ ALTER TABLE `pessoas`
   ADD PRIMARY KEY (`CD_PESSOA`);
 
 --
+-- Índices de tabela `tipo_animal`
+--
+ALTER TABLE `tipo_animal`
+  ADD PRIMARY KEY (`cd_tipo_animal`);
+
+--
 -- Índices de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -209,6 +256,12 @@ ALTER TABLE `logs`
 --
 ALTER TABLE `pessoas`
   MODIFY `CD_PESSOA` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `tipo_animal`
+--
+ALTER TABLE `tipo_animal`
+  MODIFY `cd_tipo_animal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`

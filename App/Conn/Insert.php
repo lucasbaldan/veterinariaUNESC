@@ -14,8 +14,8 @@ class Insert extends Conn {
     private $Tabela;
     private $Dados;
     private $Result;
+    private $Message;
     private $LastInsert;
-    private $Error;
 
     /** @var PDOStatement */
     private $Create;
@@ -53,8 +53,8 @@ class Insert extends Conn {
         return $this->Result;
     }
 
-    public function getError() {
-        return $this->Error;
+    public function getMessage() {
+        return $this->Message;
     }
 
     public function getLastInsert() {
@@ -109,7 +109,7 @@ class Insert extends Conn {
                 $this->Rollback();
             }
             $this->Result = false;
-            $this->Error = \App\Helppers\Formats::TratamentoMensagemErro($e->getMessage());
+            $this->Message = $e->getMessage();
         }
     }
 

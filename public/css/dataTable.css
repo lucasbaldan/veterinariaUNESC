@@ -1,0 +1,13 @@
+#gridDataTable tbody td {
+    text-align: center;
+}
+
+#gridDataTable thead th {
+    text-align: center;
+}
+#gridDataTable tfoot {
+    display: table-header-group;
+}
+#gridDataTable tfoot th {
+    text-align: center;
+}

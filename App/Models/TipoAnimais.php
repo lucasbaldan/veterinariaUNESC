@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Models;
+
 use Exception;
 
-class TipoAnimais{
-    
+class TipoAnimais
+{
+
     private $codigo;
     private $descricao;
     private $ativo;
@@ -14,26 +16,49 @@ class TipoAnimais{
         $this->descricao = $descricao;
         $this->ativo = $ativo;
         $this->codigo = $codigo;
-
     }
 
-    public static function SelectGrid($arrayParam){
+    public static function SelectGrid($arrayParam)
+    {
 
         $start = $arrayParam['inicio'];
         $limit = $arrayParam['limit'];
-        $orderBy = $arrayParam['orderBy'] == 1 ? "cd_tipo_animal" : ($arrayParam['orderBy'] == 2 ? "descricao" : "fl_ativo");
+        $orderBy = $arrayParam['orderBy'];
         $orderAscDesc = $arrayParam['orderAscDesc'];
+        $pesquisaCodigo = $arrayParam['pesquisaCodigo'];
+        $pesquisaDescricao = $arrayParam['pesquisaDescricao'];
+        $pesquisaAtivo = $arrayParam['pesquisaAtivo'];
 
         $read = new \App\Conn\Read();
 
-        $read->FullRead("SELECT * FROM tipo_animal
-                        ORDER BY :OB :AD
-                        LIMIT $start, $limit",
-                        "OB=$orderBy&AD=$orderAscDesc");
+        $query = "SELECT tipo_animal.cd_tipo_animal,
+                  tipo_animal.descricao,
+                  (CASE WHEN tipo_animal.fl_ativo = 1 THEN 'Sim' ELSE 'Não' END) as fl_ativo, 
+                  COUNT(tipo_animal.cd_tipo_animal) OVER() AS total_filtered,  
+                  (SELECT COUNT(tipo_animal.cd_tipo_animal) FROM tipo_animal) AS total_table 
+                  FROM tipo_animal
+                  WHERE 1=1";
 
-        if ($read->getRowCount() == 0) {
-            return null;
+$bindParams = "";
+
+        if(!empty($pesquisaCodigo)){
+            $query .= " AND tipo_animal.cd_tipo_animal LIKE '%$pesquisaCodigo%'";
         }
-        return $return = [$read->getResult(), $read->getRowCount()];
+        if(!empty($pesquisaDescricao)){
+            $query .= " AND tipo_animal.descricao LIKE '%$pesquisaDescricao%'";
+        }
+        if(!empty($pesquisaAtivo)){
+            $query .= " AND tipo_animal.fl_ativo LIKE '%$pesquisaAtivo%'";
+        }
+
+        if (!empty($orderBy)) {
+            $query .= " ORDER BY $orderBy $orderAscDesc";
+        }
+
+        $query .= " LIMIT $start, $limit";
+
+        $read->FullRead($query);
+
+        return $read->getResult();
     }
 }

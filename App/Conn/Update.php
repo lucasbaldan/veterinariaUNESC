@@ -16,7 +16,7 @@ class Update extends Conn {
     private $Termos;
     private $Places;
     private $Result;
-    private $Error;
+    private $Message;
 
     /** @var PDOStatement */
     private $Update;
@@ -42,8 +42,8 @@ class Update extends Conn {
         return $this->Result;
     }
 
-    public function getError() {
-        return $this->Error;
+    public function getMessage() {
+        return $this->Message;
     }
 
     public function getRowCount() {
@@ -103,7 +103,7 @@ class Update extends Conn {
                 $this->Rollback();
             }
             $this->Result = false;
-            $this->Error = $e->getMessage();
+            $this->Message = $e->getMessage();
         }
     }
 

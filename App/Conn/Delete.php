@@ -1,12 +1,5 @@
 <?php
 
-/**
- * <b>Delete.class:</b>
- * Classe responsável por deleções genéricas no banco de dados!
- *
- * @copyright (c) 2017, Emanuel Marques CREATIVE DESIGN PROJECTS
- */
-
 namespace App\Conn;
 
 class Delete extends Conn {
@@ -79,7 +72,7 @@ class Delete extends Conn {
             if ($this->Conn->inTransaction()) {
                 $this->Rollback();
             }
-            $this->Result = [false, $e->getCode()];
+            $this->Result = [false, $e->getMessage()];
         }
     }
 

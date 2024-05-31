@@ -16,22 +16,27 @@ class TiposAnimais
 
             $grid = $request->getParsedBody();
 
+            $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
+            if ($orderBy == 0) $orderBy = "tipo_animal.cd_tipo_animal";
+            if ($orderBy == 1) $orderBy = "tipo_animal.descricao";
+            if ($orderBy == 2) $orderBy = "tipo_animal.fl_ativo";
+
             $parametrosBusca = [
+                "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',
+                "pesquisaDescricao" => !empty($grid['columns'][1]['search']['value']) ? $grid['columns'][1]['search']['value'] : '',
+                "pesquisaAtivo" => !empty($grid['columns'][2]['search']['value']) ? $grid['columns'][2]['search']['value'] : '',
                 "inicio" => $grid['start'],
                 "limit" => $grid['length'],
-                "orderBy" => $grid['order'][0]['column'],
-                "orderAscDesc" => $grid['order'][0]['dir']
+                "orderBy" =>  $orderBy,
+                "orderAscDesc" => isset($grid['order'][0]['dir']) ? $grid['order'][0]['dir'] : ''
             ];
-
-            $versaoTabela = $grid['draw'] > 1 ? $grid['draw'] : 1;
-
 
             $dadosSelect = \App\Models\TipoAnimais::SelectGrid($parametrosBusca);
             $dados = [
-                "draw" => $versaoTabela,
-                "recordsTotal" => $dadosSelect[1],
-                "recordsFiltered" => $dadosSelect[1],
-                "data" => $dadosSelect[0]
+                "draw" => (int)$grid['draw'],
+                "recordsTotal" => isset($dadosSelect[0]['total_table']) ? $dadosSelect[0]['total_table'] : 0,
+                "recordsFiltered" => isset($dadosSelect[0]['total_filtered']) ? $dadosSelect[0]['total_filtered'] : 0,
+                "data" => $dadosSelect
             ];
 
 

@@ -3,8 +3,11 @@
 namespace App\Conn;
 
 use Exception;
+use PDO;
+use PDOException;
 
-class Conn {
+class Conn
+{
 
     private static $Host;
     private static $Driver;
@@ -14,9 +17,10 @@ class Conn {
 
     /** @var PDO */
     private static $Connect = null;
-  
-    
-    public function __construct(&$conn = false) {
+
+
+    public function __construct($conn = false)
+    {
         $this->Conn = $conn;
     }
 
@@ -24,16 +28,18 @@ class Conn {
      * Conecta com o banco de dados com o pattern Singleton.
      * Retorna um objeto PDO!
      */
-    private static function Conectar() {
+    private static function Conectar()
+    {
         try {
             if (self::$Connect == null) {
                 $dsn = self::$Driver . ':host=' . self::$Host . ';dbname=' . self::$Dbsa . ';charset=utf8';
-                $options = self::$Driver == 'mysql' ? [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8, sql_mode=\'STRICT_ALL_TABLES\''] : []; 
-                self::$Connect = new \PDO($dsn, self::$User, self::$Pass, $options); 
+                $options = self::$Driver == 'mysql' ? [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8'] : [];
+                self::$Connect = new \PDO($dsn, self::$User, self::$Pass, $options);
             }
-        } catch (\PDOException $e) {
-            throw new Exception($e->getMessage(), 500);
+        } catch (PDOException $e) {
+            throw new Exception($e->getMessage(), 500); 
             die;
+            exit();
         }
         self::$Connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         return self::$Connect;
@@ -48,24 +54,31 @@ class Conn {
     }
 
     /** Retorna um objeto PDO Singleton Pattern. */
-    public static function getConn($trasaction = false) {
-        self::setEnderecoBanco();
-        $conn = self::Conectar();
-        if ($trasaction) {
-            $conn->setAttribute(\PDO::ATTR_AUTOCOMMIT, 0);
-            $conn->beginTransaction();
+    public static function getConn($trasaction = false)
+    {
+        try {
+            self::setEnderecoBanco();
+            $conn = self::Conectar();
+            if ($trasaction) {
+                $conn->setAttribute(\PDO::ATTR_AUTOCOMMIT, 0);
+                $conn->beginTransaction();
+            }
+            return $conn;
+        } catch (PDOException $th) {
+            throw new Exception($th->getMessage(), 500); 
         }
-        return $conn;
     }
 
-    public function Rollback() {
+    public function Rollback()
+    {
         if ($this->Conn->inTransaction()) {
             $this->Conn->rollback();
             $this->Conn->setAttribute(\PDO::ATTR_AUTOCOMMIT, 1);
         }
     }
 
-    public function Commit() {
+    public function Commit()
+    {
         if ($this->Conn->inTransaction()) {
             $this->Conn->commit();
             $this->Conn->setAttribute(\PDO::ATTR_AUTOCOMMIT, 1);
