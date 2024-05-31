@@ -20,6 +20,9 @@ $(document).ready(function () {
         event.preventDefault();
 
         var dadosForm = $(this).serialize();
+        var codigo = $('#cdFichaLPV').val();
+
+        console.log('Formulário:: ', dadosForm);
 
         $.ajax({
             url: '/veterinariaUNESC/server/fichaLPV/salvafichaLPV',
@@ -30,14 +33,24 @@ $(document).ready(function () {
                 Loading.on();
             },
             success: function (response) {
-                alert(response);
+                // alert(response);
+                console.log('Retorno: ', response.RETURN);
+
+                if (codigo == '') {
+                    $('#cdFichaLPV').val(response.RETURN);
+                }
             },
             error: function (xhr, status, error) {
-                // console.log('ERRROOOOO: ', xhr.response);
+                console.log('DADOS::: ', xhr.response);
                 notificacao.push(xhr.responseJSON.MESSAGE, 'warning');
             },
             complete: function () {
                 Loading.off();
+                if (codigo == '') {
+                    notificacao.push('Ficha salva com Sucesso!', 'success');
+                } else {
+                    notificacao.push('Ficha atualizada com Sucesso!', 'success');
+                }
             }
         });
     });

@@ -40,12 +40,12 @@ class Insert extends Conn {
         $this->getSyntax();        
         
         
-        if (DRIVER == "firebird") {
-            $this->LastInsert = $LastInsert;
-            if ($LastInsert) {
-                $this->Create .= " RETURNING $LastInsert";
-            }
-        }
+        // if (DRIVER == "firebird") {
+        //     $this->LastInsert = $LastInsert;
+        //     if ($LastInsert) {
+        //         $this->Create .= " RETURNING $LastInsert";
+        //     }
+        // }
         $this->Execute();
     }
 
@@ -98,11 +98,11 @@ class Insert extends Conn {
           //  var_dump($this->Create);
             
             $this->Create->execute();
-            if (DRIVER == 'firebird' && $this->LastInsert) {
-                $this->LastInsert = $this->Create->fetch(\PDO::FETCH_ASSOC)[$this->LastInsert];
-            } else if (DRIVER == 'mysql') {
+            // if (DRIVER == 'firebird' && $this->LastInsert) {
+                // $this->LastInsert = $this->Create->fetch(\PDO::FETCH_ASSOC)[$this->LastInsert];
+            // } else if (DRIVER == 'mysql') {
                 $this->LastInsert = $this->Conn->lastInsertId();
-            }
+            // }
             $this->Result = true;
         } catch (\PDOException $e) {
             if ($this->Conn->inTransaction()) {

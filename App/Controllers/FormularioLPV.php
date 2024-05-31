@@ -37,7 +37,7 @@ class FormularioLPV
             $dsMaterialRecebido = !empty($Formulario['dsMaterialRecebido']) ? $Formulario['dsMaterialRecebido'] : '';
             $dsDiagnosticoPresuntivo = !empty($Formulario['dsDiagnosticoPresuntivo']) ? $Formulario['dsDiagnosticoPresuntivo'] : '';
             $flAvaliacaoTumoralComMargem = !empty($Formulario['flAvaliacaoTumoralComMargem']) ? $Formulario['flAvaliacaoTumoralComMargem'] : '';
-            $dsNomeAnimal = !empty($Formulario['dsNomeAnimal']) ? $Formulario['dsNomeAnimal'] : '';
+            $tpAnimal = !empty($Formulario['tpAnimal']) ? $Formulario['tpAnimal'] : '';
             $dsEpidemiologiaHistoriaClinica = !empty($Formulario['dsEpidemiologiaHistoriaClinica']) ? $Formulario['dsEpidemiologiaHistoriaClinica'] : '';
             $dsLesoesMacroscopicas = !empty($Formulario['dsLesoesMacroscopicas']) ? $Formulario['dsLesoesMacroscopicas'] : '';
             $dsLesoesHistologicas = !empty($Formulario['dsLesoesHistologicas']) ? $Formulario['dsLesoesHistologicas'] : '';
@@ -48,7 +48,7 @@ class FormularioLPV
             //     throw new Exception("Preencha os campos Login e Senha.", 400);
             // }
 
-            $flpv = new \App\Models\FormularioLPV($cdFichaLPV, $dtFicha, $animal, $nmVeterinarioRemetente, $crmvVeterinarioRemetente, $nrTelVeterinarioRemetente, $dsEmailVeterinarioRemetente, $nmCidadeVeterinarioRemetente, $cdUsuarioPlantonista, $nmProprietario, $nrTelefoneProprietario, $cidadePropriedade, $dsEspecie, $dsRaca, $dsSexo, $idade, $totalAnimais, $qtdAnimaisDoentes, $qtdAnimaisMortos, $dsMaterialRecebido, $dsDiagnosticoPresuntivo, $flAvaliacaoTumoralComMargem, $dsNomeAnimal, $dsEpidemiologiaHistoriaClinica, $dsLesoesMacroscopicas, $dsLesoesHistologicas, $dsDiagnostico, $dsRelatorio, $cdFichaLPV);
+            $flpv = new \App\Models\FormularioLPV($dtFicha, $animal, $nmVeterinarioRemetente, $crmvVeterinarioRemetente, $nrTelVeterinarioRemetente, $dsEmailVeterinarioRemetente, $nmCidadeVeterinarioRemetente, $cdUsuarioPlantonista, $nmProprietario, $nrTelefoneProprietario, $cidadePropriedade, $dsEspecie, $dsRaca, $dsSexo, $idade, $totalAnimais, $qtdAnimaisDoentes, $qtdAnimaisMortos, $dsMaterialRecebido, $dsDiagnosticoPresuntivo, $flAvaliacaoTumoralComMargem, $tpAnimal, $dsEpidemiologiaHistoriaClinica, $dsLesoesMacroscopicas, $dsLesoesHistologicas, $dsDiagnostico, $dsRelatorio, $cdFichaLPV);
 
             if (empty($cdFichaLPV)) {
                 $retorno = $flpv->Insert();
@@ -56,10 +56,10 @@ class FormularioLPV
                 $retorno = $flpv->Update();
             }
 
-            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno];
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $flpv->GetReturn()];
             $codigoHTTP = 200;
         } catch (Exception $e) {
-            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => 'OCORREU UM ERRO AO EFETUAR OPERACAO', "RETURN" => ''];
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => 'OCORREU UM ERRO AO EFETUAR OPERACAO', "RETURN" => $e->getMessage()];
             $codigoHTTP = $e->getCode();
         }
         
