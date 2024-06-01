@@ -50,7 +50,66 @@ class TiposAnimais
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
 
-    public static function controlar(Request $request, Response $response){
-        
+    public static function controlar(Request $request, Response $response)
+    {
+        try {
+            $dadosForm = $request->getParsedBody();
+
+            $codigo = !empty($dadosForm['cdtipoAnimal']) ? $dadosForm['cdtipoAnimal'] : '';
+            $descricao = !empty($dadosForm['tipoAnimal']) ? $dadosForm['tipoAnimal'] : '';
+            $flativo = !empty($dadosForm['ativoTipoAnimal']) ? (int)$dadosForm['ativoTipoAnimal'] : '';
+
+            if (empty($descricao) || empty($flativo) || $flativo > 2) {
+                throw new Exception("Preencha os campos <b>Descrição</b>, e <b>Ativo</b> para concluir o cadastro.");
+            }
+
+            $cad = new \App\Models\TipoAnimais($descricao, $flativo, $codigo);
+            if (empty($codigo)) {
+                $cad->Inserir();
+            } else {
+                $cad->Atualizar();
+            }
+
+            if(!$cad->getResult()){
+                throw new Exception($cad->getMessage());
+            }
+
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
+            $codigoHTTP = 200;
+        } catch (Exception $e) {
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $codigoHTTP = 500;
+        }
+        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
+    }
+
+    public static function excluir(Request $request, Response $response)
+    {
+        try {
+            $dadosForm = $request->getParsedBody();
+
+            $codigo = !empty($dadosForm['cdtipoAnimal']) ? $dadosForm['cdtipoAnimal'] : '';
+
+            if (empty($codigo)) {
+                throw new Exception("Houve um erro ao processo a requisição<br>Tente novamente mais tarde");
+            }
+
+            $cad = new \App\Models\TipoAnimais(null, null, $codigo);
+            $cad->Excluir();
+            
+
+            if(!$cad->getResult()){
+                throw new Exception($cad->getMessage());
+            }
+
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
+            $codigoHTTP = 200;
+        } catch (Exception $e) {
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $codigoHTTP = 500;
+        }
+        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
 }

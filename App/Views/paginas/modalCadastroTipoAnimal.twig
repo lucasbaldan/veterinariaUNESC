@@ -2,31 +2,28 @@
     <div class="col">
         <form id="formCadastroTipoAnimal">
             <div class="form-group">
-                <div class="form-floating mb-3 mt-2">
-                    <input type="text" class="form-control" id="cdtipoAnimal" name="cdtipoAnimal"
-                        placeholder="">
-                    <label for="cdtipoAnimal">Código</label>
-                </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="tipoAnimal" name="tipoAnimal"
+                    <input type="text" readonly class="form-control-plaintext" id="cdtipoAnimal" name="cdtipoAnimal" value="{{codigo}}">
+                    <label for="cdtipoAnimal">Código:</label>
+                  </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="tipoAnimal" name="tipoAnimal" value="{{descricao}}"
                         placeholder="">
                     <label for="tipoAnimal">Descrição do Tipo do Animal</label>
                 </div>
 
-                <div class="form-floating">
-                    <select class="form-select mb-3" id="ativoTipoAnimal" name="ativoTipoAnimal" aria-label="Floating label select example">
-                      <option value="1">Sim</option>
-                      <option value="0">Não</option>
-                    </select>
-                    <label for="ativoAnimal">Ativo no Sistema</label>
-                  </div>
+                {{select|raw}}
 
+                {% if exibirExcluir %}
                 <div class="row">
-                    <div class="col mb-2"><button onclick="salvarCadastroTipoAnimal()" class="btn btn-danger w-100" type="button"><b><i class="bi bi-trash3-fill"></i> Excluir</b></button></div>
+                    <div class="col mb-2"><button onclick="excluirCadastroTipoAnimal()" class="btn btn-danger w-100" type="button"><b><i class="bi bi-trash3-fill"></i> Excluir</b></button></div>
                 </div>
+                {% endif %}
+                {% if exibirSalvar %}
                 <div class="row">
-                    <div class="col"><button onclick="excluirCadastroTipoAnimal()" class="btn btn-primary w-100" type="button"><i class="bi bi-floppy2-fill"></i> <b>Salvar</b></button></div>
+                    <div class="col"><button onclick="salvarCadastroTipoAnimal()" class="btn btn-primary w-100" type="button"><i class="bi bi-floppy2-fill"></i> <b>Salvar</b></button></div>
                 </div>
+                {% endif %}
 
             </div>
         </form>

@@ -17,8 +17,30 @@ class TipoAnimais
     public function __construct($descricao, $ativo, $codigo = null)
     {
         $this->descricao = $descricao;
-        $this->ativo = $ativo;
+        $this->ativo = $ativo == 2 ? 0 : $ativo;
         $this->codigo = $codigo;
+    }
+
+    public function findById()
+    {
+        try {
+            $read = new \App\Conn\Read();
+
+            $read->ExeRead("TIPO_ANIMAL", "WHERE CD_TIPO_ANIMAL = :C LIMIT 1", "C=$this->codigo");
+
+            if ($read->getRowCount() == 0) {
+                throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
+            }
+
+            $this->codigo = $read->getResult()[0]['cd_tipo_animal'];
+            $this->descricao = $read->getResult()[0]['descricao'];
+            $this->ativo = $read->getResult()[0]['fl_ativo'];
+
+            $this->Result = true;
+        } catch (Exception $e) {
+            $this->Result = false;
+            $this->Message = $e->getMessage();
+        }
     }
 
     public static function SelectGrid($arrayParam)
@@ -75,10 +97,16 @@ class TipoAnimais
             $dadosInsert = ["CD_TIPO_ANIMAL" => $this->codigo, "DESCRICAO" => $this->descricao, "FL_ATIVO" => $this->ativo];
             $insert->ExeInsert("TIPO_ANIMAL", $dadosInsert);
 
+            if(!$insert->getResult()){
+                throw new Exception($insert->getMessage());
+            }
+
+            $insert->Commit();
             $this->Result = true;
         } catch (Exception $e) {
-            $this->Message = $e->getMessage();
             $this->Result = false;
+            $this->Message = $e->getMessage();
+            $insert->Rollback();
         }
     }
 
@@ -101,13 +129,33 @@ class TipoAnimais
                 if (!$update->getResult()) {
                     throw new Exception($update->getMessage());
                 }
+                $update->Commit();
                 $this->Result = true;
             } else {
                 throw new Exception("Ops, Parece que esse registro não existe mais na base de dados!");
             }
         } catch (Exception $e) {
+            $update->Rollback();
             $this->Result = false;
             $this->Message = $e->getMessage();
+        }
+    }
+
+    public function Excluir()
+    {
+
+        try {
+            $conn = \App\Conn\Conn::getConn();
+            $delete = new \App\Conn\Delete($conn);
+
+            $delete->ExeDelete("TIPO_ANIMAL", "WHERE CD_TIPO_ANIMAL = :C", "C=$this->codigo");
+
+            $delete->Commit();
+            $this->Result = true;
+        } catch (Exception $e) {
+            $this->Message = $e->getMessage();
+            $delete->Rollback();
+            $this->Result = false;
         }
     }
 
@@ -120,5 +168,21 @@ class TipoAnimais
     public function getMessage()
     {
         return $this->Message;
+    }
+    public function getCodigo()
+    {
+        return $this->codigo;
+    }
+
+    // Método getter para $descricao
+    public function getDescricao()
+    {
+        return $this->descricao;
+    }
+
+    // Método getter para $ativo
+    public function getAtivo()
+    {
+        return $this->ativo;
     }
 }

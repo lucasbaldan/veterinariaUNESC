@@ -2,7 +2,7 @@ class Notificacao {
     constructor(opcoes = {}) {
         const configuracaoPadrao = {
             dismissible: true,
-            duration: 10000,
+            duration: 5000,
             position: {
                 x: 'right',
                 y: 'top',
@@ -11,7 +11,7 @@ class Notificacao {
                 {
                     type: 'success',
                     background: 'green',
-                    icon: '<i class="bi bi-check-circle-fill"></i>'
+                    icon: '<i class="bi bi-check-circle-fill"></i>',
                 },
                 {
                     type: 'error',
@@ -32,15 +32,26 @@ class Notificacao {
         this.notyf = new Notyf(options);
     }
 
-    push(mensagem, tipo) {
+    push(mensagem = null, tipo) {
         this.notyf.open({
             type: tipo,
             message: mensagem
         });
     }
-}
 
-// Adiciona a classe Notificacao ao escopo global (window)
+    static NotificacaoSucesso() {
+        const notificao = new Notificacao();
+        notificao.push('Operação Efetuada com Sucesso!', 'success');
+    }
+    static NotificacaoErro(erro) {
+        const notificao = new Notificacao();
+        notificao.push('Erro ao Efetuar Operação! <br><br>' + erro, 'error');
+    }
+    static NotificacaoAviso(aviso) {
+        const notificao = new Notificacao();
+        notificao.push('Atenção! <br>' + aviso, 'warning');
+    }
+}
 
 class Loading{
      static on() {

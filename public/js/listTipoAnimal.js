@@ -1,5 +1,6 @@
+var dataTableTipoAnimal;
 $(document).ready(function () {
-  var dataTable = $("#gridDataTable").DataTable({
+  dataTableTipoAnimal = $("#gridDataTable").DataTable({
     language: {
       url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
     },
@@ -57,58 +58,29 @@ $(document).ready(function () {
 });
 
 function openCadastro($id = null) {
-
-  try{
-
+  try {
     Loading.on();
 
-  $.ajax({
-    url: '/veterinariaUNESC/public/js/CadastroTipoAnimalModal.js',
-    method: 'GET',
-    dataType: 'text',
-    success: function(jsContent) {
-        eval(jsContent);
-    },
-    error: function(xhr, status, error) {
-    }
-});
-   
-  $.ajax({
-      url: '/veterinariaUNESC/modais/cadastroTipoAnimal',
-      method: 'POST',
+    var ajaxModal = $.ajax({
+      url: "/veterinariaUNESC/modais/cadastroTipoAnimal",
+      method: "POST",
       data: { id: $id },
-      success: function(response) {
-          bootbox.dialog({
-              title: "Cadastro de Tipo de Animal",
-              message: response,
-          });
-      },
-      error: function(xhr, status, error) {
-      }
-  });
+    });
 
-  Loading.off();
-}catch{
+    var script = $.getScript("/veterinariaUNESC/public/js/CadastroTipoAnimalModal.js");
 
-}
-}
-
-function salvarCadastroTipoAnimal(){
-  
-  Loading.on();
-  var formData = $('#formCadastroTipoAnimal').serialize();
-
-  $.ajax({
-    url: '/veterinariaUNESC/server/cadastroTipoAnimal',
-    method: 'POST',
-    data: formData,
-    success: function(response) {
-
-    },
-    error: function(xhr, status, error) {
-    },
-    complete: function(){
-      Loading.off();
-    },
-});
+    $.when(ajaxModal, script).done(function (respostaAjaxModal) {
+        bootbox.dialog({
+          title: "Cadastro de Tipo de Animal",
+          message: respostaAjaxModal[0],
+        });
+      })
+      .fail(function (xhr, status, error) {
+      })
+      .always(function () {
+        Loading.off();
+      });
+  } catch (e) {
+    Loading.off();
+  }
 }

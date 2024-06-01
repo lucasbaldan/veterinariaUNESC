@@ -26,11 +26,11 @@ $app->add(TwigMiddleware::create($app, $twig));
 
 /////////////////////// ROTAS DE REQUISIÇÕES PARA PROCESSAMENTO DE TELAS
 
-$app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
+$app->get('/', function ($request, $response, array $args) {
+    return $response->withHeader('Location', '/veterinariaUNESC/paginas/inicial')->withStatus(302);
+});
 
-    $group->get('', function (Request $request, Response $response, $args) use ($twig) {
-        return $response->withHeader('Location', '/veterinariaUNESC/paginas/inicial')->withStatus(302);
-    });
+$app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
 
     $group->get('/login', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\LoginPage($twig);
@@ -114,6 +114,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->post('/grid', App\Controllers\TiposAnimais::class . ':montarGrid');
 
         $Group->post('/controlar', App\Controllers\TiposAnimais::class . ':controlar');
+
+        $Group->post('/excluir', App\Controllers\TiposAnimais::class . ':excluir');
     });
 
     $group->group('/gruposUsuarios', function (RouteCollectorProxy $GrUsuariosGroup) {
@@ -149,6 +151,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/pessoas/excluiPessoa',
 
         '/veterinariaUNESC/server/tipoAnimal/grid',
+        '/veterinariaUNESC/server/tipoAnimal/controlar',
+        '/veterinariaUNESC/server/tipoAnimal/excluir',
 
         '/veterinariaUNESC/server/gruposUsuarios/salvaGrupoUsuarios',
         '/veterinariaUNESC/server/gruposUsuarios/excluiGruposUsuarios',
