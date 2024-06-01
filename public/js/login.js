@@ -33,7 +33,7 @@
             }
 
             $.ajax({
-            url: '/veterinariaUNESC/server/login',
+                url: '/veterinariaUNESC/server/pessoas/login',
             type: 'POST',
             dataType: 'json',
             data: dadosForm,

@@ -102,7 +102,7 @@ class Insert extends Conn {
                 $this->LastInsert = $this->Create->fetch(\PDO::FETCH_ASSOC)[$this->LastInsert];
             } else if ($GLOBALS['database']['driver'] == 'mysql') {
                 $this->LastInsert = $this->Conn->lastInsertId();
-            }
+             }
             $this->Result = true;
         } catch (\PDOException $e) {
             if ($this->Conn->inTransaction()) {

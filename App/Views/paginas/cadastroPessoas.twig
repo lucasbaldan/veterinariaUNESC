@@ -1,0 +1,69 @@
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;); background-color: #F8F9FA ;"
+    aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/veterinariaUNESC/paginas/inicial"><i
+                    class="bi bi-house-door-fill"></i></a></li>
+        <li class="breadcrumb-item" aria-current="page">Cadastros</li>
+        <li class="breadcrumb-item" aria-current="page">Pessoas</li>
+    </ol>
+</nav>
+
+<div class="container-fluid d-flex justify-content-center align-items-center mt-2">
+    <div class="card rounded" style="min-width: 100%;">
+        <div class="card-body border border-1S rounded-2">
+            <form id="formCadastroPessoas">
+                <div class="text-center mt-2">
+                    <h3>Cadastro de Pessoas</h3>
+                </div>
+
+                <div class="row">
+                    <div class="col-1">
+                        <label for="cdFichaLPV" class="form-label">Código: </label>
+                        <input type="text" disabled class="form-control" id="cdFichaLPV" value="">
+                    </div>
+                    <div class="mb-4 col-md-11">
+                        <label for="nmPessoa" class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="nmPessoa" name="nmPessoa" placeholder=" ">
+                    </div>
+                    <div class="mb-4 col-md-3">
+                        <label for="dsCidade" class="form-label">Cidade</label>
+                        <input type="text" class="form-control" id="dsCidade" name="dsCidade" placeholder=" ">
+                    </div>
+                    <div class="mb-4 col-md-3">
+                        <label for="nrTelefone" class="form-label">Telefone</label>
+                        <input type="text" class="form-control" id="nrTelefone" name="nrTelefone" placeholder=" ">
+                    </div>
+                    <div class="mb-4 col-md-3">
+                        <label for="dsEmail" class="form-label">E-mail</label>
+                        <input type="text" class="form-control" id="dsEmail" name="dsEmail" placeholder=" ">
+                    </div>
+                    <div class="mb-4 col-md-3">
+                        <label for="nrCRMV" class="form-label">N° CRMV</label>
+                        <input type="text" class="form-control" id="nrCRMV" name="nrCRMV" placeholder=" ">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid d-flex justify-content-center align-items-center mt-2 mb-3">
+    <div class="card rounded" style="min-width: 100%;">
+        <div class="card-body border border-1S rounded-2">
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-warning w-100" type="button"><i class="bi bi-sign-turn-left-fill"></i>
+                        <b>Voltar</b></button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-danger w-100" type="button"><b><i class="bi bi-trash3-fill"></i>
+                            Excluir</b></button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary w-100" type="button"><i class="bi bi-floppy2-fill"></i>
+                        <b>Salvar</b></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -118,6 +118,7 @@ class FormularioLPV
         throw new Exception($insert->getError());
       }
       $this->Result = true;
+      $this->Return = $insert->getLastInsert();
     } catch (Exception $e) {
       $this->Result = false;
       $this->Message = $e->getMessage();
