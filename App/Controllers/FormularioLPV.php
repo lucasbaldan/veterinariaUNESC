@@ -56,6 +56,10 @@ class FormularioLPV
                 $retorno = $flpv->Update();
             }
 
+            if (!$flpv->GetResult()) {
+                throw new Exception($flpv->GetMessage());
+            }
+
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $flpv->GetReturn()];
             $codigoHTTP = 200;
         } catch (Exception $e) {
@@ -71,6 +75,7 @@ class FormularioLPV
     {
 
         try {
+
 
             $retorno = \App\Models\FormularioLPV::GeneralSearch('');
 
@@ -90,9 +95,11 @@ class FormularioLPV
 
     public static function RetornarDadosFichaLPV(Request $request, Response $response)
     {
-        $cdFichaLPV = !empty($Formulario['cdFichaLPV']) ? $Formulario['cdFichaLPV'] : '';
-
+        
         try {
+            $Formulario = $request->getParsedBody();
+
+            $cdFichaLPV = !empty($Formulario['cdFichaLPV']) ? $Formulario['cdFichaLPV'] : '';
 
             $retorno = \App\Models\FormularioLPV::RetornarDadosFichaLPV($cdFichaLPV);
 
@@ -112,9 +119,11 @@ class FormularioLPV
 
     public static function ApagarFichaLPV(Request $request, Response $response)
     {
-        $cdFichaLPV = !empty($Formulario['cdFichaLPV']) ? $Formulario['cdFichaLPV'] : '';
-
+        
         try {
+
+            $Formulario = $request->getParsedBody();
+            $cdFichaLPV = !empty($Formulario['cdFichaLPV']) ? $Formulario['cdFichaLPV'] : '';
 
             $retorno = \App\Models\FormularioLPV::Delete($cdFichaLPV);
 

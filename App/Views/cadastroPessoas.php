@@ -23,7 +23,7 @@ class CadastroPessoas
 
         return $this->twig->render($response, 'TelaBase.twig', [
             'cssLinks' => "TelaMenus.css;",
-            'jsLinks' => "",
+            'jsLinks' => "cadastroPessoas.js",
             'conteudo_tela' => $conteudoTela,
         ]);
     }

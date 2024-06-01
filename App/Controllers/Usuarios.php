@@ -91,9 +91,10 @@ class Usuarios
 
     public static function RetornarDadosUsuario(Request $request, Response $response)
     {
-        $cdUsuario = !empty($Formulario['cdUsuario']) ? $Formulario['cdUsuario'] : '';
-
+        
         try {
+            $Formulario = $request->getParsedBody();
+            $cdUsuario = !empty($Formulario['cdUsuario']) ? $Formulario['cdUsuario'] : '';
 
             $retorno = \App\Models\Usuarios::RetornaDadosUsuario($cdUsuario);
 

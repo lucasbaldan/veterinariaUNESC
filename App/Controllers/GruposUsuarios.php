@@ -93,9 +93,10 @@ class GruposUsuarios
 
     public static function RetornarDadosGrupoUsuario(Request $request, Response $response)
     {
-        $cdGrupoUsuarios = !empty($Formulario['cdGrupoUsuarios']) ? $Formulario['cdGrupoUsuarios'] : '';
-
+        
         try {
+            $Formulario = $request->getParsedBody();
+            $cdGrupoUsuarios = !empty($Formulario['cdGrupoUsuarios']) ? $Formulario['cdGrupoUsuarios'] : '';
 
             $retorno = \App\Models\GruposUsuarios::RetornaDadosGrupoUsuarios($cdGrupoUsuarios);
 

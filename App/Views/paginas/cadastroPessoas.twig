@@ -11,15 +11,15 @@
 <div class="container-fluid d-flex justify-content-center align-items-center mt-2">
     <div class="card rounded" style="min-width: 100%;">
         <div class="card-body border border-1S rounded-2">
-            <form id="formCadastroPessoas">
+            <form id="formCadastroPessoas" name="formCadastroPessoas">
                 <div class="text-center mt-2">
                     <h3>Cadastro de Pessoas</h3>
                 </div>
 
                 <div class="row">
                     <div class="col-1">
-                        <label for="cdFichaLPV" class="form-label">Código: </label>
-                        <input type="text" disabled class="form-control" id="cdFichaLPV" value="">
+                        <label for="cdPessoa" class="form-label">Código: </label>
+                        <input type="text" readonly class="form-control" id="cdPessoa" name="cdPessoa" value="">
                     </div>
                     <div class="mb-4 col-md-11">
                         <label for="nmPessoa" class="form-label">Nome</label>
@@ -42,7 +42,6 @@
                         <input type="text" class="form-control" id="nrCRMV" name="nrCRMV" placeholder=" ">
                     </div>
                 </div>
-            </form>
         </div>
     </div>
 </div>
@@ -56,14 +55,15 @@
                         <b>Voltar</b></button>
                 </div>
                 <div class="col">
-                    <button class="btn btn-danger w-100" type="button"><b><i class="bi bi-trash3-fill"></i>
+                    <button class="btn btn-danger w-100" type="button" id="bntExcluirPessoa"><b><i class="bi bi-trash3-fill"></i>
                             Excluir</b></button>
                 </div>
                 <div class="col">
-                    <button class="btn btn-primary w-100" type="button"><i class="bi bi-floppy2-fill"></i>
+                    <button class="btn btn-primary w-100" type="submit"><i class="bi bi-floppy2-fill"></i>
                         <b>Salvar</b></button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</form>

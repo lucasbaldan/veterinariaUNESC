@@ -56,13 +56,16 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         $tela =  new App\Views\CadastroPessoas($twig);
         return $tela->exibir($request, $response, $args);
     });
+
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, ['/veterinariaUNESC/paginas',
                          '/veterinariaUNESC/paginas/login', 
                          '/veterinariaUNESC/paginas/formularioLPV', 
                          '/veterinariaUNESC/paginas/inicial', 
-                         '/veterinariaUNESC/paginas/listTipoAnimal'])) {
+                         '/veterinariaUNESC/paginas/listTipoAnimal',
+                         '/veterinariaUNESC/paginas/cadastroPessoas',
+                         ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
         return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
@@ -97,8 +100,14 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
 
 $app->group('/server', function (RouteCollectorProxy $group) {
 
-    $group->group('/pessoas', function (RouteCollectorProxy $Group) {
-        $Group->post('/login', App\Controllers\Pessoas::class . ':efetuarLogin');
+    $group->group('/pessoas', function (RouteCollectorProxy $pessoasGroup) {
+        $pessoasGroup->post('/login', App\Controllers\Pessoas::class . ':efetuarLogin');
+        $pessoasGroup->post('/salvaPessoa', App\Controllers\Pessoas::class . ':Salvar');
+        $pessoasGroup->post('/retornaPessoas', App\Controllers\Pessoas::class . ':RetornarPessoas');
+        $pessoasGroup->post('/retornaDadosPessoa', App\Controllers\Pessoas::class . ':RetornarDadosPessoa');
+        $pessoasGroup->post('/atualizaExclusaoPessoa', App\Controllers\Pessoas::class . ':AtualizarExclusaoPessoa');
+        $pessoasGroup->post('/excluiPessoa', App\Controllers\Pessoas::class . ':ApagarPessoa');
+
     });
 
     $group->group('/tipoAnimal', function (RouteCollectorProxy $Group) {
@@ -133,6 +142,12 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
         '/veterinariaUNESC/server/pessoas/login',
+        '/veterinariaUNESC/server/pessoas/salvaPessoa',
+        '/veterinariaUNESC/server/pessoas/retornaPessoas',
+        '/veterinariaUNESC/server/pessoas/retornaDadosPessoa',
+        '/veterinariaUNESC/server/pessoas/atualizaExclusaoPessoa',
+        '/veterinariaUNESC/server/pessoas/excluiPessoa',
+
         '/veterinariaUNESC/server/tipoAnimal/grid',
 
         '/veterinariaUNESC/server/gruposUsuarios/salvaGrupoUsuarios',
