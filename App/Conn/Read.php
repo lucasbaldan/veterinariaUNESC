@@ -1,12 +1,5 @@
 <?php
 
-/**
- * <b>Read.class:</b>
- * Classe responsável por leituras genéricas no banco de dados!
- *
- * @copyright (c) 2017, Emanuel Marques CREATIVE DESIGN PROJECTS
- */
-
 namespace App\Conn;
 use Exception;
 

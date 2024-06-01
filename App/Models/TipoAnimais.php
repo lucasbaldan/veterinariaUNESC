@@ -11,6 +11,9 @@ class TipoAnimais
     private $descricao;
     private $ativo;
 
+    private $Result;
+    private $Message;
+
     public function __construct($descricao, $ativo, $codigo = null)
     {
         $this->descricao = $descricao;
@@ -39,15 +42,15 @@ class TipoAnimais
                   FROM tipo_animal
                   WHERE 1=1";
 
-$bindParams = "";
+        $bindParams = "";
 
-        if(!empty($pesquisaCodigo)){
+        if (!empty($pesquisaCodigo)) {
             $query .= " AND tipo_animal.cd_tipo_animal LIKE '%$pesquisaCodigo%'";
         }
-        if(!empty($pesquisaDescricao)){
+        if (!empty($pesquisaDescricao)) {
             $query .= " AND tipo_animal.descricao LIKE '%$pesquisaDescricao%'";
         }
-        if(!empty($pesquisaAtivo)){
+        if (!empty($pesquisaAtivo)) {
             $query .= " AND tipo_animal.fl_ativo LIKE '%$pesquisaAtivo%'";
         }
 
@@ -60,5 +63,62 @@ $bindParams = "";
         $read->FullRead($query);
 
         return $read->getResult();
+    }
+
+    public function Inserir()
+    {
+
+        try {
+            $conn = \App\Conn\Conn::getConn();
+            $insert = new \App\Conn\Insert($conn);
+
+            $dadosInsert = ["CD_TIPO_ANIMAL" => $this->codigo, "DESCRICAO" => $this->descricao, "FL_ATIVO" => $this->ativo];
+            $insert->ExeInsert("TIPO_ANIMAL", $dadosInsert);
+
+            $this->Result = true;
+        } catch (Exception $e) {
+            $this->Message = $e->getMessage();
+            $this->Result = false;
+        }
+    }
+
+    public function Atualizar()
+    {
+        try {
+            $read = new \App\Conn\Read();
+
+            $read->ExeRead("TIPO_ANIMAL", "WHERE CD_TIPO_ANIMAL = :D", "D=$this->codigo");
+            $dadosCadastro = $read->getResult()[0] ?? [];
+            if ($dadosCadastro) {
+
+                $conn = \App\Conn\Conn::getConn();
+                $update = new \App\Conn\Update($conn);
+
+                $dadosUpdate = ["CD_TIPO_ANIMAL" => $this->codigo, "DESCRICAO" => $this->descricao, "FL_ATIVO" => $this->ativo];
+
+                $update->ExeUpdate("TIPO_ANIMAL", $dadosUpdate, "WHERE CD_TIPO_ANIMAL = :D", "D=$this->codigo");
+
+                if (!$update->getResult()) {
+                    throw new Exception($update->getMessage());
+                }
+                $this->Result = true;
+            } else {
+                throw new Exception("Ops, Parece que esse registro não existe mais na base de dados!");
+            }
+        } catch (Exception $e) {
+            $this->Result = false;
+            $this->Message = $e->getMessage();
+        }
+    }
+
+
+    public function getResult()
+    {
+        return $this->Result;
+    }
+
+    public function getMessage()
+    {
+        return $this->Message;
     }
 }

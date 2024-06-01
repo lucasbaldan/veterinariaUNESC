@@ -49,4 +49,8 @@ class TiposAnimais
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
+
+    public static function controlar(Request $request, Response $response){
+        
+    }
 }

@@ -11,3 +11,15 @@
 #gridDataTable tfoot th {
     text-align: center;
 }
+.dt-search {
+    display: none;
+}
+span.dataTable-item {
+    cursor: pointer;
+    color: rgb(80, 162, 255);
+    transition: color 0.5s;
+}
+span.dataTable-item:hover {
+    color: rgb(0, 70, 110);
+}
+

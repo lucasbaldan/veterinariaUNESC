@@ -40,7 +40,7 @@ class Insert extends Conn {
         $this->getSyntax();        
         
         
-        if (DRIVER == "firebird") {
+        if ($GLOBALS['database']['driver'] == "firebird") {
             $this->LastInsert = $LastInsert;
             if ($LastInsert) {
                 $this->Create .= " RETURNING $LastInsert";
@@ -98,9 +98,9 @@ class Insert extends Conn {
           //  var_dump($this->Create);
             
             $this->Create->execute();
-            if (DRIVER == 'firebird' && $this->LastInsert) {
+            if ($GLOBALS['database']['driver'] == 'firebird' && $this->LastInsert) {
                 $this->LastInsert = $this->Create->fetch(\PDO::FETCH_ASSOC)[$this->LastInsert];
-            } else if (DRIVER == 'mysql') {
+            } else if ($GLOBALS['database']['driver'] == 'mysql') {
                 $this->LastInsert = $this->Conn->lastInsertId();
             }
             $this->Result = true;

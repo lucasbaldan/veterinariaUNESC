@@ -28,6 +28,10 @@ $app->add(TwigMiddleware::create($app, $twig));
 
 $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
 
+    $group->get('', function (Request $request, Response $response, $args) use ($twig) {
+        return $response->withHeader('Location', '/veterinariaUNESC/paginas/inicial')->withStatus(302);
+    });
+
     $group->get('/login', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\LoginPage($twig);
         return $tela->exibir($request, $response, $args);
@@ -51,10 +55,33 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
 
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
-    if (!in_array($uri, ['/veterinariaUNESC/paginas/login', 
+    if (!in_array($uri, ['/veterinariaUNESC/paginas',
+                         '/veterinariaUNESC/paginas/login', 
                          '/veterinariaUNESC/paginas/formularioLPV', 
                          '/veterinariaUNESC/paginas/inicial', 
                          '/veterinariaUNESC/paginas/listTipoAnimal'])) {
+        $response = new \Slim\Psr7\Response();
+        $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
+        return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+    }
+
+    return $handler->handle($request);
+});
+
+
+/////////////////////// ROTAS DE REQUISIÇÕES PARA CARREGAMENTO DINÂMICO DE MODAIS
+
+$app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
+
+    $group->post('/cadastroTipoAnimal', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\CadastroTipoAnimalModal($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
+
+})->add(function (Request $request, RequestHandlerInterface $handler) {
+    $uri = $request->getUri()->getPath();
+    if (!in_array($uri, ['/veterinariaUNESC/modais/cadastroTipoAnimal'])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
         return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
@@ -67,12 +94,14 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
 
 $app->group('/server', function (RouteCollectorProxy $group) {
 
-    $group->group('/pessoas', function (RouteCollectorProxy $pessoasGroup) {
-        $pessoasGroup->post('/login', App\Controllers\Pessoas::class . ':efetuarLogin');
+    $group->group('/pessoas', function (RouteCollectorProxy $Group) {
+        $Group->post('/login', App\Controllers\Pessoas::class . ':efetuarLogin');
     });
 
-    $group->group('/tipoAnimal', function (RouteCollectorProxy $pessoasGroup) {
-        $pessoasGroup->post('/grid', App\Controllers\TiposAnimais::class . ':montarGrid');
+    $group->group('/tipoAnimal', function (RouteCollectorProxy $Group) {
+        $Group->post('/grid', App\Controllers\TiposAnimais::class . ':montarGrid');
+
+        $Group->post('/controlar', App\Controllers\TiposAnimais::class . ':controlar');
     });
 
 })->add(function (Request $request, RequestHandlerInterface $handler) {
