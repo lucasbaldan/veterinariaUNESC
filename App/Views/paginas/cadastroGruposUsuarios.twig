@@ -11,42 +11,45 @@
 <div class="container-fluid d-flex justify-content-center align-items-center mt-2">
     <div class="card rounded" style="min-width: 100%;">
         <div class="card-body border border-1S rounded-2">
-            <form id="formCadastroPessoas" name="formCadastroPessoas">
+            <form id="formCadastroGruposUsuarios" name="formCadastroGruposUsuarios">
                 <div class="text-center mt-2">
-                    <h3>Cadastro de Pessoas</h3>
+                    <h3>Cadastro de Grupo de Usuários</h3>
                 </div>
 
                 <div class="row">
                     <div class="col-1">
-                        <label for="cdPessoa" class="form-label">Código: </label>
-                        <input type="text" readonly class="form-control" id="cdPessoa" name="cdPessoa"
-                            value="{{cdPessoa}}">
+                        <label for="cdGrupoUsuario" class="form-label">Código: </label>
+                        <input type="text" readonly class="form-control" id="cdGrupoUsuario" name="cdGrupoUsuario"
+                            value="">
                     </div>
                     <div class="mb-4 col-md-11">
-                        <label for="nmPessoa" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="nmPessoa" name="nmPessoa" placeholder=" "
-                            value="{{nmPessoa}}" required>
+                        <label for="nmGrupoUsuario" class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="nmGrupoUsuario" name="nmGrupoUsuario"
+                            placeholder=" " required>
                     </div>
-                    <div class="mb-4 col-md-3">
-                        <label for="dsCidade" class="form-label">Cidade</label>
-                        <input type="text" class="form-control" id="dsCidade" name="dsCidade" placeholder=" "
-                            value="{{dsCidade}}" required>
+
+                    <div class="mb-4 col-md-4">
+                        <label for="flVisualizar" class="form-label">Visualizar</label>
+                        <select class="form-select" name="flVisualizar" id="flVisualizar">
+                            <option value="S" selected>Sim</option>
+                            <option value="N">Não</option>
+                        </select>
                     </div>
-                    <div class="mb-4 col-md-3">
-                        <label for="nrTelefone" class="form-label">Telefone</label>
-                        <input type="text" class="form-control" id="nrTelefone" name="nrTelefone" placeholder=" "
-                            value="{{nrTelefone}}" required>
+                    <div class="mb-4 col-md-4">
+                        <label for="flEditar" class="form-label">Editar</label>
+                        <select class="form-select" name="flEditar" id="flEditar">
+                            <option value="S" selected>Sim</option>
+                            <option value="N">Não</option>
+                        </select>
                     </div>
-                    <div class="mb-4 col-md-3">
-                        <label for="dsEmail" class="form-label">E-mail</label>
-                        <input type="text" class="form-control" id="dsEmail" name="dsEmail" placeholder=" "
-                            value="{{dsEmail}}" required>
+                    <div class="mb-4 col-md-4">
+                        <label for="flExcluir" class="form-label">Excluir</label>
+                        <select class="form-select" name="flExcluir" id="flExcluir">
+                            <option value="S" selected>Sim</option>
+                            <option value="N">Não</option>
+                        </select>
                     </div>
-                    <div class="mb-4 col-md-3">
-                        <label for="nrCRMV" class="form-label">N° CRMV</label>
-                        <input type="text" class="form-control" id="nrCRMV" name="nrCRMV" value="{{nrCRMV}}"
-                            placeholder=" ">
-                    </div>
+
                 </div>
         </div>
     </div>
@@ -57,8 +60,8 @@
         <div class="card-body border border-1S rounded-2">
             <div class="row">
                 <div class="col">
-                    <a class="btn btn-warning w-100" type="button" href="/veterinariaUNESC/paginas/listPessoas"><i class="bi bi-sign-turn-left-fill"></i>
-                        <b>Voltar</b></a>
+                    <button class="btn btn-warning w-100" type="button"><i class="bi bi-sign-turn-left-fill"></i>
+                        <b>Voltar</b></button>
                 </div>
                 <div class="col">
                     <button class="btn btn-danger w-100" type="button" id="bntExcluirPessoa"><b><i

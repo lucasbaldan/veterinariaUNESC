@@ -175,4 +175,45 @@ class Pessoas
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
+
+    public static function montarGrid(Request $request, Response $response)
+    {
+
+        try {
+
+            $grid = $request->getParsedBody();
+
+            $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
+            if ($orderBy == 0) $orderBy = "pessoas.CD_PESSOA";
+            if ($orderBy == 1) $orderBy = "pessoas.NM_PESSOA";
+            if ($orderBy == 2) $orderBy = "pessoas.FL_EXCLUIDO";
+
+            $parametrosBusca = [
+                "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',
+                "pesquisaDescricao" => !empty($grid['columns'][1]['search']['value']) ? $grid['columns'][1]['search']['value'] : '',
+                "pesquisaAtivo" => !empty($grid['columns'][2]['search']['value']) ? $grid['columns'][2]['search']['value'] : '',
+                "inicio" => $grid['start'],
+                "limit" => $grid['length'],
+                "orderBy" =>  $orderBy,
+                "orderAscDesc" => isset($grid['order'][0]['dir']) ? $grid['order'][0]['dir'] : ''
+            ];
+
+            $dadosSelect = \App\Models\Pessoas::SelectGrid($parametrosBusca);
+            $dados = [
+                "draw" => (int)$grid['draw'],
+                "recordsTotal" => isset($dadosSelect[0]['total_table']) ? $dadosSelect[0]['total_table'] : 0,
+                "recordsFiltered" => isset($dadosSelect[0]['total_filtered']) ? $dadosSelect[0]['total_filtered'] : 0,
+                "data" => $dadosSelect
+            ];
+
+
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $dados];
+            $codigoHTTP = 200;
+        } catch (Exception $e) {
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $codigoHTTP = 500;
+        }
+        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
+    }
 }

@@ -52,8 +52,18 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
-    $group->get('/cadastroPessoas', function (Request $request, Response $response, $args) use ($twig) {
+    $group->post('/cadastroPessoas', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\CadastroPessoas($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
+    $group->get('/cadastroGruposUsuarios', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\CadastroGruposUsuarios($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
+    $group->get('/listPessoas', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\ListPessoas($twig);
         return $tela->exibir($request, $response, $args);
     });
 
@@ -65,6 +75,8 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
                          '/veterinariaUNESC/paginas/inicial', 
                          '/veterinariaUNESC/paginas/listTipoAnimal',
                          '/veterinariaUNESC/paginas/cadastroPessoas',
+                         '/veterinariaUNESC/paginas/cadastroGruposUsuarios',
+                         '/veterinariaUNESC/paginas/listPessoas',
                          ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
@@ -107,6 +119,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $pessoasGroup->post('/retornaDadosPessoa', App\Controllers\Pessoas::class . ':RetornarDadosPessoa');
         $pessoasGroup->post('/atualizaExclusaoPessoa', App\Controllers\Pessoas::class . ':AtualizarExclusaoPessoa');
         $pessoasGroup->post('/excluiPessoa', App\Controllers\Pessoas::class . ':ApagarPessoa');
+        $pessoasGroup->post('/grid', App\Controllers\Pessoas::class . ':montarGrid');
 
     });
 
@@ -149,6 +162,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/pessoas/retornaDadosPessoa',
         '/veterinariaUNESC/server/pessoas/atualizaExclusaoPessoa',
         '/veterinariaUNESC/server/pessoas/excluiPessoa',
+        '/veterinariaUNESC/server/pessoas/grid',
 
         '/veterinariaUNESC/server/tipoAnimal/grid',
         '/veterinariaUNESC/server/tipoAnimal/controlar',

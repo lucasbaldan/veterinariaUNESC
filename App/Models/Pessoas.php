@@ -118,9 +118,9 @@ class Pessoas
     public static function RetornaDadosPessoa($cdPessoa)
     {
         $read = new \App\Conn\Read();
-        $read->FullRead("SELECT P.* FROM pessoas P  WHERE F.CD_PESSOA = :C", "C=$cdPessoa");
+        $read->FullRead("SELECT P.* FROM pessoas P  WHERE P.CD_PESSOA = :C", "C=$cdPessoa");
 
-        return $read->getResult();
+        return $read->getResult()[0];
     }
 
     public static function Delete($cdPessoa)
@@ -161,6 +161,50 @@ class Pessoas
         } else {
             return "Ops! PARECE QUE ESSE REGISTRO NÃO EXISTE NA BASE DE DADOS!";
         }
+    }
+
+    public static function SelectGrid($arrayParam)
+    {
+
+        $start = $arrayParam['inicio'];
+        $limit = $arrayParam['limit'];
+        $orderBy = $arrayParam['orderBy'];
+        $orderAscDesc = $arrayParam['orderAscDesc'];
+        $pesquisaCodigo = $arrayParam['pesquisaCodigo'];
+        $pesquisaDescricao = $arrayParam['pesquisaDescricao'];
+        $pesquisaAtivo = $arrayParam['pesquisaAtivo'];
+
+        $read = new \App\Conn\Read();
+
+        $query = "SELECT pessoas.CD_PESSOA,
+                  pessoas.NM_PESSOA,
+                  (CASE WHEN pessoas.FL_EXCLUIDO = 'S' THEN 'Sim' ELSE 'Não' END) as fl_ativo, 
+                  COUNT(pessoas.CD_PESSOA) OVER() AS total_filtered,  
+                  (SELECT COUNT(pessoas.CD_PESSOA) FROM pessoas) AS total_table 
+                  FROM pessoas
+                  WHERE 1=1";
+
+        $bindParams = "";
+
+        if (!empty($pesquisaCodigo)) {
+            $query .= " AND pessoas.CD_PESSOA LIKE '%$pesquisaCodigo%'";
+        }
+        if (!empty($pesquisaDescricao)) {
+            $query .= " AND pessoas.NM_PESSOA LIKE '%$pesquisaDescricao%'";
+        }
+        if (!empty($pesquisaAtivo)) {
+            $query .= " AND pessoas.FL_EXCLUIDO LIKE '%$pesquisaAtivo%'";
+        }
+
+        if (!empty($orderBy)) {
+            $query .= " ORDER BY $orderBy $orderAscDesc";
+        }
+
+        $query .= " LIMIT $start, $limit";
+
+        $read->FullRead($query);
+
+        return $read->getResult();
     }
 
     public function GetMessage()
