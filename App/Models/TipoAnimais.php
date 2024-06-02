@@ -64,8 +64,6 @@ class TipoAnimais
                   FROM tipo_animal
                   WHERE 1=1";
 
-        $bindParams = "";
-
         if (!empty($pesquisaCodigo)) {
             $query .= " AND tipo_animal.cd_tipo_animal LIKE '%$pesquisaCodigo%'";
         }
@@ -73,7 +71,8 @@ class TipoAnimais
             $query .= " AND tipo_animal.descricao LIKE '%$pesquisaDescricao%'";
         }
         if (!empty($pesquisaAtivo)) {
-            $query .= " AND tipo_animal.fl_ativo LIKE '%$pesquisaAtivo%'";
+            $pesquisaAtivo = $pesquisaAtivo == 2 ? 0 : 1;
+            $query .= " AND tipo_animal.fl_ativo = $pesquisaAtivo";
         }
 
         if (!empty($orderBy)) {

@@ -24,7 +24,7 @@ class TiposAnimais
             $parametrosBusca = [
                 "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',
                 "pesquisaDescricao" => !empty($grid['columns'][1]['search']['value']) ? $grid['columns'][1]['search']['value'] : '',
-                "pesquisaAtivo" => !empty($grid['columns'][2]['search']['value']) ? $grid['columns'][2]['search']['value'] : '',
+                "pesquisaAtivo" => !empty($grid['columns'][2]['search']['value']) ? (int)$grid['columns'][2]['search']['value'] : '',
                 "inicio" => $grid['start'],
                 "limit" => $grid['length'],
                 "orderBy" =>  $orderBy,

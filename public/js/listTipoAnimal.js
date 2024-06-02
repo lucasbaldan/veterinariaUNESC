@@ -1,12 +1,20 @@
 var dataTableTipoAnimal;
 $(document).ready(function () {
   dataTableTipoAnimal = $("#gridDataTable").DataTable({
+    scrollX: true,
+    orderCellsTop: true,
+    fixedHeader: true, 
     language: {
       url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
     },
     ajax: {
       url: "/veterinariaUNESC/server/tipoAnimal/grid",
       type: "POST",
+      data: function (d) {
+        d.columns[0].search.value = $('#pesquisaCodigoTipoAnimal').val();
+        d.columns[1].search.value = $('#pesquisaDescricaoTipoAnimal').val();
+        d.columns[2].search.value = $('#pesquisaAtivoTipoAnimal').val();
+      },
       dataSrc: function (json) {
         json.draw = json.RETURN.draw;
         json.recordsTotal = json.RETURN.recordsTotal;
@@ -35,26 +43,16 @@ $(document).ready(function () {
         );
       });
     },
-    initComplete: function () {
-      this.api()
-        .columns()
-        .every(function () {
-          var column = this;
-          var title = column.footer().textContent;
-
-          // Create input element and add event listener
-          $(
-            '<input class="form-control form-control-sm" type="text" placeholder="Pesquisar..." />'
-          )
-            .appendTo($(column.footer()).empty())
-            .on("keyup change clear", function () {
-              if (column.search() !== this.value) {
-                column.search(this.value).draw();
-              }
-            });
-        });
-    },
   });
+
+
+  $('#pesquisaCodigoTipoAnimal, #pesquisaDescricaoTipoAnimal, #pesquisaAtivoTipoAnimal').on('keyup clear input', function() {
+    if (this.timer) clearTimeout(this.timer);
+    this.timer = setTimeout(function() {
+      dataTableTipoAnimal.draw();
+    }, 2000);
+  });
+
 });
 
 function openCadastro($id = null) {
