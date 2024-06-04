@@ -70,6 +70,7 @@ function openCadastro($id = null) {
     $.when(ajaxModal, script).done(function (respostaAjaxModal) {
         bootbox.dialog({
           title: "Cadastro de Tipo de Animal",
+          centerVertical: true,
           message: respostaAjaxModal[0],
         });
       })

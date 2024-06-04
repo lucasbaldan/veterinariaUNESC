@@ -63,6 +63,21 @@ class Loading{
     }
 }
 
+class AnimarBotaoLoading {
+    constructor(botaoId) {
+        this.botaoId = botaoId;
+        this.botaoOriginal = $('#' + botaoId).html();
+    }
+
+    animar() {
+        $('#' + this.botaoId).prop('disabled', true).html('<span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Carregando...');
+    }
+
+    restaurar() {
+        $('#' + this.botaoId).prop('disabled', false).html(this.botaoOriginal);
+    }
+}
+
 
 
 

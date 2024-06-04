@@ -1,0 +1,22 @@
+.bootbox-delete .modal-content {
+    border: 2px solid #ff0000; /* Borda vermelha */
+}
+
+.bootbox-delete .modal-header {
+    color: aliceblue;
+    background-color: #b30000; /* Cabeçalho vermelho escuro */
+    border-bottom: 2px solid #ff0000; /* Borda inferior do cabeçalho */
+}
+
+.bootbox-delete .modal-title {
+    font-weight: bold;
+    font-size: 1.5em; /* Título maior */
+}
+
+.bootbox-delete .modal-body {
+    font-size: 1.2em; /* Texto maior */
+}
+
+.bootbox-delete .modal-footer .btn {
+    font-weight: bold;
+}
