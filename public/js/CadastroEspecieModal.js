@@ -1,21 +1,21 @@
-function salvarCadastroTipoAnimal() {
+function salvarCadastroEspecie() {
   botaoAnimado = new AnimarBotaoLoading("btnSalvar");
   botaoAnimadoExcluir = new AnimarBotaoLoading("btnExcluir");
   botaoAnimado.animar();
   botaoAnimadoExcluir.animar();
   Loading.on();
-  var formData = $("#formCadastroTipoAnimal").serialize();
+  var formData = $("#formCadastroEspecie").serialize();
 
   $.ajax({
-    url: "/veterinariaUNESC/server/tipoAnimal/controlar",
+    url: "/veterinariaUNESC/server/especie/controlar",
     method: "POST",
     data: formData,
     success: function (response) {
       if (response.RESULT) {
         Notificacao.NotificacaoSucesso();
         bootbox.hideAll();
-        if (typeof dataTableTipoAnimal !== "undefined") {
-          dataTableTipoAnimal.ajax.reload();
+        if (typeof dataTable !== "undefined") {
+          dataTable.ajax.reload();
         }
       }
     },
@@ -30,7 +30,7 @@ function salvarCadastroTipoAnimal() {
   });
 }
 
-function excluirCadastroTipoAnimal() {
+function excluirCadastroEspecie() {
   bootbox.confirm({
     className: "bootbox-delete",
     size: "extra-large",
@@ -54,17 +54,17 @@ function excluirCadastroTipoAnimal() {
 
         $("#bootbox-delete").modal("hide");
         Loading.on();
-        var formData = $("#formCadastroTipoAnimal").serialize();
+        var formData = $("#formCadastroEspecie").serialize();
         $.ajax({
-          url: "/veterinariaUNESC/server/tipoAnimal/excluir",
+          url: "/veterinariaUNESC/server/especie/excluir",
           method: "POST",
           data: formData,
           success: function (response) {
             if (response.RESULT) {
               Notificacao.NotificacaoSucesso();
               bootbox.hideAll();
-              if (typeof dataTableTipoAnimal !== "undefined") {
-                dataTableTipoAnimal.ajax.reload();
+              if (typeof dataTable !== "undefined") {
+                dataTable.ajax.reload();
               }
             }
           },
