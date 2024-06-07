@@ -1,12 +1,20 @@
 var dataTablePessoas;
 $(document).ready(function () {
   dataTablePessoas = $("#gridDataTable").DataTable({
+    scrollX: true,
+    orderCellsTop: true,
+    fixedHeader: true,
     language: {
       url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
     },
     ajax: {
       url: "/veterinariaUNESC/server/pessoas/grid",
       type: "POST",
+      data: function (d) {
+        d.columns[0].search.value = $('#pesquisaCodigoPessoa').val();
+        d.columns[1].search.value = $('#pesquisaNomePessoa').val();
+        d.columns[2].search.value = $('#pesquisaAtivoPessoa').val();
+      },
       dataSrc: function (json) {
         json.draw = json.RETURN.draw;
         json.recordsTotal = json.RETURN.recordsTotal;
@@ -35,26 +43,34 @@ $(document).ready(function () {
         );
       });
     },
-    initComplete: function () {
-      this.api()
-        .columns()
-        .every(function () {
-          var column = this;
-          var title = column.footer().textContent;
-
-          // Create input element and add event listener
-          $(
-            '<input class="form-control form-control-sm" type="text" placeholder="Pesquisar..." />'
-          )
-            .appendTo($(column.footer()).empty())
-            .on("keyup change clear", function () {
-              if (column.search() !== this.value) {
-                column.search(this.value).draw();
-              }
-            });
-        });
-    },
   });
+
+    $('#pesquisaCodigoPessoa, #pesquisaNomePessoa, #pesquisaAtivoPessoa').on('keyup clear input', function() {
+      if (this.timer) clearTimeout(this.timer);
+      this.timer = setTimeout(function() {
+        dataTablePessoas.draw();
+      }, 500);
+    });
+
+    // initComplete: function () {
+    //   this.api()
+    //     .columns()
+    //     .every(function () {
+    //       var column = this;
+    //       var title = column.footer().textContent;
+
+    //       // Create input element and add event listener
+    //       $(
+    //         '<input class="form-control form-control-sm" type="text" placeholder="Pesquisar..." />'
+    //       )
+    //         .appendTo($(column.footer()).empty())
+    //         .on("keyup change clear", function () {
+    //           if (column.search() !== this.value) {
+    //             column.search(this.value).draw();
+    //           }
+    //         });
+    //     });
+    // },
 });
 
 function redirectToCadastro(cdPessoa) {

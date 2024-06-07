@@ -26,18 +26,23 @@
             <table id="gridDataTable" class="table table-striped table-hover table-bordered" style="width:100%;">
                 <thead>
                     <tr>
-                        <th>Código</th>
-                        <th>Descrição</th>
-                        <th>Ativo</th>
+                        <th style="text-align: center;">Código</th>
+                        <th style="text-align: center;">Descrição</th>
+                        <th style="text-align: center;">Ativo</th>
+                    </tr>
+                    <tr>
+                        <th><input id="pesquisaCodigoPessoa" placeholder="Pesquisar..."
+                                class="form-control form-control-sm" /></th>
+                        <th><input id="pesquisaNomePessoa" placeholder="Pesquisar..."
+                                class="form-control form-control-sm" /></th>
+                        <th>
+                            <select class="form-select form-select-sm" id="pesquisaAtivoPessoa">
+                                <option value="">Todos...</option>
+                                <option value="1">Sim</option>
+                                <option value="2">Não</option>
+                            </select>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Código</th>
-                        <th>Descrição</th>
-                        <th>Ativo</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                 </tbody>
             </table>
