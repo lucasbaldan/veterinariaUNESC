@@ -70,7 +70,7 @@ class TiposAnimais
                 $cad->Atualizar();
             }
 
-            if(!$cad->getResult()){
+            if (!$cad->getResult()) {
                 throw new Exception($cad->getMessage());
             }
 
@@ -97,9 +97,9 @@ class TiposAnimais
 
             $cad = new \App\Models\TipoAnimais(null, null, $codigo);
             $cad->Excluir();
-            
 
-            if(!$cad->getResult()){
+
+            if (!$cad->getResult()) {
                 throw new Exception($cad->getMessage());
             }
 
@@ -112,4 +112,40 @@ class TiposAnimais
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
+
+    public static function buscar(Request $request, Response $response)
+    {
+        try {
+
+            $dados = $request->getParsedBody();
+
+            $forSelect2 = isset($dados['forSelect2']) ? $dados['forSelect2'] : '';
+            $descricao = isset($dados['descricaoTipoAnimal']) ? $dados['descricaoTipoAnimal'] : '';
+
+            if ($forSelect2) {
+                $busca = new \App\Models\TipoAnimais('', '', '');
+
+                $parametrosPesquisa = [
+                    "colunas" => "CD_TIPO_ANIMAL AS id, DESCRICAO AS text",
+                    "descricaoPesquisa" => empty($descricao) ? '' : $descricao
+                ];
+
+                $busca->generalSearch($parametrosPesquisa);
+                
+            }
+
+            if(!$busca->getResult()){
+                throw new Exception($busca->getMessage());
+            }
+
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $busca->getReturn()];
+            $codigoHTTP = 200;
+        } catch (Exception $e) {
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $codigoHTTP = 500;
+        }
+        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
+    }
+
 }

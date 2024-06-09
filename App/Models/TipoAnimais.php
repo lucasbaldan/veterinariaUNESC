@@ -11,6 +11,7 @@ class TipoAnimais
     private $descricao;
     private $ativo;
 
+    private $Return;
     private $Result;
     private $Message;
 
@@ -158,6 +159,32 @@ class TipoAnimais
         }
     }
 
+    public function generalSearch($arrayParam){
+        try{
+            $colunas = $arrayParam['colunas'];
+            $descricao = !empty($arrayParam['descricaoPesquisa']) ? $arrayParam['descricaoPesquisa'] : '';
+            
+            $read = new \App\Conn\Read();
+
+            $query = "SELECT $colunas FROM TIPO_ANIMAL";
+
+            //$parse = "C=$colunas";
+
+            // if(!empty($descricao)){
+            //     $query .= " WHERE DESCRICAO LIKE '%:W%'";
+            //     $parse .= "&W=$descricao";
+            // }
+
+            $read->FullRead($query);
+            $this->Result = true;
+            $this->Return = $read->getResult();
+        } catch(Exception $e){
+            $this->Result = false;
+            $this->Message = $e->getMessage();
+
+        }
+    }
+
 
     public function getResult()
     {
@@ -171,6 +198,10 @@ class TipoAnimais
     public function getCodigo()
     {
         return $this->codigo;
+    }
+    public function getReturn()
+    {
+        return $this->Return;
     }
 
     // Método getter para $descricao

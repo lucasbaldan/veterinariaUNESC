@@ -138,6 +138,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     $group->group('/tipoAnimal', function (RouteCollectorProxy $Group) {
         $Group->post('/grid', App\Controllers\TiposAnimais::class . ':montarGrid');
 
+        $Group->post('/general', App\Controllers\TiposAnimais::class . ':buscar');
+
         $Group->post('/controlar', App\Controllers\TiposAnimais::class . ':controlar');
 
         $Group->post('/excluir', App\Controllers\TiposAnimais::class . ':excluir');
@@ -187,6 +189,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/tipoAnimal/grid',
         '/veterinariaUNESC/server/tipoAnimal/controlar',
         '/veterinariaUNESC/server/tipoAnimal/excluir',
+        '/veterinariaUNESC/server/tipoAnimal/general',
 
         '/veterinariaUNESC/server/especie/grid',
         '/veterinariaUNESC/server/especie/controlar',

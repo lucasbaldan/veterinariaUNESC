@@ -52,7 +52,6 @@ $(document).ready(function () {
       dataTable.draw();
     }, 2000);
   });
-
 });
 
 function openCadastro($id = null) {
@@ -72,6 +71,10 @@ function openCadastro($id = null) {
           title: "Cadastro de Especie",
           centerVertical: true,
           message: respostaAjaxModal[0],
+          className: 'cad-tipo-animal',
+          onShown: function(){
+            selectTipoAnimal();
+          }
         });
       })
       .fail(function (xhr, status, error) {
