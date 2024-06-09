@@ -11,8 +11,9 @@
                         placeholder="">
                     <label for="especie">Nome da Espécie: </label>
                 </div>
-                <div class="form-floating mb-3">
-                    <select id="select2cdTipoAnimal" style="width: 100%"></select>
+                <label for="select2cdTipoAnimal">Selecione o animal que pertece a essa Espécie</label> 
+                <div class="form-floating mb-3">   
+                    <select class="form-select" id="select2cdTipoAnimal" name="select2cdTipoAnimal"></select>
                 </div>
 
                 {{select|raw}}

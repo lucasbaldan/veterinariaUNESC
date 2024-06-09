@@ -9,16 +9,20 @@ class Especies
 
     private $codigo;
     private $descricao;
+    private \App\Models\TipoAnimais $tipoAnimal;
     private $ativo;
 
     private $Result;
     private $Message;
 
-    public function __construct($descricao, $ativo, $codigo = null)
+    public function __construct($descricao, $ativo, $cdTipoAnimal, $codigo = null)
     {
         $this->descricao = $descricao;
         $this->ativo = $ativo == 2 ? 0 : $ativo;
         $this->codigo = $codigo;
+        
+        $this->tipoAnimal = new \App\Models\TipoAnimais('', '',$cdTipoAnimal);
+        $this->tipoAnimal->findById();
     }
 
     public function findById()
@@ -32,9 +36,9 @@ class Especies
                 throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
             }
 
-            $this->codigo = $read->getResult()[0]['CD_ESPECIE'];
-            $this->descricao = $read->getResult()[0]['DESCRICAO'];
-            $this->ativo = $read->getResult()[0]['FL_ATIVO'];
+            $this->codigo = $read->getResult()[0]['cd_especie'];
+            $this->descricao = $read->getResult()[0]['descricao'];
+            $this->ativo = $read->getResult()[0]['fl_ativo'];
 
             $this->Result = true;
         } catch (Exception $e) {

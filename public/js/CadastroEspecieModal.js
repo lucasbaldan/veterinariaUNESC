@@ -1,6 +1,10 @@
 function selectTipoAnimal(){
   $('#select2cdTipoAnimal').select2({
     dropdownParent: ".cad-tipo-animal",
+    allowClear: true,
+    placeholder: 'Selecione...',
+    theme: 'bootstrap-5',
+    width: '100%',
     ajax: {
       url: '/veterinariaUNESC/server/tipoAnimal/general',
       dataType: 'json',

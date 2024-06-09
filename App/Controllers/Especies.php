@@ -57,10 +57,11 @@ class Especies
 
             $codigo = !empty($dadosForm['cdEspecie']) ? $dadosForm['cdEspecie'] : '';
             $descricao = !empty($dadosForm['especie']) ? $dadosForm['especie'] : '';
+            $cdTipoAnimal = !empty($dadosForm['select2cdTipoAnimal']) ? $dadosForm['select2cdTipoAnimal'] : '';
             $flativo = !empty($dadosForm['ativoEspecie']) ? (int)$dadosForm['ativoEspecie'] : '';
 
-            if (empty($descricao) || empty($flativo) || $flativo > 2) {
-                throw new Exception("Preencha os campos <b>Descrição</b>, e <b>Ativo</b> para concluir o cadastro.");
+            if (empty($descricao) || empty($flativo) || $flativo > 2 || empty($cdTipoAnimal)) {
+                throw new Exception("Preencha os campos <b>Descrição</b>, <b>Tipo de Animal</b> e <b>Ativo</b> para concluir o cadastro.");
             }
 
             $cad = new \App\Models\Especies($descricao, $flativo, $codigo);
