@@ -26,19 +26,16 @@ class CadastroEspecieModal
             $ajaxTela = $request->getParsedBody();
             $idAlteracao = !empty($ajaxTela['id']) ? $ajaxTela['id'] : '';
 
-            if (!empty($idAlteracao)) {
-                $Especie = new \App\Models\Especies(null, null, $idAlteracao);
-                $Especie->findById();
+            $Especie = \App\Models\Especies::findById($idAlteracao);
 
-                if(!$Especie->getResult()){
-                    throw new Exception($Especie->getMessage());
-                }
-            } else {
-                $Especie = new \App\Models\Especies('', '', '');
+            if (empty($Especie->getCodigo())) {
                 $exibirExcluir = false;
+                $selectTipoAnimal = " ";
+            } else {
+                $selectTipoAnimal = '<option value="' . $Especie->getTipoAnimal()->getCodigo() . '" selected>' . $Especie->getTipoAnimal()->getDescricao() . '</option>';
             }
 
-            $select = '
+            $selectAtivo = '
             <div class="form-floating">
             <select class="form-select mb-3" id="ativoTipoAnimal" name="ativoEspecie" aria-label="Floating label select example">
               <option value="0">Selecione...</option>
@@ -47,18 +44,21 @@ class CadastroEspecieModal
             </select>
             <label for="ativoEspecie">Ativo no Sistema</label>
           </div>';
-
         } catch (Exception $e) {
             return $this->twig->render($response, 'erroModal.twig', ["erro" => $e->getMessage()]);
         }
 
-        return $this->twig->render($response, 'modalCadastroEspecie.twig', 
-        [
-            "select" => $select,
-            "codigo" => $Especie->getCodigo(),
-            "descricao" => $Especie->getDescricao(),
-            "exibirExcluir" => $exibirExcluir,
-            "exibirSalvar" => $exibirSalvar
-        ]);
+        return $this->twig->render(
+            $response,
+            'modalCadastroEspecie.twig',
+            [
+                "selectTipoAnimal" => $selectTipoAnimal,
+                "selectAtivo" => $selectAtivo,
+                "codigo" => $Especie->getCodigo(),
+                "descricao" => $Especie->getDescricao(),
+                "exibirExcluir" => $exibirExcluir,
+                "exibirSalvar" => $exibirSalvar
+            ]
+        );
     }
 }

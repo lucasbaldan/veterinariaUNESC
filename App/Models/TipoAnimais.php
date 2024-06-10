@@ -22,25 +22,26 @@ class TipoAnimais
         $this->codigo = $codigo;
     }
 
-    public function findById()
+    public static function findById($id)
     {
         try {
+            if(empty($id)){
+                throw new Exception("Objeto vazio");
+            }
+            
             $read = new \App\Conn\Read();
 
-            $read->ExeRead("TIPO_ANIMAL", "WHERE CD_TIPO_ANIMAL = :C LIMIT 1", "C=$this->codigo");
+
+            $read->ExeRead("TIPO_ANIMAL", "WHERE CD_TIPO_ANIMAL = :C LIMIT 1", "C=$id");
 
             if ($read->getRowCount() == 0) {
                 throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
             }
 
-            $this->codigo = $read->getResult()[0]['cd_tipo_animal'];
-            $this->descricao = $read->getResult()[0]['descricao'];
-            $this->ativo = $read->getResult()[0]['fl_ativo'];
+            return new self($read->getResult()[0]['descricao'], $read->getResult()[0]['fl_ativo'], $read->getResult()[0]['cd_tipo_animal']);
 
-            $this->Result = true;
         } catch (Exception $e) {
-            $this->Result = false;
-            $this->Message = $e->getMessage();
+            return new self('', '', '');
         }
     }
 
@@ -166,14 +167,11 @@ class TipoAnimais
             
             $read = new \App\Conn\Read();
 
-            $query = "SELECT $colunas FROM TIPO_ANIMAL";
+            $query = "SELECT $colunas FROM TIPO_ANIMAL WHERE 1=1";
 
-            //$parse = "C=$colunas";
-
-            // if(!empty($descricao)){
-            //     $query .= " WHERE DESCRICAO LIKE '%:W%'";
-            //     $parse .= "&W=$descricao";
-            // }
+            if(!empty($descricao)){
+                $query .= " AND DESCRICAO LIKE '%$descricao%'";
+            }
 
             $read->FullRead($query);
             $this->Result = true;

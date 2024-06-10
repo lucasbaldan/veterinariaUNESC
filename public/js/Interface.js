@@ -52,6 +52,7 @@ class Notificacao {
         notificao.push('Atenção! <br>' + aviso, 'warning');
     }
 }
+window.Notificacao = Notificacao;
 
 class Loading{
      static on() {
@@ -78,8 +79,44 @@ class AnimarBotaoLoading {
     }
 }
 
+class Select2 {
+    constructor(selector, options = {}) {
+        this.selector = selector;
+        this.dropdownParent = options.dropdownParent || null;
+        this.url = options.url || '';
+        this.placeholder = options.placeholder || 'Selecione...';
+
+        this.initialize();
+    }
+
+    initialize() {
+        $(this.selector).select2({
+            dropdownParent: this.dropdownParent ? $(this.dropdownParent) : null,
+            allowClear: true,
+            placeholder: this.placeholder,
+            theme: 'bootstrap-5',
+            width: '100%',
+            ajax: {
+                delay: 500,
+                url: this.url,
+                dataType: 'json',
+                type: 'POST',
+                data: function (params) {
+                    return {
+                        buscaSelect2: params.term,
+                        forSelect2: true,
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.RETURN
+                    };
+                },
+            }
+        });
+    }
+}
 
 
 
 
-window.Notificacao = Notificacao;

@@ -13,10 +13,12 @@
                 </div>
                 <label for="select2cdTipoAnimal">Selecione o animal que pertece a essa Espécie</label> 
                 <div class="form-floating mb-3">   
-                    <select class="form-select" id="select2cdTipoAnimal" name="select2cdTipoAnimal"></select>
+                    <select class="form-select" id="select2cdTipoAnimal" name="select2cdTipoAnimal">
+                        {{selectTipoAnimal|raw}}
+                    </select>
                 </div>
 
-                {{select|raw}}
+                {{selectAtivo|raw}}
 
                 <hr>
 

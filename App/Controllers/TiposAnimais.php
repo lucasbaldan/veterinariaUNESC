@@ -120,7 +120,7 @@ class TiposAnimais
             $dados = $request->getParsedBody();
 
             $forSelect2 = isset($dados['forSelect2']) ? $dados['forSelect2'] : '';
-            $descricao = isset($dados['descricaoTipoAnimal']) ? $dados['descricaoTipoAnimal'] : '';
+            $descricao = isset($dados['buscaSelect2']) ? $dados['buscaSelect2'] : '';
 
             if ($forSelect2) {
                 $busca = new \App\Models\TipoAnimais('', '', '');

@@ -1,27 +1,8 @@
 function selectTipoAnimal(){
-  $('#select2cdTipoAnimal').select2({
-    dropdownParent: ".cad-tipo-animal",
-    allowClear: true,
-    placeholder: 'Selecione...',
-    theme: 'bootstrap-5',
-    width: '100%',
-    ajax: {
-      url: '/veterinariaUNESC/server/tipoAnimal/general',
-      dataType: 'json',
-      type: 'POST',
-      data: function (params) {
-        return {
-          descricaoTipoAnimal: params.term,
-          forSelect2: true,
-        };
-      },
-      processResults: function (data) {
-        return {
-          results: data.RETURN
-        };
-      },
-    }
-  });
+  new Select2('#select2cdTipoAnimal', {
+    url: '/veterinariaUNESC/server/tipoAnimal/general',
+    dropdownParent: '.cad-tipo-animal'
+  })
 }
 
 function salvarCadastroEspecie() {

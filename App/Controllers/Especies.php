@@ -24,7 +24,8 @@ class Especies
             $parametrosBusca = [
                 "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',
                 "pesquisaDescricao" => !empty($grid['columns'][1]['search']['value']) ? $grid['columns'][1]['search']['value'] : '',
-                "pesquisaAtivo" => !empty($grid['columns'][2]['search']['value']) ? (int)$grid['columns'][2]['search']['value'] : '',
+                "pesquisaTipoAnimal" => !empty($grid['columns'][2]['search']['value']) ? $grid['columns'][2]['search']['value'] : '',
+                "pesquisaAtivo" => !empty($grid['columns'][3]['search']['value']) ? (int)$grid['columns'][3]['search']['value'] : '',
                 "inicio" => $grid['start'],
                 "limit" => $grid['length'],
                 "orderBy" =>  $orderBy,
@@ -64,7 +65,7 @@ class Especies
                 throw new Exception("Preencha os campos <b>Descrição</b>, <b>Tipo de Animal</b> e <b>Ativo</b> para concluir o cadastro.");
             }
 
-            $cad = new \App\Models\Especies($descricao, $flativo, $codigo);
+            $cad = new \App\Models\Especies($descricao, $flativo, $cdTipoAnimal, $codigo);
             if (empty($codigo)) {
                 $cad->Inserir();
             } else {
@@ -96,7 +97,7 @@ class Especies
                 throw new Exception("Houve um erro ao processo a requisição<br>Tente novamente mais tarde");
             }
 
-            $cad = new \App\Models\Especies(null, null, $codigo);
+            $cad = new \App\Models\Especies(null, null, '', $codigo);
             $cad->Excluir();
             
 

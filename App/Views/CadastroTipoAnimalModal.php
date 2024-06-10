@@ -2,6 +2,7 @@
 
 namespace App\Views;
 
+use App\Models\TipoAnimais;
 use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -26,18 +27,10 @@ class CadastroTipoAnimalModal
             $ajaxTela = $request->getParsedBody();
             $idAlteracao = !empty($ajaxTela['id']) ? $ajaxTela['id'] : '';
 
-            if (!empty($idAlteracao)) {
-                $TipoAnimal = new \App\Models\TipoAnimais(null, null, $idAlteracao);
-                $TipoAnimal->findById();
+                $TipoAnimal = \App\Models\TipoAnimais::findById($idAlteracao);
 
-                if(!$TipoAnimal->getResult()){
-                    throw new Exception($TipoAnimal->getMessage());
-                }
-                $exibirExcluir = true;
-            } else {
-                $TipoAnimal = new \App\Models\TipoAnimais('', '', '');
-                $exibirExcluir = false;
-            }
+                $exibirExcluir = empty($TipoAnimal->getCodigo()) ? false : true;
+            
 
             $select = '
             <div class="form-floating">

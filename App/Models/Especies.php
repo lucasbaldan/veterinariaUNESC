@@ -20,30 +20,28 @@ class Especies
         $this->descricao = $descricao;
         $this->ativo = $ativo == 2 ? 0 : $ativo;
         $this->codigo = $codigo;
-        
-        $this->tipoAnimal = new \App\Models\TipoAnimais('', '',$cdTipoAnimal);
-        $this->tipoAnimal->findById();
+        $this->tipoAnimal = \App\Models\TipoAnimais::findById($cdTipoAnimal);
     }
 
-    public function findById()
+    public static function findById($id)
     {
         try {
+            if(empty($id)){
+                throw new Exception("Objeto vazio");
+            }
+
             $read = new \App\Conn\Read();
 
-            $read->ExeRead("ESPECIES", "WHERE CD_ESPECIE = :C LIMIT 1", "C=$this->codigo");
+            $read->ExeRead("ESPECIES", "WHERE CD_ESPECIE = :C LIMIT 1", "C=$id");
 
-            if (!$read->getResult()) {
+            if ($read->getRowCount() == 0) {
                 throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
             }
 
-            $this->codigo = $read->getResult()[0]['cd_especie'];
-            $this->descricao = $read->getResult()[0]['descricao'];
-            $this->ativo = $read->getResult()[0]['fl_ativo'];
+            return new self($read->getResult()[0]['descricao'], $read->getResult()[0]['fl_ativo'], $read->getResult()[0]['id_tipo_animal'], $read->getResult()[0]['cd_especie']);
 
-            $this->Result = true;
         } catch (Exception $e) {
-            $this->Result = false;
-            $this->Message = $e->getMessage();
+            return new self('', '', '', '');
         }
     }
 
@@ -57,15 +55,18 @@ class Especies
         $pesquisaCodigo = $arrayParam['pesquisaCodigo'];
         $pesquisaDescricao = $arrayParam['pesquisaDescricao'];
         $pesquisaAtivo = $arrayParam['pesquisaAtivo'];
+        $pesquisaTipoAnimal = $arrayParam['pesquisaTipoAnimal'];
 
         $read = new \App\Conn\Read();
 
         $query = "SELECT especies.cd_especie,
                   especies.descricao,
-                  (CASE WHEN especies.fl_ativo = 1 THEN 'Sim' ELSE 'Não' END) as fl_ativo, 
+                  tipo_animal.descricao as tipo_animal_descricao,
+                  (CASE WHEN especies.fl_ativo = 1 THEN 'Sim' ELSE 'Não' END) as fl_ativo,
                   COUNT(especies.cd_especie) OVER() AS total_filtered,  
                   (SELECT COUNT(especies.cd_especie) FROM especies) AS total_table 
                   FROM especies
+                  INNER JOIN tipo_animal ON (especies.id_tipo_animal = tipo_animal.cd_tipo_animal)
                   WHERE 1=1";
 
         if (!empty($pesquisaCodigo)) {
@@ -73,6 +74,9 @@ class Especies
         }
         if (!empty($pesquisaDescricao)) {
             $query .= " AND especies.descricao LIKE '%$pesquisaDescricao%'";
+        }
+        if (!empty($pesquisaTipoAnimal)) {
+            $query .= " AND tipo_animal.descricao LIKE '%$pesquisaTipoAnimal%'";
         }
         if (!empty($pesquisaAtivo)) {
             $pesquisaAtivo = $pesquisaAtivo == 2 ? 0 : 1;
@@ -97,7 +101,7 @@ class Especies
             $conn = \App\Conn\Conn::getConn();
             $insert = new \App\Conn\Insert($conn);
 
-            $dadosInsert = ["CD_ESPECIE" => $this->codigo, "DESCRICAO" => $this->descricao, "FL_ATIVO" => $this->ativo];
+            $dadosInsert = ["CD_ESPECIE" => $this->codigo, "DESCRICAO" => $this->descricao, "ID_TIPO_ANIMAL" => $this->tipoAnimal->getCodigo(), "FL_ATIVO" => $this->ativo];
             $insert->ExeInsert("ESPECIES", $dadosInsert);
 
             if(!$insert->getResult()){
@@ -125,7 +129,7 @@ class Especies
                 $conn = \App\Conn\Conn::getConn();
                 $update = new \App\Conn\Update($conn);
 
-                $dadosUpdate = ["CD_ESPECIE" => $this->codigo, "DESCRICAO" => $this->descricao, "FL_ATIVO" => $this->ativo];
+                $dadosUpdate = ["CD_ESPECIE" => $this->codigo, "DESCRICAO" => $this->descricao, "ID_TIPO_ANIMAL" => $this->tipoAnimal->getCodigo(), "FL_ATIVO" => $this->ativo];
 
                 $update->ExeUpdate("ESPECIES", $dadosUpdate, "WHERE CD_ESPECIE = :D", "D=$this->codigo");
 
@@ -181,6 +185,11 @@ class Especies
     public function getDescricao()
     {
         return $this->descricao;
+    }
+
+    public function getTipoAnimal()
+    {
+        return $this->tipoAnimal;
     }
 
     // Método getter para $ativo
