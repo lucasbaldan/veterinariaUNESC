@@ -13,17 +13,34 @@
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">
                         <i class="bi bi-heart-pulse-fill"></i> Diagnóstico de Patologia
                     </a>
-                    
-                    <!-- Animal Geral with Submenu -->
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" data-bs-toggle="collapse" href="#collapseAnimalGeral" role="button" aria-expanded="false" aria-controls="collapseAnimalGeral">
-                        <span><i class="bi bi-chevron-down ms-auto"></i></i> Cadastros Gerais</span>
+            
+                    <!-- Cadastros Gerais with Submenu -->
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" data-bs-toggle="collapse" href="#collapseCadastrosGerais" role="button" aria-expanded="false" aria-controls="collapseCadastrosGerais">
+                        <span><i class="bi bi-chevron-down ms-auto"></i> <b>Cadastros Gerais</b></span>
                     </a>
-                    <div class="collapse" id="collapseAnimalGeral">
-                        <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="/veterinariaUNESC/paginas/listTipoAnimal"><i class="bi bi-github"></i>  Tipo de Animal</a>
-                        <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="/veterinariaUNESC/paginas/listEspecie"> <i class="bi bi-diagram-2"></i> Espécies </a>
-                        <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="#!"><i class="bi bi-diagram-3"></i> Raças </a>
+                    <div class="collapse" id="collapseCadastrosGerais">
+                        
+                        <a class="list-group-item list-group-item-action list-group-item-light ps-5" data-bs-toggle="collapse" href="#collapseAnimal" role="button" aria-expanded="false" aria-controls="collapseAnimal">
+                            <i class="bi bi-chevron-down ms-auto"></i> <b>Animal</b>
+                        </a>
+                        <div class="collapse" id="collapseAnimal">
+                            <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="/veterinariaUNESC/paginas/listTipoAnimal"> <i class="bi bi-github"></i> </i> Tipo de Animal </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="/veterinariaUNESC/paginas/listEspecie"> <i class="bi bi-diagram-2"></i> Espécies </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="#!"><i class="bi bi-diagram-3"></i> Raças </a>
+                            
+                        </div>
+
+                        <a class="list-group-item list-group-item-action list-group-item-light ps-5" data-bs-toggle="collapse" href="#collapseEndereco" role="button" aria-expanded="false" aria-controls="collapseEndereco">
+                            <i class="bi bi-chevron-down ms-auto"></i> <b>Endereço</b>
+                        </a>
+                        <div class="collapse" id="collapseEndereco">
+                            <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="#"> <i class="bi bi-diagram-2"></i> Espécies </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="#!"><i class="bi bi-diagram-3"></i> Raças </a>
+                            
+                        </div>
+
                     </div>
-                    
+            
                     <!-- Grupo de Usuários with Submenu -->
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" data-bs-toggle="collapse" href="#collapseGrupoUsuarios" role="button" aria-expanded="false" aria-controls="collapseGrupoUsuarios">
                         <i class="bi bi-chevron-down ms-auto"></i> Controle de Acesso
@@ -36,7 +53,7 @@
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">
                         <i class="bi bi-person-fill"></i> Usuários
                     </a>
-                    
+            
                     <!-- Relatórios with Submenu -->
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" data-bs-toggle="collapse" href="#collapseRelatorios" role="button" aria-expanded="false" aria-controls="collapseRelatorios">
                         <i class="bi bi-chevron-down ms-auto"></i> Relatórios
@@ -47,6 +64,7 @@
                     </div>
                 </div>
             </div>
+            
 
 
             <!-- Page content wrapper-->
