@@ -57,6 +57,11 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
+    $group->get('/listRaca', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\listRaca($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
     $group->post('/cadastroPessoas', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\CadastroPessoas($twig);
         return $tela->exibir($request, $response, $args);
@@ -80,6 +85,7 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
                          '/veterinariaUNESC/paginas/inicial', 
                          '/veterinariaUNESC/paginas/listTipoAnimal',
                          '/veterinariaUNESC/paginas/listEspecie',
+                         '/veterinariaUNESC/paginas/listRaca',
                          '/veterinariaUNESC/paginas/cadastroPessoas',
                          '/veterinariaUNESC/paginas/cadastroGruposUsuarios',
                          '/veterinariaUNESC/paginas/listPessoas',
@@ -107,10 +113,16 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
+    $group->post('/cadastroRaca', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\CadastroRacaModal($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
 
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, ['/veterinariaUNESC/modais/cadastroTipoAnimal',
+                         '/veterinariaUNESC/modais/cadastroRaca',
                          '/veterinariaUNESC/modais/cadastroEspecie'])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
@@ -151,6 +163,24 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->post('/controlar', App\Controllers\Especies::class . ':controlar');
 
         $Group->post('/excluir', App\Controllers\Especies::class . ':excluir');
+
+        $Group->post('/general', App\Controllers\Especies::class . ':general');
+    });
+
+    $group->group('/raca', function (RouteCollectorProxy $Group) {
+        $Group->post('/grid', App\Controllers\Raças::class . ':montarGrid');
+
+        $Group->post('/controlar', App\Controllers\Raças::class . ':controlar');
+
+        $Group->post('/excluir', App\Controllers\Raças::class . ':excluir');
+    });
+
+    $group->group('/municipio', function (RouteCollectorProxy $Group) {
+        $Group->post('/grid', App\Controllers\Raças::class . ':montarGrid');
+
+        $Group->post('/controlar', App\Helpers\ImportadorAPI::class . ':EstadosBrasileiros');
+
+        $Group->post('/excluir', App\Controllers\Raças::class . ':excluir');
     });
 
     $group->group('/gruposUsuarios', function (RouteCollectorProxy $GrUsuariosGroup) {
@@ -194,6 +224,13 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/especie/grid',
         '/veterinariaUNESC/server/especie/controlar',
         '/veterinariaUNESC/server/especie/excluir',
+        '/veterinariaUNESC/server/especie/general',
+
+        '/veterinariaUNESC/server/raca/grid',
+        '/veterinariaUNESC/server/raca/controlar',
+        '/veterinariaUNESC/server/raca/excluir',
+
+        '/veterinariaUNESC/server/municipio/controlar',
 
         '/veterinariaUNESC/server/gruposUsuarios/salvaGrupoUsuarios',
         '/veterinariaUNESC/server/gruposUsuarios/excluiGruposUsuarios',
