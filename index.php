@@ -178,7 +178,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     $group->group('/municipio', function (RouteCollectorProxy $Group) {
         $Group->post('/grid', App\Controllers\Raças::class . ':montarGrid');
 
-        $Group->post('/controlar', App\Helpers\ImportadorAPI::class . ':EstadosBrasileiros');
+        $Group->get('/controlar', App\Helpers\ImportadorAPI::class . ':CidadesBrasileiras');
 
         $Group->post('/excluir', App\Controllers\Raças::class . ':excluir');
     });
