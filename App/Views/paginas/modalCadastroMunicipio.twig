@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col">
+        <form id="formCadastroMunicipio">
+            <div class="form-group">
+                <div class="form-floating mb-3">
+                    <input type="text" readonly class="form-control-plaintext" id="cdMunicipio" name="cdMunicipio" value="{{codigo}}">
+                    <label for="cdRaca">Código: </label>
+                  </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="municipio" name="municipio" value="{{descricao}}"
+                        placeholder="">
+                    <label for="raca">Nome do Município </label>
+                </div>
+                <label for="select2cdEstado">Estado</label>    
+                    <select class="form-select" id="select2cdEstado" name="select2cdEstado">
+                        {{selectEstado|raw}}
+                    </select>
+
+                    <br>
+
+                <hr>
+
+                {% if exibirExcluir %}
+                <div class="row">
+                    <div class="col mb-2"><button id="btnExcluir" onclick="excluirCadastroMunicipio()" class="btn btn-danger w-100" type="button"><b><i class="bi bi-trash3-fill"></i> Excluir</b></button></div>
+                </div>
+                {% endif %}
+                {% if exibirSalvar %}
+                <div class="row">
+                    <div class="col"><button id="btnSalvar" onclick="salvarCadastroMunicipio()" class="btn btn-primary w-100" type="button"><i class="bi bi-floppy2-fill"></i> <b>Salvar</b></button></div>
+                </div>
+                {% endif %}
+
+            </div>
+        </form>
+    </div>
+ </div>
