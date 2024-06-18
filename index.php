@@ -92,6 +92,16 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
+    $group->get('/listAnimais', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\listAnimais($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
+    $group->post('/cadastroAnimais', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\CadastroAnimais($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, ['/veterinariaUNESC/paginas',
@@ -105,8 +115,10 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
                          '/veterinariaUNESC/paginas/listBairro',
                          '/veterinariaUNESC/paginas/listLogradouro',
                          '/veterinariaUNESC/paginas/cadastroPessoas',
+                         '/veterinariaUNESC/paginas/cadastroAnimais',
                          '/veterinariaUNESC/paginas/cadastroGruposUsuarios',
                          '/veterinariaUNESC/paginas/listPessoas',
+                         '/veterinariaUNESC/paginas/listAnimais',
                          ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
@@ -234,6 +246,14 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->post('/excluir', App\Controllers\Logradouros::class . ':excluir');
     });
 
+    $group->group('/animais', function (RouteCollectorProxy $Group) {
+        $Group->post('/grid', App\Controllers\Animais::class . ':montarGrid');
+
+        $Group->post('/controlar', App\Controllers\Animais::class . ':controlar');
+
+        $Group->post('/excluir', App\Controllers\Animais::class . ':excluir');
+    });
+
     $group->group('/estado', function (RouteCollectorProxy $Group) {
 
         $Group->post('/general', App\Controllers\Estados::class . ':general');
@@ -299,6 +319,10 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/logradouro/excluir',
 
         '/veterinariaUNESC/server/estado/general',
+
+        '/veterinariaUNESC/server/animais/grid',
+        '/veterinariaUNESC/server/animais/controlar',
+        '/veterinariaUNESC/server/animais/excluir',
 
         '/veterinariaUNESC/server/gruposUsuarios/salvaGrupoUsuarios',
         '/veterinariaUNESC/server/gruposUsuarios/excluiGruposUsuarios',

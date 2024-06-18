@@ -1,3 +1,13 @@
+window.onload = function() {
+    Loading.off();
+
+    $('.call-screen').on('click', function(event) {
+        Loading.on();
+    });
+};
+
+
+
 class Notificacao {
     constructor(opcoes = {}) {
         const configuracaoPadrao = {

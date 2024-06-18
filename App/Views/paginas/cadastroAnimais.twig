@@ -1,0 +1,167 @@
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;); background-color: #F8F9FA ;"
+    aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/veterinariaUNESC/paginas/inicial"><i
+                    class="bi bi-house-door-fill"></i></a></li>
+        <li class="breadcrumb-item" aria-current="page">Animais</li>
+        <li class="breadcrumb-item" aria-current="page">Cadastro</li>
+    </ol>
+</nav>
+
+<div class="container-fluid d-flex justify-content-center align-items-center mt-2">
+    <div class="card rounded" style="min-width: 100%;">
+        <div class="card-body border border-1S rounded-2">
+
+            <div class="container-fluid">
+                <ul class="nav nav-pills mb-2 justify-content-center" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active rounded-pill border" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Dados do Animal</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link rounded-pill border" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Proprietário do Animal</button>
+                    </li>
+                </ul>
+            </div>
+            
+            
+              <form id="formCadastroAnimais" name="formCadastroAnimais">
+              <div class="tab-content" id="pills-tabContent">
+                
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                    <h5>Informações Gerais do Animal</h5>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="animal" name="animal"
+                                    placeholder="">
+                                <label for="animal">Nome do Animal</label>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="tpAnimal" name="tpAnimal"
+                                    placeholder="">
+                                <label for="tpAnimal">Tipo de Animal</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="dsEspecie" name="dsEspecie"
+                                    placeholder="">
+                                <label for="dsEspecie">Espécie</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="dsRaca" name="dsRaca"
+                                    placeholder="">
+                                <label for="dsRaca">Raça</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="dsSexo" name="dsSexo"
+                                    aria-label="Sexo Animal">
+                                    <option value="">Selecione...</option>
+                                    <option value="M">Macho</option>
+                                    <option value="F">Fêmea</option>
+                                </select>
+                                <label for="dsSexo">Sexo do animal</label>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input type="number" maxlength="2" class="form-control" id="idade"
+                                    name="idade" placeholder="">
+                                <label for="idade">Idade Aproximada</label>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="anoNascimento"
+                                    name="anoNascimento" placeholder="">
+                                <label for="anoNascimento">Ano de nascimento</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                
+                
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+                        <h5>Dados da Pessoa (Responsável pelo Animal)</h5>
+                        <hr>
+    
+                    <div class="row">
+                        <div class="col-1">
+                            <input type="hidden" readonly class="form-control" id="cdPessoa" name="cdPessoa"
+                                value="{{cdPessoa}}">
+                        </div>
+                        <div class="mb-4 col-md-12">
+                            <label for="nmPessoa" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="nmPessoa" name="nmPessoa" placeholder=" "
+                                value="{{nmPessoa}}" required>
+                        </div>
+                        <div class="mb-4 col-md-3">
+                            <label for="dsCidade" class="form-label">Cidade</label>
+                            <input type="text" class="form-control" id="dsCidade" name="dsCidade" placeholder=" "
+                                value="{{dsCidade}}" required>
+                        </div>
+                        <div class="mb-4 col-md-3">
+                            <label for="nrTelefone" class="form-label">Telefone</label>
+                            <input type="text" class="form-control" id="nrTelefone" name="nrTelefone" placeholder=" "
+                                value="{{nrTelefone}}" required>
+                        </div>
+                        <div class="mb-4 col-md-3">
+                            <label for="dsEmail" class="form-label">E-mail</label>
+                            <input type="text" class="form-control" id="dsEmail" name="dsEmail" placeholder=" "
+                                value="{{dsEmail}}" required>
+                        </div>
+                        <div class="mb-4 col-md-3">
+                            <label for="nrCRMV" class="form-label">N° CRMV</label>
+                            <input type="text" class="form-control" id="nrCRMV" name="nrCRMV" value="{{nrCRMV}}"
+                                placeholder=" ">
+                        </div>
+                    </div>
+                </div>
+              
+            </div>
+        </form>
+
+            
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid d-flex justify-content-center align-items-center mt-2 mb-3">
+    <div class="card rounded" style="min-width: 100%;">
+        <div class="card-body border border-1S rounded-2">
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-warning w-100 call-screen" type="button" href="/veterinariaUNESC/paginas/listAnimais"><i class="bi bi-sign-turn-left-fill"></i>
+                        <b>Voltar</b></a>
+                </div>
+                <div class="col">
+                    <button class="btn btn-danger w-100" type="button" id="bntExcluirPessoa"><b><i
+                                class="bi bi-trash3-fill"></i>
+                            Excluir</b></button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary w-100" type="submit"><i class="bi bi-floppy2-fill"></i>
+                        <b>Salvar</b></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

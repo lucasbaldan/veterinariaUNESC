@@ -7,11 +7,14 @@
                     <img src="/veterinariaUNESC/public/img/logoLabPato.png" alt="" style="max-width: 90px;">
                 </div>
                 <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">
-                        <i class="bi bi-house-door-fill"></i> Início
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen" href="/veterinariaUNESC/paginas/inicial">
+                        <i class="bi bi-house-door-fill"></i> <b>Início</b>
                     </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">
-                        <i class="bi bi-heart-pulse-fill"></i> Diagnóstico de Patologia
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen" href="/veterinariaUNESC/paginas/listAnimais">
+                        <i class="bi bi-gitlab"></i> <b>Animais</b>
+                    </a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen" href="#!">
+                        <i class="bi bi-heart-pulse-fill"></i><b>Diagnóstico de Patologia</b>
                     </a>
             
                     <!-- Cadastros Gerais with Submenu -->
@@ -24,9 +27,9 @@
                             <i class="bi bi-chevron-down ms-auto"></i> <b>Animal</b>
                         </a>
                         <div class="collapse" id="collapseAnimal">
-                            <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="/veterinariaUNESC/paginas/listTipoAnimal"> <i class="bi bi-github"></i> </i> Tipo de Animal </a>
-                            <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="/veterinariaUNESC/paginas/listEspecie"> <i class="bi bi-diagram-2"></i> Espécie </a>
-                            <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="/veterinariaUNESC/paginas/listRaca"><i class="bi bi-diagram-3"></i> Raça </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/listTipoAnimal"> <i class="bi bi-github"></i> </i> Tipo de Animal </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/listEspecie"> <i class="bi bi-diagram-2"></i> Espécie </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/listRaca"><i class="bi bi-diagram-3"></i> Raça </a>
                             
                         </div>
 
@@ -34,9 +37,9 @@
                             <i class="bi bi-chevron-down ms-auto"></i> <b>Endereço</b>
                         </a>
                         <div class="collapse" id="collapseEndereco">
-                            <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="/veterinariaUNESC/paginas/listMunicipio"> <i class="bi bi-building"></i> Município </a>
-                            <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="/veterinariaUNESC/paginas/listBairro"><i class="bi bi-pin-map"></i> Bairro </a>
-                            <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="/veterinariaUNESC/paginas/listLogradouro"><i class="bi bi-diagram-3"></i> Logradouro </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/listMunicipio"> <i class="bi bi-building"></i> Município </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/listBairro"><i class="bi bi-pin-map"></i> Bairro </a>
+                            <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/listLogradouro"><i class="bi bi-houses"></i> Logradouro </a>
                             
                         </div>
 
@@ -44,24 +47,20 @@
             
                     <!-- Grupo de Usuários with Submenu -->
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" data-bs-toggle="collapse" href="#collapseGrupoUsuarios" role="button" aria-expanded="false" aria-controls="collapseGrupoUsuarios">
-                        <i class="bi bi-chevron-down ms-auto"></i> Controle de Acesso
+                        <i class="bi bi-chevron-down ms-auto"></i> <b>Controle de Acesso</b>
                     </a>
                     <div class="collapse" id="collapseGrupoUsuarios">
-                        <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="#!">Submenu 1</a>
-                        <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="#!">Submenu 2</a>
+                        <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#!">Submenu 1</a>
+                        <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#!">Submenu 2</a>
                     </div>
-            
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">
-                        <i class="bi bi-person-fill"></i> Usuários
-                    </a>
             
                     <!-- Relatórios with Submenu -->
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" data-bs-toggle="collapse" href="#collapseRelatorios" role="button" aria-expanded="false" aria-controls="collapseRelatorios">
-                        <i class="bi bi-chevron-down ms-auto"></i> Relatórios
+                        <i class="bi bi-chevron-down ms-auto"></i> <b>Relatórios</b>
                     </a>
                     <div class="collapse" id="collapseRelatorios">
-                        <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="#!">Submenu 1</a>
-                        <a class="list-group-item list-group-item-action list-group-item-light ps-5" href="#!">Submenu 2</a>
+                        <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#!">Submenu 1</a>
+                        <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#!">Submenu 2</a>
                     </div>
                 </div>
             </div>
