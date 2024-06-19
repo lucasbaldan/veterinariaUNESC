@@ -10,37 +10,39 @@ class Pessoas
 {
 
     // ESSA FUNÇÃO É DOS USUÁRIOS, NÃO PESSOAS
-    public static function efetuarLogin(Request $request, Response $response)
-    {
 
-        try {
-            $Formulario = $request->getParsedBody();
+    // COM CERTEZA MEU AMIGO, SÓ ESTAVA TESTANDO E FUNCIONOUUUUUUU!
+    // public static function efetuarLogin(Request $request, Response $response)
+    // {
 
-            $login = !empty($Formulario['usuario']) ? $Formulario['usuario'] : '';
-            $senha = !empty($Formulario['senha']) ? $Formulario['senha'] : '';
+    //     try {
+    //         $Formulario = $request->getParsedBody();
 
-            if (empty($login) || empty($senha)) {
-                throw new Exception("Preencha os campos Login e Senha.", 400);
-            }
+    //         $login = !empty($Formulario['usuario']) ? $Formulario['usuario'] : '';
+    //         $senha = !empty($Formulario['senha']) ? $Formulario['senha'] : '';
 
-            $dadosUsuario = new \App\Models\Pessoas($login, $senha);
-            $dadosUsuario = $dadosUsuario->verificarAcesso();
+    //         if (empty($login) || empty($senha)) {
+    //             throw new Exception("Preencha os campos Login e Senha.", 400);
+    //         }
 
-            if (!$dadosUsuario) {
-                throw new Exception("<b>Usuário ou senha inválidos</b><br><br> Por favor verifique os dados de acesso e tente novamente.", 400);
-            }
+    //         $dadosUsuario = new \App\Models\Pessoas($login, $senha);
+    //         $dadosUsuario = $dadosUsuario->verificarAcesso();
+
+    //         if (!$dadosUsuario) {
+    //             throw new Exception("<b>Usuário ou senha inválidos</b><br><br> Por favor verifique os dados de acesso e tente novamente.", 400);
+    //         }
 
 
 
-            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
-            $codigoHTTP = 200;
-        } catch (Exception $e) {
-            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
-            $codigoHTTP = $e->getCode();
-        }
-        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
-        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
-    }
+    //         $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
+    //         $codigoHTTP = 200;
+    //     } catch (Exception $e) {
+    //         $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+    //         $codigoHTTP = $e->getCode();
+    //     }
+    //     $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+    //     return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
+    // }
 
 
     public static function Salvar(Request $request, Response $response)
@@ -51,31 +53,32 @@ class Pessoas
 
             $cdPessoa = !empty($Formulario['cdPessoa']) ? $Formulario['cdPessoa'] : '';
             $nmPessoa = !empty($Formulario['nmPessoa']) ? $Formulario['nmPessoa'] : '';
-            $dsCidade = !empty($Formulario['dsCidade']) ? $Formulario['dsCidade'] : '';
             $nrTelefone = !empty($Formulario['nrTelefone']) ? $Formulario['nrTelefone'] : '';
             $dsEmail = !empty($Formulario['dsEmail']) ? $Formulario['dsEmail'] : '';
             $nrCRMV = !empty($Formulario['nrCRMV']) ? $Formulario['nrCRMV'] : '';
+            $dsCidade = !empty($Formulario['dsCidade']) ? $Formulario['dsCidade'] : '';
+            $cdCidade = !empty($Formulario['select2cdCidade']) ? $Formulario['select2cdCidade'] : '';
+            $cdBairro = !empty($Formulario['select2cdBairro']) ? $Formulario['select2cdBairro'] : '';
+            $cdLogradouro = !empty($Formulario['select2cdLogradouro']) ? $Formulario['select2cdLogradouro'] : '';
+            $ativo = !empty($Formulario['AtivoPessoa']) ? $Formulario['AtivoPessoa'] : '';
 
-            // if (empty($login) || empty($senha)){
-            //     throw new Exception("Preencha os campos Login e Senha.", 400);
-            // }
+            if(empty($nmPessoa)){
+                throw new Exception("Preencha o campo <b>Nome</b> para concluir o cadastro.");
+            }
 
-            $usuario = new \App\Models\Pessoas('', '', $nmPessoa, $dsCidade, $nrTelefone, $dsEmail, $nrCRMV, $cdPessoa);
+
+            $pessoa = new \App\Models\Pessoas($nmPessoa, $cdCidade, $nrTelefone, '', $dsEmail, $nrCRMV, $cdBairro, $cdLogradouro, $ativo, $cdPessoa);
             if (empty($cdPessoa)) {
-                $retorno = $usuario->Insert();
+                $pessoa->Insert();
             } else {
-                $retorno = $usuario->Update();
+                $pessoa->Update();
             }
 
-            // if (!$retorno) {
-            //     throw new Exception("<b>Erro ao salvar a pessoa</b><br><br> Por favor verifique os dados e tente novamente.", 400);
-            // }
-
-            if (!$usuario->GetResult()) {
-                throw new Exception($usuario->GetMessage());
+            if (!$pessoa->GetResult()) {
+                throw new Exception($pessoa->getMessage());
             }
 
-            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $usuario->GetReturn()];
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
             $codigoHTTP = 200;
         } catch (Exception $e) {
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];

@@ -19,24 +19,46 @@ class CadastroPessoas
     {
         $ajaxTela = $request->getParsedBody();
 
-        $cdPessoa = !empty($ajaxTela['id']) ? $ajaxTela['id'] : '';
+        $idAlteracao = !empty($ajaxTela['id']) ? $ajaxTela['id'] : '';
 
-        if (!empty($cdPessoa)) {
-            $dadosPessoa = \App\Models\Pessoas::RetornaDadosPessoa($cdPessoa);
+        $exibeExcluir = true;
+        $exibeSalvar = true;
+        
+        $pessoa = \App\Models\Pessoas::findById($idAlteracao);
 
-            $pessoas = $this->twig->fetch('cadastroPessoas.twig', [
-                'cdPessoa' => $dadosPessoa['CD_PESSOA'],
-                'nmPessoa' => $dadosPessoa['NM_PESSOA'],
-                'dsCidade' => $dadosPessoa['CIDADE'],
-                'nrTelefone' => $dadosPessoa['NR_TELEFONE'],
-                'dsEmail' => $dadosPessoa['DS_EMAIL'],
-                'nrCRMV' => $dadosPessoa['NR_CRMV'],
-            ]);
+        if(!empty($idAlteracao)){
+            $selectCidade = '<option value="'.($pessoa->getCidade()->getCodigo()).'">'.($pessoa->getCidade()->getDescricao()).'</option>';
+            $selectBairro = '<option value="'.($pessoa->getBairro()->getCodigo()).'">'.($pessoa->getBairro()->getNome()).'</option>';
+            $selectLogradouro = '<option value="'.($pessoa->getLogradouro()->getCodigo()).'">'.($pessoa->getLogradouro()->getNome()).'</option>';   
         } else {
-            $pessoas = $this->twig->fetch('cadastroPessoas.twig');
+            $exibeExcluir = false;
+            $selectCidade = "";
+            $selectBairro = "";
+            $selectLogradouro = "";
         }
 
-        $conteudoTela = $this->twig->fetch('TelaComMenus.twig', ['conteudo_tela' => $pessoas]);
+        $selectAtivo =  '<select name="AtivoPessoa" id="AtivoPessoa" class="form-select">
+                        <option value="S" '.($pessoa->getAtivo() == 'S' ? 'selected' : '').'>Sim</option>
+                        <option value="N" '.($pessoa->getAtivo() == 'N' ? 'selected' : '').'>Não</option>
+                        </select>';
+
+        
+        $telaCadastroPessoa = $this->twig->fetch('cadastroPessoas.twig', [
+            "cdPessoa" => $pessoa->getCodigo(),
+            "selectAtivoPessoa" => $selectAtivo,
+            "nmPessoa" => $pessoa->getNome(),
+            "nrTelefone" => $pessoa->getTelefone(),
+            "dsEmail" => $pessoa->getEmail(),
+            "nrCRMV" => $pessoa->getNrCRMV(),
+            "selectCidadePessoa" => $selectCidade,
+            "selectBairroPessoa" => $selectBairro,
+            "selectLogradouroPessoa" => $selectLogradouro,
+
+            "exibeExcluir" => $exibeExcluir,
+            "exibeSalvar" => $exibeSalvar
+        ]);
+
+        $conteudoTela = $this->twig->fetch('TelaComMenus.twig', ['conteudo_tela' => $telaCadastroPessoa]);
 
         return $this->twig->render($response, 'TelaBase.twig', [
             'cssLinks' => "TelaMenus.css;",

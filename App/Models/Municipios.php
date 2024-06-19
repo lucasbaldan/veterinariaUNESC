@@ -13,6 +13,7 @@ class Municipios
 
     private $Result;
     private $Message;
+    private $Return;
 
     public function __construct($descricao, $cdIBGEEstado, $codigo = null)
     {
@@ -158,10 +159,40 @@ class Municipios
         }
     }
 
+    public function generalSearch($arrayParam){
+        try{
+            $colunas = $arrayParam['colunas'];
+            $descricao = !empty($arrayParam['descricaoPesquisa']) ? $arrayParam['descricaoPesquisa'] : '';
+            $innerJoin = !empty($arrayParam['innerJoin']) ? $arrayParam['innerJoin'] : '';
+            
+            $read = new \App\Conn\Read();
+
+            $query = "SELECT $colunas FROM CIDADES $innerJoin WHERE 1=1";
+
+            if(!empty($descricao)){
+                $query .= " AND cidades.nome LIKE '%$descricao%'";
+            }
+
+            $query .= " LIMIT 30";
+
+            $read->FullRead($query);
+            $this->Result = true;
+            $this->Return = $read->getResult();
+        } catch(Exception $e){
+            $this->Result = false;
+            $this->Message = $e->getMessage();
+
+        }
+    }
+
 
     public function getResult()
     {
         return $this->Result;
+    }
+    public function getReturn()
+    {
+        return $this->Return;
     }
 
     public function getMessage()

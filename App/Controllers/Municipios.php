@@ -112,4 +112,40 @@ class Municipios
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
+
+    public static function general(Request $request, Response $response)
+    {
+        try {
+
+            $dados = $request->getParsedBody();
+
+            $forSelect2 = isset($dados['forSelect2']) ? $dados['forSelect2'] : '';
+            $descricao = isset($dados['buscaSelect2']) ? $dados['buscaSelect2'] : '';
+
+            if ($forSelect2) {
+                $busca = new \App\Models\Municipios('', '', '');
+
+                $parametrosPesquisa = [
+                    "colunas" => "cd_cidade AS id, CONCAT(cidades.nome, ' - ', COALESCE(estados.UF, '')) AS text",
+                    "descricaoPesquisa" => empty($descricao) ? '' : $descricao,
+                    "innerJoin" => " LEFT JOIN estados ON (cidades.id_ibge_estado = estados.cd_ibge)"
+                ];
+
+                $busca->generalSearch($parametrosPesquisa);
+                
+            }
+
+            if(!$busca->getResult()){
+                throw new Exception($busca->getMessage());
+            }
+
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $busca->getReturn()];
+            $codigoHTTP = 200;
+        } catch (Exception $e) {
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $codigoHTTP = 500;
+        }
+        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
+    }
 }

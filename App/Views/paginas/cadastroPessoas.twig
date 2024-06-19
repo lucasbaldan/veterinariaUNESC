@@ -3,8 +3,8 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/veterinariaUNESC/paginas/inicial"><i
                     class="bi bi-house-door-fill"></i></a></li>
-        <li class="breadcrumb-item" aria-current="page">Cadastros</li>
         <li class="breadcrumb-item" aria-current="page">Pessoas</li>
+        <li class="breadcrumb-item" aria-current="page">Cadastro</li>
     </ol>
 </nav>
 
@@ -13,41 +13,66 @@
         <div class="card-body border border-1S rounded-2">
             <form id="formCadastroPessoas" name="formCadastroPessoas">
                 <div class="text-center mt-2">
-                    <h3>Cadastro de Pessoas</h3>
+                    <h4>Cadastro de Pessoas</h4>
+                    <hr>
                 </div>
 
                 <div class="row">
-                    <div class="col-1">
-                        <label for="cdPessoa" class="form-label">Código: </label>
-                        <input type="text" readonly class="form-control" id="cdPessoa" name="cdPessoa"
-                            value="{{cdPessoa}}">
-                    </div>
-                    <div class="mb-4 col-md-11">
+                <div class="col-3 mb-4">
+                    <label for="cdPessoa" class="form-label">Código: </label>
+                    <input type="text" readonly class="form-control" id="cdPessoa" name="cdPessoa"
+                    value="{{cdPessoa}}">
+                </div>
+
+                <div class="col-6"></div>
+
+                <div class="col-3 mb-4">
+                    <label for="AtivoPessoa" class="form-label">Ativo </label>
+                    {{selectAtivoPessoa|raw}}
+                </div>
+            </div>
+                
+                <div class="row">
+                    <div class="mb-4 col-md-12">
                         <label for="nmPessoa" class="form-label">Nome</label>
                         <input type="text" class="form-control" id="nmPessoa" name="nmPessoa" placeholder=" "
                             value="{{nmPessoa}}" required>
                     </div>
-                    <div class="mb-4 col-md-3">
-                        <label for="dsCidade" class="form-label">Cidade</label>
-                        <input type="text" class="form-control" id="dsCidade" name="dsCidade" placeholder=" "
-                            value="{{dsCidade}}" required>
-                    </div>
-                    <div class="mb-4 col-md-3">
+                    <div class="mb-4 col-md-4">
                         <label for="nrTelefone" class="form-label">Telefone</label>
                         <input type="text" class="form-control" id="nrTelefone" name="nrTelefone" placeholder=" "
-                            value="{{nrTelefone}}" required>
+                        value="{{nrTelefone}}" required>
                     </div>
-                    <div class="mb-4 col-md-3">
+                    <div class="mb-4 col-md-4">
                         <label for="dsEmail" class="form-label">E-mail</label>
-                        <input type="text" class="form-control" id="dsEmail" name="dsEmail" placeholder=" "
-                            value="{{dsEmail}}" required>
+                        <input type="email" class="form-control" id="dsEmail" name="dsEmail" placeholder=" "
+                        value="{{dsEmail}}" required>
                     </div>
-                    <div class="mb-4 col-md-3">
-                        <label for="nrCRMV" class="form-label">N° CRMV</label>
+                    <div class="mb-4 col-md-4">
+                        <label for="nrCRMV" class="form-label">N° CRMV (Se possuir)</label>
                         <input type="text" class="form-control" id="nrCRMV" name="nrCRMV" value="{{nrCRMV}}"
-                            placeholder=" ">
+                        placeholder=" ">
+                    </div>
+                    <div class="mb-4 col-md-4">
+                        <label for="dsCidade" class="form-label">Cidade</label>
+                        <select class="form-select" id="select2cdCidade" name="select2cdCidade">
+                            {{selectCidadePessoa|raw}}
+                        </select>
+                    </div>
+                    <div class="mb-4 col-md-4">
+                        <label for="dsCidade" class="form-label">Bairro</label>
+                        <select class="form-select" id="select2cdBairro" name="select2cdBairro">
+                            {{selectBairroPessoa|raw}}
+                        </select>
+                    </div>
+                    <div class="mb-4 col-md-4">
+                        <label for="dsCidade" class="form-label">Logradouro</label>
+                        <select class="form-select" id="select2cdLogradouro" name="select2cdLogradouro">
+                            {{selectLogradouroPessoa|raw}}
+                        </select>
                     </div>
                 </div>
+            </form>
         </div>
     </div>
 </div>
@@ -60,17 +85,22 @@
                     <a class="btn btn-warning w-100" type="button" href="/veterinariaUNESC/paginas/listPessoas"><i class="bi bi-sign-turn-left-fill"></i>
                         <b>Voltar</b></a>
                 </div>
+
+                {% if exibeExcluir %}
                 <div class="col">
-                    <button class="btn btn-danger w-100" type="button" id="bntExcluirPessoa"><b><i
+                    <button class="btn btn-danger w-100" type="button" onclick="excluirCadastroPessoas()"><b><i
                                 class="bi bi-trash3-fill"></i>
                             Excluir</b></button>
                 </div>
+                {% endif %}
+
+                {% if exibeSalvar %}
                 <div class="col">
-                    <button class="btn btn-primary w-100" type="submit"><i class="bi bi-floppy2-fill"></i>
+                    <button class="btn btn-primary w-100" onclick="salvarCadastroPessoas()"><i class="bi bi-floppy2-fill"></i>
                         <b>Salvar</b></button>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
-</form>

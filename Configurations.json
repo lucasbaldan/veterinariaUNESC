@@ -1,4 +1,11 @@
 {
+    "database__f": {
+        "host": "sql307.infinityfree.com",
+        "username": "if0_36752638",
+        "password": "StnEfZHwLnhsi",
+        "database": "if0_36752638_vetbase",
+        "driver": "mysql"
+    },
     "database": {
         "host": "localhost",
         "username": "root",

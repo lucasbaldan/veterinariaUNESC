@@ -8,62 +8,101 @@ class Pessoas
 {
 
     private $CdPessoa;
-    private $login;
-    private $senha;
     private $NmPessoa;
-    private $DsCidade;
+    private \App\Models\Municipios $cidade;
+    private \App\Models\Bairros $bairro;
+    private \App\Models\Logradouros $logradouro;
     private $NrTelefone;
+    private $NrCelular;
     private $DsEmail;
     private $NrCRMV;
+    private $ativo;
+    
     private $Return;
     private $Result;
     private $Message;
 
 
-    public function __construct($login, $senha, $nmpessoa = null, $dscidade = null, $nrtelefone = null, $dsemail = null, $nrcrmv = null, $cdpessoa = null)
+    public function __construct($nmpessoa, $cdCidade, $nrtelefone, $nrCelular, $dsEmail, $nrCrmv, $cdBairro, $cdLogradouro, $ativo, $cdpessoa = null)
     {
-        $this->login = $login;
-        $this->senha = $senha;
         $this->CdPessoa = $cdpessoa;
-
         $this->NmPessoa = $nmpessoa;
-        $this->DsCidade = $dscidade;
         $this->NrTelefone = $nrtelefone;
-        $this->DsEmail = $dsemail;
-        $this->NrCRMV = $nrcrmv;
+        $this->NrCelular = $nrCelular;
+        $this->DsEmail = $dsEmail;
+        $this->NrCRMV = $nrCrmv;
+        $this->ativo = $ativo;
+        $this->cidade = \App\Models\Municipios::findById($cdCidade);
+        $this->bairro = \App\Models\Bairros::findById($cdBairro);
+        $this->logradouro = \App\Models\Logradouros::findById($cdLogradouro);
     }
 
-    public function verificarAcesso()
+    // public function verificarAcesso()
+    // {
+    //     $read = new \App\Conn\Read();
+
+    //     $read->FullRead("SELECT * FROM USUARIOS WHERE USUARIOS.USUARIO =:L AND USUARIOS.SENHA = :S LIMIT 1", "L=$this->login&S=$this->senha");
+
+    //     if ($read->getRowCount() == 0) {
+    //         return null;
+    //     }
+    //     return $read->getResult();
+    // }
+
+
+    public static function findById($id)
     {
-        $read = new \App\Conn\Read();
+        try {
+            if(empty($id)){
+                throw new Exception("Objeto vazio");
+            }
 
-        $read->FullRead("SELECT * FROM USUARIOS WHERE USUARIOS.USUARIO =:L AND USUARIOS.SENHA = :S LIMIT 1", "L=$this->login&S=$this->senha");
+            $read = new \App\Conn\Read();
 
-        if ($read->getRowCount() == 0) {
-            return null;
+            $read->ExeRead("PESSOAS", "WHERE CD_PESSOA = :C LIMIT 1", "C=$id");
+
+            if ($read->getRowCount() == 0) {
+                throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
+            }
+
+            return new self($read->getResult()[0]['nm_pessoa'],
+                            $read->getResult()[0]['cd_cidade'],
+                            $read->getResult()[0]['nr_telefone'],
+                            '',
+                            $read->getResult()[0]['ds_email'],
+                            $read->getResult()[0]['nr_crmv'],
+                            $read->getResult()[0]['cd_bairro'],
+                            $read->getResult()[0]['cd_logradouro'],
+                            $read->getResult()[0]['fl_ativo'],
+                            $read->getResult()[0]['cd_pessoa']);
+
+        } catch (Exception $e) {
+            return new self('', '','', '','', '','', '','', '');
         }
-        return $read->getResult();
     }
+
 
     public function Insert()
     {
         $insert = new \App\Conn\Insert();
 
         try {
-            $insert->ExeInsert("pessoas", [
-                // "CD_PESSOA" => $this->CdPessoa,
+            $insert->ExeInsert("PESSOAS", [
                 "NM_PESSOA" => $this->NmPessoa,
-                "CIDADE" => $this->DsCidade,
+                "CD_CIDADE" => $this->cidade->getCodigo(),
+                "CD_BAIRRO" => $this->bairro->getCodigo(),
+                "CD_LOGRADOURO" => $this->logradouro->getCodigo(),
                 "NR_TELEFONE" => $this->NrTelefone,
+                "NR_CELULAR" => $this->NrCelular,
                 "DS_EMAIL" => $this->DsEmail,
                 "NR_CRMV" => $this->NrCRMV,
+                "FL_ATIVO" => $this->ativo
             ]);
 
             if (!$insert->getResult()) {
-                throw new Exception($insert->getError());
+                throw new Exception($insert->getMessage());
             }
             $this->Result = true;
-            $this->Return = $insert->getLastInsert();
         } catch (Exception $e) {
             $this->Result = false;
             $this->Message = $e->getMessage();
@@ -74,30 +113,33 @@ class Pessoas
     {
         $read = new \App\Conn\Read();
         try {
-            $read->ExeRead("pessoas", "WHERE CD_PESSOA = :C", "C=$this->CdPessoa");
-            $dadosFicha = $read->getResult()[0] ?? [];
-            if ($dadosFicha) {
+            $read->ExeRead("PESSOAS", "WHERE CD_PESSOA = :C", "C=$this->CdPessoa");
+            $dadosCadastro = $read->getResult()[0] ?? [];
+            if ($dadosCadastro) {
                 $dadosUpdate = [
-                    // "CD_PESSOA" => $this->CdPessoa,
                     "NM_PESSOA" => $this->NmPessoa,
-                    "CIDADE" => $this->DsCidade,
+                    "CD_CIDADE" => $this->cidade->getCodigo(),
+                    "CD_BAIRRO" => $this->bairro->getCodigo(),
+                    "CD_LOGRADOURO" => $this->logradouro->getCodigo(),
                     "NR_TELEFONE" => $this->NrTelefone,
+                    "NR_CELULAR" => $this->NrCelular,
                     "DS_EMAIL" => $this->DsEmail,
                     "NR_CRMV" => $this->NrCRMV,
+                    "FL_ATIVO" => $this->ativo
                 ];
 
                 $update = new \App\Conn\Update();
 
-                $update->ExeUpdate("pessoas", $dadosUpdate, "WHERE CD_PESSOA = :C", "C=$this->CdPessoa");
-                $atualizado = !empty($update->getResult());
-
-                if (!$atualizado) {
-                    throw new Exception($update->getError());
+                $update->ExeUpdate("PESSOAS", $dadosUpdate, "WHERE CD_PESSOA = :C", "C=$this->CdPessoa");
+            
+                if (!$update->getResult()) {
+                    throw new Exception($update->getMessage());
                 }
                 $this->Result = true;
-            } else {
-                throw new Exception("Ops! PARECE QUE ESSE REGISTRO NÃO EXISTE NA BASE DE DADOS!");
+            }else {
+                throw new Exception("Ops Parece que esse registro não existe mais na base de dados");
             }
+
         } catch (Exception $e) {
             $this->Result = false;
             $this->Message = $e->getMessage();
@@ -176,24 +218,22 @@ class Pessoas
 
         $read = new \App\Conn\Read();
 
-        $query = "SELECT pessoas.CD_PESSOA,
-                  pessoas.NM_PESSOA,
-                  (CASE WHEN pessoas.FL_EXCLUIDO = 'S' THEN 'Sim' ELSE 'Não' END) as fl_ativo, 
+        $query = "SELECT pessoas.cd_pessoa,
+                  pessoas.nm_pessoa,
+                  (CASE WHEN pessoas.fl_ativo = 'S' THEN 'Sim' ELSE 'Não' END) as fl_ativo, 
                   COUNT(pessoas.CD_PESSOA) OVER() AS total_filtered,  
                   (SELECT COUNT(pessoas.CD_PESSOA) FROM pessoas) AS total_table 
                   FROM pessoas
                   WHERE 1=1";
 
-        $bindParams = "";
-
         if (!empty($pesquisaCodigo)) {
-            $query .= " AND pessoas.CD_PESSOA LIKE '%$pesquisaCodigo%'";
+            $query .= " AND pessoas.cd_pessoa LIKE '%$pesquisaCodigo%'";
         }
         if (!empty($pesquisaDescricao)) {
-            $query .= " AND pessoas.NM_PESSOA LIKE '%$pesquisaDescricao%'";
+            $query .= " AND pessoas.nm_pessoa LIKE '%$pesquisaDescricao%'";
         }
         if (!empty($pesquisaAtivo)) {
-            $query .= " AND pessoas.FL_EXCLUIDO LIKE '%$pesquisaAtivo%'";
+            $query .= " AND pessoas.fl_ativo LIKE '%$pesquisaAtivo%'";
         }
 
         if (!empty($orderBy)) {
@@ -207,18 +247,69 @@ class Pessoas
         return $read->getResult();
     }
 
-    public function GetMessage()
+
+    public function getCodigo()
     {
-        return $this->Message;
+        return $this->CdPessoa;
     }
 
-    public function GetResult()
+    public function getNome()
+    {
+        return $this->NmPessoa;
+    }
+
+    public function getCidade()
+    {
+        return $this->cidade;
+    }
+
+    public function getBairro()
+    {
+        return $this->bairro;
+    }
+
+    public function getLogradouro()
+    {
+        return $this->logradouro;
+    }
+
+    public function getTelefone()
+    {
+        return $this->NrTelefone;
+    }
+
+    public function getCelular()
+    {
+        return $this->NrCelular;
+    }
+
+    public function getEmail()
+    {
+        return $this->DsEmail;
+    }
+
+    public function getNrCRMV()
+    {
+        return $this->NrCRMV;
+    }
+
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
+
+    public function getReturn()
+    {
+        return $this->Return;
+    }
+
+    public function getResult()
     {
         return $this->Result;
     }
 
-    public function GetReturn()
+    public function getMessage()
     {
-        return $this->Return;
+        return $this->Message;
     }
 }

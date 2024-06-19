@@ -23,8 +23,8 @@ $(document).ready(function () {
       },
     },
     columns: [
-      { data: "CD_PESSOA" },
-      { data: "NM_PESSOA" },
+      { data: "cd_pessoa" },
+      { data: "nm_pessoa" },
       { data: "fl_ativo" },
     ],
     processing: true,
@@ -32,10 +32,10 @@ $(document).ready(function () {
     createdRow: function (row, data, dataIndex) {
       $("td", row).each(function (index) {
         var cell = $(this);
-        var recordId = data.CD_PESSOA;
+        var recordId = data.cd_pessoa;
         var cellText = cell.text();
         cell.html(
-          '<span class="dataTable-item" onclick="redirectToCadastro(' +
+          '<span class="dataTable-item" onclick="openCadastro(' +
           recordId +
           ')">' +
           cellText +
@@ -51,63 +51,11 @@ $(document).ready(function () {
         dataTablePessoas.draw();
       }, 500);
     });
-
-    // initComplete: function () {
-    //   this.api()
-    //     .columns()
-    //     .every(function () {
-    //       var column = this;
-    //       var title = column.footer().textContent;
-
-    //       // Create input element and add event listener
-    //       $(
-    //         '<input class="form-control form-control-sm" type="text" placeholder="Pesquisar..." />'
-    //       )
-    //         .appendTo($(column.footer()).empty())
-    //         .on("keyup change clear", function () {
-    //           if (column.search() !== this.value) {
-    //             column.search(this.value).draw();
-    //           }
-    //         });
-    //     });
-    // },
 });
 
-function redirectToCadastro(cdPessoa) {
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = '/veterinariaUNESC/paginas/cadastroPessoas';
-
-  const input = document.createElement('input');
-  input.type = 'hidden';
-  input.name = 'id';
-  input.value = cdPessoa;
-  
-  form.appendChild(input);
-  document.body.appendChild(form);
+function openCadastro(id = '') {
+  Loading.on();
+  var form = $('<form action="/veterinariaUNESC/paginas/cadastroPessoas" method="post"><input type="hidden" name="id" value="' + id + '"></form>');
+  $('body').append(form);
   form.submit();
 }
-
-
-// function openCadastro(cdPessoa = null) {
-//   $.ajax({
-//     url: '/veterinariaUNESC/paginas/cadastroPessoas',
-//     type: 'POST',
-//     dataType: 'json',
-//     data: { id: cdPessoa },
-//     beforeSend: function () {
-//       Loading.on();
-//     },
-//     success: function (response) {
-//       console.log('Requisição bem-sucedida', response);
-//       // Aqui você pode adicionar código para atualizar a interface com a resposta recebida
-//     },
-//     error: function (xhr, status, error) {
-//       console.error('Erro na requisição AJAX:', error);
-//       console.error('Detalhes do erro:', xhr.responseText);
-//     },
-//     complete: function () {
-//       Loading.off();
-//     }
-//   });
-// }

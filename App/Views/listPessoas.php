@@ -17,7 +17,6 @@ class ListPessoas
 
     public function exibir(Request $request, Response $response, $args)
     {
-        // Renderiza a tela de login usando o Twig
         $formulario = $this->twig->fetch('listPessoas.twig');
         $conteudoTela = $this->twig->fetch('TelaComMenus.twig', ['conteudo_tela' => $formulario]);
 

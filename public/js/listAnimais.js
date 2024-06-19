@@ -62,7 +62,7 @@ $(document).ready(function () {
 
 });
 
-function openCadastro(id = null) {
+function openCadastro(id = '') {
   Loading.on();
   var form = $('<form action="/veterinariaUNESC/paginas/cadastroAnimais" method="post"><input type="hidden" name="id" value="' + id + '"></form>');
   $('body').append(form);

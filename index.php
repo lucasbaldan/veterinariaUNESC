@@ -184,8 +184,7 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
 $app->group('/server', function (RouteCollectorProxy $group) {
 
     $group->group('/pessoas', function (RouteCollectorProxy $pessoasGroup) {
-        $pessoasGroup->post('/login', App\Controllers\Pessoas::class . ':efetuarLogin');
-        $pessoasGroup->post('/salvaPessoa', App\Controllers\Pessoas::class . ':Salvar');
+        $pessoasGroup->post('/controlar', App\Controllers\Pessoas::class . ':Salvar');
         $pessoasGroup->post('/retornaPessoas', App\Controllers\Pessoas::class . ':RetornarPessoas');
         $pessoasGroup->post('/retornaDadosPessoa', App\Controllers\Pessoas::class . ':RetornarDadosPessoa');
         $pessoasGroup->post('/atualizaExclusaoPessoa', App\Controllers\Pessoas::class . ':AtualizarExclusaoPessoa');
@@ -228,6 +227,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->post('/controlar', App\Controllers\Municipios::class . ':controlar');
 
         $Group->post('/excluir', App\Controllers\Municipios::class . ':excluir');
+        
+        $Group->post('/general', App\Controllers\Municipios::class . ':general');
     });
 
     $group->group('/bairro', function (RouteCollectorProxy $Group) {
@@ -236,6 +237,9 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->post('/controlar', App\Controllers\Bairros::class . ':controlar');
 
         $Group->post('/excluir', App\Controllers\Bairros::class . ':excluir');
+
+        $Group->post('/general', App\Controllers\Bairros::class . ':general');
+
     });
 
     $group->group('/logradouro', function (RouteCollectorProxy $Group) {
@@ -244,6 +248,9 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->post('/controlar', App\Controllers\Logradouros::class . ':controlar');
 
         $Group->post('/excluir', App\Controllers\Logradouros::class . ':excluir');
+
+        $Group->post('/general', App\Controllers\Logradouros::class . ':general');
+
     });
 
     $group->group('/animais', function (RouteCollectorProxy $Group) {
@@ -284,8 +291,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
-        '/veterinariaUNESC/server/pessoas/login',
-        '/veterinariaUNESC/server/pessoas/salvaPessoa',
+        '/veterinariaUNESC/server/pessoas/controlar',
         '/veterinariaUNESC/server/pessoas/retornaPessoas',
         '/veterinariaUNESC/server/pessoas/retornaDadosPessoa',
         '/veterinariaUNESC/server/pessoas/atualizaExclusaoPessoa',
@@ -309,14 +315,17 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/municipio/grid',
         '/veterinariaUNESC/server/municipio/controlar',
         '/veterinariaUNESC/server/municipio/excluir',
+        '/veterinariaUNESC/server/municipio/general',
 
         '/veterinariaUNESC/server/bairro/grid',
         '/veterinariaUNESC/server/bairro/controlar',
         '/veterinariaUNESC/server/bairro/excluir',
+        '/veterinariaUNESC/server/bairro/general',
 
         '/veterinariaUNESC/server/logradouro/grid',
         '/veterinariaUNESC/server/logradouro/controlar',
         '/veterinariaUNESC/server/logradouro/excluir',
+        '/veterinariaUNESC/server/logradouro/general',
 
         '/veterinariaUNESC/server/estado/general',
 
