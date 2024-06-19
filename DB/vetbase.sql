@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 15/06/2024 às 06:01
+-- Tempo de geração: 19/06/2024 às 05:34
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -37,6 +37,33 @@ CREATE TABLE `acessos_tipos_usuarios` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `animais`
+--
+
+CREATE TABLE `animais` (
+  `cd_animal` int(11) NOT NULL,
+  `nm_animal` varchar(255) NOT NULL,
+  `fl_dono_nao_declarado` int(11) NOT NULL,
+  `cd_pessoa_dono1` int(11) DEFAULT NULL,
+  `cd_pessoa_dono2` int(11) DEFAULT NULL,
+  `cd_raca` int(11) DEFAULT NULL,
+  `sexo` varchar(1) NOT NULL,
+  `idade_aproximada` int(11) DEFAULT NULL,
+  `ano_nascimento` date DEFAULT NULL,
+  `cd_tipo_animal` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Despejando dados para a tabela `animais`
+--
+
+INSERT INTO `animais` (`cd_animal`, `nm_animal`, `fl_dono_nao_declarado`, `cd_pessoa_dono1`, `cd_pessoa_dono2`, `cd_raca`, `sexo`, `idade_aproximada`, `ano_nascimento`, `cd_tipo_animal`) VALUES
+(1, 'Tótó', 0, 1, NULL, 1, 'M', 10, '0000-00-00', 3),
+(2, 'Tótó', 0, 1, NULL, 1, 'M', 10, '0000-00-00', 3);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `bairros`
 --
 
@@ -44,6 +71,14 @@ CREATE TABLE `bairros` (
   `cd_bairro` int(11) NOT NULL,
   `nome` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Despejando dados para a tabela `bairros`
+--
+
+INSERT INTO `bairros` (`cd_bairro`, `nome`) VALUES
+(1, 'São Silvano'),
+(2, 'São Marcos');
 
 -- --------------------------------------------------------
 
@@ -5744,6 +5779,13 @@ CREATE TABLE `ficha_lpv` (
   `DS_RELATORIO` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Despejando dados para a tabela `ficha_lpv`
+--
+
+INSERT INTO `ficha_lpv` (`CD_FICHA_LPV`, `DT_FICHA`, `ANIMAL`, `NM_VET_REMETENTE`, `NR_TEL_VET_REMETENTE`, `DS_EMAIL_VET_REMETENTE`, `CRMV_VET_REMETENTE`, `NM_CIDADE_VET_REMETENTE`, `CD_USUARIO_PLANTONISTA`, `NM_PROPRIETARIO`, `NR_TELEFONE_PROPRIETARIO`, `CIDADE_PROPRIEDADE`, `DS_ESPECIE`, `DS_RACA`, `DS_SEXO`, `IDADE`, `TOTAL_ANIMAIS`, `QTD_ANIMAIS_MORTOS`, `QTD_ANIMAIS_DOENTES`, `DS_MATERIAL_RECEBIDO`, `DS_DIAGNOSTICO_PRESUNTIVO`, `FL_AVALIACAO_TUMORAL_COM_MARGEM`, `DS_NOME_ANIMAL`, `DS_EPIDEMIOLOGIA_HISTORIA_CLINICA`, `DS_LESOES_MACROSCOPICAS`, `DS_LESOES_HISTOLOGICAS`, `DS_DIAGNOSTICO`, `DS_RELATORIO`) VALUES
+(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -5768,6 +5810,13 @@ CREATE TABLE `logradouros` (
   `cd_logradouro` int(11) NOT NULL,
   `nome` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Despejando dados para a tabela `logradouros`
+--
+
+INSERT INTO `logradouros` (`cd_logradouro`, `nome`) VALUES
+(1, 'Rua Pedro Giurizatto');
 
 -- --------------------------------------------------------
 
@@ -5810,13 +5859,24 @@ INSERT INTO `paises` (`cd_pais`, `descricao`, `descricao_nacionalidade`) VALUES
 --
 
 CREATE TABLE `pessoas` (
-  `CD_PESSOA` int(11) NOT NULL,
-  `NM_PESSOA` varchar(45) NOT NULL,
-  `CIDADE` varchar(45) NOT NULL,
-  `NR_TELEFONE` varchar(45) NOT NULL,
-  `DS_EMAIL` varchar(45) NOT NULL,
-  `NR_CRMV` varchar(45) DEFAULT NULL
+  `cd_pessoa` int(11) NOT NULL,
+  `nm_pessoa` varchar(255) NOT NULL,
+  `cd_cidade` int(11) NOT NULL,
+  `cd_bairro` int(11) DEFAULT NULL,
+  `cd_logradouro` int(11) DEFAULT NULL,
+  `nr_telefone` varchar(13) DEFAULT NULL,
+  `nr_celular` varchar(13) DEFAULT NULL,
+  `ds_email` varchar(45) NOT NULL,
+  `nr_crmv` varchar(50) DEFAULT NULL,
+  `fl_ativo` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Despejando dados para a tabela `pessoas`
+--
+
+INSERT INTO `pessoas` (`cd_pessoa`, `nm_pessoa`, `cd_cidade`, `cd_bairro`, `cd_logradouro`, `nr_telefone`, `nr_celular`, `ds_email`, `nr_crmv`, `fl_ativo`) VALUES
+(1, 'Lucas Faé Baldan', 3116, 1, 1, '27996103528', NULL, 'lucasbaldan2014@gmail.com', NULL, 'S');
 
 -- --------------------------------------------------------
 
@@ -5911,6 +5971,12 @@ ALTER TABLE `acessos_tipos_usuarios`
   ADD PRIMARY KEY (`CD_ACESSO_TIPO_USUARIO`);
 
 --
+-- Índices de tabela `animais`
+--
+ALTER TABLE `animais`
+  ADD PRIMARY KEY (`cd_animal`);
+
+--
 -- Índices de tabela `bairros`
 --
 ALTER TABLE `bairros`
@@ -5968,7 +6034,7 @@ ALTER TABLE `paises`
 -- Índices de tabela `pessoas`
 --
 ALTER TABLE `pessoas`
-  ADD PRIMARY KEY (`CD_PESSOA`);
+  ADD PRIMARY KEY (`cd_pessoa`);
 
 --
 -- Índices de tabela `racas`
@@ -6001,10 +6067,16 @@ ALTER TABLE `acessos_tipos_usuarios`
   MODIFY `CD_ACESSO_TIPO_USUARIO` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `animais`
+--
+ALTER TABLE `animais`
+  MODIFY `cd_animal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de tabela `bairros`
 --
 ALTER TABLE `bairros`
-  MODIFY `cd_bairro` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cd_bairro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `cidades`
@@ -6028,7 +6100,7 @@ ALTER TABLE `estados`
 -- AUTO_INCREMENT de tabela `ficha_lpv`
 --
 ALTER TABLE `ficha_lpv`
-  MODIFY `CD_FICHA_LPV` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `CD_FICHA_LPV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `grupos_usuarios`
@@ -6040,7 +6112,7 @@ ALTER TABLE `grupos_usuarios`
 -- AUTO_INCREMENT de tabela `logradouros`
 --
 ALTER TABLE `logradouros`
-  MODIFY `cd_logradouro` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cd_logradouro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `logs`
@@ -6058,7 +6130,7 @@ ALTER TABLE `paises`
 -- AUTO_INCREMENT de tabela `pessoas`
 --
 ALTER TABLE `pessoas`
-  MODIFY `CD_PESSOA` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cd_pessoa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `racas`
@@ -6086,7 +6158,7 @@ ALTER TABLE `usuarios`
 -- Restrições para tabelas `racas`
 --
 ALTER TABLE `racas`
-  ADD CONSTRAINT `FK_ESPECIE_RACAS` FOREIGN KEY (`CD_ESPECIE`) REFERENCES `especies` (`CD_ESPECIE`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_ESPECIE_RACAS` FOREIGN KEY (`cd_especie`) REFERENCES `especies` (`cd_especie`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
