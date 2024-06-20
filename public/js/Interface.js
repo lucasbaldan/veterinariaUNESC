@@ -95,12 +95,13 @@ class Select2 {
         this.dropdownParent = options.dropdownParent || null;
         this.url = options.url || '';
         this.placeholder = options.placeholder || 'Selecione...';
+        this.idTipoAnimal = options.idTipoAnimal || null; // Novo parâmetro
 
-        this.initialize();
+        return this.initialize(); // Retornar a instância jQuery diretamente
     }
 
     initialize() {
-        $(this.selector).select2({
+        const select2Instance = $(this.selector).select2({
             dropdownParent: this.dropdownParent ? $(this.dropdownParent) : null,
             allowClear: true,
             placeholder: this.placeholder,
@@ -111,11 +112,17 @@ class Select2 {
                 url: this.url,
                 dataType: 'json',
                 type: 'POST',
-                data: function (params) {
-                    return {
+                data: (params) => {
+                    const requestData = {
                         buscaSelect2: params.term,
                         forSelect2: true,
                     };
+                    
+                    if (this.idTipoAnimal) {
+                        requestData.idTipoAnimal = this.idTipoAnimal;
+                    }
+
+                    return requestData;
                 },
                 processResults: function (data) {
                     return {
@@ -124,6 +131,8 @@ class Select2 {
                 },
             }
         });
+
+        return select2Instance; // Retornar a instância jQuery
     }
 }
 

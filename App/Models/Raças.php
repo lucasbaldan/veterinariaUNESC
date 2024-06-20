@@ -14,6 +14,7 @@ class Raças
 
     private $Result;
     private $Message;
+    private $Return;
 
     public function __construct($descricao, $ativo, $cdEspecie, $codigo = null)
     {
@@ -166,10 +167,40 @@ class Raças
         }
     }
 
+    public function generalSearch($arrayParam){
+        try{
+            $colunas = $arrayParam['colunas'];
+            $descricao = !empty($arrayParam['descricaoPesquisa']) ? $arrayParam['descricaoPesquisa'] : '';
+            
+            $read = new \App\Conn\Read();
+
+            $query = "SELECT $colunas FROM RACAS WHERE fl_ativo = 1";
+
+            if(!empty($descricao)){
+                $query .= " AND DESCRICAO LIKE '%$descricao%'";
+            }
+
+            $query .= " LIMIT 30";
+
+            $read->FullRead($query);
+            $this->Result = true;
+            $this->Return = $read->getResult();
+        } catch(Exception $e){
+            $this->Result = false;
+            $this->Message = $e->getMessage();
+
+        }
+    }
+
 
     public function getResult()
     {
         return $this->Result;
+    }
+
+    public function getReturn()
+    {
+        return $this->Return;
     }
 
     public function getMessage()

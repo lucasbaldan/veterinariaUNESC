@@ -1,16 +1,27 @@
 $( document ).ready(function() {
 
-    new Select2('#select2cdCidade', {
-        url: '/veterinariaUNESC/server/municipio/general',
+      var selectTipoAnimal = new Select2('#select2tipoAnimal', {
+        url: '/veterinariaUNESC/server/tipoAnimal/general',
       })
 
-      new Select2('#select2cdBairro', {
-        url: '/veterinariaUNESC/server/bairro/general',
+      var selectEspecieAnimal = new Select2('#select2especieAnimal', {
+        url: '/veterinariaUNESC/server/especie/general',
       })
 
-      new Select2('#select2cdLogradouro', {
-        url: '/veterinariaUNESC/server/logradouro/general',
+      var selectRacaAnimal = new Select2('#select2racaAnimal', {
+        url: '/veterinariaUNESC/server/raca/general',
       })
+
+      selectTipoAnimal.on('change', function(e) {
+        var TipoAnimalSelecionado = $(this).val();
+
+        $('#select2especieAnimal').val(null).trigger('change');
+        selectEspecieAnimal = new Select2('#select2especieAnimal', {
+          url: '/veterinariaUNESC/server/especie/general',
+          idTipoAnimal: TipoAnimalSelecionado,
+        })
+      
+    });
 
       $('#nrTelefone').inputmask("(99) 99999-9999", { autoUnmask: true });
 

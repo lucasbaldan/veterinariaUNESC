@@ -30,39 +30,31 @@
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
                     <h5>Informações Gerais do Animal</h5>
                     <hr>
-                    <div class="row">
+                    <div class="row mb-4">
                         <div class="col">
-                            <div class="form-floating mb-3">
+                            <label for="animal" class="form-label">Nome do Animal</label>
                                 <input type="text" class="form-control" id="animal" name="animal"
                                     placeholder="">
-                                <label for="animal">Nome do Animal</label>
-                            </div>
                         </div>
 
                         <div class="col">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="tpAnimal" name="tpAnimal"
-                                    placeholder="">
-                                <label for="tpAnimal">Tipo de Animal</label>
-                            </div>
+                                <label for="tipoAnimal" class="form-label">Tipo de Animal </label>
+                                <select class="form-select" id="select2tipoAnimal" name="tipoAnimal"aria-label=""></select>
+                                {{selectTipoAnimal|raw}}
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mb-4">
                         <div class="col">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="dsEspecie" name="dsEspecie"
-                                    placeholder="">
-                                <label for="dsEspecie">Espécie</label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="dsRaca" name="dsRaca"
-                                    placeholder="">
-                                <label for="dsRaca">Raça</label>
-                            </div>
-                        </div>
+                            <label for="especieAnimal" class="form-label">Espécie </label>
+                            <select class="form-select" id="select2especieAnimal" name="especieAnimal"aria-label=""></select>
+                            {{selectEspecieAnimal|raw}}
+                    </div>
+                    <div class="col">
+                        <label for="racaAnimal" class="form-label">Raça </label>
+                        <select class="form-select" id="select2racaAnimal" name="racaAnimal"aria-label=""></select>
+                        {{selectRacaAnimal|raw}}
+                </div>
                     </div>
 
                     <div class="row">

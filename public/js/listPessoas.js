@@ -1,5 +1,12 @@
 var dataTablePessoas;
 $(document).ready(function () {
+
+  if (sessionStorage.getItem('notificarSucesso') === 'true') {
+    Notificacao.NotificacaoSucesso();
+    sessionStorage.removeItem('notificarSucesso');
+}
+
+
   dataTablePessoas = $("#gridDataTable").DataTable({
     scrollX: true,
     orderCellsTop: true,

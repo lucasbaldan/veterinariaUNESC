@@ -219,6 +219,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->post('/controlar', App\Controllers\Raças::class . ':controlar');
 
         $Group->post('/excluir', App\Controllers\Raças::class . ':excluir');
+
+        $Group->post('/general', App\Controllers\Raças::class . ':general');
     });
 
     $group->group('/municipio', function (RouteCollectorProxy $Group) {
@@ -311,6 +313,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/raca/grid',
         '/veterinariaUNESC/server/raca/controlar',
         '/veterinariaUNESC/server/raca/excluir',
+        '/veterinariaUNESC/server/raca/general',
 
         '/veterinariaUNESC/server/municipio/grid',
         '/veterinariaUNESC/server/municipio/controlar',

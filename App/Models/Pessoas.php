@@ -17,7 +17,7 @@ class Pessoas
     private $DsEmail;
     private $NrCRMV;
     private $ativo;
-    
+
     private $Return;
     private $Result;
     private $Message;
@@ -53,7 +53,7 @@ class Pessoas
     public static function findById($id)
     {
         try {
-            if(empty($id)){
+            if (empty($id)) {
                 throw new Exception("Objeto vazio");
             }
 
@@ -65,19 +65,20 @@ class Pessoas
                 throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
             }
 
-            return new self($read->getResult()[0]['nm_pessoa'],
-                            $read->getResult()[0]['cd_cidade'],
-                            $read->getResult()[0]['nr_telefone'],
-                            '',
-                            $read->getResult()[0]['ds_email'],
-                            $read->getResult()[0]['nr_crmv'],
-                            $read->getResult()[0]['cd_bairro'],
-                            $read->getResult()[0]['cd_logradouro'],
-                            $read->getResult()[0]['fl_ativo'],
-                            $read->getResult()[0]['cd_pessoa']);
-
+            return new self(
+                $read->getResult()[0]['nm_pessoa'],
+                $read->getResult()[0]['cd_cidade'],
+                $read->getResult()[0]['nr_telefone'],
+                '',
+                $read->getResult()[0]['ds_email'],
+                $read->getResult()[0]['nr_crmv'],
+                $read->getResult()[0]['cd_bairro'],
+                $read->getResult()[0]['cd_logradouro'],
+                $read->getResult()[0]['fl_ativo'],
+                $read->getResult()[0]['cd_pessoa']
+            );
         } catch (Exception $e) {
-            return new self('', '','', '','', '','', '','', '');
+            return new self('', '', '', '', '', '', '', '', '', '');
         }
     }
 
@@ -131,15 +132,14 @@ class Pessoas
                 $update = new \App\Conn\Update();
 
                 $update->ExeUpdate("PESSOAS", $dadosUpdate, "WHERE CD_PESSOA = :C", "C=$this->CdPessoa");
-            
+
                 if (!$update->getResult()) {
                     throw new Exception($update->getMessage());
                 }
                 $this->Result = true;
-            }else {
+            } else {
                 throw new Exception("Ops Parece que esse registro não existe mais na base de dados");
             }
-
         } catch (Exception $e) {
             $this->Result = false;
             $this->Message = $e->getMessage();
@@ -165,17 +165,21 @@ class Pessoas
         return $read->getResult()[0];
     }
 
-    public static function Delete($cdPessoa)
+    public function Delete()
     {
-        $delete = new \App\Conn\delete();
+        try {
+            $delete = new \App\Conn\delete();
 
-        $delete->ExeDelete("pessoas", "WHERE CD_PESSOA =:C", "C=$cdPessoa");
-        $deletado = !empty($delete->getResult());
+            $delete->ExeDelete("pessoas", "WHERE CD_PESSOA =:C", "C=$this->CdPessoa");
 
-        if ($deletado) {
-            return true;
-        } else {
-            return false;
+            if (!$delete->getResult()[0]) throw new Exception($delete->getResult()[1]);
+
+            $delete->Commit();
+            $this->Result = true;
+        } catch (Exception $e) {
+            $delete->Rollback();
+            $this->Result = false;
+            $this->Message = $e->getMessage();
         }
     }
 

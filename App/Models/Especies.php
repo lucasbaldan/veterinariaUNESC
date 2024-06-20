@@ -171,13 +171,18 @@ class Especies
         try{
             $colunas = $arrayParam['colunas'];
             $descricao = !empty($arrayParam['descricaoPesquisa']) ? $arrayParam['descricaoPesquisa'] : '';
-            
+            $tipoAnimal = !empty($arrayParam['TipoAnimal']) ? $arrayParam['TipoAnimal'] : '';
+
             $read = new \App\Conn\Read();
 
             $query = "SELECT $colunas FROM ESPECIES WHERE 1=1";
 
             if(!empty($descricao)){
                 $query .= " AND DESCRICAO LIKE '%$descricao%'";
+            }
+
+            if(!empty($tipoAnimal)){
+                $query .= " AND ID_TIPO_ANIMAL = $tipoAnimal";
             }
 
             $read->FullRead($query);

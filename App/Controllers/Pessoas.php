@@ -38,7 +38,7 @@ class Pessoas
     //         $codigoHTTP = 200;
     //     } catch (Exception $e) {
     //         $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
-    //         $codigoHTTP = $e->getCode();
+    //         $codigoHTTP = 500;
     //     }
     //     $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
     //     return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
@@ -82,7 +82,7 @@ class Pessoas
             $codigoHTTP = 200;
         } catch (Exception $e) {
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
-            $codigoHTTP = $e->getCode();
+            $codigoHTTP = 500;
         }
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
@@ -103,7 +103,7 @@ class Pessoas
             $codigoHTTP = 200;
         } catch (Exception $e) {
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
-            $codigoHTTP = $e->getCode();
+            $codigoHTTP = 500;
         }
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
@@ -126,7 +126,7 @@ class Pessoas
             $codigoHTTP = 200;
         } catch (Exception $e) {
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
-            $codigoHTTP = $e->getCode();
+            $codigoHTTP = 500;
         }
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
@@ -139,17 +139,18 @@ class Pessoas
             $Formulario = $request->getParsedBody();
             $cdPessoa = !empty($Formulario['cdPessoa']) ? $Formulario['cdPessoa'] : '';
 
-            $retorno = \App\Models\Pessoas::Delete($cdPessoa);
+            $pessoa = new \App\Models\Pessoas('', '','','','','','','','', $cdPessoa);
+            $pessoa->Delete();
 
-            if (!$retorno) {
-                throw new Exception("<b>Erro ao tentar a pessoa</b><br><br> Por favor, tente novamente.", 400);
+            if (!$pessoa->getResult()) {
+                throw new Exception("<b>Erro ao tentar processar requisição</b><br><br> Por favor, tente novamente.", 500);
             }
 
-            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno];
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
             $codigoHTTP = 200;
         } catch (Exception $e) {
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
-            $codigoHTTP = $e->getCode();
+            $codigoHTTP = 500;
         }
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
@@ -173,7 +174,7 @@ class Pessoas
             $codigoHTTP = 200;
         } catch (Exception $e) {
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
-            $codigoHTTP = $e->getCode();
+            $codigoHTTP = 500;
         }
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
