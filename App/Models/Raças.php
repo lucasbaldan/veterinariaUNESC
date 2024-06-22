@@ -171,6 +171,7 @@ class Raças
         try{
             $colunas = $arrayParam['colunas'];
             $descricao = !empty($arrayParam['descricaoPesquisa']) ? $arrayParam['descricaoPesquisa'] : '';
+            $especie = !empty($arrayParam['idEspecie']) ? $arrayParam['idEspecie'] : '';
             
             $read = new \App\Conn\Read();
 
@@ -179,6 +180,10 @@ class Raças
             if(!empty($descricao)){
                 $query .= " AND DESCRICAO LIKE '%$descricao%'";
             }
+            if(!empty($especie)){
+                $query .= " AND CD_ESPECIE = $especie";
+            }
+
 
             $query .= " LIMIT 30";
 

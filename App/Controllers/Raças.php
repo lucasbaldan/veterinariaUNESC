@@ -124,13 +124,15 @@ class Raças
 
             $forSelect2 = isset($dados['forSelect2']) ? $dados['forSelect2'] : '';
             $descricao = isset($dados['buscaSelect2']) ? $dados['buscaSelect2'] : '';
+            $especie = isset($dados['idEspecie']) ? $dados['idEspecie'] : '';
 
             if ($forSelect2) {
                 $busca = new \App\Models\Raças('', '', '');
 
                 $parametrosPesquisa = [
                     "colunas" => "CD_RACA AS id, DESCRICAO AS text",
-                    "descricaoPesquisa" => empty($descricao) ? '' : $descricao
+                    "descricaoPesquisa" => empty($descricao) ? '' : $descricao,
+                    "idEspecie" => $especie
                 ];
 
                 $busca->generalSearch($parametrosPesquisa);

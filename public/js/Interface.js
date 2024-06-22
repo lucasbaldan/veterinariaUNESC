@@ -95,7 +95,8 @@ class Select2 {
         this.dropdownParent = options.dropdownParent || null;
         this.url = options.url || '';
         this.placeholder = options.placeholder || 'Selecione...';
-        this.idTipoAnimal = options.idTipoAnimal || null; // Novo parâmetro
+        this.idTipoAnimal = options.idTipoAnimal || null;
+        this.idEspecie = options.idEspecie || null;
 
         return this.initialize(); // Retornar a instância jQuery diretamente
     }
@@ -120,6 +121,9 @@ class Select2 {
                     
                     if (this.idTipoAnimal) {
                         requestData.idTipoAnimal = this.idTipoAnimal;
+                    }
+                    if (this.idEspecie) {
+                        requestData.idEspecie = this.idEspecie;
                     }
 
                     return requestData;

@@ -23,6 +23,16 @@ $( document ).ready(function() {
       
     });
 
+      selectEspecieAnimal.on('change', function(e) {
+       var EspecieSelecionado = $(this).val();
+
+      $('#select2racaAnimal').val(null).trigger('change');
+      selectRacaAnimal = new Select2('#select2racaAnimal', {
+        url: '/veterinariaUNESC/server/raca/general',
+        idEspecie: EspecieSelecionado,
+      })
+      });
+
       $('#nrTelefone').inputmask("(99) 99999-9999", { autoUnmask: true });
 
 });
