@@ -13,26 +13,28 @@ class Animais
     private $dono1;
     private $dono2;
     private \App\Models\Raças $raca;
+    private \App\Models\Especies $especie;
+    private \App\Models\TipoAnimais $tipoAnimal;
     private $sexo;
     private $idadeAproximada;
     private $anoNascimento;
-    private \App\Models\TipoAnimais $tipoAnimal;
 
     private $Result;
     private $Message;
     private $Return;
 
-    public function __construct($nome, $donoDeclarado, $cdTipoAnimal, $cdRaca, $sexo, $idadeAproximada, $anoNascimento, $cdDono1 = null, $cdDono2 = null , $codigo = null)
+    public function __construct($nome, $donoDeclarado, $cdTipoAnimal, $cdEspecie, $cdRaca, $sexo, $idadeAproximada, $anoNascimento, $cdDono1 = null, $cdDono2 = null , $codigo = null)
     {
         $this->nome = $nome;
         $this->fl_dono_nao_declarado = $donoDeclarado;
         // dono 1;
         // dono 2;
         $this->raca = \App\Models\Raças::findById($cdRaca);
+        $this->tipoAnimal = \App\Models\TipoAnimais::findById($cdTipoAnimal);
+        $this->especie = \App\Models\Especies::findById($cdEspecie);
         $this->sexo = $sexo;
         $this->idadeAproximada = $idadeAproximada;
         $this->anoNascimento = $anoNascimento;
-        $this->tipoAnimal = \App\Models\TipoAnimais::findById($cdTipoAnimal);
         $this->codigo = $codigo;
     }
 
@@ -123,10 +125,11 @@ class Animais
             $insert = new \App\Conn\Insert($conn);
 
             $dadosInsert = ["CD_ANIMAL" => $this->codigo,
-                            "NOME" => $this->nome, 
+                            "NM_ANIMAL" => $this->nome, 
                             "FL_DONO_NAO_DECLARADO" => $this->fl_dono_nao_declarado, 
                             "CD_PESSOA_DONO1" => 1,
                             "CD_PESSOA_DONO2" => null,
+                            "CD_ESPECIE" => $this->especie->getCodigo(),
                             "CD_RACA" => $this->raca->getCodigo(),
                             "SEXO" => $this->sexo,
                             "IDADE_APROXIMADA" => $this->idadeAproximada,
@@ -161,10 +164,11 @@ class Animais
                 $update = new \App\Conn\Update($conn);
 
                $dadosUpdate = ["CD_ANIMAL" => $this->codigo,
-                "NOME" => $this->nome, 
+                "NM_ANIMAL" => $this->nome, 
                 "FL_DONO_NAO_DECLARADO" => $this->fl_dono_nao_declarado, 
                 "CD_PESSOA_DONO1" => 1,
                 "CD_PESSOA_DONO2" => null,
+                "CD_ESPECIE" => $this->especie->getCodigo(),
                 "CD_RACA" => $this->raca->getCodigo(),
                 "SEXO" => $this->sexo,
                 "IDADE_APROXIMADA" => $this->idadeAproximada,

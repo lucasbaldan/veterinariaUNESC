@@ -12,6 +12,22 @@
     <div class="card rounded" style="min-width: 100%;">
         <div class="card-body border border-1S rounded-2">
 
+            <form id="formCadastroAnimais" name="formCadastroAnimais">
+                <div class="row mb-4">
+                    <div class="col col-md-3">
+                <div class="form-floating mb-3">
+                    <input type="text" readonly class="form-control-plaintext" id="cdAnimal" name="cdAnimal" value="{{cdAnimal}}">
+                    <label for="cdAnimal">Código: </label>
+                  </div>
+                </div>
+                <div class="col">
+                    <label for="animal" class="form-label">Nome do Animal</label>
+                        <input type="text" class="form-control" id="animal" name="animal"
+                            placeholder="">
+                </div>
+            </div>
+            <hr>
+            
             <div class="container-fluid">
                 <ul class="nav nav-pills mb-2 justify-content-center" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -23,8 +39,7 @@
                 </ul>
             </div>
             
-            
-              <form id="formCadastroAnimais" name="formCadastroAnimais">
+
               <div class="tab-content" id="pills-tabContent">
                 
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
@@ -32,14 +47,8 @@
                     <hr>
                     <div class="row mb-4">
                         <div class="col">
-                            <label for="animal" class="form-label">Nome do Animal</label>
-                                <input type="text" class="form-control" id="animal" name="animal"
-                                    placeholder="">
-                        </div>
-
-                        <div class="col">
                                 <label for="tipoAnimal" class="form-label">Tipo de Animal </label>
-                                <select class="form-select" id="select2tipoAnimal" name="tipoAnimal"aria-label=""></select>
+                                <select class="form-select" id="select2tipoAnimal" name="select2tipoAnimal"aria-label=""></select>
                                 {{selectTipoAnimal|raw}}
                         </div>
                     </div>
@@ -47,12 +56,12 @@
                     <div class="row mb-4">
                         <div class="col">
                             <label for="especieAnimal" class="form-label">Espécie </label>
-                            <select class="form-select" id="select2especieAnimal" name="especieAnimal"aria-label=""></select>
+                            <select class="form-select" id="select2especieAnimal" name="select2especieAnimal"aria-label=""></select>
                             {{selectEspecieAnimal|raw}}
                     </div>
                     <div class="col">
                         <label for="racaAnimal" class="form-label">Raça </label>
-                        <select class="form-select" id="select2racaAnimal" name="racaAnimal"aria-label=""></select>
+                        <select class="form-select" id="select2racaAnimal" name="select2racaAnimal"aria-label=""></select>
                         {{selectRacaAnimal|raw}}
                 </div>
                     </div>
@@ -96,35 +105,59 @@
                         <hr>
     
                     <div class="row">
+                        <div class="col-1 col-md-12 mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="donoNaoDeclarado" name="donoNaoDeclarado">
+                                <label class="form-check-label" for="donoNaoDeclarado">
+                                  Dono do Animal Não Declarado / Não informado / Ignorado
+                                </label>
+                              </div>
+                        </div>
+
                         <div class="col-1">
                             <input type="hidden" readonly class="form-control" id="cdPessoa" name="cdPessoa"
                                 value="{{cdPessoa}}">
                         </div>
-                        <div class="mb-4 col-md-12">
-                            <label for="nmPessoa" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="nmPessoa" name="nmPessoa" placeholder=" "
-                                value="{{nmPessoa}}" required>
-                        </div>
-                        <div class="mb-4 col-md-3">
-                            <label for="dsCidade" class="form-label">Cidade</label>
-                            <input type="text" class="form-control" id="dsCidade" name="dsCidade" placeholder=" "
-                                value="{{dsCidade}}" required>
-                        </div>
-                        <div class="mb-4 col-md-3">
-                            <label for="nrTelefone" class="form-label">Telefone</label>
-                            <input type="text" class="form-control" id="nrTelefone" name="nrTelefone" placeholder=" "
+
+                            <div class="mb-4 col-md-12">
+                                <label for="nmPessoa" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="nmPessoa" name="nmPessoa" placeholder=" "
+                                    value="{{nmPessoa}}" required>
+                            </div>
+                            <div class="mb-4 col-md-4">
+                                <label for="nrTelefone" class="form-label">Telefone</label>
+                                <input type="text" class="form-control" id="nrTelefone" name="nrTelefone" placeholder=" "
                                 value="{{nrTelefone}}" required>
-                        </div>
-                        <div class="mb-4 col-md-3">
-                            <label for="dsEmail" class="form-label">E-mail</label>
-                            <input type="text" class="form-control" id="dsEmail" name="dsEmail" placeholder=" "
+                            </div>
+                            <div class="mb-4 col-md-4">
+                                <label for="dsEmail" class="form-label">E-mail</label>
+                                <input type="email" class="form-control" id="dsEmail" name="dsEmail" placeholder=" "
                                 value="{{dsEmail}}" required>
-                        </div>
-                        <div class="mb-4 col-md-3">
-                            <label for="nrCRMV" class="form-label">N° CRMV</label>
-                            <input type="text" class="form-control" id="nrCRMV" name="nrCRMV" value="{{nrCRMV}}"
+                            </div>
+                            <div class="mb-4 col-md-4">
+                                <label for="nrCRMV" class="form-label">N° CRMV (Se possuir)</label>
+                                <input type="text" class="form-control" id="nrCRMV" name="nrCRMV" value="{{nrCRMV}}"
                                 placeholder=" ">
-                        </div>
+                            </div>
+                            <div class="mb-4 col-md-4">
+                                <label for="dsCidade" class="form-label">Cidade</label>
+                                <select class="form-select" id="select2cdCidade" name="select2cdCidade">
+                                    {{selectCidadePessoa|raw}}
+                                </select>
+                            </div>
+                            <div class="mb-4 col-md-4">
+                                <label for="dsCidade" class="form-label">Bairro</label>
+                                <select class="form-select" id="select2cdBairro" name="select2cdBairro">
+                                    {{selectBairroPessoa|raw}}
+                                </select>
+                            </div>
+                            <div class="mb-4 col-md-4">
+                                <label for="dsCidade" class="form-label">Logradouro</label>
+                                <select class="form-select" id="select2cdLogradouro" name="select2cdLogradouro">
+                                    {{selectLogradouroPessoa|raw}}
+                                </select>
+                            </div>
+                                                
                     </div>
                 </div>
               
@@ -145,12 +178,12 @@
                         <b>Voltar</b></a>
                 </div>
                 <div class="col">
-                    <button class="btn btn-danger w-100" type="button" id="bntExcluirPessoa"><b><i
+                    <button class="btn btn-danger w-100" type="button" onclick="excluirCadastroAnimais()" id="bntExcluirPessoa"><b><i
                                 class="bi bi-trash3-fill"></i>
                             Excluir</b></button>
                 </div>
                 <div class="col">
-                    <button class="btn btn-primary w-100" type="submit"><i class="bi bi-floppy2-fill"></i>
+                    <button class="btn btn-primary w-100" type="button" onclick="salvarCadastroAnimais()"><i class="bi bi-floppy2-fill"></i>
                         <b>Salvar</b></button>
                 </div>
             </div>

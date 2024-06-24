@@ -1,5 +1,11 @@
 var dataTableAnimais;
 $(document).ready(function () {
+
+  if (sessionStorage.getItem('notificarSucesso') === 'true') {
+    Notificacao.NotificacaoSucesso();
+    sessionStorage.removeItem('notificarSucesso');
+}
+
   dataTableAnimais = $("#gridDataTable").DataTable({
     scrollX: true,
     orderCellsTop: true,
