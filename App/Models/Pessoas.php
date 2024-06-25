@@ -9,6 +9,8 @@ class Pessoas
 
     private $CdPessoa;
     private $NmPessoa;
+    private $cpf;
+    private $dataNascimento;
     private \App\Models\Municipios $cidade;
     private \App\Models\Bairros $bairro;
     private \App\Models\Logradouros $logradouro;
@@ -23,10 +25,12 @@ class Pessoas
     private $Message;
 
 
-    public function __construct($nmpessoa, $cdCidade, $nrtelefone, $nrCelular, $dsEmail, $nrCrmv, $cdBairro, $cdLogradouro, $ativo, $cdpessoa = null)
+    public function __construct($nmpessoa, $cdCidade, $nrtelefone, $nrCelular, $dsEmail, $nrCrmv, $cdBairro, $cdLogradouro, $ativo, $cpf, $dataNascimento, $cdpessoa = null)
     {
         $this->CdPessoa = $cdpessoa;
         $this->NmPessoa = $nmpessoa;
+        $this->cpf = $cpf;
+        $this->dataNascimento = $dataNascimento;
         $this->NrTelefone = $nrtelefone;
         $this->NrCelular = $nrCelular;
         $this->DsEmail = $dsEmail;
@@ -75,10 +79,12 @@ class Pessoas
                 $read->getResult()[0]['cd_bairro'],
                 $read->getResult()[0]['cd_logradouro'],
                 $read->getResult()[0]['fl_ativo'],
+                $read->getResult()[0]['cpf'],
+                $read->getResult()[0]['data_nascimento'],
                 $read->getResult()[0]['cd_pessoa']
             );
         } catch (Exception $e) {
-            return new self('', '', '', '', '', '', '', '', '', '');
+            return new self('', '', '', '', '', '', '', '', '', '', '', '');
         }
     }
 
@@ -90,6 +96,8 @@ class Pessoas
         try {
             $insert->ExeInsert("PESSOAS", [
                 "NM_PESSOA" => $this->NmPessoa,
+                "CPF" => $this->cpf,
+                "DATA_NASCIMENTO" => $this->dataNascimento,
                 "CD_CIDADE" => $this->cidade->getCodigo(),
                 "CD_BAIRRO" => $this->bairro->getCodigo(),
                 "CD_LOGRADOURO" => $this->logradouro->getCodigo(),
@@ -119,6 +127,8 @@ class Pessoas
             if ($dadosCadastro) {
                 $dadosUpdate = [
                     "NM_PESSOA" => $this->NmPessoa,
+                    "CPF" => $this->cpf,
+                    "DATA_NASCIMENTO" => $this->dataNascimento,
                     "CD_CIDADE" => $this->cidade->getCodigo(),
                     "CD_BAIRRO" => $this->bairro->getCodigo(),
                     "CD_LOGRADOURO" => $this->logradouro->getCodigo(),
@@ -148,13 +158,36 @@ class Pessoas
 
     public static function GeneralSearch($search)
     {
+
+        $colunas = $search['COLUNAS'];
+        $nome = $search['NM_PESSOA'];
+        $cpf = $search['CPF'];
+        $dataNascimento = $search['DATA_NASCIMENTO'];
+
         $read = new \App\Conn\Read();
-        if (!empty($search)) {
-            $read->FullRead("SELECT P.* FROM pessoas P  WHERE UPPER(CONCAT(P.CD_PESSOA, ' ', P.NM_PESSOA)) LIKE UPPER(CONCAT('%', :P, '%')) ORDER BY P.NM_PESSOA ASC", "P=$search");
+
+        $query = "SELECT $colunas
+                  FROM pessoas
+                  WHERE pessoas.fl_ativo = 'S' ";
+
+        if (!empty($nome)) $query .= " AND pessoas.nm_pessoa LIKE '%$nome%' ";
+        if (!empty($cpf)) $query .= " AND pessoas.cpf LIKE '%$cpf%' ";
+        if (!empty($dataNascimento)) $query .= " AND pessoas.data_nascimento = '$dataNascimento' ";
+
+        $query .= "LIMIT 100";
+
+        // if (!empty($search)) {
+        //     $read->FullRead("SELECT P.* FROM pessoas P  WHERE UPPER(CONCAT(P.CD_PESSOA, ' ', P.NM_PESSOA)) LIKE UPPER(CONCAT('%', :P, '%')) ORDER BY P.NM_PESSOA ASC", "P=$search");
+        // } else {
+        //     $read->FullRead("SELECT P.* FROM PESSOAS P");
+        // }
+        $read->FullRead($query);
+
+        if ($read->getRowCount() == 0) {
+            return null;
         } else {
-            $read->FullRead("SELECT P.* FROM PESSOAS P");
+            return $read->getResult();
         }
-        return $read->getResult();
     }
 
     public static function RetornaDadosPessoa($cdPessoa)
@@ -290,6 +323,14 @@ class Pessoas
     public function getEmail()
     {
         return $this->DsEmail;
+    }
+    public function getCPF()
+    {
+        return $this->cpf;
+    }
+    public function getDataNascimento()
+    {
+        return $this->dataNascimento;
     }
 
     public function getNrCRMV()

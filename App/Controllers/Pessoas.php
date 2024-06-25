@@ -53,6 +53,8 @@ class Pessoas
 
             $cdPessoa = !empty($Formulario['cdPessoa']) ? $Formulario['cdPessoa'] : '';
             $nmPessoa = !empty($Formulario['nmPessoa']) ? $Formulario['nmPessoa'] : '';
+            $cpf = !empty($Formulario['cpfPessoa']) ? $Formulario['cpfPessoa'] : '';
+            $dataNascimento = !empty($Formulario['dataNascimento']) ? $Formulario['dataNascimento'] : '';
             $nrTelefone = !empty($Formulario['nrTelefone']) ? $Formulario['nrTelefone'] : '';
             $dsEmail = !empty($Formulario['dsEmail']) ? $Formulario['dsEmail'] : '';
             $nrCRMV = !empty($Formulario['nrCRMV']) ? $Formulario['nrCRMV'] : '';
@@ -67,7 +69,7 @@ class Pessoas
             }
 
 
-            $pessoa = new \App\Models\Pessoas($nmPessoa, $cdCidade, $nrTelefone, '', $dsEmail, $nrCRMV, $cdBairro, $cdLogradouro, $ativo, $cdPessoa);
+            $pessoa = new \App\Models\Pessoas($nmPessoa, $cdCidade, $nrTelefone, '', $dsEmail, $nrCRMV, $cdBairro, $cdLogradouro, $ativo, $cpf, $dataNascimento, $cdPessoa);
             if (empty($cdPessoa)) {
                 $pessoa->Insert();
             } else {
@@ -88,16 +90,24 @@ class Pessoas
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
 
-    public static function RetornarPessoas(Request $request, Response $response)
+    public static function retornaPesquisaModal(Request $request, Response $response)
     {
 
         try {
+            $Formulario = $request->getParsedBody();
 
-            $retorno = \App\Models\Pessoas::GeneralSearch('');
+            $nmPessoa = !empty($Formulario['nmPessoaModal']) ? $Formulario['nmPessoaModal'] : '';
+            $cpf = !empty($Formulario['cpfPessoaModal']) ? $Formulario['cpfPessoaModal'] : '';
+            $dataNascimento = !empty($Formulario['dataNascimentoModal']) ? $Formulario['dataNascimentoModal'] : '';
 
-            if (!$retorno) {
-                throw new Exception("<b>Erro ao tentar acessar os dados/b><br><br> Por favor, tente novamente.", 400);
-            }
+            $arrayParam = [
+                "COLUNAS" => "pessoas.nm_pessoa, pessoas.cpf, pessoas.data_nascimento",
+                "NM_PESSOA" => $nmPessoa,
+                "CPF" => $cpf,
+                "DATA_NASCIMENTO" => $dataNascimento
+            ];
+
+            $retorno = \App\Models\Pessoas::GeneralSearch($arrayParam);
 
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno];
             $codigoHTTP = 200;
@@ -139,7 +149,7 @@ class Pessoas
             $Formulario = $request->getParsedBody();
             $cdPessoa = !empty($Formulario['cdPessoa']) ? $Formulario['cdPessoa'] : '';
 
-            $pessoa = new \App\Models\Pessoas('', '','','','','','','','', $cdPessoa);
+            $pessoa = new \App\Models\Pessoas('', '','','','','','','','', '', '', $cdPessoa);
             $pessoa->Delete();
 
             if (!$pessoa->getResult()) {

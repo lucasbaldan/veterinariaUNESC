@@ -59,7 +59,7 @@ class Notificacao {
     }
     static NotificacaoAviso(aviso) {
         const notificao = new Notificacao();
-        notificao.push('Atenção! <br>' + aviso, 'warning');
+        notificao.push('<b>Atenção!</b> <br>' + aviso, 'warning');
     }
 }
 window.Notificacao = Notificacao;

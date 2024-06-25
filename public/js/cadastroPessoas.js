@@ -13,6 +13,7 @@ $( document ).ready(function() {
       })
 
       $('#nrTelefone').inputmask("(99) 99999-9999", { autoUnmask: true });
+      $('#cpfPessoa').inputmask("999.999.999-99", { autoUnmask: true });
 
 });
     

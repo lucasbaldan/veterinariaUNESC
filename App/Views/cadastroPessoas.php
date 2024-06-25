@@ -47,6 +47,8 @@ class CadastroPessoas
             "cdPessoa" => $pessoa->getCodigo(),
             "selectAtivoPessoa" => $selectAtivo,
             "nmPessoa" => $pessoa->getNome(),
+            "cpfPessoa" => $pessoa->getCPF(),
+            "dataNascimento" => $pessoa->getDataNascimento(),
             "nrTelefone" => $pessoa->getTelefone(),
             "dsEmail" => $pessoa->getEmail(),
             "nrCRMV" => $pessoa->getNrCRMV(),
