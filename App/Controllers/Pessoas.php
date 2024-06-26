@@ -101,7 +101,7 @@ class Pessoas
             $dataNascimento = !empty($Formulario['dataNascimentoModal']) ? $Formulario['dataNascimentoModal'] : '';
 
             $arrayParam = [
-                "COLUNAS" => "pessoas.nm_pessoa, pessoas.cpf, pessoas.data_nascimento",
+                "COLUNAS" => "pessoas.cd_pessoa, pessoas.nm_pessoa, pessoas.cpf, pessoas.data_nascimento",
                 "NM_PESSOA" => $nmPessoa,
                 "CPF" => $cpf,
                 "DATA_NASCIMENTO" => $dataNascimento
@@ -126,11 +126,28 @@ class Pessoas
             $Formulario = $request->getParsedBody();
             $cdPessoa = !empty($Formulario['cdPessoa']) ? $Formulario['cdPessoa'] : '';
 
-            $retorno = \App\Models\Pessoas::RetornaDadosPessoa($cdPessoa);
+            $pessoa = \App\Models\Pessoas::findById($cdPessoa);
 
-            if (!$retorno) {
-                throw new Exception("<b>Erro ao tentar os dados da pessoa</b><br><br> Por favor, tente novamente.", 400);
+            if (empty($pessoa->getCodigo())) {
+                throw new Exception("<b>Erro ao tentar localizar os dados da pessoa</b><br><br> Por favor, tente novamente.", 400);
             }
+
+            $retorno = [
+                'nm_pessoa' => $pessoa->getNome(),
+                'cd_cidade' => $pessoa->getCidade()->getCodigo(),
+                'nm_cidade' => $pessoa->getCidade()->getDescricao(),
+                'nr_telefone' => $pessoa->getTelefone(),
+                'ds_email' => $pessoa->getEmail(),
+                'nr_crmv' => $pessoa->getNrCRMV(),
+                'cd_bairro' => $pessoa->getBairro()->getCodigo(),
+                'nm_bairro' => $pessoa->getBairro()->getNome(),
+                'cd_logradouro' => $pessoa->getLogradouro()->getCodigo(),
+                'nm_logradouro' => $pessoa->getLogradouro()->getNome(),
+                'fl_ativo' => $pessoa->getAtivo(),
+                'cpf' => $pessoa->getCPF(),
+                'data_nascimento' => $pessoa->getDataNascimento(),
+                'cd_pessoa' => $pessoa->getCodigo()
+            ];
 
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno];
             $codigoHTTP = 200;

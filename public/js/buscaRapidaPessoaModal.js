@@ -3,7 +3,13 @@ var table;
 function constructModalBuscaPessoa() {
   $("#cpfPessoaModal").inputmask("999.999.999-99", { autoUnmask: true });
 
-  table = $("#gridDataTable").DataTable();
+  table = $("#gridDataTable").DataTable({
+    language: {
+      url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
+    },
+    pageLength: 10,
+    lengthChange: false
+  });
 }
 
 function BuscarRapidoPessoa() {
@@ -26,15 +32,14 @@ function BuscarRapidoPessoa() {
                 pessoa.nm_pessoa,
                 pessoa.cpf,
                 pessoa.data_nascimento,
-                '<button class="btn btn-primary" data-id="' +
-                  pessoa.id +
-                  '">Selecionar</button>',
+                '<button class="btn btn-primary" onclick="selecionarPessoa(' + pessoa.cd_pessoa + ')">Selecionar</button>',
               ])
               .draw();
           }
         } else {
             table.draw();
-            Notificacao.NotificacaoAviso('Nenhum registro encontrado!');
+            Notificacao.NotificacaoAviso('Nenhum registro encontrado!<br> <b>Campos habilitados para inserir nova Pessoa</b>');
+            desbloquearCamposPessoa();
         }
       }
     },

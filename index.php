@@ -192,7 +192,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     $group->group('/pessoas', function (RouteCollectorProxy $pessoasGroup) {
         $pessoasGroup->post('/controlar', App\Controllers\Pessoas::class . ':Salvar');
         $pessoasGroup->post('/retornaPesquisaModal', App\Controllers\Pessoas::class . ':retornaPesquisaModal');
-        $pessoasGroup->post('/retornaDadosPessoa', App\Controllers\Pessoas::class . ':RetornarDadosPessoa');
+        $pessoasGroup->post('/selecionarPessoa', App\Controllers\Pessoas::class . ':RetornarDadosPessoa');
         $pessoasGroup->post('/atualizaExclusaoPessoa', App\Controllers\Pessoas::class . ':AtualizarExclusaoPessoa');
         $pessoasGroup->post('/excluiPessoa', App\Controllers\Pessoas::class . ':ApagarPessoa');
         $pessoasGroup->post('/grid', App\Controllers\Pessoas::class . ':montarGrid');
@@ -301,7 +301,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     if (!in_array($uri, [
         '/veterinariaUNESC/server/pessoas/controlar',
         '/veterinariaUNESC/server/pessoas/retornaPesquisaModal',
-        '/veterinariaUNESC/server/pessoas/retornaDadosPessoa',
+        '/veterinariaUNESC/server/pessoas/selecionarPessoa',
         '/veterinariaUNESC/server/pessoas/atualizaExclusaoPessoa',
         '/veterinariaUNESC/server/pessoas/excluiPessoa',
         '/veterinariaUNESC/server/pessoas/grid',

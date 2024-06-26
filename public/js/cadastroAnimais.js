@@ -1,5 +1,6 @@
 $(document).ready(function () {
   $("#select2especieAnimal, #select2racaAnimal").prop("disabled", true);
+  bloquearCamposPessoa();
 
   var selectTipoAnimal = new Select2("#select2tipoAnimal", {
     url: "/veterinariaUNESC/server/tipoAnimal/general",
@@ -56,15 +57,23 @@ $(document).ready(function () {
 
   $("#donoNaoDeclarado").on("change", function () {
     if ($(this).is(":checked")) {
-      $(
-        "#cdPessoa, #nmPessoa, #nrTelefone, #dsEmail, #nrCRMV, #select2cdCidade, #select2cdBairro, #select2cdLogradouro, #cpfPessoa, #dataNascimento, #buscaRapidaPessoa"
-      ).prop("disabled", true);
+      bloquearCamposPessoa();
     } else {
-      $(
-        "#cdPessoa, #nmPessoa, #nrTelefone, #dsEmail, #nrCRMV, #select2cdCidade, #select2cdBairro, #select2cdLogradouro, #cpfPessoa, #dataNascimento, #buscaRapidaPessoa"
-      ).prop("disabled", false);
+      desbloquearCamposPessoa();
     }
   });
+
+  new Select2('#select2cdCidade', {
+    url: '/veterinariaUNESC/server/municipio/general',
+  })
+
+  new Select2('#select2cdBairro', {
+    url: '/veterinariaUNESC/server/bairro/general',
+  })
+
+  new Select2('#select2cdLogradouro', {
+    url: '/veterinariaUNESC/server/logradouro/general',
+  })
 
   $("#nrTelefone").inputmask("(99) 99999-9999", { autoUnmask: true });
   $("#cpfPessoa").inputmask("999.999.999-99", { autoUnmask: true });
@@ -162,6 +171,47 @@ function excluirCadastroAnimais() {
           },
         });
       }
+    },
+  });
+}
+
+function selecionarPessoa(id){
+  Loading.on();
+  $.ajax({
+    url: "/veterinariaUNESC/server/pessoas/selecionarPessoa",
+    method: "POST",
+    data: {
+      cdPessoa: id,
+    },
+    success: function (response) {
+      if(response.RESULT){
+        var pessoa = response.RETURN;
+
+        $('#cdPessoa').val(pessoa.cd_pessoa);
+        $('#nmPessoa').val(pessoa.nm_pessoa);
+        $('#cpfPessoa').val(pessoa.cpf);
+        $('#dataNascimento').val(pessoa.data_nascimento);
+        $('#nrTelefone').val(pessoa.nr_telefone);
+        $('#dsEmail').val(pessoa.ds_email);
+        $('#nrCRMV').val(pessoa.nr_crmv);
+
+        var optionCidade = new Option(pessoa.nm_cidade, pessoa.cd_cidade, true, true);
+            $('#select2cdCidade').append(optionCidade).trigger('change');
+
+        var optionBairro = new Option(pessoa.nm_bairro, pessoa.cd_bairro, true, true);
+            $('#select2cdBairro').append(optionBairro).trigger('change');
+
+        var optionLogradouro = new Option(pessoa.nm_logradouro, pessoa.cd_logradouro, true, true);
+            $('#select2cdLogradouro').append(optionLogradouro).trigger('change');
+
+       bootbox.hideAll();
+      }
+    },
+    error: function (xhr, status, error) {
+      Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
+    },
+    complete: function () {
+      Loading.off();
     },
   });
 }

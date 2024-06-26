@@ -140,6 +140,14 @@ class Select2 {
     }
 }
 
+function bloquearCamposPessoa(extras){
+    $(
+        "#cdPessoa, #nmPessoa, #nrTelefone, #dsEmail, #nrCRMV, #select2cdCidade, #select2cdBairro, #select2cdLogradouro, #cpfPessoa, #dataNascimento" + (extras != null ? (", " + extras) : ' ') 
+      ).prop("disabled", true);
+}
 
-
-
+function desbloquearCamposPessoa(extras){
+    $(
+        "#cdPessoa, #nmPessoa, #nrTelefone, #dsEmail, #nrCRMV, #select2cdCidade, #select2cdBairro, #select2cdLogradouro, #cpfPessoa, #dataNascimento" + (extras != null ? (", " + extras) : ' ')
+      ).prop("disabled", false);
+}

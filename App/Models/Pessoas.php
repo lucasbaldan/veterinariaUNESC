@@ -193,9 +193,10 @@ class Pessoas
     public static function RetornaDadosPessoa($cdPessoa)
     {
         $read = new \App\Conn\Read();
-        $read->FullRead("SELECT P.* FROM pessoas P  WHERE P.CD_PESSOA = :C", "C=$cdPessoa");
+        $read->FullRead("SELECT P.* FROM pessoas
+                          WHERE CD_PESSOA = :C", "C=$cdPessoa");
 
-        return $read->getResult()[0];
+        return $read->getResult();
     }
 
     public function Delete()
