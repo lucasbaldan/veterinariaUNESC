@@ -8,25 +8,46 @@ class GruposUsuarios
 {
   private $CdGrupoUsuarios;
   private $NmGrupoUsuarios;
-  private $FlAcessar;
-  private $FlEditar;
-  private $FlExcluir;
-  private $dsRelatorio;
+  private $Permissoes;
+  private $FlAtivo;
   private $Return;
   private $Result;
   private $Message;
 
 
-  function __construct($nmgrupousuarios, $flacessar, $fleditar, $flexcluir, $cdgrupousuarios = null)
+  function __construct($nmgrupousuarios, $permissoes, $flativo, $cdgrupousuarios = null)
   {
     $this->CdGrupoUsuarios = $cdgrupousuarios;
     $this->NmGrupoUsuarios = $nmgrupousuarios;
-    $this->FlAcessar = $flacessar;
-    $this->FlEditar = $fleditar;
-    $this->FlExcluir = $flexcluir;
+    $this->Permissoes = $permissoes;
+    $this->FlAtivo = $flativo;
   }
 
+  public static function findById($id)
+  {
+    try {
+      if (empty($id)) {
+        throw new Exception("Objeto vazio");
+      }
 
+      $read = new \App\Conn\Read();
+
+      $read->ExeRead("GRUPOS_USUARIOS", "WHERE CD_GRUPO_USUARIOS = :C LIMIT 1", "C=$id");
+
+      if ($read->getRowCount() == 0) {
+        throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
+      }
+
+      return new self(
+        $read->getResult()[0]['NM_GRUPO_USUARIOS'],
+        $read->getResult()[0]['PERMISSOES'],
+        $read->getResult()[0]['CD_GRUPO_USUARIOS'],
+        $read->getResult()[0]['FL_ATIVO'],
+      );
+    } catch (Exception $e) {
+      return new self('', '', '', '', '');
+    }
+  }
 
   public function Insert()
   {
@@ -36,13 +57,12 @@ class GruposUsuarios
       $insert->ExeInsert("grupos_usuarios", [
         // "CD_GRUPO_USUARIOS" => $this->CdGrupoUsuarios,
         "NM_GRUPO_USUARIOS" => $this->NmGrupoUsuarios,
-        "FL_ACESSAR" => $this->FlAcessar,
-        "FL_EDITAR" => $this->FlEditar,
-        "FL_EXCLUIR" => $this->FlExcluir,
+        "PERMISSOES" => $this->Permissoes,
+        "FL_ATIVO" => $this->FlAtivo,
       ]);
 
       if (!$insert->getResult()) {
-        throw new Exception($insert->getError());
+        throw new Exception($insert->getMessage());
       }
       $this->Result = true;
     } catch (Exception $e) {
@@ -61,11 +81,9 @@ class GruposUsuarios
       $dadosFicha = $read->getResult()[0] ?? [];
       if ($dadosFicha) {
         $dadosUpdate = [
-          // "CD_GRUPO_USUARIOS" => $this->dtFicha,
           "NM_GRUPO_USUARIOS" => $this->NmGrupoUsuarios,
-          "FL_ACESSAR" => $this->FlAcessar,
-          "FL_EDITAR" => $this->FlEditar,
-          "FL_EXCLUIR" => $this->FlExcluir,
+          "PERMISSOES" => $this->Permissoes,
+          "FL_ATIVO" => $this->FlAtivo,
         ];
 
         $update = new \App\Conn\Update();
@@ -74,7 +92,7 @@ class GruposUsuarios
         $atualizado = !empty($update->getResult());
 
         if (!$atualizado) {
-          throw new Exception($update->getError());
+          throw new Exception($update->getMessage());
         }
         $this->Result = true;
       } else {
@@ -87,15 +105,25 @@ class GruposUsuarios
   }
 
 
-  public static function GeneralSearch($search)
+  public function GeneralSearch($search)
   {
+    $colunas = !empty($search['COLUNAS']) ? $search['COLUNAS'] : '*';
+
     $read = new \App\Conn\Read();
-    if (!empty($search)) {
-      $read->FullRead("SELECT G.* FROM grupos_usuarios G  WHERE UPPER(CONCAT(F.CD_GRUPO_USUARIOS, ' ', T.NM_GRUPO_USUARIOS)) LIKE UPPER(CONCAT('%', :P, '%')) ORDER BY T.NM_GRUPO_USUARIOS ASC", "P=$search");
+    $query = "SELECT $colunas
+              FROM GRUPOS_USUARIOS ";
+
+    $query .= "LIMIT 100";
+
+    $read->FullRead($query);
+
+    if (empty($read->getResult())) {
+      return false;
     } else {
-      $read->FullRead("SELECT G.* FROM grupos_usuarios G");
+      $this->Result = true;
+      $this->Return = $read->getResult();
+      return $read->getResult();
     }
-    return $read->getResult();
   }
 
   public static function RetornaDadosGrupoUsuarios($cdGrupoUsuarios)
@@ -133,5 +161,20 @@ class GruposUsuarios
   public function GetReturn()
   {
     return $this->Return;
+  }
+
+  public function GetCodigo()
+  {
+    return $this->CdGrupoUsuarios;
+  }
+
+  public function GetNome()
+  {
+    return $this->NmGrupoUsuarios;
+  }
+
+  public function GetPermissoes()
+  {
+    return $this->Permissoes;
   }
 }

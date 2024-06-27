@@ -70,23 +70,38 @@ class GruposUsuarios
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
 
-    public static function RetornarGruposUsuarios(Request $request, Response $response)
+    public static function General(Request $request, Response $response)
     {
 
         try {
+            $dados = $request->getParsedBody();
+            $forSelect2 = isset($dados['forSelect2']) ? $dados['forSelect2'] : '';
 
-            $retorno = \App\Models\GruposUsuarios::GeneralSearch('');
+            // $retorno = \App\Models\GruposUsuarios::GeneralSearch('');
+            if ($forSelect2) {
+                $busca = new \App\Models\GruposUsuarios('', '', '', '');
 
-            if (!$retorno) {
-                throw new Exception("<b>Erro ao tentar acessar os grupos de usuários</b><br><br> Por favor, tente novamente.", 400);
+                $parametrosPesquisa = [
+                    "COLUNAS" => "CD_GRUPO_USUARIOS AS id, NM_GRUPO_USUARIOS AS text",
+                    "descricaoPesquisa" => empty($descricao) ? '' : $descricao
+                ];
+
+                $busca->GeneralSearch($parametrosPesquisa);
+                
             }
 
-            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno];
+            if(!$busca->getReturn()){
+                throw new Exception($busca->getMessage());
+            }
+
+
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $busca->getReturn()];
             $codigoHTTP = 200;
         } catch (Exception $e) {
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
             $codigoHTTP = $e->getCode();
         }
+
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }

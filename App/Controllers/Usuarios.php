@@ -15,13 +15,24 @@ class Usuarios
         try {
             $Formulario = $request->getParsedBody();
 
-            $cdUsuario = !empty($Formulario['cdUsuario']) ? $Formulario['cdUsuario'] : '';
-            $cdPessoa = !empty($Formulario['cdPessoa']) ? $Formulario['cdPessoa'] : '';
-            $usuario = !empty($Formulario['usuario']) ? $Formulario['usuario'] : '';
-            $senha = !empty($Formulario['senha']) ? $Formulario['senha'] : '';
+            $cdPessoa = !empty($Formulario['select2cdPessoa']) ? $Formulario['select2cdPessoa'] : '';
+            $usuario = !empty($Formulario['dsUsuario']) ? $Formulario['dsUsuario'] : '';
             $cdGrupoUsuarios = !empty($Formulario['cdGrupoUsuarios']) ? $Formulario['cdGrupoUsuarios'] : '';
+            $flAtivo = !empty($Formulario['flAtivo']) ? $Formulario['flAtivo'] : '';
+            $cdUsuario = !empty($Formulario['cdUsuario']) ? $Formulario['cdUsuario'] : '';
 
-            $usuarios = new \App\Models\Usuarios($cdPessoa, $usuario, $senha, $cdGrupoUsuarios, $cdUsuario);
+
+            $dsSenha = !empty($Formulario['dsSenha']) ? $Formulario['dsSenha'] : '';
+            $dsConfirmaSenha = !empty($Formulario['dsConfirmaSenha']) ? $Formulario['dsConfirmaSenha'] : '';
+
+            if ($dsSenha === $dsConfirmaSenha){
+                $senha = $dsSenha;
+            } else {
+                throw new Exception("<b>Erro ao salvar o usuário</b><br><br> A senha e a confirmação da senha não são iguais.", 400);
+                return;
+            }
+
+            $usuarios = new \App\Models\Usuarios($cdPessoa, $usuario, $senha, $cdGrupoUsuarios, $flAtivo, $cdUsuario);
 
             if (empty($cdUsuario)) {
                 $retorno = $usuarios->Insert();
@@ -29,7 +40,7 @@ class Usuarios
                 $retorno = $usuarios->Update();
             }
 
-            if (!$retorno) {
+            if (!$usuarios->GetResult()) {
                 throw new Exception("<b>Erro ao salvar o usuário</b><br><br> Por favor, tente novamente.", 400);
             }
 
@@ -141,4 +152,48 @@ class Usuarios
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
+
+    public static function montarGrid(Request $request, Response $response)
+    {
+
+        try {
+
+            $grid = $request->getParsedBody();
+
+            $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
+            if ($orderBy == 0) $orderBy = "cd_usuario";
+            if ($orderBy == 1) $orderBy = "nm_usuario";
+            if ($orderBy == 2) $orderBy = "nm_grupo_usuarios";
+            if ($orderBy == 3) $orderBy = "fl_ativo";
+
+            $parametrosBusca = [
+                "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',
+                "pesquisaNmUsuario" => !empty($grid['columns'][1]['search']['value']) ? $grid['columns'][1]['search']['value'] : '',
+                "pesquisaGrupoUsuario" => !empty($grid['columns'][2]['search']['value']) ? $grid['columns'][2]['search']['value'] : '',
+                "pesquisaAtivo" => !empty($grid['columns'][3]['search']['value']) ? $grid['columns'][2]['search']['value'] : '',
+                "inicio" => $grid['start'],
+                "limit" => $grid['length'],
+                "orderBy" =>  $orderBy,
+                "orderAscDesc" => isset($grid['order'][0]['dir']) ? $grid['order'][0]['dir'] : ''
+            ];
+
+            $dadosSelect = \App\Models\Usuarios::SelectGrid($parametrosBusca);
+            $dados = [
+                "draw" => (int)$grid['draw'],
+                "recordsTotal" => isset($dadosSelect[0]['total_table']) ? $dadosSelect[0]['total_table'] : 0,
+                "recordsFiltered" => isset($dadosSelect[0]['total_filtered']) ? $dadosSelect[0]['total_filtered'] : 0,
+                "data" => $dadosSelect
+            ];
+
+
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $dados];
+            $codigoHTTP = 200;
+        } catch (Exception $e) {
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $codigoHTTP = 500;
+        }
+        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
+    }
+
 }

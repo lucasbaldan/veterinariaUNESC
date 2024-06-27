@@ -84,7 +84,7 @@ class Pessoas
                 $read->getResult()[0]['cd_pessoa']
             );
         } catch (Exception $e) {
-            return new self('', '', '', '', '', '', '', '', '', '', '', '');
+            return new self('', '', '', '', '', '', '', '', '', '', '');
         }
     }
 

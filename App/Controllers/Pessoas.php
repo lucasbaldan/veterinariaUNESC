@@ -247,4 +247,41 @@ class Pessoas
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
+
+    public static function General(Request $request, Response $response)
+    {
+
+        try {
+            
+            $dados = $request->getParsedBody();
+
+            $forSelect2 = isset($dados['forSelect2']) ? $dados['forSelect2'] : '';
+            $descricao = isset($dados['buscaSelect2']) ? $dados['buscaSelect2'] : '';
+
+            if ($forSelect2) {
+                $busca = new \App\Models\Pessoas('', '', '', '', '', '', '', '', '', '', '');
+
+                $parametrosPesquisa = [
+                    "COLUNAS" => "pessoas.CD_PESSOA AS id, pessoas.NM_PESSOA AS text",
+                    "descricaoPesquisa" => empty($descricao) ? '' : $descricao
+                ];
+
+                $busca->GeneralSearch($parametrosPesquisa);
+                
+            }
+
+            if(!$busca->getReturn()){
+                throw new Exception($busca->getMessage());
+            }
+
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $busca->getReturn()];
+            $codigoHTTP = 200;
+
+        } catch (Exception $e) {
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $codigoHTTP = 500;
+        }
+        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
+    }
 }

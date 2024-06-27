@@ -1,0 +1,91 @@
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;); background-color: #F8F9FA ;"
+    aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/veterinariaUNESC/paginas/inicial"><i
+                    class="bi bi-house-door-fill"></i></a></li>
+        <li class="breadcrumb-item" aria-current="page">Cadastros</li>
+        <li class="breadcrumb-item" aria-current="page">Usuarios</li>
+    </ol>
+</nav>
+
+<div class="container-fluid d-flex justify-content-center align-items-center mt-2">
+    <div class="card rounded" style="min-width: 100%;">
+        <div class="card-body border border-1S rounded-2">
+            <form id="formCadastroUsuarios" name="formCadastroUsuarios">
+                <div class="text-center mt-2">
+                    <h3>Cadastro de Usuários</h3>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="cdUsuario" class="form-label">Código: </label>
+                        <input type="text" readonly class="form-control" id="cdUsuario" name="cdUsuario"
+                            value="{{cdUsuario}}">
+                    </div>
+                    <div class="col-md-7"></div>
+                    <div class="mb-4 col-md-3">
+                        <label for="flAtivo" class="form-label">Ativo</label>
+                        {{flAtivo|raw}}
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="mb-4 col-md-6">
+                        <label for="select2cdPessoa" class="form-label">Pessoa</label>
+                        <select class="form-control" id="select2cdPessoa" name="select2cdPessoa">
+                            {{select2cdPessoa|raw}}
+                        </select>
+                    </div>
+                    <div class="mb-4 col-md-6">
+                        <label for="cdGrupoUsuarios" class="form-label">Grupo Usuário</label>
+                        <select class="form-control" id="cdGrupoUsuarios" name="cdGrupoUsuarios">
+                            {{cdGrupoUsuarios|raw}}
+                        </select>
+                    </div>
+                    <div class="mb-4 col-md-4">
+                        <label for="dsUsuario" class="form-label">Login</label>
+                        <input type="text" class="form-control" id="dsUsuario" name="dsUsuario" placeholder=" "
+                            value="{{dsUsuario}}" required>
+                    </div>
+                    <div class="mb-4 col-md-4">
+                        <label for="dsSenha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="dsSenha" name="dsSenha" placeholder=" "
+                            value="">
+                    </div>
+                    <div class="mb-4 col-md-4">
+                        <label for="dsConfirmaSenha" class="form-label">Confirmar Senha</label>
+                        <input type="password" class="form-control" id="dsConfirmaSenha" name="dsConfirmaSenha"
+                            placeholder=" " value="">
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid d-flex justify-content-center align-items-center mt-2 mb-3">
+    <div class="card rounded" style="min-width: 100%;">
+        <div class="card-body border border-1S rounded-2">
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-warning w-100" type="button" href="/veterinariaUNESC/paginas/listUsuarios"><i
+                            class="bi bi-sign-turn-left-fill"></i>
+                        <b>Voltar</b></a>
+                </div>
+
+
+                {% if exibeSalvar %}
+                <div class="col">
+                    <button class="btn btn-primary w-100" type="submit"><i class="bi bi-floppy2-fill"></i>
+                        <b>Salvar</b></button>
+                </div>
+                {% endif %}
+                </form>
+
+                {% if exibeExcluir %}
+                <div class="col">
+                    <button class="btn btn-danger w-100" onclick="excluirCadastroUsuario()"><b><i class="bi bi-trash3-fill"></i> Excluir </b></button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

@@ -37,7 +37,7 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
-    $group->get('/formularioLPV', function (Request $request, Response $response, $args) use ($twig) {
+    $group->get('/fichaLPV', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\FormularioLPV($twig);
         return $tela->exibir($request, $response, $args);
     });
@@ -82,7 +82,7 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
-    $group->get('/cadastroGruposUsuarios', function (Request $request, Response $response, $args) use ($twig) {
+    $group->get('/gruposUsuarios', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\CadastroGruposUsuarios($twig);
         return $tela->exibir($request, $response, $args);
     });
@@ -102,11 +102,12 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
+
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, ['/veterinariaUNESC/paginas',
                          '/veterinariaUNESC/paginas/login', 
-                         '/veterinariaUNESC/paginas/formularioLPV', 
+                         '/veterinariaUNESC/paginas/fichaLPV', 
                          '/veterinariaUNESC/paginas/inicial', 
                          '/veterinariaUNESC/paginas/listTipoAnimal',
                          '/veterinariaUNESC/paginas/listEspecie',
@@ -116,7 +117,7 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
                          '/veterinariaUNESC/paginas/listLogradouro',
                          '/veterinariaUNESC/paginas/cadastroPessoas',
                          '/veterinariaUNESC/paginas/cadastroAnimais',
-                         '/veterinariaUNESC/paginas/cadastroGruposUsuarios',
+                         '/veterinariaUNESC/paginas/gruposUsuarios',
                          '/veterinariaUNESC/paginas/listPessoas',
                          '/veterinariaUNESC/paginas/listAnimais',
                          ])) {
@@ -279,6 +280,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $GrUsuariosGroup->post('/excluiGruposUsuarios',  App\Controllers\GruposUsuarios::class . ':ExcluirGruposUsuarios');
         $GrUsuariosGroup->post('/retornaGruposUsuarios',  App\Controllers\GruposUsuarios::class . ':RetornarGruposUsuarios');
         $GrUsuariosGroup->post('/retornaDadosGrupoUsuarios',  App\Controllers\GruposUsuarios::class . ':RetornarDadosGrupoUsuario');
+        $GrUsuariosGroup->post('/general',  App\Controllers\GruposUsuarios::class . ':General');
     });
 
     $group->group('/usuarios', function (RouteCollectorProxy $usuariosGroup) {
@@ -346,6 +348,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/gruposUsuarios/excluiGruposUsuarios',
         '/veterinariaUNESC/server/gruposUsuarios/retornaGruposUsuarios',
         '/veterinariaUNESC/server/gruposUsuarios/retornaDadosGrupoUsuarios',
+        '/veterinariaUNESC/server/gruposUsuarios/general',
 
         '/veterinariaUNESC/server/usuarios/salvaUsuario',
         '/veterinariaUNESC/server/usuarios/excluiUsuario',
