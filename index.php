@@ -82,6 +82,11 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
+    $group->post('/cadastroUsuarios', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\CadastroUsuarios($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
     $group->get('/gruposUsuarios', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\CadastroGruposUsuarios($twig);
         return $tela->exibir($request, $response, $args);
@@ -94,6 +99,11 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
 
     $group->get('/listAnimais', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\listAnimais($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
+    $group->get('/listUsuarios', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\ListUsuarios($twig);
         return $tela->exibir($request, $response, $args);
     });
 
@@ -116,10 +126,12 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
                          '/veterinariaUNESC/paginas/listBairro',
                          '/veterinariaUNESC/paginas/listLogradouro',
                          '/veterinariaUNESC/paginas/cadastroPessoas',
+                         '/veterinariaUNESC/paginas/cadastroUsuarios',
                          '/veterinariaUNESC/paginas/cadastroAnimais',
                          '/veterinariaUNESC/paginas/gruposUsuarios',
                          '/veterinariaUNESC/paginas/listPessoas',
                          '/veterinariaUNESC/paginas/listAnimais',
+                         '/veterinariaUNESC/paginas/listUsuarios',
                          ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
@@ -289,6 +301,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $usuariosGroup->post('/retornaUsuarios',  App\Controllers\Usuarios::class . ':RetornarUsuarios');
         $usuariosGroup->post('/retornaDadosUsuario',  App\Controllers\Usuarios::class . ':RetornarDadosUsuario');
         $usuariosGroup->post('/ativaDesativaUsuario',  App\Controllers\Usuarios::class . ':AtivarDesativarUsuario');
+        $usuariosGroup->post('/grid',  App\Controllers\Usuarios::class . ':montarGrid');
     });
 
     $group->group('/fichaLPV', function (RouteCollectorProxy $fichaLPVGroup) {
@@ -355,6 +368,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/usuarios/retornaUsuarios',
         '/veterinariaUNESC/server/usuarios/retornaDadosUsuario',
         '/veterinariaUNESC/server/usuarios/ativaDesativaUsuario',
+        '/veterinariaUNESC/server/usuarios/grid',
 
         '/veterinariaUNESC/server/fichaLPV/salvafichaLPV',
         '/veterinariaUNESC/server/fichaLPV/retornaFichasLPV',
