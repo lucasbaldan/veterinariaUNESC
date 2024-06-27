@@ -44,7 +44,7 @@ class Usuarios
                 throw new Exception("<b>Erro ao salvar o usuário</b><br><br> Por favor, tente novamente.", 400);
             }
 
-            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno];
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $usuarios->GetReturn()];
             $codigoHTTP = 200;
         } catch (Exception $e) {
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];

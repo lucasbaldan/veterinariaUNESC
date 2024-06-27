@@ -32,7 +32,7 @@ class GruposUsuarios
 
       $read = new \App\Conn\Read();
 
-      $read->ExeRead("GRUPOS_USUARIOS", "WHERE CD_GRUPO_USUARIOS = :C LIMIT 1", "C=$id");
+      $read->ExeRead("grupos_usuarios", "WHERE CD_GRUPO_USUARIOS = :C LIMIT 1", "C=$id");
 
       if ($read->getRowCount() == 0) {
         throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
@@ -41,8 +41,8 @@ class GruposUsuarios
       return new self(
         $read->getResult()[0]['NM_GRUPO_USUARIOS'],
         $read->getResult()[0]['PERMISSOES'],
-        $read->getResult()[0]['CD_GRUPO_USUARIOS'],
         $read->getResult()[0]['FL_ATIVO'],
+        $read->getResult()[0]['CD_GRUPO_USUARIOS'],
       );
     } catch (Exception $e) {
       return new self('', '', '', '', '');

@@ -157,13 +157,13 @@ class Pessoas
         }
     }
 
-    public static function GeneralSearch($search)
+    public function GeneralSearch($search)
     {
 
-        $colunas = $search['COLUNAS'];
-        $nome = $search['NM_PESSOA'];
-        $cpf = $search['CPF'];
-        $dataNascimento = $search['DATA_NASCIMENTO'];
+        $colunas = !empty($search['COLUNAS']) ? $search['COLUNAS'] : '*';
+        $nome = !empty($search['NM_PESSOA']) ? $search['NM_PESSOA'] : '';
+        $cpf = !empty($search['CPF']) ? $search['CPF'] : '';
+        $dataNascimento = !empty($search['DATA_NASCIMENTO']) ? $search['DATA_NASCIMENTO'] : '';
 
         $read = new \App\Conn\Read();
 
@@ -182,13 +182,21 @@ class Pessoas
         // } else {
         //     $read->FullRead("SELECT P.* FROM PESSOAS P");
         // }
+        
         $read->FullRead($query);
-
-        if ($read->getRowCount() == 0) {
-            return null;
+        if (empty($read->getResult())) {
+            return false;
         } else {
+            $this->Result = true;
+            $this->Return = $read->getResult();
             return $read->getResult();
         }
+
+        // if ($read->getRowCount() == 0) {
+        //     return null;
+        // } else {
+        //     return $read->getResult();
+        // }
     }
 
     public static function RetornaDadosPessoa($cdPessoa)

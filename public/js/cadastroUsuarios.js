@@ -21,7 +21,7 @@ $(document).ready(function () {
     var dadosForm = $(this).serialize();
     var codigo = $('#cdUsuario').val();
 
-    // console.log('Formulário:: ', dadosForm);
+    console.log('Formulário:: ', dadosForm);
 
     $.ajax({
       url: '/veterinariaUNESC/server/usuarios/salvaUsuario',
@@ -33,7 +33,12 @@ $(document).ready(function () {
       },
       success: function (response) {
         // alert(response);
-        console.log('Retorno: ', response.RETURN);
+        // console.log('Retorno: ', response.RETURN);
+        if (codigo == '') {
+          notificacao.push('Usuário salvo com Sucesso!', 'success');
+        } else {
+          notificacao.push('Usuário atualizado com Sucesso!', 'success');
+        }
 
         if (codigo == '') {
           $('#cdUsuario').val(response.RETURN);
@@ -46,11 +51,6 @@ $(document).ready(function () {
       },
       complete: function () {
         Loading.off();
-        if (codigo == '') {
-          notificacao.push('Usuário salvo com Sucesso!', 'success');
-        } else {
-          notificacao.push('Usuário atualizado com Sucesso!', 'success');
-        }
       }
     });
   });
@@ -87,6 +87,7 @@ function excluirCadastroUsuario() {
             if (response.RESULT) {
               Notificacao.NotificacaoSucesso();
               bootbox.hideAll();
+              window.location.href = '/veterinariaUNESC/paginas/listUsuarios';
             }
           },
           error: function (xhr, status, error) {

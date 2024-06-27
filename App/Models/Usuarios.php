@@ -50,7 +50,7 @@ class Usuarios
               $read->getResult()[0]['CD_USUARIO']
           );
       } catch (Exception $e) {
-          return new self('', '', '', '', '', '');
+          return new self('', '', '', '', '');
       }
   }
 
@@ -71,7 +71,7 @@ class Usuarios
         throw new Exception($insert->getMessage());
       }
       $this->Result = true;
-      $this->Return = $insert->getResult();
+      $this->Return = $insert->getLastInsert();
     } catch (Exception $e) {
       $this->Result = false;
       $this->Message = $e->getMessage();

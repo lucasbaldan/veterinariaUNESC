@@ -209,6 +209,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $pessoasGroup->post('/atualizaExclusaoPessoa', App\Controllers\Pessoas::class . ':AtualizarExclusaoPessoa');
         $pessoasGroup->post('/excluiPessoa', App\Controllers\Pessoas::class . ':ApagarPessoa');
         $pessoasGroup->post('/grid', App\Controllers\Pessoas::class . ':montarGrid');
+        $pessoasGroup->post('/general', App\Controllers\Pessoas::class . ':General');
 
     });
 
@@ -320,6 +321,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/pessoas/atualizaExclusaoPessoa',
         '/veterinariaUNESC/server/pessoas/excluiPessoa',
         '/veterinariaUNESC/server/pessoas/grid',
+        '/veterinariaUNESC/server/pessoas/general',
 
         '/veterinariaUNESC/server/tipoAnimal/grid',
         '/veterinariaUNESC/server/tipoAnimal/controlar',
