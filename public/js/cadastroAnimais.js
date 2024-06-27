@@ -1,5 +1,7 @@
 $(document).ready(function () {
-  $("#select2especieAnimal, #select2racaAnimal").prop("disabled", true);
+  $(
+    "#select2especieAnimal, #select2racaAnimal, #desvincularPessoa, #alterarPessoaAtual"
+  ).prop("disabled", true);
   bloquearCamposPessoa();
 
   var selectTipoAnimal = new Select2("#select2tipoAnimal", {
@@ -46,34 +48,52 @@ $(document).ready(function () {
   });
 
   $("#idade").on("blur", function (e) {
+    if($("#idade").val() !== ""){
     var anoCalculado = calcularAnoNascimento($("#idade").val());
     $("#anoNascimento").val(anoCalculado);
+    }
   });
 
   $("#anoNascimento").on("blur", function (e) {
+    if($("#anoNascimento").val() !== ""){
     var idadeCalculada = calcularIdade($("#anoNascimento").val());
     $("#idade").val(idadeCalculada);
+    }
   });
 
   $("#donoNaoDeclarado").on("change", function () {
     if ($(this).is(":checked")) {
-      bloquearCamposPessoa();
+      desvincularPessoa();
+      $("#buscaRapidaPessoa, #desvincularPessoa, #alterarPessoaAtual").prop(
+        "disabled",
+        true
+      );
     } else {
-      desbloquearCamposPessoa();
+      $("#buscaRapidaPessoa").prop("disabled", false);
     }
   });
 
-  new Select2('#select2cdCidade', {
-    url: '/veterinariaUNESC/server/municipio/general',
-  })
+  $("#cdPessoa").on("change", function () {
+    if ($(this).val()) {
+      $("#buscaRapidaPessoa").prop("disabled", true);
+      $("#desvincularPessoa, #alterarPessoaAtual").prop("disabled", false);
+    } else {
+      $("#buscaRapidaPessoa").prop("disabled", false);
+      $("#desvincularPessoa, #alterarPessoaAtual").prop("disabled", true);
+    }
+  });
 
-  new Select2('#select2cdBairro', {
-    url: '/veterinariaUNESC/server/bairro/general',
-  })
+  new Select2("#select2cdCidade", {
+    url: "/veterinariaUNESC/server/municipio/general",
+  });
 
-  new Select2('#select2cdLogradouro', {
-    url: '/veterinariaUNESC/server/logradouro/general',
-  })
+  new Select2("#select2cdBairro", {
+    url: "/veterinariaUNESC/server/bairro/general",
+  });
+
+  new Select2("#select2cdLogradouro", {
+    url: "/veterinariaUNESC/server/logradouro/general",
+  });
 
   $("#nrTelefone").inputmask("(99) 99999-9999", { autoUnmask: true });
   $("#cpfPessoa").inputmask("999.999.999-99", { autoUnmask: true });
@@ -81,31 +101,43 @@ $(document).ready(function () {
   $("#buscaRapidaPessoa").on("click", function () {
     try {
       Loading.on();
-  
+
       var ajaxModal = $.ajax({
         url: "/veterinariaUNESC/modais/buscaRapidaPessoa",
         method: "POST",
       });
-  
-      var script = $.getScript("/veterinariaUNESC/public/js/buscaRapidaPessoaModal.js");
-  
-      $.when(ajaxModal, script).done(function (respostaAjaxModal) {
+
+      var script = $.getScript(
+        "/veterinariaUNESC/public/js/buscaRapidaPessoaModal.js"
+      );
+
+      $.when(ajaxModal, script)
+        .done(function (respostaAjaxModal) {
           bootbox.dialog({
             title: "Busca Rápida - Pessoa",
-            size: 'extra-large',
+            size: "extra-large",
             message: respostaAjaxModal[0],
-            className: 'search-pessoa',
+            className: "search-pessoa",
           });
           constructModalBuscaPessoa();
         })
-        .fail(function (xhr, status, error) {
-        })
+        .fail(function (xhr, status, error) {})
         .always(function () {
           Loading.off();
         });
     } catch (e) {
       Loading.off();
     }
+  });
+
+  $("#desvincularPessoa").on("click", function () {
+    desvincularPessoa();
+    $('#alterouPessoa').val('N');
+  });
+
+  $("#alterarPessoaAtual").on("click", function () {
+    $('#alterouPessoa').val('S');
+    desbloquearCamposPessoa();
   });
 });
 
@@ -175,7 +207,7 @@ function excluirCadastroAnimais() {
   });
 }
 
-function selecionarPessoa(id){
+function selecionarPessoa(id) {
   Loading.on();
   $.ajax({
     url: "/veterinariaUNESC/server/pessoas/selecionarPessoa",
@@ -184,27 +216,42 @@ function selecionarPessoa(id){
       cdPessoa: id,
     },
     success: function (response) {
-      if(response.RESULT){
+      if (response.RESULT) {
         var pessoa = response.RETURN;
 
-        $('#cdPessoa').val(pessoa.cd_pessoa);
-        $('#nmPessoa').val(pessoa.nm_pessoa);
-        $('#cpfPessoa').val(pessoa.cpf);
-        $('#dataNascimento').val(pessoa.data_nascimento);
-        $('#nrTelefone').val(pessoa.nr_telefone);
-        $('#dsEmail').val(pessoa.ds_email);
-        $('#nrCRMV').val(pessoa.nr_crmv);
+        $("#cdPessoa").val(pessoa.cd_pessoa).trigger("change");
+        $("#nmPessoa").val(pessoa.nm_pessoa);
+        $("#cpfPessoa").val(pessoa.cpf);
+        $("#dataNascimento").val(pessoa.data_nascimento);
+        $("#nrTelefone").val(pessoa.nr_telefone);
+        $("#dsEmail").val(pessoa.ds_email);
+        $("#nrCRMV").val(pessoa.nr_crmv);
 
-        var optionCidade = new Option(pessoa.nm_cidade, pessoa.cd_cidade, true, true);
-            $('#select2cdCidade').append(optionCidade).trigger('change');
+        var optionCidade = new Option(
+          pessoa.nm_cidade,
+          pessoa.cd_cidade,
+          true,
+          true
+        );
+        $("#select2cdCidade").append(optionCidade).trigger("change");
 
-        var optionBairro = new Option(pessoa.nm_bairro, pessoa.cd_bairro, true, true);
-            $('#select2cdBairro').append(optionBairro).trigger('change');
+        var optionBairro = new Option(
+          pessoa.nm_bairro,
+          pessoa.cd_bairro,
+          true,
+          true
+        );
+        $("#select2cdBairro").append(optionBairro).trigger("change");
 
-        var optionLogradouro = new Option(pessoa.nm_logradouro, pessoa.cd_logradouro, true, true);
-            $('#select2cdLogradouro').append(optionLogradouro).trigger('change');
+        var optionLogradouro = new Option(
+          pessoa.nm_logradouro,
+          pessoa.cd_logradouro,
+          true,
+          true
+        );
+        $("#select2cdLogradouro").append(optionLogradouro).trigger("change");
 
-       bootbox.hideAll();
+        bootbox.hideAll();
       }
     },
     error: function (xhr, status, error) {
@@ -226,4 +273,19 @@ function calcularIdade(anoNascimento) {
   var anoAtual = new Date().getFullYear();
   var idade = anoAtual - anoNascimento;
   return idade;
+}
+
+function desvincularPessoa() {
+  $("#cdPessoa").val("").trigger("change");
+  $("#nmPessoa").val("");
+  $("#cpfPessoa").val("");
+  $("#dataNascimento").val("");
+  $("#nrTelefone").val("");
+  $("#dsEmail").val("");
+  $("#nrCRMV").val("");
+  $("#select2cdCidade").val(null).trigger("change");
+  $("#select2cdBairro").val(null).trigger("change");
+  $("#select2cdLogradouro").val(null).trigger("change");
+
+  bloquearCamposPessoa();
 }

@@ -10,7 +10,7 @@ class Animais
     private $codigo;
     private $nome;
     private $fl_dono_nao_declarado;
-    private $dono1;
+    private \App\Models\Pessoas $dono1;
     private $dono2;
     private \App\Models\Raças $raca;
     private \App\Models\Especies $especie;
@@ -23,11 +23,11 @@ class Animais
     private $Message;
     private $Return;
 
-    public function __construct($nome, $donoDeclarado, $cdTipoAnimal, $cdEspecie, $cdRaca, $sexo, $idadeAproximada, $anoNascimento, $cdDono1 = null, $cdDono2 = null , $codigo = null)
+    public function __construct($nome, $donoDeclarado, $cdTipoAnimal, $cdEspecie, $cdRaca, $sexo, $idadeAproximada, $anoNascimento, $cdDono1, $cdDono2 = null , $codigo = null)
     {
         $this->nome = $nome;
         $this->fl_dono_nao_declarado = $donoDeclarado;
-        // dono 1;
+        $this->dono1 = \App\Models\Pessoas::findById($cdDono1);
         // dono 2;
         $this->raca = \App\Models\Raças::findById($cdRaca);
         $this->tipoAnimal = \App\Models\TipoAnimais::findById($cdTipoAnimal);
@@ -234,6 +234,61 @@ class Animais
     // }
 
 
+    public function getCodigo()
+    {
+        return $this->codigo;
+    }
+
+    public function getNome()
+    {
+        return $this->nome;
+    }
+
+    public function getFlDonoNaoDeclarado()
+    {
+        return $this->fl_dono_nao_declarado;
+    }
+
+    public function getDono1()
+    {
+        return $this->dono1;
+    }
+
+    public function getDono2()
+    {
+        return $this->dono2;
+    }
+
+    public function getRaca()
+    {
+        return $this->raca;
+    }
+
+    public function getEspecie()
+    {
+        return $this->especie;
+    }
+
+    public function getTipoAnimal()
+    {
+        return $this->tipoAnimal;
+    }
+
+    public function getSexo()
+    {
+        return $this->sexo;
+    }
+
+    public function getIdadeAproximada()
+    {
+        return $this->idadeAproximada;
+    }
+
+    public function getAnoNascimento()
+    {
+        return $this->anoNascimento;
+    }
+
     public function getResult()
     {
         return $this->Result;
@@ -243,23 +298,9 @@ class Animais
     {
         return $this->Message;
     }
+
     public function getReturn()
     {
         return $this->Return;
-    }
-    public function getCodigo()
-    {
-        return $this->codigo;
-    }
-
-    // Método getter para $descricao
-    public function getNome()
-    {
-        return $this->nome;
-    }
-
-    public function getTipoAnimal()
-    {
-        return $this->tipoAnimal;
     }
 }

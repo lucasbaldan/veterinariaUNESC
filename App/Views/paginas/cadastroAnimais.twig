@@ -20,9 +20,9 @@
                     <label for="cdAnimal">Código: </label>
                   </div>
                 </div>
-                <div class="col">
+                <div class="col-md-9">
                     <label for="animal" class="form-label">Nome do Animal</label>
-                        <input type="text" class="form-control" id="animal" name="animal"
+                        <input type="text" class="form-control" id="animal" name="animal" value="{{animal}}"
                             placeholder="">
                 </div>
             </div>
@@ -69,19 +69,14 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="dsSexo" name="dsSexo"
-                                    aria-label="Sexo Animal">
-                                    <option value="">Selecione...</option>
-                                    <option value="M">Macho</option>
-                                    <option value="F">Fêmea</option>
-                                </select>
+                                {{selectSexoAnimal|raw}}
                                 <label for="dsSexo">Sexo do animal</label>
                             </div>
                         </div>
 
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input type="number" maxlength="2" class="form-control" id="idade"
+                                <input type="number" maxlength="2" class="form-control" id="idade" value="{{idadeAnimal}}"
                                     name="idade" placeholder="">
                                 <label for="idade">Idade Aproximada</label>
                             </div>
@@ -89,7 +84,7 @@
 
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="anoNascimento"
+                                <input type="text" class="form-control" id="anoNascimento" value="{{anoNascimentoAnimal}}"
                                     name="anoNascimento" placeholder="">
                                 <label for="anoNascimento">Ano de nascimento</label>
                             </div>
@@ -129,6 +124,8 @@
                         <div class="col-1">
                             <input type="hidden" readonly class="form-control" id="cdPessoa" name="cdPessoa"
                                 value="{{cdPessoa}}">
+                                <input type="hidden" readonly class="form-control" id="alterouPessoa" name="alterouPessoa"
+                                value="N">
                         </div>
 
                             <div class="mb-4 col-md-12">

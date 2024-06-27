@@ -73,14 +73,51 @@ class Animais
             
             // INPUTS DA PESSOA DONA DO ANIMAL
             $donoDeclarado = isset($dadosForm['donoNaoDeclarado']) ? 'N' : 'S';
-
+            $cdPessoa = !empty($dadosForm['cdPessoa']) ? $dadosForm['cdPessoa'] : '';
+            $alterouPessoa = !empty($dadosForm['alterouPessoa']) ? $dadosForm['alterouPessoa'] : '';
+            $nomePessoa = isset($dadosForm['nmPessoa']) ? $dadosForm['nmPessoa'] : '';
+            $cpf = isset($dadosForm['cpfPessoa']) ? $dadosForm['cpfPessoa'] : '';
+            $dataNascimento = isset($dadosForm['dataNascimento']) ? $dadosForm['dataNascimento'] : '';
+            $nrTelefone = isset($dadosForm['nrTelefone']) ? $dadosForm['nrTelefone'] : '';
+            $email = isset($dadosForm['dsEmail']) ? $dadosForm['dsEmail'] : '';
+            $nrCRMV = isset($dadosForm['nrCRMV']) ? $dadosForm['nrCRMV'] : '';
+            $select2cdCidade = isset($dadosForm['select2cdCidade']) ? $dadosForm['select2cdCidade'] : '';
+            $select2cdBairro = isset($dadosForm['select2cdBairro']) ? $dadosForm['select2cdBairro'] : '';
+            $select2cdLogradouro = isset($dadosForm['select2cdLogradouro']) ? $dadosForm['select2cdLogradouro'] : '';
             
+
+            if (empty($alterouPessoa) || empty($donoDeclarado)) {
+                throw new Exception("Erro ao processar Requisição <br> Tente novamente mais tarde!");
+            }
 
             if (empty($nome) || empty($dsSexo)) {
                 throw new Exception("Preencha os campos <b>Nome do animal</b> e <b>Sexo do animal</b> para concluir o cadastro.");
             }
+            if ($donoDeclarado == 'N' && empty($cdPessoa)) {
+                throw new Exception("Preencha a informação na aba <b>Proprietário do Animal</b> para concluir o cadastro.");
+            }
 
-            $cad = new \App\Models\Animais($nome, 'N', $cdTipoAnimal, $cdEspecie, $cdRaca, $dsSexo, $idade, $anoNascimento, null, null, $codigo);
+            if($donoDeclarado == 'S'){
+                
+                $dono = new \App\Models\Pessoas($nomePessoa, $select2cdCidade, $nrTelefone, '', $email, $nrCRMV, $select2cdBairro, $select2cdLogradouro, 'S', $cpf, $dataNascimento, $cdPessoa);
+
+                if(empty($cdPessoa)){
+                    $dono->Insert();
+                } else {
+                    if ($alterouPessoa == 'S'){
+                        $dono->Update();
+                    }
+                }
+                if(!$dono->getResult()){
+                    throw new Exception($dono->getMessage());
+                }
+                $dono = $dono->getCodigo();
+            } else {
+                $dono = null;
+            }
+
+
+            $cad = new \App\Models\Animais($nome, $donoDeclarado, $cdTipoAnimal, $cdEspecie, $cdRaca, $dsSexo, $idade, $anoNascimento, $dono, null, $codigo);
             if (empty($codigo)) {
                 $cad->Inserir();
             } else {

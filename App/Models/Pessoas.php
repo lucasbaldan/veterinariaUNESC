@@ -111,6 +111,7 @@ class Pessoas
             if (!$insert->getResult()) {
                 throw new Exception($insert->getMessage());
             }
+            $this->CdPessoa = $insert->getLastInsert();
             $this->Result = true;
         } catch (Exception $e) {
             $this->Result = false;
