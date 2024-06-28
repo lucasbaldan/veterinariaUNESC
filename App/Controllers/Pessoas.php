@@ -107,9 +107,10 @@ class Pessoas
                 "DATA_NASCIMENTO" => $dataNascimento
             ];
 
-            $retorno = \App\Models\Pessoas::GeneralSearch($arrayParam);
+            $retorno = new \App\Models\Pessoas('', '', '', '', '', '', '', '', '', '', '');
+            $retorno->GeneralSearch($arrayParam);
 
-            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno];
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno->getReturn()];
             $codigoHTTP = 200;
         } catch (Exception $e) {
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];

@@ -39,6 +39,9 @@ class Pessoas
         $this->cidade = \App\Models\Municipios::findById($cdCidade);
         $this->bairro = \App\Models\Bairros::findById($cdBairro);
         $this->logradouro = \App\Models\Logradouros::findById($cdLogradouro);
+
+        $this->Result = true;
+        $this->Message = '';
     }
 
     // public function verificarAcesso()

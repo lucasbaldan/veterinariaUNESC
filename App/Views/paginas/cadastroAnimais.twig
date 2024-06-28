@@ -48,21 +48,24 @@
                     <div class="row mb-4">
                         <div class="col">
                                 <label for="tipoAnimal" class="form-label">Tipo de Animal </label>
-                                <select class="form-select" id="select2tipoAnimal" name="select2tipoAnimal"aria-label=""></select>
+                                <select class="form-select" id="select2tipoAnimal" name="select2tipoAnimal"aria-label="">
                                 {{selectTipoAnimal|raw}}
+                            </select>
                         </div>
                     </div>
 
                     <div class="row mb-4">
                         <div class="col">
                             <label for="especieAnimal" class="form-label">Espécie </label>
-                            <select class="form-select" id="select2especieAnimal" name="select2especieAnimal"aria-label=""></select>
+                            <select class="form-select" id="select2especieAnimal" name="select2especieAnimal"aria-label="">
                             {{selectEspecieAnimal|raw}}
+                        </select>
                     </div>
                     <div class="col">
                         <label for="racaAnimal" class="form-label">Raça </label>
-                        <select class="form-select" id="select2racaAnimal" name="select2racaAnimal"aria-label=""></select>
+                        <select class="form-select" id="select2racaAnimal" name="select2racaAnimal"aria-label="">
                         {{selectRacaAnimal|raw}}
+                    </select>
                 </div>
                     </div>
 
@@ -102,7 +105,7 @@
                     <div class="row">
                         <div class="col-1 col-md-9 col-sm-10 mb-4">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="donoNaoDeclarado" name="donoNaoDeclarado">
+                                <input class="form-check-input" type="checkbox" id="donoNaoDeclarado" name="donoNaoDeclarado" {% if donoNaoDeclarado %}checked{% endif %}>
                                 <label class="form-check-label" for="donoNaoDeclarado">
                                   Dono do Animal Não Declarado / Não informado / Ignorado
                                 </label>

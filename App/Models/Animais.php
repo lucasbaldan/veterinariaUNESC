@@ -53,7 +53,17 @@ class Animais
                 throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
             }
 
-            return new self($read->getResult()[0]['nm_animal'], $read->getResult()[0]['fl_dono_nao_declarado'], $read->getResult()[0]['cd_tipo_animal'], $read->getResult()[0]['cd_raca'], $read->getResult()[0]['sexo'], $read->getResult()[0]['idade_aproximada'], $read->getResult()[0]['ano_nascimento'], $read->getResult()[0]['cd_pessoa_dono1'], $read->getResult()[0]['cd_pessoa_dono2'], $read->getResult()[0]['cd_animal']);
+            return new self($read->getResult()[0]['nm_animal'], 
+                            $read->getResult()[0]['fl_dono_nao_declarado'], 
+                            $read->getResult()[0]['cd_tipo_animal'], 
+                            $read->getResult()[0]['cd_especie'], 
+                            $read->getResult()[0]['cd_raca'],
+                            $read->getResult()[0]['sexo'],
+                            $read->getResult()[0]['idade_aproximada'],
+                            $read->getResult()[0]['ano_nascimento'], 
+                            $read->getResult()[0]['cd_pessoa_dono1'], 
+                            $read->getResult()[0]['cd_pessoa_dono2'], 
+                            $read->getResult()[0]['cd_animal']);
 
         } catch (Exception $e) {
             return new self('','','','','','','','','','');
@@ -121,13 +131,12 @@ class Animais
     {
 
         try {
-            $conn = \App\Conn\Conn::getConn();
+            $conn = \App\Conn\Conn::getConn(true);
             $insert = new \App\Conn\Insert($conn);
 
-            $dadosInsert = ["CD_ANIMAL" => $this->codigo,
-                            "NM_ANIMAL" => $this->nome, 
+            $dadosInsert = ["NM_ANIMAL" => $this->nome, 
                             "FL_DONO_NAO_DECLARADO" => $this->fl_dono_nao_declarado, 
-                            "CD_PESSOA_DONO1" => 1,
+                            "CD_PESSOA_DONO1" => $this->dono1->getCodigo(),
                             "CD_PESSOA_DONO2" => null,
                             "CD_ESPECIE" => $this->especie->getCodigo(),
                             "CD_RACA" => $this->raca->getCodigo(),
@@ -160,13 +169,13 @@ class Animais
             $dadosCadastro = $read->getResult()[0] ?? [];
             if ($dadosCadastro) {
 
-                $conn = \App\Conn\Conn::getConn();
+                $conn = \App\Conn\Conn::getConn(true);
                 $update = new \App\Conn\Update($conn);
 
-               $dadosUpdate = ["CD_ANIMAL" => $this->codigo,
+               $dadosUpdate = [
                 "NM_ANIMAL" => $this->nome, 
                 "FL_DONO_NAO_DECLARADO" => $this->fl_dono_nao_declarado, 
-                "CD_PESSOA_DONO1" => 1,
+                "CD_PESSOA_DONO1" => $this->dono1->getCodigo(),
                 "CD_PESSOA_DONO2" => null,
                 "CD_ESPECIE" => $this->especie->getCodigo(),
                 "CD_RACA" => $this->raca->getCodigo(),

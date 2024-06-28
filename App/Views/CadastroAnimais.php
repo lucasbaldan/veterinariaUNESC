@@ -27,14 +27,14 @@ class CadastroAnimais
         $Animal = \App\Models\Animais::findById($idAlteracao);
 
         if(!empty($Animal->getCodigo())){
-            $selectTipoAnimal = '<option value="'.$Animal->getTipoAnimal()->getCodigo().'">'.$Animal->getTipoAnimal()->getDescricao().'</option>';
-            $selectEspecie = '<option value="'.$Animal->getEspecie()->getCodigo().'">'.$Animal->getEspecie()->getDescricao().'</option>';
-            $selectRaca = '<option value="'.$Animal->getRaca()->getCodigo().'">'.$Animal->getRaca()->getDescricao().'</option>';
+            $selectTipoAnimal = '<option value="'.$Animal->getTipoAnimal()->getCodigo().'" selected>'.$Animal->getTipoAnimal()->getDescricao().'</option>';
+            $selectEspecie = '<option value="'.$Animal->getEspecie()->getCodigo().'" selected>'.$Animal->getEspecie()->getDescricao().'</option>';
+            $selectRaca = '<option value="'.$Animal->getRaca()->getCodigo().'" selected>'.$Animal->getRaca()->getDescricao().'</option>';
 
             if(!empty($Animal->getDono1()->getCodigo())){
-                $selectCidadePessoa = '<option value="'.$Animal->getDono1()->getCidade()->getCodigo().'">'.$Animal->getDono1()->getCidade()->getDescricao().'</option>';
-                $selectBairroPessoa = '<option value="'.$Animal->getDono1()->getBairro()->getCodigo().'">'.$Animal->getDono1()->getBairro()->getNome().'</option>';
-                $selectLogradouroPessoa = '<option value="'.$Animal->getDono1()->getLogradouro()->getCodigo().'">'.$Animal->getDono1()->getLogradouro()->getNome().'</option>';
+                $selectCidadePessoa = '<option value="'.$Animal->getDono1()->getCidade()->getCodigo().'" selected>'.$Animal->getDono1()->getCidade()->getDescricao().'</option>';
+                $selectBairroPessoa = '<option value="'.$Animal->getDono1()->getBairro()->getCodigo().'" selected>'.$Animal->getDono1()->getBairro()->getNome().'</option>';
+                $selectLogradouroPessoa = '<option value="'.$Animal->getDono1()->getLogradouro()->getCodigo().'" selected>'.$Animal->getDono1()->getLogradouro()->getNome().'</option>';
             }
             else {
                 $selectBairroPessoa = '';
@@ -81,6 +81,7 @@ class CadastroAnimais
             "selectCidadePessoa" => $selectCidadePessoa,
             "selectBairroPessoa" => $selectBairroPessoa,
             "selectLogradouroPessoa" => $selectLogradouroPessoa,
+            "donoNaoDeclarado" => $Animal->getFlDonoNaoDeclarado() == 'S' ? true : false,
 
             "exibeExcluir" => $exbieExcluir,
             "exibeSalvar" => $exibeSalvar

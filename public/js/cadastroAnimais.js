@@ -1,7 +1,23 @@
 $(document).ready(function () {
-  $(
-    "#select2especieAnimal, #select2racaAnimal, #desvincularPessoa, #alterarPessoaAtual"
-  ).prop("disabled", true);
+
+  if($('#select2TipoAnimal').val() == '') {
+    $("#select2especieAnimal").prop("disabled", true);
+  }
+
+  if($('#select2especieAnimal').val() == '') {
+    $("#select2racaAnimal").prop("disabled", true);
+  }
+
+  if ($('#donoNaoDeclarado').is(':checked')) {
+    $("#buscaRapidaPessoa").prop("disabled", true);
+}
+
+  if($('#cdPessoa').val() == '') {
+    $("#desvincularPessoa, #alterarPessoaAtual").prop("disabled", true);
+  } else {
+    $("#buscaRapidaPessoa").prop("disabled", true);
+  }
+
   bloquearCamposPessoa();
 
   var selectTipoAnimal = new Select2("#select2tipoAnimal", {
@@ -209,6 +225,7 @@ function excluirCadastroAnimais() {
 
 function selecionarPessoa(id) {
   Loading.on();
+  bloquearCamposPessoa();
   $.ajax({
     url: "/veterinariaUNESC/server/pessoas/selecionarPessoa",
     method: "POST",

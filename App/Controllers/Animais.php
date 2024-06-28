@@ -72,7 +72,7 @@ class Animais
             $anoNascimento = !empty($dadosForm['anoNascimento']) ? $dadosForm['anoNascimento'] : '';
             
             // INPUTS DA PESSOA DONA DO ANIMAL
-            $donoDeclarado = isset($dadosForm['donoNaoDeclarado']) ? 'N' : 'S';
+            $donoNaoDeclarado = isset($dadosForm['donoNaoDeclarado']) ? 'S' : 'N';
             $cdPessoa = !empty($dadosForm['cdPessoa']) ? $dadosForm['cdPessoa'] : '';
             $alterouPessoa = !empty($dadosForm['alterouPessoa']) ? $dadosForm['alterouPessoa'] : '';
             $nomePessoa = isset($dadosForm['nmPessoa']) ? $dadosForm['nmPessoa'] : '';
@@ -86,18 +86,18 @@ class Animais
             $select2cdLogradouro = isset($dadosForm['select2cdLogradouro']) ? $dadosForm['select2cdLogradouro'] : '';
             
 
-            if (empty($alterouPessoa) || empty($donoDeclarado)) {
+            if (empty($alterouPessoa) || empty($donoNaoDeclarado)) {
                 throw new Exception("Erro ao processar Requisição <br> Tente novamente mais tarde!");
             }
 
             if (empty($nome) || empty($dsSexo)) {
                 throw new Exception("Preencha os campos <b>Nome do animal</b> e <b>Sexo do animal</b> para concluir o cadastro.");
             }
-            if ($donoDeclarado == 'N' && empty($cdPessoa)) {
+            if ($donoNaoDeclarado == 'N' && empty($cdPessoa)) {
                 throw new Exception("Preencha a informação na aba <b>Proprietário do Animal</b> para concluir o cadastro.");
             }
 
-            if($donoDeclarado == 'S'){
+            if($donoNaoDeclarado == 'N'){
                 
                 $dono = new \App\Models\Pessoas($nomePessoa, $select2cdCidade, $nrTelefone, '', $email, $nrCRMV, $select2cdBairro, $select2cdLogradouro, 'S', $cpf, $dataNascimento, $cdPessoa);
 
@@ -117,7 +117,7 @@ class Animais
             }
 
 
-            $cad = new \App\Models\Animais($nome, $donoDeclarado, $cdTipoAnimal, $cdEspecie, $cdRaca, $dsSexo, $idade, $anoNascimento, $dono, null, $codigo);
+            $cad = new \App\Models\Animais($nome, $donoNaoDeclarado, $cdTipoAnimal, $cdEspecie, $cdRaca, $dsSexo, $idade, $anoNascimento, $dono, null, $codigo);
             if (empty($codigo)) {
                 $cad->Inserir();
             } else {
