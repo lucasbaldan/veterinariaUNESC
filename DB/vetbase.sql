@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19/06/2024 às 05:34
+-- Tempo de geração: 28/06/2024 às 03:34
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Versão do PHP: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -43,13 +43,14 @@ CREATE TABLE `acessos_tipos_usuarios` (
 CREATE TABLE `animais` (
   `cd_animal` int(11) NOT NULL,
   `nm_animal` varchar(255) NOT NULL,
-  `fl_dono_nao_declarado` int(11) NOT NULL,
+  `fl_dono_nao_declarado` varchar(1) NOT NULL,
   `cd_pessoa_dono1` int(11) DEFAULT NULL,
   `cd_pessoa_dono2` int(11) DEFAULT NULL,
   `cd_raca` int(11) DEFAULT NULL,
+  `cd_especie` int(11) DEFAULT NULL,
   `sexo` varchar(1) NOT NULL,
   `idade_aproximada` int(11) DEFAULT NULL,
-  `ano_nascimento` date DEFAULT NULL,
+  `ano_nascimento` int(4) DEFAULT NULL,
   `cd_tipo_animal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -57,9 +58,8 @@ CREATE TABLE `animais` (
 -- Despejando dados para a tabela `animais`
 --
 
-INSERT INTO `animais` (`cd_animal`, `nm_animal`, `fl_dono_nao_declarado`, `cd_pessoa_dono1`, `cd_pessoa_dono2`, `cd_raca`, `sexo`, `idade_aproximada`, `ano_nascimento`, `cd_tipo_animal`) VALUES
-(1, 'Tótó', 0, 1, NULL, 1, 'M', 10, '0000-00-00', 3),
-(2, 'Tótó', 0, 1, NULL, 1, 'M', 10, '0000-00-00', 3);
+INSERT INTO `animais` (`cd_animal`, `nm_animal`, `fl_dono_nao_declarado`, `cd_pessoa_dono1`, `cd_pessoa_dono2`, `cd_raca`, `cd_especie`, `sexo`, `idade_aproximada`, `ano_nascimento`, `cd_tipo_animal`) VALUES
+(3, 'Margarida', '0', 1, NULL, 3, 11, 'F', 21, 2003, 64);
 
 -- --------------------------------------------------------
 
@@ -5692,7 +5692,8 @@ CREATE TABLE `especies` (
 INSERT INTO `especies` (`cd_especie`, `descricao`, `id_tipo_animal`, `fl_ativo`) VALUES
 (5, 'Buldog', 5, 1),
 (6, 'Salsicha', 5, 1),
-(10, 'Pinscher', 5, 1);
+(10, 'Pinscher', 5, 1),
+(11, 'Jabuti', 64, 1);
 
 -- --------------------------------------------------------
 
@@ -5861,6 +5862,8 @@ INSERT INTO `paises` (`cd_pais`, `descricao`, `descricao_nacionalidade`) VALUES
 CREATE TABLE `pessoas` (
   `cd_pessoa` int(11) NOT NULL,
   `nm_pessoa` varchar(255) NOT NULL,
+  `cpf` varchar(11) DEFAULT NULL,
+  `data_nascimento` date DEFAULT NULL,
   `cd_cidade` int(11) NOT NULL,
   `cd_bairro` int(11) DEFAULT NULL,
   `cd_logradouro` int(11) DEFAULT NULL,
@@ -5875,8 +5878,8 @@ CREATE TABLE `pessoas` (
 -- Despejando dados para a tabela `pessoas`
 --
 
-INSERT INTO `pessoas` (`cd_pessoa`, `nm_pessoa`, `cd_cidade`, `cd_bairro`, `cd_logradouro`, `nr_telefone`, `nr_celular`, `ds_email`, `nr_crmv`, `fl_ativo`) VALUES
-(1, 'Lucas Faé Baldan', 3116, 1, 1, '27996103528', NULL, 'lucasbaldan2014@gmail.com', NULL, 'S');
+INSERT INTO `pessoas` (`cd_pessoa`, `nm_pessoa`, `cpf`, `data_nascimento`, `cd_cidade`, `cd_bairro`, `cd_logradouro`, `nr_telefone`, `nr_celular`, `ds_email`, `nr_crmv`, `fl_ativo`) VALUES
+(1, 'Lucas Faé Baldan', '10931426774', '2002-06-13', 3116, 1, 1, '27997556565', NULL, 'lucasbaldan2014@gmail.com', NULL, 'S');
 
 -- --------------------------------------------------------
 
@@ -5896,7 +5899,8 @@ CREATE TABLE `racas` (
 --
 
 INSERT INTO `racas` (`cd_raca`, `descricao`, `fl_ativo`, `cd_especie`) VALUES
-(1, 'Austríaco', 1, 10);
+(1, 'Austríaco', 1, 10),
+(3, 'pintada', 1, 11);
 
 -- --------------------------------------------------------
 
@@ -5936,7 +5940,8 @@ INSERT INTO `tipo_animal` (`cd_tipo_animal`, `descricao`, `fl_ativo`) VALUES
 (19, 'Raposa', 1),
 (21, 'Tamanduá', 0),
 (30, 'Macaco Branco', 1),
-(42, 'Amazonense', 1);
+(42, 'Amazonense', 1),
+(64, 'Tartaruga', 1);
 
 -- --------------------------------------------------------
 
@@ -6070,7 +6075,7 @@ ALTER TABLE `acessos_tipos_usuarios`
 -- AUTO_INCREMENT de tabela `animais`
 --
 ALTER TABLE `animais`
-  MODIFY `cd_animal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cd_animal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `bairros`
@@ -6088,7 +6093,7 @@ ALTER TABLE `cidades`
 -- AUTO_INCREMENT de tabela `especies`
 --
 ALTER TABLE `especies`
-  MODIFY `cd_especie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `cd_especie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `estados`
@@ -6136,13 +6141,13 @@ ALTER TABLE `pessoas`
 -- AUTO_INCREMENT de tabela `racas`
 --
 ALTER TABLE `racas`
-  MODIFY `cd_raca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cd_raca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `tipo_animal`
 --
 ALTER TABLE `tipo_animal`
-  MODIFY `cd_tipo_animal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `cd_tipo_animal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
