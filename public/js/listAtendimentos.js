@@ -79,12 +79,33 @@ $(document).ready(function () {
 });
 
 function openCadastro(id = "") {
-  Loading.on();
-  var form = $(
-    '<form action="/veterinariaUNESC/paginas/fichaLPV" method="post"><input type="hidden" name="id" value="' +
-      id +
-      '"></form>'
-  );
-  $("body").append(form);
-  form.submit();
+  try {
+    Loading.on();
+
+    var ajaxModal = $.ajax({
+      url: "/veterinariaUNESC/modais/buscaRapidaAnimal",
+      method: "POST",
+    });
+
+    var script = $.getScript(
+      "/veterinariaUNESC/public/js/buscaRapidaAnimalModal.js"
+    );
+
+    $.when(ajaxModal, script)
+      .done(function (respostaAjaxModal) {
+        bootbox.dialog({
+          title: "Busca Rápida - Animal",
+          size: "extra-large",
+          message: respostaAjaxModal[0],
+          className: "search-animal",
+        });
+        constructModalBuscaAnimal();
+      })
+      .fail(function (xhr, status, error) {})
+      .always(function () {
+        Loading.off();
+      });
+  } catch (e) {
+    Loading.off();
+  }
 }

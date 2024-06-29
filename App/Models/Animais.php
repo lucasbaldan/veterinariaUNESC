@@ -219,6 +219,46 @@ class Animais
         }
     }
 
+    public static function GeneralSearch($search)
+    {
+        try{
+
+        $colunas = !empty($search['COLUNAS']) ? $search['COLUNAS'] : '*';
+        $nome = !empty($search['NM_ANIMAL']) ? $search['NM_ANIMAL'] : '';
+        $tipoAnimal = !empty($search['TIPO_ANIMAL']) ? $search['TIPO_ANIMAL'] : '';
+        $anoNascimento = !empty($search['ANO_NASCIMENTO']) ? $search['ANO_NASCIMENTO'] : '';
+        $dono1 = !empty($search['DONO']) ? $search['DONO'] : '';
+
+        $read = new \App\Conn\Read();
+
+        $query = "SELECT $colunas
+                  FROM animais
+                  LEFT JOIN tipo_animal ON (animais.cd_tipo_animal = tipo_animal.cd_tipo_animal) 
+                  LEFT JOIN pessoas dono ON (animais.cd_pessoa_dono1 = dono.cd_pessoa)
+                  WHERE 1=1 ";
+
+        if (!empty($nome)) $query .= " AND animais.nm_animal LIKE '%$nome%' ";
+        if (!empty($tipoAnimal)) $query .= " AND tipo_animal.descricao LIKE '%$tipoAnimal%' ";
+        if (!empty($anoNascimento)) $query .= " AND animais.ano_nascimento = '$anoNascimento' ";
+        if (!empty($dono1)) $query .= " AND dono.nm_pessoa LIKE '%$dono1%' ";
+
+        $query .= "LIMIT 50";
+
+        // if (!empty($search)) {
+        //     $read->FullRead("SELECT P.* FROM pessoas P  WHERE UPPER(CONCAT(P.CD_PESSOA, ' ', P.NM_PESSOA)) LIKE UPPER(CONCAT('%', :P, '%')) ORDER BY P.NM_PESSOA ASC", "P=$search");
+        // } else {
+        //     $read->FullRead("SELECT P.* FROM PESSOAS P");
+        // }
+        
+        $read->FullRead($query);
+
+        return $read->getResult();
+        }
+        catch(Exception $e){
+           throw new Exception($e->getMessage()); 
+        }
+    }
+
     // public function generalSearch($arrayParam){
     //     try{
     //         $colunas = $arrayParam['colunas'];

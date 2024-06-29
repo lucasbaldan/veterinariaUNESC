@@ -17,3 +17,10 @@ span.dataTable-item:hover {
     color: rgb(0, 70, 110);
 }
 
+.default-datatable tbody td {
+    text-align: center;
+}
+
+.default-datatable tfoot th {
+    text-align: center;
+}

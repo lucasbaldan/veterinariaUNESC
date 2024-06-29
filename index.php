@@ -187,6 +187,11 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
+    $group->post('/buscaRapidaAnimal', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\BuscaRapidaAnimal($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, ['/veterinariaUNESC/modais/cadastroTipoAnimal',
@@ -195,6 +200,7 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
                          '/veterinariaUNESC/modais/cadastroMunicipio',
                          '/veterinariaUNESC/modais/cadastroLogradouro',
                          '/veterinariaUNESC/modais/cadastroBairro',
+                         '/veterinariaUNESC/modais/buscaRapidaAnimal',
                          '/veterinariaUNESC/modais/buscaRapidaPessoa',])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
@@ -287,6 +293,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->post('/controlar', App\Controllers\Animais::class . ':controlar');
 
         $Group->post('/excluir', App\Controllers\Animais::class . ':excluir');
+
+        $Group->post('/retornaPesquisaModal', App\Controllers\Animais::class . ':retornaPesquisaModal');
     });
 
     $group->group('/atendimentos', function (RouteCollectorProxy $Group) {
@@ -372,6 +380,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/animais/grid',
         '/veterinariaUNESC/server/animais/controlar',
         '/veterinariaUNESC/server/animais/excluir',
+        '/veterinariaUNESC/server/animais/retornaPesquisaModal',
 
         '/veterinariaUNESC/server/atendimentos/grid',
         '/veterinariaUNESC/server/atendimentos/controlar',

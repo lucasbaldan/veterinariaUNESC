@@ -56,6 +56,37 @@ class Animais
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
 
+    public static function retornaPesquisaModal(Request $request, Response $response)
+    {
+
+        try {
+            $Formulario = $request->getParsedBody();
+
+            $nmAnimal = !empty($Formulario['nmAnimalModal']) ? $Formulario['nmAnimalModal'] : '';
+            $tpAnimal = !empty($Formulario['tipoAnimalModal']) ? $Formulario['tipoAnimalModal'] : '';
+            $anoNascimento = !empty($Formulario['anoNascimentoModal']) ? $Formulario['anoNascimentoModal'] : '';
+            $dono = !empty($Formulario['donoAnimalModal']) ? $Formulario['donoAnimalModal'] : '';
+
+            $arrayParam = [
+                "COLUNAS" => "animais.cd_animal, animais.nm_animal, tipo_animal.descricao as nm_tipo_animal, animais.ano_nascimento, dono.nm_pessoa",
+                "NM_ANIMAL" => $nmAnimal,
+                "TIPO_ANIMAL" => $tpAnimal,
+                "ANO_NASCIMENTO" => $anoNascimento,
+                "DONO" => $dono
+            ];
+
+            $retorno = \App\Models\Animais::GeneralSearch($arrayParam);
+
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno];
+            $codigoHTTP = 200;
+        } catch (Exception $e) {
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $codigoHTTP = 500;
+        }
+        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
+    }
+
     public static function controlar(Request $request, Response $response)
     {
         try {

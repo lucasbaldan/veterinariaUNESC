@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row">
+        <form id="formBuscaRapidaAnimal" class="row mb-2">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="">Nome do animal: </label>
+                    <input type="text" class="form-control" id="nmAnimalModal" name="nmAnimalModal">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="cpfPessoa">Tipo de Animal </label>
+                    <input type="text" class="form-control" id="tipoAnimalModal" name="tipoAnimalModal">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="anoNascimentoModal">Ano de Nascimento: </label>
+                    <input type="text" maxlength="4" class="form-control" id="anoNascimentoModal" name="anoNascimentoModal" placeholder="">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="donoAnimalModal">Dono: </label>
+                    <input type="text" class="form-control" id="donoAnimalModal" name="donoAnimalModal">
+                </div>
+            </div>
+            <div class="col-md-12 d-flex mt-2 align-items-end">
+                <button class="btn btn-outline-primary p-3 lh-1" onclick="BuscarRapidaAnimal()" type="button">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+        <hr>
+        <div class="col-md-12">
+            <table id="gridDataTableBuscaRapidaAnimal" class="table table-striped table-hover table-bordered" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">Nome do Animal</th>
+                        <th style="text-align: center;">Tipo de Animal</th>
+                        <th style="text-align: center;">Ano de Nascimento</th>
+                        <th style="text-align: center;">Dono do Animal</th>
+                        <th style="text-align: center;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
