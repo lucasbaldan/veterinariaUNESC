@@ -102,6 +102,11 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
+    $group->get('/listAtendimentos', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\listAtendimentos($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
     $group->get('/listUsuarios', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\ListUsuarios($twig);
         return $tela->exibir($request, $response, $args);
@@ -131,6 +136,7 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
                          '/veterinariaUNESC/paginas/gruposUsuarios',
                          '/veterinariaUNESC/paginas/listPessoas',
                          '/veterinariaUNESC/paginas/listAnimais',
+                         '/veterinariaUNESC/paginas/listAtendimentos',
                          '/veterinariaUNESC/paginas/listUsuarios',
                          ])) {
         $response = new \Slim\Psr7\Response();
@@ -283,6 +289,14 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->post('/excluir', App\Controllers\Animais::class . ':excluir');
     });
 
+    $group->group('/atendimentos', function (RouteCollectorProxy $Group) {
+        $Group->post('/grid', App\Controllers\Atendimentos::class . ':montarGrid');
+
+        $Group->post('/controlar', App\Controllers\Atendimentos::class . ':controlar');
+
+        $Group->post('/excluir', App\Controllers\Atendimentos::class . ':excluir');
+    });
+
     $group->group('/estado', function (RouteCollectorProxy $Group) {
 
         $Group->post('/general', App\Controllers\Estados::class . ':general');
@@ -358,6 +372,10 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/animais/grid',
         '/veterinariaUNESC/server/animais/controlar',
         '/veterinariaUNESC/server/animais/excluir',
+
+        '/veterinariaUNESC/server/atendimentos/grid',
+        '/veterinariaUNESC/server/atendimentos/controlar',
+        '/veterinariaUNESC/server/atendimentos/excluir',
 
         '/veterinariaUNESC/server/gruposUsuarios/salvaGrupoUsuarios',
         '/veterinariaUNESC/server/gruposUsuarios/excluiGruposUsuarios',
