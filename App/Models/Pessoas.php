@@ -370,4 +370,24 @@ class Pessoas
     {
         return $this->Message;
     }
+
+    public function setNome($nome){
+        $this->NmPessoa = $nome;
+    }
+
+    public function setTelefone($telefone){
+        $this->NrTelefone = $telefone;
+    }
+
+    public function setCRMV($crmv){
+        $this->NrCRMV = $crmv;
+    }
+
+    public function setEmail($email){
+        $this->DsEmail = $email;
+    }
+
+    public function setCidade($cidade){
+        $this->cidade = $cidade;
+    }
 }

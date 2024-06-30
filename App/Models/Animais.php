@@ -353,4 +353,34 @@ class Animais
     {
         return $this->Return;
     }
+
+    public function setDonoNaoDeclarado($fl){
+        $this->fl_dono_nao_declarado = $fl;
+    }
+
+    public function setDono1($dono1){
+        $this->dono1 = $dono1;
+    }
+
+    public function setNome($nome){
+        $this->nome = $nome;
+    }
+    public function setTipoAnimal($cd){
+        $this->tipoAnimal = $cd;
+    }
+    public function setEspecie($cd){
+        $this->especie = $cd;
+    }
+    public function setRaca($cd){
+        $this->raca = $cd;
+    }
+    public function setSexo($sexo){
+        $this->sexo = $sexo;
+    }
+    public function setIdade($idade){
+        $this->idadeAproximada = $idade;
+    }
+    public function setAnoNascimento($Ano){
+        $this->anoNascimento = $Ano;
+    }
 }

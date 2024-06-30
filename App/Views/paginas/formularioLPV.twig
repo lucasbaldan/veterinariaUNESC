@@ -213,12 +213,13 @@
                                             <label for="dsEmailVeterinarioRemetente">Email</label>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="nmCidadeVeterinarioRemetente"
-                                                name="nmCidadeVeterinarioRemetente" placeholder="" disabled>
-                                            <label for="nmCidadeVeterinarioRemetente">Município de Residência</label>
-                                        </div>
+                                        <label for="select2cdCidadeVeterinario" class="form-label">Município de Residência</label>
+                                        <select class="form-select" id="select2cdCidadeVeterinario" name="select2cdCidadeVeterinario" disabled>
+                                            {{selectCidadeVeterinario|raw}}
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -237,7 +238,7 @@
                                 <div class="row mb-4">
                                     <div class="col">
                                         <label for="select2cidadePropriedade" class="form-label">Município de Origem </label>
-                                        <select class="form-select" id="select2cidadePropriedade" name="select2cidadePropriedade" aria-label="" disabled>
+                                        <select class="form-select" id="select2cidadePropriedade" name="select2cidadePropriedade" aria-label="">
                                         {{selectMunicipioFicha|raw}}
                                     </select>
                                 </div>

@@ -52,8 +52,33 @@ $(document).ready(function () {
         }
       });
 
-      $("#nrTelefoneProprietario").inputmask("(99) 99999-9999", { autoUnmask: true });
+      if($('#cdVeterinarioRemetente') === ''){
+        $("#buscaRapidaVeterinario").prop("disabled", true);
+      } else {
+        $("#alterarVeterinario, #desvincularVeterinario").prop("disabled", true);
+      }
+      
+      $("#cdVeterinarioRemetente").on("change", function () {
+        if ($(this).val()) {
+          $("#buscaRapidaVeterinario").prop("disabled", true);
+          $("#alterarVeterinario, #desvincularVeterinario").prop("disabled", false);
+        } else {
+          $("#buscaRapidaVeterinario").prop("disabled", false);
+          $("#alterarVeterinario, #desvincularVeterinario").prop("disabled", true);
+        }
+      });
 
+      new Select2("#select2cdCidadeVeterinario", {
+        url: "/veterinariaUNESC/server/municipio/general",
+      });
+
+      new Select2("#select2cidadePropriedade", {
+        url: "/veterinariaUNESC/server/municipio/general",
+      });
+      
+      $("#nrTelefoneProprietario").inputmask("(99) 99999-9999", { autoUnmask: true });
+      $("#nrTelVeterinarioRemetente").inputmask("(99) 99999-9999", { autoUnmask: true });
+      
 });
 
 $("#alterarAnimalFicha").on("click", function () {
@@ -98,6 +123,8 @@ $("#donoNaoDeclarado").on("change", function () {
   });
 
 
+
+
   $("#buscaRapidaVeterinario").on("click", function () {
     try {
       Loading.on();
@@ -130,4 +157,131 @@ $("#donoNaoDeclarado").on("change", function () {
     }
   });
 
+  function tableNaoEncontrado(){
+    Notificacao.NotificacaoAviso('Nenhum registro encontrado!<br> <b>Campos habilitados para inserir nova Pessoa</b>');
+    $("#nmVeterinarioRemetente, #crmvVeterinarioRemetente, #nrTelVeterinarioRemetente, #dsEmailVeterinarioRemetente, #select2cdCidadeVeterinario").prop("disabled", false);
+  }
+
+  function selecionarPessoa(id) {
+    $("#nmVeterinarioRemetente, #crmvVeterinarioRemetente, #nrTelVeterinarioRemetente, #dsEmailVeterinarioRemetente, #select2cdCidadeVeterinario").prop("disabled", true);
+    Loading.on();
+    $.ajax({
+      url: "/veterinariaUNESC/server/pessoas/selecionarPessoa",
+      method: "POST",
+      data: {
+        cdPessoa: id,
+      },
+      success: function (response) {
+        if (response.RESULT) {
+          var pessoa = response.RETURN;
+  
+          $("#cdVeterinarioRemetente").val(pessoa.cd_pessoa).trigger("change");
+          $("#nmVeterinarioRemetente").val(pessoa.nm_pessoa);
+          $("#nrTelVeterinarioRemetente").val(pessoa.nr_telefone);
+          $("#dsEmailVeterinarioRemetente").val(pessoa.ds_email);
+          $("#crmvVeterinarioRemetente").val(pessoa.nr_crmv);
+  
+          var optionCidade = new Option(
+            pessoa.nm_cidade,
+            pessoa.cd_cidade,
+            true,
+            true
+          );
+          $("#select2cdCidadeVeterinario").append(optionCidade).trigger("change");
+          bootbox.hideAll();
+        }
+      },
+      error: function (xhr, status, error) {
+        Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
+      },
+      complete: function () {
+        Loading.off();
+      },
+    });
+  }
+
+  $("#alterarVeterinario").on("click", function () {
+    $("#nmVeterinarioRemetente, #crmvVeterinarioRemetente, #nrTelVeterinarioRemetente, #dsEmailVeterinarioRemetente, #select2cdCidadeVeterinario").prop("disabled", false);
+    $('#alterouVeterinario').val('S');
+});
+
+$("#desvincularVeterinario").on("click", function () {
+  $("#nmVeterinarioRemetente, #crmvVeterinarioRemetente, #nrTelVeterinarioRemetente, #dsEmailVeterinarioRemetente, #select2cdCidadeVeterinario").prop("disabled", true);
+  $("#cdVeterinarioRemetente").val('').trigger("change");
+  $("#nmVeterinarioRemetente, #crmvVeterinarioRemetente, #nrTelVeterinarioRemetente, #dsEmailVeterinarioRemetente").val('');
+  $("#select2cdCidadeVeterinario").val(null).trigger("change");
+  $('#alterouVeterinario').val('N');
+});
+
+
+
+
+
+
+
+function salvarCadastroAtendimento() {
+  Loading.on();
+  var formData = $("#formFichaLPV").serialize();
+
+  $.ajax({
+    url: "/veterinariaUNESC/server/atendimentos/controlar",
+    method: "POST",
+    data: formData,
+    success: function (response) {
+      if (response.RESULT) {
+        sessionStorage.setItem("notificarSucesso", "true");
+        window.location.href = "/veterinariaUNESC/paginas/listAtendimentos";
+      }
+    },
+    error: function (xhr, status, error) {
+      Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
+    },
+    complete: function () {
+      Loading.off();
+    },
+  });
+}
+
+function excluirCadastroAtendimentos() {
+  bootbox.confirm({
+    className: "bootbox-delete",
+    size: "extra-large",
+    title: "Confirmar exclusão?",
+    centerVertical: true,
+    message:
+      "Você tem <b>certeza</b> que deseja excluir esse registro? Esta ação poderá ser desfeita.",
+    buttons: {
+      cancel: {
+        label: '<i class="bi bi-arrow-left"></i> Cancelar',
+      },
+      confirm: {
+        label: '<i class="bi bi-check-lg"></i> Confirmar',
+      },
+    },
+    callback: function (result) {
+      if (result) {
+        $("#bootbox-delete").modal("hide");
+        Loading.on();
+        var formData = $("#formFichaLPV").serialize();
+        $.ajax({
+          url: "/veterinariaUNESC/server/atendimentos/excluir",
+          method: "POST",
+          data: formData,
+          success: function (response) {
+            if (response.RESULT) {
+              sessionStorage.setItem("notificarSucesso", "true");
+              window.location.href = "/veterinariaUNESC/paginas/listAtendimentos";
+            }
+          },
+          error: function (xhr, status, error) {
+            Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
+          },
+          complete: function () {
+            Loading.off();
+          },
+        });
+      }
+    },
+  });
+}
   

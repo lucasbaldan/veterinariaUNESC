@@ -306,3 +306,11 @@ function desvincularPessoa() {
 
   bloquearCamposPessoa();
 }
+
+function tableNaoEncontrado(){
+  Notificacao.NotificacaoAviso('Nenhum registro encontrado!<br> <b>Campos habilitados para inserir nova Pessoa</b>');
+  desvincularPessoa();
+  desbloquearCamposPessoa();
+  $("#buscaRapidaPessoa, #alterarPessoaAtual").prop("disabled", true);
+  $("#desvincularPessoa").prop("disabled", false);
+}
