@@ -6,10 +6,12 @@ function constructModalBuscaAnimal() {
     language: {
       url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
     },
-    scrollX: true,
     pageLength: 10,
-    lengthChange: false
+    lengthChange: false,
+    scrollX: true,
   });
+
+  tableBuscaRapida.columns.adjust().draw();
 }
 
 function BuscarRapidaAnimal() {
@@ -33,10 +35,12 @@ function BuscarRapidaAnimal() {
                 animal.nm_tipo_animal,
                 animal.ano_nascimento,
                 animal.nm_pessoa,
-                '<button class="btn btn-primary" onclick="selecionarPessoa(' + animal.cd_animal + ')">Selecionar</button>',
+                '<button class="btn btn-primary" onclick="iniciarAtendimento(' + animal.cd_animal + ')">Iniciar Atendimento <i class="bi bi-clipboard2-pulse-fill"></i></button>',
               ])
               .draw();
           }
+        } else {
+          Notificacao.NotificacaoAviso('Nenhum registro encontrado!');
         }
         tableBuscaRapida.draw();
       }

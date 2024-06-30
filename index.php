@@ -15,6 +15,7 @@ $config = json_decode(file_get_contents(__DIR__ . '/Configurations.json'), true)
 foreach ($config as $key => $value) {
     $GLOBALS[$key] = $value;
 }
+date_default_timezone_set('America/Sao_Paulo');
 
 $app = AppFactory::create();
 $app->setBasePath('/veterinariaUNESC');
@@ -37,7 +38,7 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
-    $group->get('/fichaLPV', function (Request $request, Response $response, $args) use ($twig) {
+    $group->post('/fichaLPV', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\FormularioLPV($twig);
         return $tela->exibir($request, $response, $args);
     });

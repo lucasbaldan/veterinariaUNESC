@@ -78,7 +78,7 @@ $(document).ready(function () {
   });
 });
 
-function openCadastro(id = "") {
+function openCadastro() {
   try {
     Loading.on();
 
@@ -98,8 +98,8 @@ function openCadastro(id = "") {
           size: "extra-large",
           message: respostaAjaxModal[0],
           className: "search-animal",
+          onShown: function() {constructModalBuscaAnimal();}
         });
-        constructModalBuscaAnimal();
       })
       .fail(function (xhr, status, error) {})
       .always(function () {
@@ -108,4 +108,15 @@ function openCadastro(id = "") {
   } catch (e) {
     Loading.off();
   }
+}
+
+function iniciarAtendimento(id) {
+  Loading.on();
+  if(id == null){
+    Notificacao.NotificacaoErro('Houve um erro ao processar o pedido <br><br> Tente novamente mais tarde!');
+    return
+  }
+  var form = $('<form action="/veterinariaUNESC/paginas/fichaLPV" method="post"><input type="hidden" name="idAnimal" value="' + id + '"></form>');
+  $('body').append(form);
+  form.submit();
 }

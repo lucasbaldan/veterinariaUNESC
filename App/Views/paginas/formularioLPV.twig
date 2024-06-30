@@ -16,11 +16,11 @@
                 <div class="mb-3 row">
                     <div class="col-md-4">
                         <label for="cdFichaLPV" class="col-form-label my-1">Código da Ficha: </label>
-                        <input type="text" readonly class="form-control-plaintext" id="cdFichaLPV" name="cdFichaLPV" value="">
+                        <input type="text" readonly class="form-control-plaintext" id="cdFichaLPV" name="cdFichaLPV" value="{{cdFichaLPV}}">
                     </div>
                     <div class="col-md-4">
                         <label for="dtFicha" class="form-label">Data</label>
-                        <input type="date" class="form-control" id="dtFicha" name="dtFicha" placeholder=" ">
+                        <input type="date" class="form-control" id="dtFicha" name="dtFicha" placeholder="" value="{{DataFicha}}">
                     </div>
 
                     <div class="col-md-4 d-flex align-items-end justify-content-end">
@@ -43,70 +43,67 @@
                             <div class="accordion-body">
 
                                 <div class="row">
-                                    <div class="col">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="animal" name="animal"
-                                                placeholder="">
-                                            <label for="animal">Nome do Animal</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="tpAnimal" name="tpAnimal"
-                                                placeholder="">
-                                            <label for="tpAnimal">Tipo de Animal</label>
-                                        </div>
+                                    <div class="col col-md-12 col-sm-2 d-flex justify-content-end">
+                                          <button class="btn btn-secondary" id="alterarAnimalFicha" type="button"><i class="bi bi-pencil-fill"></i> <i class="bi bi-gitlab"></i></i></button>
+                                          </button>
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="dsEspecie" name="dsEspecie"
-                                                placeholder="">
-                                            <label for="dsEspecie">Espécie</label>
-                                        </div>
+                                <div class="row mb-3">
+                                    <input type="hidden" id="cdAnimal" name="cdAnimal" value="{{cdAnimal}}" readonly>
+                                    <input type="hidden" name="alterouAnimal" id="alterouAnimal" value="N" readonly>
+                                    <div class="col-md-6">
+                                        <label for="animal" class="form-label">Nome do Animal</label>
+                                            <input type="text" class="form-control" id="animal" name="animal" value="{{animal}}"
+                                                placeholder="" disabled>
                                     </div>
-                                    <div class="col">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="dsRaca" name="dsRaca"
-                                                placeholder="">
-                                            <label for="dsRaca">Raça</label>
-                                        </div>
-                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="tipoAnimal" class="form-label">Tipo de Animal </label>
+                                        <select class="form-select" id="select2tipoAnimal" name="select2tipoAnimal"aria-label="" disabled>
+                                        {{selectTipoAnimal|raw}}
+                                    </select>
                                 </div>
-
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-floating mb-3">
-                                            <select class="form-select" id="dsSexo" name="dsSexo"
-                                                aria-label="Sexo Animal">
-                                                <option value="">Selecione...</option>
-                                                <option value="M">Macho</option>
-                                                <option value="F">Fêmea</option>
-                                            </select>
-                                            <label for="dsSexo">Sexo do animal</label>
-                                        </div>
+                                </div>      
+                                    <div class="row mb-4">
+                                        <div class="col">
+                                            <label for="especieAnimal" class="form-label">Espécie </label>
+                                            <select class="form-select" id="select2especieAnimal" name="select2especieAnimal"aria-label="" disabled>
+                                            {{selectEspecieAnimal|raw}}
+                                        </select>
                                     </div>
-
                                     <div class="col">
-                                        <div class="form-floating mb-3">
-                                            <input type="number" maxlength="2" class="form-control" id="idade"
-                                                name="idade" placeholder="">
-                                            <label for="idade">Idade Aproximada</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="anoNascimento"
-                                                name="anoNascimento" placeholder="">
-                                            <label for="anoNascimento">Ano de nascimento</label>
-                                        </div>
-                                    </div>
-
+                                        <label for="racaAnimal" class="form-label">Raça </label>
+                                        <select class="form-select" id="select2racaAnimal" name="select2racaAnimal"aria-label="" disabled>
+                                        {{selectRacaAnimal|raw}}
+                                    </select>
                                 </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-floating mb-3">
+                                                {{selectSexoAnimal|raw}}
+                                                <label for="dsSexo">Sexo do animal</label>
+                                            </div>
+                                        </div>
+                
+                                        <div class="col">
+                                            <div class="form-floating mb-3">
+                                                <input type="number" maxlength="2" class="form-control" id="idade" value="{{idadeAnimal}}"
+                                                    name="idade" placeholder="" disabled>
+                                                <label for="idade">Idade Aproximada</label>
+                                            </div>
+                                        </div>
+                
+                                        <div class="col">
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="anoNascimento" value="{{anoNascimentoAnimal}}"
+                                                    name="anoNascimento" placeholder="" disabled>
+                                                <label for="anoNascimento">Ano de nascimento</label>
+                                            </div>
+                                        </div>
+                
+                                    </div>
 
                             </div>
                         </div>
@@ -123,10 +120,23 @@
                             <div class="accordion-body">
 
                                 <div class="row">
+                                    <div class="col col-md-12 col-sm-2 d-flex justify-content-end">
+                                        <button class="btn btn-secondary" id="alterarDonoFicha" type="button"><i class="bi bi-pencil-fill"></i> <i class="bi bi-person-arms-up"></i></button>
+                                        </button>
+                                  </div>
+                                    <div class="col-md-12 mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="donoNaoDeclarado" name="donoNaoDeclarado" {% if donoNaoDeclarado %}checked{% endif %} disabled>
+                                        <label class="form-check-label" for="donoNaoDeclarado">
+                                          Dono do Animal Não Declarado / Não informado / Ignorado
+                                        </label>
+                                      </div>
+                                    </div>
                                     <div class="col-md-8">
                                         <div class="form-floating mb-3">
+                                            <input type="hidden" name="alterouDono" id="alterouDono" value="N" readonly>
                                             <input type="text" class="form-control" id="nmProprietario"
-                                                name="nmProprietario" placeholder="">
+                                                name="nmProprietario" value="{{nmDonoAnimal}}" disabled>
                                             <label for="nmProprietario">Nome Completo</label>
                                         </div>
                                     </div>
@@ -136,7 +146,7 @@
                                     <div class="col-md-4">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="nrTelefoneProprietario"
-                                                name="nrTelefoneProprietario" placeholder="">
+                                                name="nrTelefoneProprietario" value="{{nrTelefoneDono}}" disabled>
                                             <label for="nrTelefoneProprietario">Telefone / Celular</label>
                                         </div>
                                     </div>
@@ -157,10 +167,24 @@
                             <div class="accordion-body">
 
                                 <div class="row">
+                                    <div class="col col-md-12 col-sm-2 mb-4 d-flex justify-content-end">
+                                        <div class="btn-group" role="group">
+                                          <button class="btn btn-success" id="buscaRapidaVeterinario" type="button"><i class="bi bi-plus-circle-dotted"></i> <i class="bi bi-person-arms-up"></i></button>
+                                          </button>
+                                          <button class="btn btn-secondary" id="alterarVeterinario" type="button"><i class="bi bi-pencil-fill"></i> <i class="bi bi-person-arms-up"></i></button>
+                                          </button>
+                                        <button class="btn btn-danger" id="desvincularVeterinario" type="button"><i class="bi bi-x-lg"></i> <i class="bi bi-person-arms-up"></i></button>
+                                          </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-9">
                                         <div class="form-floating mb-3">
+                                            <input type="hidden" class="form-control" id="cdVeterinarioRemetente" name="cdVeterinarioRemetente" readonly>
+                                            <input type="hidden" class="form-control" id="alterouVeterinario" name="alterouVeterinario" value="N" readonly>
                                             <input type="text" class="form-control" id="nmVeterinarioRemetente"
-                                                name="nmVeterinarioRemetente" placeholder="">
+                                                name="nmVeterinarioRemetente" disabled>
                                             <label for="nmVeterinarioRemetente">Nome Completo</label>
                                         </div>
                                     </div>
@@ -168,7 +192,7 @@
                                     <div class="col-md-3">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="crmvVeterinarioRemetente"
-                                                name="crmvVeterinarioRemetente" placeholder="">
+                                                name="crmvVeterinarioRemetente" placeholder="" disabled>
                                             <label for="crmvVeterinarioRemetente">CRMV</label>
                                         </div>
                                     </div>
@@ -178,21 +202,21 @@
                                     <div class="col">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="nrTelVeterinarioRemetente"
-                                                name="nrTelVeterinarioRemetente" placeholder="">
+                                                name="nrTelVeterinarioRemetente" placeholder="" disabled>
                                             <label for="nrTelVeterinarioRemetente">Telefone / Celular</label>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="dsEmailVeterinarioRemetente"
-                                                name="dsEmailVeterinarioRemetente" placeholder="">
+                                                name="dsEmailVeterinarioRemetente" placeholder="" disabled>
                                             <label for="dsEmailVeterinarioRemetente">Email</label>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="nmCidadeVeterinarioRemetente"
-                                                name="nmCidadeVeterinarioRemetente" placeholder="">
+                                                name="nmCidadeVeterinarioRemetente" placeholder="" disabled>
                                             <label for="nmCidadeVeterinarioRemetente">Município de Residência</label>
                                         </div>
                                     </div>
@@ -210,14 +234,15 @@
                         </h2>
                         <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
                             <div class="accordion-body">
-                                <div class="row">
+                                <div class="row mb-4">
                                     <div class="col">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="cidadePropriedade"
-                                                name="cidadePropriedade" placeholder="">
-                                            <label for="cidadePropriedade">Município</label>
-                                        </div>
-                                    </div>
+                                        <label for="select2cidadePropriedade" class="form-label">Município de Origem </label>
+                                        <select class="form-select" id="select2cidadePropriedade" name="select2cidadePropriedade" aria-label="" disabled>
+                                        {{selectMunicipioFicha|raw}}
+                                    </select>
+                                </div>
+                                </div>
+                                <div class="row">
                                     <div class="col">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control" id="totalAnimais"
@@ -306,7 +331,7 @@
                         <label for="dsRelatorio">Relatório</label>
                     </div>
                 </div>
-                <!-- </form> -->
+                 </form>
         </div>
     </div>
 </div>
@@ -316,20 +341,23 @@
         <div class="card-body border border-1S rounded-2">
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-warning w-100" type="button"><i class="bi bi-sign-turn-left-fill"></i>
-                        <b>Voltar</b></button>
+                    <a class="btn btn-warning w-100 call-screen" type="button" href="/veterinariaUNESC/paginas/listAtendimentos"><i class="bi bi-sign-turn-left-fill"></i>
+                        <b>Voltar</b></a>
                 </div>
+                {% if exibeExcluir %}
                 <div class="col">
-                    <button class="btn btn-primary w-100" type="reset"><b><i class="bi bi-trash3-fill"></i>
-                            Limpar</b></button>
+                    <button class="btn btn-danger w-100" type="button" onclick="excluirCadastroAtendimentos()" id="bntExcluirPessoa"><b><i
+                                class="bi bi-trash3-fill"></i>
+                            Excluir</b></button>
                 </div>
+                {% endif %}
+                {% if exibeSalvar %}
                 <div class="col">
-                    <button class="btn btn-success w-100" type="submit"><i class="bi bi-floppy2-fill"></i>
+                    <button class="btn btn-primary w-100" type="button" onclick="salvarCadastroAtendimentos()"><i class="bi bi-floppy2-fill"></i>
                         <b>Salvar</b></button>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
-
-</form>

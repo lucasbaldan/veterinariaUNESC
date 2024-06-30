@@ -1,11 +1,4 @@
 $(document).ready(function () {
-    const notificacao = new Notificacao({
-        duration: 10000,
-        position: {
-            x: 'center',
-            y: 'bottom',
-        },
-    });
 
     $('#ExpandFicha').click(function () {
         $('.accordion-collapse').each(function () {
@@ -15,115 +8,126 @@ $(document).ready(function () {
             collapseInstance.show();
         });
     });
+    
+      var selectTipoAnimal = new Select2("#select2tipoAnimal", {
+        url: "/veterinariaUNESC/server/tipoAnimal/general",
+      });
+    
+      var selectEspecieAnimal = new Select2("#select2especieAnimal", {
+        url: "/veterinariaUNESC/server/especie/general",
+      });
+    
+      var selectRacaAnimal = new Select2("#select2racaAnimal", {
+        url: "/veterinariaUNESC/server/raca/general",
+      });
 
-    $('#formFichaLPV').submit(function (event) {
-        event.preventDefault();
+      selectTipoAnimal.on("change", function (e) {
+        var TipoAnimalSelecionado = $(this).val();
+        $("#select2especieAnimal").val(null).trigger("change");
+    
+        if (TipoAnimalSelecionado) {
+          selectEspecieAnimal = new Select2("#select2especieAnimal", {
+            url: "/veterinariaUNESC/server/especie/general",
+            idTipoAnimal: TipoAnimalSelecionado,
+          });
+          $("#select2especieAnimal").prop("disabled", false);
+        } else {
+          $("#select2racaAnimal").val(null).trigger("change");
+          $("#select2especieAnimal, #select2racaAnimal").prop("disabled", true);
+        }
+      });
+    
+      selectEspecieAnimal.on("change", function (e) {
+        var EspecieSelecionado = $(this).val();
+        $("#select2racaAnimal").val(null).trigger("change");
+    
+        if (EspecieSelecionado) {
+          selectRacaAnimal = new Select2("#select2racaAnimal", {
+            url: "/veterinariaUNESC/server/raca/general",
+            idEspecie: EspecieSelecionado,
+          });
+          $("#select2racaAnimal").prop("disabled", false);
+        } else {
+          $("#select2racaAnimal").prop("disabled", true);
+        }
+      });
 
-        var dadosForm = $(this).serialize();
-        var codigo = $('#cdFichaLPV').val();
+      $("#nrTelefoneProprietario").inputmask("(99) 99999-9999", { autoUnmask: true });
 
-        console.log('Formulário:: ', dadosForm);
-
-        $.ajax({
-            url: '/veterinariaUNESC/server/fichaLPV/salvafichaLPV',
-            type: 'POST',
-            dataType: 'json',
-            data: dadosForm,
-            beforeSend: function () {
-                Loading.on();
-            },
-            success: function (response) {
-                // alert(response);
-                console.log('Retorno: ', response.RETURN);
-
-                if (codigo == '') {
-                    $('#cdFichaLPV').val(response.RETURN);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log('DADOS::: ', xhr.response);
-                notificacao.push(xhr.responseJSON.MESSAGE, 'warning');
-            },
-            complete: function () {
-                Loading.off();
-                if (codigo == '') {
-                    notificacao.push('Ficha salva com Sucesso!', 'success');
-                } else {
-                    notificacao.push('Ficha atualizada com Sucesso!', 'success');
-                }
-            }
-        });
-    });
-
-
-    // $('#btnSalvarFormularioLPV').on('click', function (event) {
-
-    //     event.preventDefault();
-    //     // var formData = $(this).serialize();
-
-    //     // console.log('FORMULARIO: ', formData);
-    //     // return;
-
-    //     $.ajax({
-    //         type: "POST",
-    //         data: {
-    //             cdFichaLPV: $('#cdFichaLPV').val(),
-    //             dtFicha: $('#dtFicha').val(),
-    //             animal: $('#animal').val(),
-    //             nmVeterinarioRemetente: $('#nmVeterinarioRemetente').val(),
-    //             crmvVeterinarioRemetente: $('#crmvVeterinarioRemetente').val(),
-    //             nrTelVeterinarioRemetente: $('#nrTelVeterinarioRemetente').val(),
-    //             dsEmailVeterinarioRemetente: $('#dsEmailVeterinarioRemetente').val(),
-    //             nmCidadeVeterinarioRemetente: $('#nmCidadeVeterinarioRemetente').val(),
-    //             // cdUsuarioPlantonista : $('#cdFichaLPV'),
-    //             nmProprietario: $('#nmProprietario').val(),
-    //             nrTelefoneProprietario: $('#nrTelefoneProprietario').val(),
-    //             cidadePropriedade: $('#cidadePropriedade').val(),
-    //             dsEspecie: $('#dsEspecie').val(),
-    //             dsRaca: $('#dsRaca').val(),
-    //             dsSexo: $('#dsSexo').val(),
-    //             idade: $('#idade').val(),
-    //             totalAnimais: $('#totalAnimais').val(),
-    //             qtdAnimaisDoentes: $('#qtdAnimaisDoentes').val(),
-    //             qtdAnimaisMortos: $('#qtdAnimaisMortos').val(),
-    //             dsMaterialRecebido: $('#dsMaterialRecebido').val(),
-    //             dsDiagnosticoPresuntivo: $('#dsDiagnosticoPresuntivo'),
-    //             flAvaliacaoTumoralComMargem: $('#flAvaliacaoTumoralComMargem').val(),
-    //             dsNomeAnimal: $('#dsNomeAnimal').val(),
-    //             dsEpidemiologiaHistoriaClinica: $('#dsEpidemiologiaHistoriaClinica').val(),
-    //             dsLesoesMacroscopicas: $('#dsLesoesMacroscopicas').val(),
-    //             dsLesoesHistologicas: $('#dsLesoesHistologicas').val(),
-    //             dsDiagnostico: $('#dsDiagnostico').val(),
-    //             dsRelatorio: $('#dsRelatorio').val(),
-    //         },
-    //         url: 'verinariaUNESC/fichaLPV/salvar',
-    //         beforeSend: function () { },
-    //         complete: function () { },
-    //         success: function (data) {
-    //             $("#ResultDados").html(data);
-    //         }
-    //     });
-
-    //     event.preventDefault();
-    //     var validarTela = false;
-    //     if ($('#usuario').val() === '') {
-    //         $('#usuario').addClass('is-invalid');
-    //         validarTela = true;
-    //     }
-    //     else {
-    //         $('#usuario').removeClass('is-invalid');
-    //     }
-    //     if ($('#senha').val() === '') {
-    //         $('#senha').addClass('is-invalid');
-    //         validarTela = true;
-    //     } else {
-    //         $('#senha').removeClass('is-invalid');
-    //     }
-
-    //     if (validarTela) {
-    //         return;
-    //     }
-    //     //this.submit();
-    //     notificacao.push("<b>Usuário ou senha inválidos</b><br><br> Por favor verifique os dados de acesso e tente novamente.", 'warning');
-    // });
 });
+
+$("#alterarAnimalFicha").on("click", function () {
+    $("#select2racaAnimal, #animal, #select2tipoAnimal, #select2especieAnimal, #select2racaAnimal, #dsSexo, #idade, #anoNascimento").prop("disabled", false);
+    $('#alterouAnimal').val('S');
+    if($('#select2TipoAnimal').val() == '') {
+        $("#select2especieAnimal").prop("disabled", true);
+      }
+      if($('#select2especieAnimal').val() == '') {
+        $("#select2racaAnimal").prop("disabled", true);
+      }
+
+      if ($('#select2tipoAnimal').val() !== '' && $('#select2especieAnimal').val() === '') {
+        var TipoAnimalSelecionado = $('#select2tipoAnimal').val();
+        selectEspecieAnimal = new Select2("#select2especieAnimal", {
+            url: "/veterinariaUNESC/server/especie/general",
+            idTipoAnimal: TipoAnimalSelecionado,
+          });
+          $("#select2especieAnimal").prop("disabled", false);
+    }
+
+    if ($('#select2especieAnimal').val() !== '' && $('#select2racaAnimal').val() === '') {
+        var EspecieSelecionado = $('#select2especieAnimal').val();
+        selectRacaAnimal = new Select2("#select2racaAnimal", {
+            url: "/veterinariaUNESC/server/raca/general",
+            idEspecie: EspecieSelecionado,
+          });
+          $("#select2racaAnimal").prop("disabled", false);
+    }
+});
+
+$("#alterarDonoFicha").on("click", function () {
+    $("#donoNaoDeclarado, #nmProprietario, #nrTelefoneProprietario").prop("disabled", false);
+    $('#alterouDono').val('S');
+});
+
+$("#donoNaoDeclarado").on("change", function () {
+    if ($(this).is(":checked")) {
+        $("#nmProprietario, #nrTelefoneProprietario").val('');
+        $("#nmProprietario, #nrTelefoneProprietario").prop("disabled", true);
+    }
+  });
+
+
+  $("#buscaRapidaVeterinario").on("click", function () {
+    try {
+      Loading.on();
+
+      var ajaxModal = $.ajax({
+        url: "/veterinariaUNESC/modais/buscaRapidaPessoa",
+        method: "POST",
+      });
+
+      var script = $.getScript(
+        "/veterinariaUNESC/public/js/buscaRapidaPessoaModal.js"
+      );
+
+      $.when(ajaxModal, script)
+        .done(function (respostaAjaxModal) {
+          bootbox.dialog({
+            title: "Busca Rápida - Pessoa",
+            size: "extra-large",
+            message: respostaAjaxModal[0],
+            className: "search-pessoa",
+            onShown: function() {constructModalBuscaPessoa();}
+          });
+        })
+        .fail(function (xhr, status, error) {})
+        .always(function () {
+          Loading.off();
+        });
+    } catch (e) {
+      Loading.off();
+    }
+  });
+
+  

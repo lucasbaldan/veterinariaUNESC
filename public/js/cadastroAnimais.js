@@ -134,8 +134,8 @@ $(document).ready(function () {
             size: "extra-large",
             message: respostaAjaxModal[0],
             className: "search-pessoa",
+            onShown: function() {constructModalBuscaPessoa();}
           });
-          constructModalBuscaPessoa();
         })
         .fail(function (xhr, status, error) {})
         .always(function () {

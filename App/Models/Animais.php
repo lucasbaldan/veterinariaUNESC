@@ -252,7 +252,8 @@ class Animais
         
         $read->FullRead($query);
 
-        return $read->getResult();
+        if($read->getRowCount() == 0) return null;
+        else return $read->getResult();
         }
         catch(Exception $e){
            throw new Exception($e->getMessage()); 
