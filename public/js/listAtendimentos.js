@@ -16,12 +16,24 @@ $(document).ready(function () {
       url: "/veterinariaUNESC/server/atendimentos/grid",
       type: "POST",
       data: function (d) {
-        d.columns[0].search.value = $("#pesquisaCodigoAnimal").val();
-        d.columns[1].search.value = $("#pesquisaNomeAnimal").val();
-        d.columns[2].search.value = $("#pesquisaDescricaoTipoAnimal").val();
-        d.columns[3].search.value = $("#pesquisaNomeDonoAnimal").val();
-        d.columns[4].search.value = $("#pesquisaEspecieAnimal").val();
-        d.columns[5].search.value = $("#pesquisaRacaAnimal").val();
+        d.columns[0].search.value = $("#pesquisaCodigoAtendimento").val();
+        d.columns[1].search.value = $("#pesquisaDataAtendimentoInicio").val()+'|'+$("#pesquisaDataAtendimentoFim").val();
+        d.columns[2].search.value = $("#pesquisaNomeAnimalAtendimento").val();
+        d.columns[3].search.value = $("#pesquisaNomeTipoAnimalAtendimento").val();
+        d.columns[4].search.value = $("#pesquisaEspecieAnimalAtendimento").val();
+        d.columns[5].search.value = $("#pesquisaRacaAnimalAtendimento").val();
+        d.columns[6].search.value = $("#pesquisaSexoAnimalAtendimento").val();
+        d.columns[7].search.value = $("#pesquisaDonoAnimalAtendimento").val();
+        d.columns[8].search.value = $("#pesquisaVeterinarioAtendimento").val();
+        d.columns[9].search.value = $("#pesquisaMunicipioOrigemAtendimento").val();
+        d.columns[10].search.value = $("#pesquisaMaterialAtendimento").val();
+        d.columns[11].search.value = $("#pesquisaDiagnosticoPresuntivoAtendimento").val();
+        d.columns[12].search.value = $("#pesquisaAvalicaoTumoralAtendimento").val();
+        d.columns[13].search.value = $("#pesquisaEpidemiologiaAtendimento").val();
+        d.columns[14].search.value = $("#pesquisaLesoesMacrocospiasAtendimento").val();
+        d.columns[15].search.value = $("#pesquisaLesoesHistologicasAtendimento").val();
+        d.columns[16].search.value = $("#pesquisaDiagnosticoAtendimento").val();
+        d.columns[17].search.value = $("#pesquisaRelatorioAtendimento").val();
       },
       dataSrc: function (json) {
         json.draw = json.RETURN.draw;
@@ -58,7 +70,7 @@ $(document).ready(function () {
         var recordId = data.CD_FICHA_LPV;
         var cellText = cell.text();
         cell.html(
-          '<span class="dataTable-item" onclick="openCadastro(' +
+          '<span class="dataTable-item" onclick="editarAtendimento(' +
             recordId +
             ')">' +
             cellText +
@@ -68,12 +80,11 @@ $(document).ready(function () {
     },
   });
 
-  $(
-    "#pesquisaCodigoAnimal, #pesquisaNomeAnimal, #pesquisaDescricaoTipoAnimal, #pesquisaNomeDonoAnimal, #pesquisaEspecieAnimal, #pesquisaRacaAnimal"
-  ).on("keyup clear input", function () {
+  $("#pesquisaCodigoAtendimento, #pesquisaDataAtendimentoInicio, #pesquisaDataAtendimentoFim, #pesquisaNomeAnimalAtendimento, #pesquisaNomeTipoAnimalAtendimento, #pesquisaEspecieAnimalAtendimento, #pesquisaRacaAnimalAtendimento, #pesquisaSexoAnimalAtendimento, #pesquisaDonoAnimalAtendimento, #pesquisaVeterinarioAtendimento, #pesquisaMunicipioOrigemAtendimento, #pesquisaMaterialAtendimento, #pesquisaDiagnosticoPresuntivoAtendimento, #pesquisaAvalicaoTumoralAtendimento, #pesquisaEpidemiologiaAtendimento, #pesquisaLesoesMacrocospiasAtendimento, #pesquisaLesoesHistologicasAtendimento, #pesquisaDiagnosticoAtendimento, #pesquisaRelatorioAtendimento"
+).on("keyup clear input", function () {
     if (this.timer) clearTimeout(this.timer);
     this.timer = setTimeout(function () {
-      dataTableAnimais.draw();
+      dataTableAtendimentos.draw();
     }, 2000);
   });
 });
@@ -117,6 +128,17 @@ function iniciarAtendimento(id) {
     return
   }
   var form = $('<form action="/veterinariaUNESC/paginas/fichaLPV" method="post"><input type="hidden" name="idAnimal" value="' + id + '"></form>');
+  $('body').append(form);
+  form.submit();
+}
+
+function editarAtendimento(id) {
+  Loading.on();
+  if(id == null){
+    Notificacao.NotificacaoErro('Houve um erro ao processar o pedido <br><br> Tente novamente mais tarde!');
+    return
+  }
+  var form = $('<form action="/veterinariaUNESC/paginas/fichaLPV" method="post"><input type="hidden" name="idFicha" value="' + id + '"></form>');
   $('body').append(form);
   form.submit();
 }

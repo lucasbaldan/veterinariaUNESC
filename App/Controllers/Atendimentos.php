@@ -83,7 +83,10 @@ class Atendimentos
             $dsLesoesHistologicas = !empty($dadosForm['dsLesoesHistologicas']) ? $dadosForm['dsLesoesHistologicas'] : '';
             $dsDiagnostico = !empty($dadosForm['dsDiagnostico']) ? $dadosForm['dsDiagnostico'] : '';
             $dsRelatorio = !empty($dadosForm['dsRelatorio']) ? $dadosForm['dsRelatorio'] : '';
-
+            $cdCidadePropridade = !empty($dadosForm['select2cidadePropriedade']) ? $dadosForm['select2cidadePropriedade'] : '';
+            $totalAnimais = !empty($dadosForm['totalAnimais']) ? $dadosForm['totalAnimais'] : 0;
+            $animaisDoentes = !empty($dadosForm['qtdAnimaisDoentes']) ? $dadosForm['qtdAnimaisDoentes'] : 0;
+            $animaisMortos = !empty($dadosForm['qtdAnimaisMortos']) ? $dadosForm['qtdAnimaisMortos'] : 0;
 
             // INPUTS DO ANIMAL
             $codigoAnimal = !empty($dadosForm['cdAnimal']) ? $dadosForm['cdAnimal'] : '';
@@ -114,34 +117,41 @@ class Atendimentos
             if (empty($codigoAnimal)) throw new Exception("Houve um erro ao tentar processar a requisição <br><br> tente novamente mais tarde!");
             if (empty($codigoVeterinario)) throw new Exception("Selecione pelo menos um veterinário ao Atendimento para concluir o cadastro");
 
-            $AnimalFicha = \App\Models\Animais::findById($codigoAnimal);
+            $Conn = \App\Conn\Conn::getConn(true);
+
+            $AnimalFicha = \App\Models\Animais::findById($codigoAnimal, $Conn);
+
 
             if ($alterouDono == 'S') {
                 if ($donoNaoDeclarado == 'N') {
-                    $Dono = \App\Models\Pessoas::findById($AnimalFicha->getDono1()->getCodigo());
+                    $Dono = \App\Models\Pessoas::findById($AnimalFicha->getDono1()->getCodigo(), $Conn);
                     $Dono->setNome($nomeDono);
                     $Dono->setTelefone($nrTelefoneDono);
-                    $Dono->Update();
+                    $Dono->Update($Conn);
 
                     if (!$Dono->getResult()) {
                         throw new Exception($Dono->getMessage());
                     }
-                } else {
-                    $AnimalFicha->setDonoNaoDeclarado('S');
-                    $AnimalFicha->setDono1(null);
                 }
             }
 
-            if ($alterouAnimal == 'S') {
-                $AnimalFicha->setNome($nomeAnimal);
-                $AnimalFicha->setTipoAnimal($tipoAnimal);
-                $AnimalFicha->setEspecie($especieAnimal);
-                $AnimalFicha->setRaca($racaAnimal);
-                $AnimalFicha->setSexo($sexoAnimal);
-                $AnimalFicha->setIdade($idadeAnimal);
-                $AnimalFicha->setAnoNascimento($anoNascimentoAnimal);
+            if (($alterouDono == 'S' && $donoNaoDeclarado == 'S') || $alterouAnimal) {
+                if ($alterouAnimal == 'S') {
+                    $AnimalFicha->setNome($nomeAnimal);
+                    $AnimalFicha->setTipoAnimal($tipoAnimal);
+                    $AnimalFicha->setEspecie($especieAnimal);
+                    $AnimalFicha->setRaca($racaAnimal);
+                    $AnimalFicha->setSexo($sexoAnimal);
+                    $AnimalFicha->setIdade($idadeAnimal);
+                    $AnimalFicha->setAnoNascimento($anoNascimentoAnimal);
+                }
 
-                $AnimalFicha->Atualizar();
+                if ($donoNaoDeclarado == 'S') {
+                    $AnimalFicha->setDonoNaoDeclarado('S');
+                    $AnimalFicha->setDono1('');
+                }
+
+                $AnimalFicha->Atualizar($Conn);
 
                 if (!$AnimalFicha->getResult()) {
                     throw new Exception($AnimalFicha->getMessage());
@@ -150,13 +160,13 @@ class Atendimentos
 
             if (empty($codigoVeterinario)) {
                 $VeterinarioFicha = new \App\Models\Pessoas($nomeVeterinario, $cdCidadeVeterinario, $telefoneVeterinario, '', $emailVeterinario, $crmvVeterinario, '', '', 'S', '', '');
-                $VeterinarioFicha->Insert();
+                $VeterinarioFicha->Insert($Conn);
 
                 if (!$VeterinarioFicha->getResult()) {
                     throw new Exception($VeterinarioFicha->getMessage());
                 }
             } else {
-                $VeterinarioFicha = \App\Models\Pessoas::findById($codigoVeterinario);
+                $VeterinarioFicha = \App\Models\Pessoas::findById($codigoVeterinario, $Conn);
                 if ($alterouVeterinario == 'S') {
                     $VeterinarioFicha->setNome($nomeVeterinario);
                     $VeterinarioFicha->setCRMV($crmvVeterinario);
@@ -172,25 +182,22 @@ class Atendimentos
                 }
             }
 
+            $Atendimento = new \App\Models\Atendimentos($data, $AnimalFicha->getCodigo(), $VeterinarioFicha->getCodigo(), $cdCidadePropridade, $totalAnimais, $animaisMortos, $animaisDoentes, $materialRecebido, $dsDiagnosticoPresuntivo, $flAvaliacaoTumoralComMargem, $dsEpidemiologia, $dsLesoesMacroscopicas, $dsLesoesHistologicas, $dsDiagnostico, $dsRelatorio, $codigo);
+            if (empty($codigo)) {
+                $Atendimento->Inserir($Conn);
+            } else {
+                $Atendimento->Atualizar($Conn);
+            }
 
+            if (!$Atendimento->getResult()) {
+                throw new Exception($Atendimento->getMessage());
+            }
 
-
-
-
-            // $cad = new \App\Models\Animais($nome, $donoNaoDeclarado, $cdTipoAnimal, $cdEspecie, $cdRaca, $dsSexo, $idade, $anoNascimento, $dono = null, null, $codigo);
-            // if (empty($codigo)) {
-            //     $cad->Inserir();
-            // } else {
-            //     $cad->Atualizar();
-            // }
-
-            // if(!$cad->getResult()){
-            //     throw new Exception($cad->getMessage());
-            // }
-
+            $Conn->commit();
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
             $codigoHTTP = 200;
         } catch (Exception $e) {
+            $Conn->rollBack();
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
             $codigoHTTP = 500;
         }
@@ -203,13 +210,13 @@ class Atendimentos
         try {
             $dadosForm = $request->getParsedBody();
 
-            $codigo = !empty($dadosForm['cdAnimal']) ? $dadosForm['cdAnimal'] : '';
+            $codigo = !empty($dadosForm['cdFichaLPV']) ? $dadosForm['cdFichaLPV'] : '';
 
             if (empty($codigo)) {
                 throw new Exception("Houve um erro ao processo a requisição<br>Tente novamente mais tarde");
             }
 
-            $cad = new \App\Models\Animais('', '', '', '', '', '', '', '', '', '', $codigo);
+            $cad = new \App\Models\Atendimentos('', '', '', '', '', '', '', '', '', '', '','','','','', $codigo);
             $cad->Excluir();
 
 

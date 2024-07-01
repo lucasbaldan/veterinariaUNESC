@@ -147,14 +147,15 @@ class Atendimentos
                     LEFT JOIN racas ON (animais.cd_raca = racas.cd_raca)
                     LEFT JOIN pessoas dono ON (animais.cd_pessoa_dono1 = dono.cd_pessoa)
                     LEFT JOIN pessoas veterinario ON (ficha_lpv.CD_PESSOA_VETERINARIO_REMETENTE = veterinario.cd_pessoa)
-                    LEFT JOIN cidades ON (ficha_lpv.CD_CIDADE_PROPRIEDADE = cidades.cd_cidade)";
+                    LEFT JOIN cidades ON (ficha_lpv.CD_CIDADE_PROPRIEDADE = cidades.cd_cidade)
+
+                    WHERE 1=1 ";
 
         if (!empty($pesquisaCodigo)) {
-            $query .= " AND animais.cd_animal LIKE '%$pesquisaCodigo%'";
+            $query .= " AND ficha_lpv.CD_FICHA_LPV LIKE '%$pesquisaCodigo%'";
         }
-        if (!empty($pesquisaDescricao)) {
-            $query .= " AND animais.nm_animal LIKE '%$pesquisaDescricao%'";
-        }
+       
+
         if (!empty($orderBy)) {
             $query .= " ORDER BY $orderBy $orderAscDesc";
         }
@@ -166,15 +167,14 @@ class Atendimentos
         return $read->getResult();
     }
 
-    public function Inserir()
+    public function Inserir($Conn = false)
     {
 
         try {
-            $conn = \App\Conn\Conn::getConn(true);
-            $insert = new \App\Conn\Insert($conn);
+            $insert = new \App\Conn\Insert($Conn);
 
             $dadosInsert = [
-                "DT_FICHA" => $this->codigo,
+                "DT_FICHA" => $this->data,
                 "CD_ANIMAL" => $this->animal->getCodigo(),
                 "CD_PESSOA_VETERINARIO_REMETENTE" => $this->veterinarioRemetente->getCodigo(),
                 "CD_CIDADE_PROPRIEDADE" => $this->cidadeOrigem->getCodigo(),
@@ -188,8 +188,7 @@ class Atendimentos
                 "DS_LESOES_MACROSCOPICAS" => $this-> lessoesMacroscopias,
                 "DS_LESOES_HISTOLOGICAS" => $this->lessoesHistologicas,
                 "DS_DIAGNOSTICO" => $this->diagnostico,
-                "DS_RELATORIO" => $this->relatorio,
-                "CD_FICHA_LPV" => $this->codigo
+                "DS_RELATORIO" => $this->relatorio
             ];
 
             $insert->ExeInsert("FICHA_LPV", $dadosInsert);
@@ -198,29 +197,26 @@ class Atendimentos
                 throw new Exception($insert->getMessage());
             }
 
-            $insert->Commit();
             $this->Result = true;
         } catch (Exception $e) {
             $this->Result = false;
             $this->Message = $e->getMessage();
-            $insert->Rollback();
         }
     }
 
-    public function Atualizar()
+    public function Atualizar($Conn = false)
     {
         try {
-            $read = new \App\Conn\Read();
+            $read = new \App\Conn\Read($Conn);
 
             $read->ExeRead("FICHA_LPV", "WHERE CD_FICHA_LPV = :D", "D=$this->codigo");
             $dadosCadastro = $read->getResult()[0] ?? [];
             if ($dadosCadastro) {
 
-                $conn = \App\Conn\Conn::getConn(true);
-                $update = new \App\Conn\Update($conn);
+                $update = new \App\Conn\Update($Conn);
 
                 $dadosUpdate = [
-                "DT_FICHA" => $this->codigo,
+                "DT_FICHA" => $this->data,
                 "CD_ANIMAL" => $this->animal->getCodigo(),
                 "CD_PESSOA_VETERINARIO_REMETENTE" => $this->veterinarioRemetente->getCodigo(),
                 "CD_CIDADE_PROPRIEDADE" => $this->cidadeOrigem->getCodigo(),
@@ -234,8 +230,7 @@ class Atendimentos
                 "DS_LESOES_MACROSCOPICAS" => $this-> lessoesMacroscopias,
                 "DS_LESOES_HISTOLOGICAS" => $this->lessoesHistologicas,
                 "DS_DIAGNOSTICO" => $this->diagnostico,
-                "DS_RELATORIO" => $this->relatorio,
-                "CD_FICHA_LPV" => $this->codigo
+                "DS_RELATORIO" => $this->relatorio
                 ];
 
                 $update->ExeUpdate("FICHA_LPV", $dadosUpdate, "WHERE CD_FICHA_LPV = :D", "D=$this->codigo");
@@ -243,13 +238,11 @@ class Atendimentos
                 if (!$update->getResult()) {
                     throw new Exception($update->getMessage());
                 }
-                $update->Commit();
                 $this->Result = true;
             } else {
                 throw new Exception("Ops, Parece que esse registro não existe mais na base de dados!");
             }
         } catch (Exception $e) {
-            $update->Rollback();
             $this->Result = false;
             $this->Message = $e->getMessage();
         }
@@ -327,6 +320,10 @@ class Atendimentos
 
     public function getAnimaisDoentes() {
         return $this->AnimaisDoentes;
+    }
+
+    public function getMaterialRecebido() {
+        return $this->materialRecebido;
     }
 
     public function getDiagnosticoPresuntivo() {

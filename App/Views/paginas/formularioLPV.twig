@@ -15,8 +15,10 @@
             <form id="formFichaLPV" name="formFichaLPV">
                 <div class="mb-3 row">
                     <div class="col-md-4">
-                        <label for="cdFichaLPV" class="col-form-label my-1">Código da Ficha: </label>
-                        <input type="text" readonly class="form-control-plaintext" id="cdFichaLPV" name="cdFichaLPV" value="{{cdFichaLPV}}">
+                        <div class="form-floating mb-3">
+                            <input type="text" readonly class="form-control-plaintext" id="cdFichaLPV" name="cdFichaLPV" value="{{cdFichaLPV}}">
+                            <label for="cdFichaLPV">Código: </label>
+                          </div>
                     </div>
                     <div class="col-md-4">
                         <label for="dtFicha" class="form-label">Data</label>
@@ -181,10 +183,10 @@
                                 <div class="row">
                                     <div class="col-md-9">
                                         <div class="form-floating mb-3">
-                                            <input type="hidden" class="form-control" id="cdVeterinarioRemetente" name="cdVeterinarioRemetente" readonly>
+                                            <input type="hidden" class="form-control" id="cdVeterinarioRemetente" name="cdVeterinarioRemetente" value="{{cdVeterinarioRemetente}}" readonly>
                                             <input type="hidden" class="form-control" id="alterouVeterinario" name="alterouVeterinario" value="N" readonly>
                                             <input type="text" class="form-control" id="nmVeterinarioRemetente"
-                                                name="nmVeterinarioRemetente" disabled>
+                                                name="nmVeterinarioRemetente" value="{{nmVeterinarioRemetente}}" disabled>
                                             <label for="nmVeterinarioRemetente">Nome Completo</label>
                                         </div>
                                     </div>
@@ -192,7 +194,7 @@
                                     <div class="col-md-3">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="crmvVeterinarioRemetente"
-                                                name="crmvVeterinarioRemetente" placeholder="" disabled>
+                                                name="crmvVeterinarioRemetente" placeholder="" value="{{crmvVeterinario}}" disabled>
                                             <label for="crmvVeterinarioRemetente">CRMV</label>
                                         </div>
                                     </div>
@@ -202,14 +204,14 @@
                                     <div class="col">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="nrTelVeterinarioRemetente"
-                                                name="nrTelVeterinarioRemetente" placeholder="" disabled>
+                                                name="nrTelVeterinarioRemetente" placeholder="" value="{{telefoneVeterinario}}" disabled>
                                             <label for="nrTelVeterinarioRemetente">Telefone / Celular</label>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="dsEmailVeterinarioRemetente"
-                                                name="dsEmailVeterinarioRemetente" placeholder="" disabled>
+                                                name="dsEmailVeterinarioRemetente" value="{{emailVeterinario}}" disabled>
                                             <label for="dsEmailVeterinarioRemetente">Email</label>
                                         </div>
                                     </div>
@@ -247,21 +249,21 @@
                                     <div class="col">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control" id="totalAnimais"
-                                                name="totalAnimais" placeholder="">
+                                                name="totalAnimais" placeholder="" value="{{totalAnimais}}">
                                             <label for="totalAnimais">Total de Animais da Propriedade</label>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control" id="qtdAnimaisDoentes"
-                                                name="qtdAnimaisDoentes" placeholder="">
+                                                name="qtdAnimaisDoentes" placeholder="" value="{{animaisDoentes}}">
                                             <label for="qtdAnimaisDoentes">Doentes</label>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control" id="qtdAnimaisMortos"
-                                                name="qtdAnimaisMortos" placeholder="">
+                                                name="qtdAnimaisMortos" placeholder="" value="{{animaisMortos}}">
                                             <label for="qtdAnimaisMortos">Mortos</label>
                                         </div>
                                     </div>
@@ -279,28 +281,25 @@
                 <div class="mb-3 col-md-12">
                     <label for="dsMaterialRecebido" class="form-label">Material Recebido</label>
                     <input type="text" class="form-control" id="dsMaterialRecebido" name="dsMaterialRecebido"
-                        placeholder=" ">
+                        placeholder="" value="{{materialRecebido}}">
                 </div>
 
                 <div class="mb-3 col-md-12">
                     <label for="dsDiagnosticoPresuntivo" class="form-label">Diagnóstico Presuntivo</label>
                     <input type="text" class="form-control" id="dsDiagnosticoPresuntivo" name="dsDiagnosticoPresuntivo"
-                        placeholder=" ">
+                        value="{{DiagnosticoPresuntivo}}">
                 </div>
                 <div class="mb-3 col-md-3">
                     <label for="flAvaliacaoTumoralComMargem" class="form-label">Avaliação tumoral com
                         margem?</label>
-                    <select class="form-select" id="flAvaliacaoTumoralComMargem" name="flAvaliacaoTumoralComMargem">
-                        <option value="N">Não</option>
-                        <option value="S">Sim</option>
-                    </select>
+                    {{selectTurmoralcomMargem|raw}}
                 </div>
 
                 <div class="mb-3 col-md-12">
                     <div class="form-floating">
                         <textarea class="form-control" placeholder="Leave a comment here"
                             id="dsEpidemiologiaHistoriaClinica" name="dsEpidemiologiaHistoriaClinica"
-                            style="height: 250px"></textarea>
+                            style="height: 250px">{{epidemiologia}}</textarea>
                         <label for="floatingTextarea2">Epidemiologia e História
                             Clínica</label>
                     </div>
@@ -309,26 +308,26 @@
                 <div class="mb-3 col-md-12">
                     <div class="form-floating">
                         <textarea class="form-control" placeholder="Leave a comment here" id="dsLesoesMacroscopicas"
-                            name="dsLesoesMacroscopicas" style="height: 250px"></textarea>
+                            name="dsLesoesMacroscopicas" style="height: 250px">{{LesoesMacroscopicas}}</textarea>
                         <label for="dsLesoesMacroscopicas">Lesões Macroscópicas</label>
                     </div>
                 </div>
                 <div class="mb-3 col-md-12">
                     <div class="form-floating">
                         <textarea class="form-control" placeholder="Leave a comment here" id="dsLesoesHistologicas"
-                            name="dsLesoesHistologicas" style="height: 250px"></textarea>
+                            name="dsLesoesHistologicas" style="height: 250px">{{LesoesHistologicas}}</textarea>
                         <label for="dsLesoesHistologicas">Lesões Histológicas</label>
                     </div>
                 </div>
                 <div class="mb-3 col-md-12">
                     <label for="dsDiagnostico" class="form-label">Diagnóstico</label>
-                    <input type="text" class="form-control" id="dsDiagnostico" name="dsDiagnostico" placeholder=" ">
+                    <input type="text" class="form-control" id="dsDiagnostico" name="dsDiagnostico" value="{{diagnostico}}">
                 </div>
 
                 <div class="mb-3 col-md-12">
                     <div class="form-floating">
                         <textarea class="form-control" placeholder="Leave a comment here" id="dsRelatorio"
-                            name="dsRelatorio" style="height: 250px"></textarea>
+                            name="dsRelatorio" style="height: 250px">{{relatorio}}</textarea>
                         <label for="dsRelatorio">Relatório</label>
                     </div>
                 </div>
@@ -347,7 +346,7 @@
                 </div>
                 {% if exibeExcluir %}
                 <div class="col">
-                    <button class="btn btn-danger w-100" type="button" onclick="excluirCadastroAtendimentos()" id="bntExcluirPessoa"><b><i
+                    <button class="btn btn-danger w-100" type="button" onclick="excluirCadastroAtendimentos()" id="bntExcluirAtendimentos"><b><i
                                 class="bi bi-trash3-fill"></i>
                             Excluir</b></button>
                 </div>

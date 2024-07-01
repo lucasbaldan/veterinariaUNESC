@@ -38,14 +38,14 @@ class Animais
         $this->codigo = $codigo;
     }
 
-    public static function findById($id)
+    public static function findById($id, $Conn = false)
     {
         try {
             if(empty($id)){
                 throw new Exception("Objeto vazio");
             }
 
-            $read = new \App\Conn\Read();
+            $read = new \App\Conn\Read($Conn);
 
             $read->ExeRead("ANIMAIS", "WHERE CD_ANIMAL = :C LIMIT 1", "C=$id");
 
@@ -160,17 +160,16 @@ class Animais
         }
     }
 
-    public function Atualizar()
+    public function Atualizar($Conn = false)
     {
         try {
-            $read = new \App\Conn\Read();
+            $read = new \App\Conn\Read($Conn);
 
             $read->ExeRead("ANIMAIS", "WHERE CD_ANIMAL = :D", "D=$this->codigo");
             $dadosCadastro = $read->getResult()[0] ?? [];
             if ($dadosCadastro) {
 
-                $conn = \App\Conn\Conn::getConn(true);
-                $update = new \App\Conn\Update($conn);
+                $update = new \App\Conn\Update($Conn);
 
                $dadosUpdate = [
                 "NM_ANIMAL" => $this->nome, 
@@ -189,13 +188,11 @@ class Animais
                 if (!$update->getResult()) {
                     throw new Exception($update->getMessage());
                 }
-                $update->Commit();
                 $this->Result = true;
             } else {
                 throw new Exception("Ops, Parece que esse registro não existe mais na base de dados!");
             }
         } catch (Exception $e) {
-            $update->Rollback();
             $this->Result = false;
             $this->Message = $e->getMessage();
         }
@@ -359,20 +356,21 @@ class Animais
     }
 
     public function setDono1($dono1){
-        $this->dono1 = $dono1;
+        $this->dono1 = \App\Models\Pessoas::findById($dono1);
     }
 
     public function setNome($nome){
         $this->nome = $nome;
     }
     public function setTipoAnimal($cd){
-        $this->tipoAnimal = $cd;
+
+        $this->tipoAnimal = \App\Models\TipoAnimais::findById($cd);
     }
     public function setEspecie($cd){
-        $this->especie = $cd;
+        $this->especie = \App\Models\Especies::findById($cd);
     }
     public function setRaca($cd){
-        $this->raca = $cd;
+        $this->raca = \App\Models\Raças::findById($cd);
     }
     public function setSexo($sexo){
         $this->sexo = $sexo;

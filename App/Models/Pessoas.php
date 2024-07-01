@@ -57,14 +57,14 @@ class Pessoas
     // }
 
 
-    public static function findById($id)
+    public static function findById($id, $Conn = false)
     {
         try {
             if (empty($id)) {
                 throw new Exception("Objeto vazio");
             }
 
-            $read = new \App\Conn\Read();
+            $read = new \App\Conn\Read($Conn);
 
             $read->ExeRead("PESSOAS", "WHERE CD_PESSOA = :C LIMIT 1", "C=$id");
 
@@ -92,9 +92,9 @@ class Pessoas
     }
 
 
-    public function Insert()
+    public function Insert($Conn = false)
     {
-        $insert = new \App\Conn\Insert();
+        $insert = new \App\Conn\Insert($Conn);
 
         try {
             $insert->ExeInsert("PESSOAS", [
@@ -122,9 +122,9 @@ class Pessoas
         }
     }
 
-    public function Update()
+    public function Update($Conn = false)
     {
-        $read = new \App\Conn\Read();
+        $read = new \App\Conn\Read($Conn);
         try {
             $read->ExeRead("PESSOAS", "WHERE CD_PESSOA = :C", "C=$this->CdPessoa");
             $dadosCadastro = $read->getResult()[0] ?? [];
@@ -143,7 +143,7 @@ class Pessoas
                     "FL_ATIVO" => $this->ativo
                 ];
 
-                $update = new \App\Conn\Update();
+                $update = new \App\Conn\Update($Conn);
 
                 $update->ExeUpdate("PESSOAS", $dadosUpdate, "WHERE CD_PESSOA = :C", "C=$this->CdPessoa");
 
@@ -388,6 +388,6 @@ class Pessoas
     }
 
     public function setCidade($cidade){
-        $this->cidade = $cidade;
+        $this->cidade = \App\Models\Municipios::findById($cidade);
     }
 }

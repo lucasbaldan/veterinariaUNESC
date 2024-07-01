@@ -52,10 +52,10 @@ $(document).ready(function () {
         }
       });
 
-      if($('#cdVeterinarioRemetente') === ''){
-        $("#buscaRapidaVeterinario").prop("disabled", true);
-      } else {
+      if($('#cdVeterinarioRemetente').val() === ''){
         $("#alterarVeterinario, #desvincularVeterinario").prop("disabled", true);
+      } else {
+        $("#buscaRapidaVeterinario").prop("disabled", true);
       }
       
       $("#cdVeterinarioRemetente").on("change", function () {
@@ -213,13 +213,7 @@ $("#desvincularVeterinario").on("click", function () {
   $('#alterouVeterinario').val('N');
 });
 
-
-
-
-
-
-
-function salvarCadastroAtendimento() {
+function salvarCadastroAtendimentos() {
   Loading.on();
   var formData = $("#formFichaLPV").serialize();
 
