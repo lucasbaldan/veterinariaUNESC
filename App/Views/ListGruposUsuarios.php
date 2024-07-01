@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
-class CadastroGruposUsuarios
+class ListGruposUsuarios
 {
     private $twig;
 
@@ -18,12 +18,12 @@ class CadastroGruposUsuarios
     public function exibir(Request $request, Response $response, $args)
     {
 
-        $pessoas = $this->twig->fetch('gruposUsuarios.twig');
+        $pessoas = $this->twig->fetch('listGruposUsuarios.twig');
         $conteudoTela = $this->twig->fetch('TelaComMenus.twig', ['conteudo_tela' => $pessoas]);
 
         return $this->twig->render($response, 'TelaBase.twig', [
             'cssLinks' => "TelaMenus.css;",
-            'jsLinks' => "gruposUsuarios.js",
+            'jsLinks' => "listGrupoUsuarios.js",
             'conteudo_tela' => $conteudoTela,
         ]);
     }

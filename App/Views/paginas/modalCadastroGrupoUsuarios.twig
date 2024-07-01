@@ -1,15 +1,15 @@
 <div class="row">
     <div class="col">
-        <form id="formCadastroTipoAnimal">
+        <form id="formCadastroGruposUsuarios">
             <div class="form-group">
                 <div class="form-floating mb-3">
-                    <input type="text" readonly class="form-control-plaintext" id="cdtipoAnimal" name="cdtipoAnimal" value="{{codigo}}">
-                    <label for="cdtipoAnimal">Código:</label>
+                    <input type="text" readonly class="form-control-plaintext" id="cdGrupoUsuarios" name="cdGrupoUsuarios" value="{{cdGrupoUsuarios}}">
+                    <label for="cdGrupoUsuarios">Código:</label>
                   </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="tipoAnimal" name="tipoAnimal" value="{{descricao}}"
+                    <input type="text" class="form-control" id="nmGrupoUsuarios" name="nmGrupoUsuarios" value="{{nmGrupoUsuarios}}"
                         placeholder="">
-                    <label for="tipoAnimal">Descrição do Tipo do Animal</label>
+                    <label for="nmGrupoUsuarios">Nome do Grupo de Usuários</label>
                 </div>
 
                 {{select|raw}}
@@ -18,12 +18,12 @@
 
                 {% if exibirExcluir %}
                 <div class="row">
-                    <div class="col mb-2"><button id="btnExcluir" onclick="excluirCadastroTipoAnimal()" class="btn btn-danger w-100" type="button"><b><i class="bi bi-trash3-fill"></i> Excluir</b></button></div>
+                    <div class="col mb-2"><button id="btnExcluir" onclick="excluirCadastroGrupoUsuarios()" class="btn btn-danger w-100" type="button"><b><i class="bi bi-trash3-fill"></i> Excluir</b></button></div>
                 </div>
                 {% endif %}
                 {% if exibirSalvar %}
                 <div class="row">
-                    <div class="col"><button id="btnSalvar" onclick="salvarCadastroTipoAnimal()" class="btn btn-primary w-100" type="button"><i class="bi bi-floppy2-fill"></i> <b>Salvar</b></button></div>
+                    <div class="col"><button id="btnSalvar" onclick="salvarCadastroGrupoUsuarios()" class="btn btn-primary w-100" type="button"><i class="bi bi-floppy2-fill"></i> <b>Salvar</b></button></div>
                 </div>
                 {% endif %}
 

@@ -45,7 +45,7 @@ class GruposUsuarios
         $read->getResult()[0]['CD_GRUPO_USUARIOS'],
       );
     } catch (Exception $e) {
-      return new self('', '', '', '', '');
+      return new self('', '', '', '');
     }
   }
 
@@ -65,6 +65,7 @@ class GruposUsuarios
         throw new Exception($insert->getMessage());
       }
       $this->Result = true;
+      $this->Return = $insert->getResult();
     } catch (Exception $e) {
       $this->Result = false;
       $this->Message = $e->getMessage();
@@ -148,6 +149,49 @@ class GruposUsuarios
     }
   }
 
+  public static function SelectGrid($arrayParam)
+  {
+
+      $start = $arrayParam['inicio'];
+      $limit = $arrayParam['limit'];
+      $orderBy = $arrayParam['orderBy'];
+      $orderAscDesc = $arrayParam['orderAscDesc'];
+      $pesquisaCodigo = $arrayParam['pesquisaCodigo'];
+      $pesquisaDescricao = $arrayParam['pesquisaDescricao'];
+      $pesquisaAtivo = $arrayParam['pesquisaAtivo'];
+
+      $read = new \App\Conn\Read();
+
+      $query = "SELECT grupos_usuarios.cd_grupo_usuarios,
+                grupos_usuarios.nm_grupo_usuarios,
+                (CASE WHEN grupos_usuarios.fl_ativo = 'S' THEN 'Sim' ELSE 'Não' END) as fl_ativo, 
+                COUNT(grupos_usuarios.cd_grupo_usuarios) OVER() AS total_filtered,  
+                (SELECT COUNT(grupos_usuarios.cd_grupo_usuarios) FROM grupos_usuarios) AS total_table 
+                FROM grupos_usuarios
+                WHERE 1=1";
+
+      if (!empty($pesquisaCodigo)) {
+          $query .= " AND grupos_usuarios.cd_grupo_usuarios LIKE '%$pesquisaCodigo%'";
+      }
+      if (!empty($pesquisaDescricao)) {
+          $query .= " AND grupos_usuarios.nm_grupo_usuarios LIKE '%$pesquisaDescricao%'";
+      }
+      if (!empty($pesquisaAtivo)) {
+          $pesquisaAtivo = $pesquisaAtivo == 2 ? 0 : 1;
+          $query .= " AND grupos_usuarios.fl_ativo = $pesquisaAtivo";
+      }
+
+      if (!empty($orderBy)) {
+          $query .= " ORDER BY $orderBy $orderAscDesc";
+      }
+
+      $query .= " LIMIT $start, $limit";
+
+      $read->FullRead($query);
+
+      return $read->getResult();
+  }
+
   public function GetMessage()
   {
     return $this->Message;
@@ -176,5 +220,10 @@ class GruposUsuarios
   public function GetPermissoes()
   {
     return $this->Permissoes;
+  }
+
+  public function GetAtivo()
+  {
+    return $this->FlAtivo;
   }
 }
