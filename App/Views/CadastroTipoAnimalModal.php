@@ -34,19 +34,19 @@ class CadastroTipoAnimalModal
 
             $select = '
             <div class="form-floating">
-            <select class="form-select mb-3" id="ativoTipoAnimal" name="ativoTipoAnimal" aria-label="Floating label select example">
+            <select class="form-select mb-3" id="flAtivo" name="flAtivo" aria-label="Floating label select example">
               <option value="0">Selecione...</option>
               <option value="1" ' . ($TipoAnimal->getAtivo() == 1 ? 'selected' : "") . '>Sim</option>
               <option value="2" ' . ($TipoAnimal->getAtivo() == 0 ? 'selected' : "") . '>Não</option>
             </select>
-            <label for="ativoAnimal">Ativo no Sistema</label>
+            <label for="flAtivo">Ativo no Sistema</label>
           </div>';
 
         } catch (Exception $e) {
             return $this->twig->render($response, 'erroModal.twig', ["erro" => $e->getMessage()]);
         }
 
-        return $this->twig->render($response, 'modalCadastroTipoAnimal.twig', 
+        return $this->twig->render($response, 'modalCadastroGrupoUsuarios.twig', 
         [
             "select" => $select,
             "codigo" => $TipoAnimal->getCodigo(),

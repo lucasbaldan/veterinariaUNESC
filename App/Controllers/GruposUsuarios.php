@@ -17,12 +17,10 @@ class GruposUsuarios
 
             $cdGrupoUsuarios = !empty($Formulario['cdGrupoUsuarios']) ? $Formulario['cdGrupoUsuarios'] : '';
             $nmGrupoUsuarios = !empty($Formulario['nmGrupoUsuarios']) ? $Formulario['nmGrupoUsuarios'] : '';
-            $flAcessar = !empty($Formulario['flAcessar']) ? $Formulario['flAcessar'] : '';
-            $flEditar = !empty($Formulario['flEditar']) ? $Formulario['flEditar'] : '';
-            $flExcluir = !empty($Formulario['flExcluir']) ? $Formulario['flExcluir'] : '';
+            $flAtivo = !empty($Formulario['flAtivo']) ? $Formulario['flAtivo'] : '';
 
 
-            $dadosGrupoUsuarios = new \App\Models\GruposUsuarios($nmGrupoUsuarios, $flAcessar, $flEditar, $flExcluir, $cdGrupoUsuarios);
+            $dadosGrupoUsuarios = new \App\Models\GruposUsuarios($nmGrupoUsuarios, '', $flAtivo, $cdGrupoUsuarios);
             
             if(empty($cdGrupoUsuarios)){
                 $retorno = $dadosGrupoUsuarios->Insert();
@@ -31,11 +29,11 @@ class GruposUsuarios
             }
             
 
-            if (!$retorno) {
-                throw new Exception("<b>Erro ao criar o grupo de usuários</b><br><br> Por favor, tente novamente.", 400);
+            if (!$dadosGrupoUsuarios->GetResult()) {
+                throw new Exception("<b>Erro ao salvar o grupo de usuários</b><br><br> Por favor, tente novamente.", 400);
             }
 
-            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno];
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $dadosGrupoUsuarios->GetResult()];
             $codigoHTTP = 200;
         } catch (Exception $e) {
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
@@ -124,6 +122,47 @@ class GruposUsuarios
         } catch (Exception $e) {
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
             $codigoHTTP = $e->getCode();
+        }
+        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
+    }
+
+    public static function MontarGrid(Request $request, Response $response)
+    {
+
+        try {
+
+            $grid = $request->getParsedBody();
+
+            $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
+            if ($orderBy == 0) $orderBy = "grupos_usuarios.cd_grupo_usuarios";
+            if ($orderBy == 1) $orderBy = "grupos_usuarios.nm_grupo_usuarios";
+            if ($orderBy == 2) $orderBy = "grupos_usuarios.fl_ativo";
+
+            $parametrosBusca = [
+                "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',
+                "pesquisaDescricao" => !empty($grid['columns'][1]['search']['value']) ? $grid['columns'][1]['search']['value'] : '',
+                "pesquisaAtivo" => !empty($grid['columns'][2]['search']['value']) ? (int)$grid['columns'][2]['search']['value'] : '',
+                "inicio" => $grid['start'],
+                "limit" => $grid['length'],
+                "orderBy" =>  $orderBy,
+                "orderAscDesc" => isset($grid['order'][0]['dir']) ? $grid['order'][0]['dir'] : ''
+            ];
+
+            $dadosSelect = \App\Models\GruposUsuarios::SelectGrid($parametrosBusca);
+            $dados = [
+                "draw" => (int)$grid['draw'],
+                "recordsTotal" => isset($dadosSelect[0]['total_table']) ? $dadosSelect[0]['total_table'] : 0,
+                "recordsFiltered" => isset($dadosSelect[0]['total_filtered']) ? $dadosSelect[0]['total_filtered'] : 0,
+                "data" => $dadosSelect
+            ];
+
+
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $dados];
+            $codigoHTTP = 200;
+        } catch (Exception $e) {
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $codigoHTTP = 500;
         }
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');

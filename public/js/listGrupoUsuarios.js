@@ -1,6 +1,6 @@
-var dataTableTipoAnimal;
+var dataTableGruposUsuarios;
 $(document).ready(function () {
-  dataTableTipoAnimal = $("#gridDataTable").DataTable({
+  dataTableGruposUsuarios = $("#gridDataTable").DataTable({
     scrollX: true,
     orderCellsTop: true,
     fixedHeader: true, 
@@ -8,7 +8,7 @@ $(document).ready(function () {
       url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
     },
     ajax: {
-      url: "/veterinariaUNESC/server/tipoAnimal/grid",
+      url: "/veterinariaUNESC/server/gruposUsuarios/grid",
       type: "POST",
       data: function (d) {
         d.columns[0].search.value = $('#pesquisaCodigoGrupoUsuarios').val();
@@ -49,8 +49,8 @@ $(document).ready(function () {
   $('#pesquisaCodigoGrupoUsuarios, #pesquisaNomeGrupoUsuarios, #pesquisaAtivoGrupoUsuarios').on('keyup clear input', function() {
     if (this.timer) clearTimeout(this.timer);
     this.timer = setTimeout(function() {
-      dataTableTipoAnimal.draw();
-    }, 2000);
+      dataTableGruposUsuarios.draw();
+    }, 500);
   });
 
 });
@@ -60,16 +60,16 @@ function openCadastro($id = null) {
     Loading.on();
 
     var ajaxModal = $.ajax({
-      url: "/veterinariaUNESC/modais/cadastroTipoAnimal",
+      url: "/veterinariaUNESC/modais/cadastroGruposUsuarios",
       method: "POST",
       data: { id: $id },
     });
 
-    var script = $.getScript("/veterinariaUNESC/public/js/CadastroTipoAnimalModal.js");
+    var script = $.getScript("/veterinariaUNESC/public/js/CadastroGrupoUsuariosModal.js");
 
     $.when(ajaxModal, script).done(function (respostaAjaxModal) {
         bootbox.dialog({
-          title: "Cadastro de Tipo de Animal",
+          title: "Cadastro dos Grupos de Usuários",
           centerVertical: true,
           message: respostaAjaxModal[0],
         });

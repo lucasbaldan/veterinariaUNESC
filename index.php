@@ -89,7 +89,12 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
     });
 
     $group->get('/gruposUsuarios', function (Request $request, Response $response, $args) use ($twig) {
-        $tela =  new App\Views\CadastroGruposUsuarios($twig);
+        $tela =  new App\Views\ListGruposUsuarios($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
+    $group->post('/cadastroGruposUsuarios', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\CadastroGruposUsuariosModal($twig);
         return $tela->exibir($request, $response, $args);
     });
 
@@ -117,29 +122,29 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         $tela =  new App\Views\CadastroAnimais($twig);
         return $tela->exibir($request, $response, $args);
     });
-
-
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
-    if (!in_array($uri, ['/veterinariaUNESC/paginas',
-                         '/veterinariaUNESC/paginas/login', 
-                         '/veterinariaUNESC/paginas/fichaLPV', 
-                         '/veterinariaUNESC/paginas/inicial', 
-                         '/veterinariaUNESC/paginas/listTipoAnimal',
-                         '/veterinariaUNESC/paginas/listEspecie',
-                         '/veterinariaUNESC/paginas/listRaca',
-                         '/veterinariaUNESC/paginas/listMunicipio',
-                         '/veterinariaUNESC/paginas/listBairro',
-                         '/veterinariaUNESC/paginas/listLogradouro',
-                         '/veterinariaUNESC/paginas/cadastroPessoas',
-                         '/veterinariaUNESC/paginas/cadastroUsuarios',
-                         '/veterinariaUNESC/paginas/cadastroAnimais',
-                         '/veterinariaUNESC/paginas/gruposUsuarios',
-                         '/veterinariaUNESC/paginas/listPessoas',
-                         '/veterinariaUNESC/paginas/listAnimais',
-                         '/veterinariaUNESC/paginas/listAtendimentos',
-                         '/veterinariaUNESC/paginas/listUsuarios',
-                         ])) {
+    if (!in_array($uri, [
+        '/veterinariaUNESC/paginas',
+        '/veterinariaUNESC/paginas/login',
+        '/veterinariaUNESC/paginas/fichaLPV',
+        '/veterinariaUNESC/paginas/inicial',
+        '/veterinariaUNESC/paginas/listTipoAnimal',
+        '/veterinariaUNESC/paginas/listEspecie',
+        '/veterinariaUNESC/paginas/listRaca',
+        '/veterinariaUNESC/paginas/listMunicipio',
+        '/veterinariaUNESC/paginas/listBairro',
+        '/veterinariaUNESC/paginas/listLogradouro',
+        '/veterinariaUNESC/paginas/cadastroPessoas',
+        '/veterinariaUNESC/paginas/cadastroUsuarios',
+        '/veterinariaUNESC/paginas/cadastroAnimais',
+        '/veterinariaUNESC/paginas/gruposUsuarios',
+        '/veterinariaUNESC/paginas/cadastroGruposUsuarios',
+        '/veterinariaUNESC/paginas/listPessoas',
+        '/veterinariaUNESC/paginas/listAnimais',
+        '/veterinariaUNESC/paginas/listAtendimentos',
+        '/veterinariaUNESC/paginas/listUsuarios',
+    ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
         return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
@@ -193,16 +198,24 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
+    $group->post('/cadastroGruposUsuarios', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\CadastroGruposUsuariosModal($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
-    if (!in_array($uri, ['/veterinariaUNESC/modais/cadastroTipoAnimal',
-                         '/veterinariaUNESC/modais/cadastroRaca',
-                         '/veterinariaUNESC/modais/cadastroEspecie',
-                         '/veterinariaUNESC/modais/cadastroMunicipio',
-                         '/veterinariaUNESC/modais/cadastroLogradouro',
-                         '/veterinariaUNESC/modais/cadastroBairro',
-                         '/veterinariaUNESC/modais/buscaRapidaAnimal',
-                         '/veterinariaUNESC/modais/buscaRapidaPessoa',])) {
+    if (!in_array($uri, [
+        '/veterinariaUNESC/modais/cadastroTipoAnimal',
+        '/veterinariaUNESC/modais/cadastroRaca',
+        '/veterinariaUNESC/modais/cadastroEspecie',
+        '/veterinariaUNESC/modais/cadastroMunicipio',
+        '/veterinariaUNESC/modais/cadastroLogradouro',
+        '/veterinariaUNESC/modais/cadastroBairro',
+        '/veterinariaUNESC/modais/buscaRapidaAnimal',
+        '/veterinariaUNESC/modais/buscaRapidaPessoa',
+        '/veterinariaUNESC/modais/cadastroGruposUsuarios',
+    ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
         return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
@@ -223,7 +236,6 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $pessoasGroup->post('/excluiPessoa', App\Controllers\Pessoas::class . ':ApagarPessoa');
         $pessoasGroup->post('/grid', App\Controllers\Pessoas::class . ':montarGrid');
         $pessoasGroup->post('/general', App\Controllers\Pessoas::class . ':General');
-
     });
 
     $group->group('/tipoAnimal', function (RouteCollectorProxy $Group) {
@@ -262,7 +274,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->post('/controlar', App\Controllers\Municipios::class . ':controlar');
 
         $Group->post('/excluir', App\Controllers\Municipios::class . ':excluir');
-        
+
         $Group->post('/general', App\Controllers\Municipios::class . ':general');
     });
 
@@ -274,7 +286,6 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->post('/excluir', App\Controllers\Bairros::class . ':excluir');
 
         $Group->post('/general', App\Controllers\Bairros::class . ':general');
-
     });
 
     $group->group('/logradouro', function (RouteCollectorProxy $Group) {
@@ -285,7 +296,6 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->post('/excluir', App\Controllers\Logradouros::class . ':excluir');
 
         $Group->post('/general', App\Controllers\Logradouros::class . ':general');
-
     });
 
     $group->group('/animais', function (RouteCollectorProxy $Group) {
@@ -317,6 +327,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $GrUsuariosGroup->post('/retornaGruposUsuarios',  App\Controllers\GruposUsuarios::class . ':RetornarGruposUsuarios');
         $GrUsuariosGroup->post('/retornaDadosGrupoUsuarios',  App\Controllers\GruposUsuarios::class . ':RetornarDadosGrupoUsuario');
         $GrUsuariosGroup->post('/general',  App\Controllers\GruposUsuarios::class . ':General');
+        $GrUsuariosGroup->post('/grid',  App\Controllers\GruposUsuarios::class . ':MontarGrid');
+
     });
 
     $group->group('/usuarios', function (RouteCollectorProxy $usuariosGroup) {
@@ -334,7 +346,6 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $fichaLPVGroup->post('/retornaDadosFichaLPV',  App\Controllers\FormularioLPV::class . ':RetornarDadosFichaLPV');
         $fichaLPVGroup->post('/apagaFichaLPV',  App\Controllers\FormularioLPV::class . ':ApagarFichaLPV');
     });
-
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
@@ -392,6 +403,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/gruposUsuarios/retornaGruposUsuarios',
         '/veterinariaUNESC/server/gruposUsuarios/retornaDadosGrupoUsuarios',
         '/veterinariaUNESC/server/gruposUsuarios/general',
+        '/veterinariaUNESC/server/gruposUsuarios/grid',
 
         '/veterinariaUNESC/server/usuarios/salvaUsuario',
         '/veterinariaUNESC/server/usuarios/excluiUsuario',
