@@ -1,4 +1,4 @@
-var dataTableAnimais;
+var dataTableAtendimentos;
 $(document).ready(function () {
   if (sessionStorage.getItem("notificarSucesso") === "true") {
     Notificacao.NotificacaoSucesso();
@@ -9,6 +9,7 @@ $(document).ready(function () {
     scrollX: true,
     orderCellsTop: true,
     fixedHeader: true,
+    autoWidth: true,
     language: {
       url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
     },
@@ -43,7 +44,7 @@ $(document).ready(function () {
       },
     },
     columns: [
-      { data: "CD_FICHA_LPV" },
+      { data: "CD_FICHA_LPV"},
       { data: "DT_FICHA" },
       { data: "nm_animal" },
       { data: "nm_tipo_animal" },
@@ -141,4 +142,48 @@ function editarAtendimento(id) {
   var form = $('<form action="/veterinariaUNESC/paginas/fichaLPV" method="post"><input type="hidden" name="idFicha" value="' + id + '"></form>');
   $('body').append(form);
   form.submit();
+}
+
+function gerarCSVAtendimentos(){
+  Loading.on();
+
+  formData = [
+    pesquisaCodigoAtendimento = $("#pesquisaCodigoAtendimento").val(),
+    pesquisaDataAtendimento = $("#pesquisaDataAtendimentoInicio").val()+'|'+$("#pesquisaDataAtendimentoFim").val(),
+    pesquisaNomeAnimalAtendimento = $("#pesquisaNomeAnimalAtendimento").val(),
+    pesquisaNomeTipoAnimalAtendimento = $("#pesquisaNomeTipoAnimalAtendimento").val(),
+    pesquisaEspecieAnimalAtendimento = $("#pesquisaEspecieAnimalAtendimento").val(),
+    pesquisaRacaAnimalAtendimento = $("#pesquisaRacaAnimalAtendimento").val(),
+    pesquisaSexoAnimalAtendimento = $("#pesquisaSexoAnimalAtendimento").val(),
+    pesquisaDonoAnimalAtendimento = $("#pesquisaDonoAnimalAtendimento").val(),
+    pesquisaVeterinarioAtendimento = $("#pesquisaVeterinarioAtendimento").val(),
+    pesquisaMunicipioOrigemAtendimento = $("#pesquisaMunicipioOrigemAtendimento").val(),
+    pesquisaMaterialAtendimento = $("#pesquisaMaterialAtendimento").val(),
+    pesquisaDiagnosticoPresuntivoAtendimento = $("#pesquisaDiagnosticoPresuntivoAtendimento").val(),
+    pesquisaAvalicaoTumoralAtendimento = $("#pesquisaAvalicaoTumoralAtendimento").val(),
+    pesquisaEpidemiologiaAtendimento = $("#pesquisaEpidemiologiaAtendimento").val(),
+    pesquisaLesoesMacrocospiasAtendimento = $("#pesquisaLesoesMacrocospiasAtendimento").val(),
+    pesquisaLesoesHistologicasAtendimento = $("#pesquisaLesoesHistologicasAtendimento").val(),
+    pesquisaDiagnosticoAtendimento = $("#pesquisaDiagnosticoAtendimento").val(),
+    pesquisaRelatorioAtendimento = $("#pesquisaRelatorioAtendimento").val(),
+  ];
+
+  $.ajax({
+    url: "/veterinariaUNESC/server/atendimentos/gerarCSV",
+    method: "POST",
+    data: formData,
+    success: function (response) {
+      var blob=new Blob([response]);
+    var link=document.createElement('a');
+    link.href=window.URL.createObjectURL(blob);
+    link.download="atendimentos.csv";
+    link.click();
+    },
+    error: function (xhr, status, error) {
+      Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
+    },
+    complete: function () {
+      Loading.off();
+    },
+  });
 }

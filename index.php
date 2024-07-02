@@ -314,6 +314,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->post('/controlar', App\Controllers\Atendimentos::class . ':controlar');
 
         $Group->post('/excluir', App\Controllers\Atendimentos::class . ':excluir');
+
+        $Group->post('/gerarCSV', App\Controllers\Atendimentos::class . ':gerarCSVGrid');
     });
 
     $group->group('/estado', function (RouteCollectorProxy $Group) {
@@ -397,6 +399,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/atendimentos/grid',
         '/veterinariaUNESC/server/atendimentos/controlar',
         '/veterinariaUNESC/server/atendimentos/excluir',
+        '/veterinariaUNESC/server/atendimentos/gerarCSV',
 
         '/veterinariaUNESC/server/gruposUsuarios/salvaGrupoUsuarios',
         '/veterinariaUNESC/server/gruposUsuarios/excluiGruposUsuarios',

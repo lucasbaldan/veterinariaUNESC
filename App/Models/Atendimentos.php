@@ -110,27 +110,40 @@ class Atendimentos
         $orderBy = $arrayParam['orderBy'];
         $orderAscDesc = $arrayParam['orderAscDesc'];
         $pesquisaCodigo = $arrayParam['pesquisaCodigo'];
-        $pesquisaDescricao = $arrayParam['pesquisaDescricao'];
+        $pesquisaDataInicio = $arrayParam['pesquisaDataInicio'];
+        $pesquisaDataFim = $arrayParam['pesquisaDataFim'];
+        $pesquisaNomeAnimal = $arrayParam['pesquisaNomeAnimal'];
         $pesquisaTipoAnimal = $arrayParam['pesquisaTipoAnimal'];
-        $pesquisaEspecie = $arrayParam['pesquisaEspecie'];
-        $pesquisaRaca = $arrayParam['pesquisaRaca'];
+        $pesquisaEspecieAnimal = $arrayParam['pesquisaEspecieAnimal'];
+        $pesquisaRacaAnimal = $arrayParam['pesquisaRacaAnimal'];
+        $pesquisaSexoAnimal = $arrayParam['pesquisaSexoAnimal'];
         $pesquisaDono = $arrayParam['pesquisaDono'];
+        $pesquisaVeterinario = $arrayParam['pesquisaVeterinario'];
+        $pesquisaMunicipio = $arrayParam['pesquisaMunicipio'];
+        $pesquisaMaterial = $arrayParam['pesquisaMaterial']; 
+        $pesquisaDiagnosticoPresuntivo = $arrayParam['pesquisaDiagnosticoPresuntivo']; 
+        $pesquisaAvaliacaoTumor = $arrayParam['pesquisaAvaliacaoTumor']; 
+        $pesquisaEpidemiologia = $arrayParam['pesquisaEpidemiologia']; 
+        $pesquisaLessaoMacro = $arrayParam['pesquisaLessaoMacro']; 
+        $pesquisaLessaoHisto = $arrayParam['pesquisaLessaoHisto']; 
+        $pesquisaDiagnostico = $arrayParam['pesquisaDiagnostico']; 
+        $pesquisaRelatorio = $arrayParam['pesquisaRelatorio'];
 
         $read = new \App\Conn\Read();
 
         $query = "  SELECT ficha_lpv.CD_FICHA_LPV,
-                    ficha_lpv.DT_FICHA,
+                    DATE_FORMAT(ficha_lpv.DT_FICHA, '%d/%m/%Y') as DT_FICHA,
                     animais.nm_animal,
                     tipo_animal.descricao as nm_tipo_animal,
                     especies.descricao as nm_especie,
                     racas.descricao as nm_raca,
-                    animais.sexo,
+                    (CASE WHEN animais.sexo = 'F' THEN 'Fêmea' WHEN animais.sexo = 'M' THEN 'Macho' ELSE '-' END) AS sexo,
                     dono.nm_pessoa as nm_dono,
                     veterinario.nm_pessoa as nm_veterinario,
                     cidades.nome as cidade_propridade,
                     ficha_lpv.DS_MATERIAL_RECEBIDO,
                     ficha_lpv.DS_DIAGNOSTICO_PRESUNTIVO,
-                    ficha_lpv.FL_AVALIACAO_TUMORAL_COM_MARGEM,
+                    (CASE WHEN ficha_lpv.FL_AVALIACAO_TUMORAL_COM_MARGEM = 'S' THEN 'Sim' WHEN ficha_lpv.FL_AVALIACAO_TUMORAL_COM_MARGEM = 'N' THEN 'Não' ELSE '-' END) AS FL_AVALIACAO_TUMORAL_COM_MARGEM,
                     ficha_lpv.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA,
                     ficha_lpv.DS_LESOES_MACROSCOPICAS,
                     ficha_lpv.DS_LESOES_HISTOLOGICAS,
@@ -151,16 +164,32 @@ class Atendimentos
 
                     WHERE 1=1 ";
 
-        if (!empty($pesquisaCodigo)) {
-            $query .= " AND ficha_lpv.CD_FICHA_LPV LIKE '%$pesquisaCodigo%'";
-        }
+        if (!empty($pesquisaCodigo)) $query .= " AND ficha_lpv.CD_FICHA_LPV LIKE '%$pesquisaCodigo%'";
+        if (!empty($pesquisaDataInicio)) $query .= " AND ficha_lpv.DT_FICHA >= '$pesquisaDataInicio'";
+        if (!empty($pesquisaDataFim)) $query .= " AND ficha_lpv.DT_FICHA <= '$pesquisaDataFim'";
+        if (!empty($pesquisaNomeAnimal)) $query .= " AND animais.nm_animal LIKE '%$pesquisaNomeAnimal%'";
+        if (!empty($pesquisaTipoAnimal)) $query .= " AND tipo_animal.descricao LIKE '%$pesquisaTipoAnimal%'";
+        if (!empty($pesquisaEspecieAnimal)) $query .= " AND especies.descricao LIKE '%$pesquisaEspecieAnimal%'";
+        if (!empty($pesquisaRacaAnimal)) $query .= " AND racas.descricao LIKE '%$pesquisaRacaAnimal%'";
+        if (!empty($pesquisaSexoAnimal)) $query .= " AND animais.sexo = '$pesquisaSexoAnimal'";
+        if (!empty($pesquisaDono)) $query .= " AND dono.nm_pessoa LIKE '%$pesquisaDono%'";
+        if (!empty($pesquisaVeterinario)) $query .= " AND veterinario.nm_pessoa LIKE '%$pesquisaVeterinario%'";
+        if (!empty($pesquisaMunicipio)) $query .= " AND cidades.nome LIKE '%$pesquisaMunicipio%'";
+        if (!empty($pesquisaMaterial)) $query .= " AND ficha_lpv.DS_MATERIAL_RECEBIDO LIKE '%$pesquisaMaterial%'";
+        if (!empty($pesquisaDiagnosticoPresuntivo)) $query .= " AND ficha_lpv.DS_DIAGNOSTICO_PRESUNTIVO LIKE '%$pesquisaDiagnosticoPresuntivo%'";
+        if (!empty($pesquisaAvaliacaoTumor)) $query .= " AND ficha_lpv.FL_AVALIACAO_TUMORAL_COM_MARGEM = '$pesquisaAvaliacaoTumor'";
+        if (!empty($pesquisaEpidemiologia)) $query .= " AND ficha_lpv.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA LIKE '%$pesquisaEpidemiologia%'";
+        if (!empty($pesquisaLessaoMacro)) $query .= " AND ficha_lpv.DS_LESOES_MACROSCOPICAS LIKE '%$pesquisaLessaoMacro%'";
+        if (!empty($pesquisaLessaoHisto)) $query .= " AND ficha_lpv.DS_LESOES_HISTOLOGICAS LIKE '%$pesquisaLessaoHisto%'";
+        if (!empty($pesquisaDiagnostico)) $query .= " AND ficha_lpv.DS_DIAGNOSTICO LIKE '%$pesquisaDiagnostico%'";
+        if (!empty($pesquisaRelatorio)) $query .= " AND ficha_lpv.DS_RELATORIO LIKE '%$pesquisaRelatorio%'";
        
 
         if (!empty($orderBy)) {
             $query .= " ORDER BY $orderBy $orderAscDesc";
         }
 
-        $query .= " LIMIT $start, $limit";
+       if(!empty($start) && !empty($limit)) $query .= " LIMIT $start, $limit";
 
         $read->FullRead($query);
 

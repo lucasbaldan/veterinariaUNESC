@@ -16,46 +16,60 @@
                 <div class="col">
                     <button type="button" onclick="openCadastro()" class="btn btn-success"><i
                             class="bi bi-plus-circle"></i> Novo </i></button>
+                            <button type="button" onclick="gerarCSVAtendimentos()" class="btn btn-secondary">
+                                <i class="bi bi-filetype-csv"></i> Baixar em Excel </i></button>
                     <hr>
                 </div>
             </div>
 
-            <table id="gridDataTable" class="table table-striped table-hover table-bordered" style="width:100%;">
+            <table id="gridDataTable" class="table table-striped table-hover table-bordered" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th style="text-align: center;">Código</th>
-                        <th style="text-align: center;">Data</th>
-                        <th style="text-align: center;">Nome do Animal</th>
-                        <th style="text-align: center;">Tipo de Animal</th>
-                        <th style="text-align: center;">Espécie do Animal</th>
-                        <th style="text-align: center;">Raça do Animal</th>
-                        <th style="text-align: center;">Sexo do Animal</th>
-                        <th style="text-align: center;">Proprietário do animal</th>
-                        <th style="text-align: center;">Veterinário Remetente</th>
-                        <th style="text-align: center;">Município do Origem</th>
-                        <th style="text-align: center;">Material Recebido</th>
-                        <th style="text-align: center;">Diagnóstico Presuntivo</th>
-                        <th style="text-align: center;">Avaliação Tumoral com Margem</th>
-                        <th style="text-align: center;">Epidemiologia e História Clínica</th>
-                        <th style="text-align: center;">Lesões Macroscópias</th>
-                        <th style="text-align: center;">Lesões Histológicas</th>
-                        <th style="text-align: center;">Diagnóstico</th>
-                        <th style="text-align: center;">Relatório</th>
+                        <th style="text-align: center; min-width: 150px">Código</th>
+                        <th style="text-align: center; min-width: 150px">Data</th>
+                        <th style="text-align: center; min-width: 200px">Nome do Animal</th>
+                        <th style="text-align: center; min-width: 200px">Tipo de Animal</th>
+                        <th style="text-align: center; min-width: 200px">Espécie do Animal</th>
+                        <th style="text-align: center; min-width: 200px">Raça do Animal</th>
+                        <th style="text-align: center; min-width: 170px">Sexo do Animal</th>
+                        <th style="text-align: center; min-width: 200px">Proprietário do animal</th>
+                        <th style="text-align: center; min-width: 200px">Veterinário Remetente</th>
+                        <th style="text-align: center; min-width: 200px">Município do Origem</th>
+                        <th style="text-align: center; min-width: 200px">Material Recebido</th>
+                        <th style="text-align: center; min-width: 200px">Diagnóstico Presuntivo</th>
+                        <th style="text-align: center; min-width: 200px">Avaliação Tumoral com Margem</th>
+                        <th style="text-align: center; min-width: 200px">Epidemiologia e História Clínica</th>
+                        <th style="text-align: center; min-width: 200px">Lesões Macroscópias</th>
+                        <th style="text-align: center; min-width: 200px">Lesões Histológicas</th>
+                        <th style="text-align: center; min-width: 200px">Diagnóstico</th>
+                        <th style="text-align: center; min-width: 200px">Relatório</th>
                     </tr>
                     <tr>
                         <th><input id="pesquisaCodigoAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
-                        <th><input id="pesquisaDataAtendimentoInicio" type="date" class="form-control form-control-sm" /> <br> <input id="pesquisaDataAtendimentoFim" type="date" class="form-control form-control-sm" /></th>
+                        <th><label for="pesquisaDataAtendimentoInicio">De: </label><input id="pesquisaDataAtendimentoInicio" type="date" class="form-control form-control-sm" /> <label for="pesquisaDataAtendimentoFim">Até: </label><input id="pesquisaDataAtendimentoFim" type="date" class="form-control form-control-sm" /></th>
                         <th><input id="pesquisaNomeAnimalAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
                         <th><input id="pesquisaNomeTipoAnimalAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
                         <th><input id="pesquisaEspecieAnimalAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
                         <th><input id="pesquisaRacaAnimalAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
-                        <th><input id="pesquisaSexoAnimalAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
+                        <th>
+                            <select class="form-select form-select-sm" id="pesquisaSexoAnimalAtendimento">
+                                <option value="">Todos...</option>
+                                <option value="M">Macho</option>
+                                <option value="F">Fêmea</option>
+                              </select>
+                        </th>
                         <th><input id="pesquisaDonoAnimalAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
                         <th><input id="pesquisaVeterinarioAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
                         <th><input id="pesquisaMunicipioOrigemAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
                         <th><input id="pesquisaMaterialAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
                         <th><input id="pesquisaDiagnosticoPresuntivoAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
-                        <th><input id="pesquisaAvalicaoTumoralAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
+                        <th>
+                            <select class="form-select form-select-sm" id="pesquisaAvalicaoTumoralAtendimento">
+                                <option value="">Todos...</option>
+                                <option value="S">Sim</option>
+                                <option value="N">Não</option>
+                              </select>
+                        </th>
                         <th><input id="pesquisaEpidemiologiaAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
                         <th><input id="pesquisaLesoesMacrocospiasAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
                         <th><input id="pesquisaLesoesHistologicasAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>

@@ -1,10 +1,6 @@
 #gridDataTable tbody td {
     text-align: center;
 }
-
-#gridDataTable tfoot th {
-    text-align: center;
-}
 .dt-search {
     display: none;
 }
