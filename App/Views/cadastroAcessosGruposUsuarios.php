@@ -32,28 +32,28 @@ class CadastroAcessosGruposUsuarios
             $permissoesArray = json_decode($permissoes, true);
 
             // Ficha LPV
-            $flAcessarFichaLPV = $permissoesArray['FICHA_LPV']['FL_ACESSAR'];
-            $flEditarFichaLPV = $permissoesArray['FICHA_LPV']['FL_EDITAR'];
-            $flInserirFichaLPV = $permissoesArray['FICHA_LPV']['FL_INSERIR'];
-            $flExcluirFichaLPV = $permissoesArray['FICHA_LPV']['FL_EXCLUIR'];
+            $flAcessarFichaLPV = !empty($permissoesArray['FICHA_LPV']['FL_ACESSAR']) ? $permissoesArray['FICHA_LPV']['FL_ACESSAR'] : 'N';
+            $flEditarFichaLPV = !empty($permissoesArray['FICHA_LPV']['FL_EDITAR']) ? $permissoesArray['FICHA_LPV']['FL_EDITAR'] : 'N';
+            $flInserirFichaLPV = !empty($permissoesArray['FICHA_LPV']['FL_INSERIR']) ? $permissoesArray['FICHA_LPV']['FL_INSERIR'] : 'N';
+            $flExcluirFichaLPV = !empty($permissoesArray['FICHA_LPV']['FL_EXCLUIR']) ? $permissoesArray['FICHA_LPV']['FL_EXCLUIR'] : 'N';
 
             // Cadastro de Pessoas
-            $flAcessarCadastroPessoas = $permissoesArray['CADASTRO_PESSOAS']['FL_ACESSAR'];
-            $flEditarCadastroPessoas = $permissoesArray['CADASTRO_PESSOAS']['FL_EDITAR'];
-            $flInserirCadastroPessoas = $permissoesArray['CADASTRO_PESSOAS']['FL_INSERIR'];
-            $flExcluirCadastroPessoas = $permissoesArray['CADASTRO_PESSOAS']['FL_EXCLUIR'];
+            $flAcessarCadastroPessoas = !empty($permissoesArray['CADASTRO_PESSOAS']['FL_ACESSAR']) ? $permissoesArray['CADASTRO_PESSOAS']['FL_ACESSAR'] : 'N';
+            $flEditarCadastroPessoas = !empty($permissoesArray['CADASTRO_PESSOAS']['FL_EDITAR']) ? $permissoesArray['CADASTRO_PESSOAS']['FL_EDITAR'] : 'N';
+            $flInserirCadastroPessoas = !empty($permissoesArray['CADASTRO_PESSOAS']['FL_INSERIR']) ? $permissoesArray['CADASTRO_PESSOAS']['FL_INSERIR'] : 'N';
+            $flExcluirCadastroPessoas = !empty($permissoesArray['CADASTRO_PESSOAS']['FL_EXCLUIR']) ? $permissoesArray['CADASTRO_PESSOAS']['FL_EXCLUIR'] : 'N';
 
             // Cadastro de Usuários
-            $flAcessarCadastroUsuarios = $permissoesArray['CADASTRO_USUARIOS']['FL_ACESSAR'];
-            $flEditarCadastroUsuarios = $permissoesArray['CADASTRO_USUARIOS']['FL_EDITAR'];
-            $flInserirCadastroUsuarios = $permissoesArray['CADASTRO_USUARIOS']['FL_INSERIR'];
-            $flExcluirCadastroUsuarios = $permissoesArray['CADASTRO_USUARIOS']['FL_EXCLUIR'];
+            $flAcessarCadastroUsuarios = !empty($permissoesArray['CADASTRO_USUARIOS']['FL_ACESSAR']) ? $permissoesArray['CADASTRO_USUARIOS']['FL_ACESSAR'] : 'N';
+            $flEditarCadastroUsuarios = !empty($permissoesArray['CADASTRO_USUARIOS']['FL_EDITAR']) ? $permissoesArray['CADASTRO_USUARIOS']['FL_EDITAR'] : 'N';
+            $flInserirCadastroUsuarios = !empty($permissoesArray['CADASTRO_USUARIOS']['FL_INSERIR']) ? $permissoesArray['CADASTRO_USUARIOS']['FL_INSERIR'] : 'N';
+            $flExcluirCadastroUsuarios = !empty($permissoesArray['CADASTRO_USUARIOS']['FL_EXCLUIR']) ? $permissoesArray['CADASTRO_USUARIOS']['FL_EXCLUIR'] : 'N';
 
             // Controle de Acessos
-            $flAcessarControleAcessos = $permissoesArray['CONTROLE_ACESSOS']['FL_ACESSAR'];
-            $flEditarControleAcessos = $permissoesArray['CONTROLE_ACESSOS']['FL_EDITAR'];
-            $flInserirControleAcessos = $permissoesArray['CONTROLE_ACESSOS']['FL_INSERIR'];
-            $flExcluirControleAcessos = $permissoesArray['CONTROLE_ACESSOS']['FL_EXCLUIR'];
+            $flAcessarControleAcessos = !empty($permissoesArray['CONTROLE_ACESSOS']['FL_ACESSAR']) ? $permissoesArray['CONTROLE_ACESSOS']['FL_ACESSAR'] : 'N';
+            $flEditarControleAcessos = !empty($permissoesArray['CONTROLE_ACESSOS']['FL_EDITAR']) ? $permissoesArray['CONTROLE_ACESSOS']['FL_EDITAR'] : 'N';
+            $flInserirControleAcessos = !empty($permissoesArray['CONTROLE_ACESSOS']['FL_INSERIR']) ? $permissoesArray['CONTROLE_ACESSOS']['FL_INSERIR'] : 'N';
+            $flExcluirControleAcessos = !empty($permissoesArray['CONTROLE_ACESSOS']['FL_EXCLUIR']) ? $permissoesArray['CONTROLE_ACESSOS']['FL_EXCLUIR'] : 'N';
         } else {
             $cdGrupoUsuarios = '';
             $nmGrupoUsuarios = '';
