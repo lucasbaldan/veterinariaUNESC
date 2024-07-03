@@ -160,7 +160,7 @@ class GruposUsuarios
     $read = new \App\Conn\Read();
     $read->FullRead("SELECT G.* FROM grupos_usuarios G  WHERE G.CD_GRUPO_USUARIOS = :C ASC", "C=$cdGrupoUsuarios");
 
-    return $read->getResult();
+    return $read->getResult()[0];
   }
 
   public static function Delete($cdGrupoUsuarios)

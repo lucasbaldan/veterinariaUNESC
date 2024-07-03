@@ -351,7 +351,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $GrUsuariosGroup->post('/retornaDadosGrupoUsuarios',  App\Controllers\GruposUsuarios::class . ':RetornarDadosGrupoUsuario');
         $GrUsuariosGroup->post('/general',  App\Controllers\GruposUsuarios::class . ':General');
         $GrUsuariosGroup->post('/grid',  App\Controllers\GruposUsuarios::class . ':MontarGrid');
-        $GrUsuariosGroup->post('/acessos',  App\Controllers\GruposUsuarios::class . ':GestaoAcessos');
+        $GrUsuariosGroup->post('/salvaAcessos',  App\Controllers\GruposUsuarios::class . ':GestaoAcessos');
+        $GrUsuariosGroup->post('/retornaAcessos',  App\Controllers\GruposUsuarios::class . ':RetornarAcessos');
 
     });
 
@@ -429,7 +430,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/gruposUsuarios/retornaDadosGrupoUsuarios',
         '/veterinariaUNESC/server/gruposUsuarios/general',
         '/veterinariaUNESC/server/gruposUsuarios/grid',
-        '/veterinariaUNESC/server/gruposUsuarios/acessos',
+        '/veterinariaUNESC/server/gruposUsuarios/salvaAcessos',
+        '/veterinariaUNESC/server/gruposUsuarios/retornaAcessos',
 
         '/veterinariaUNESC/server/usuarios/salvaUsuario',
         '/veterinariaUNESC/server/usuarios/excluiUsuario',

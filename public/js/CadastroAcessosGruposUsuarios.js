@@ -10,7 +10,7 @@ function salvarCadastroAcessosGruposUsuarios() {
   // Loading.on();
   var formData = $("#formCadastroAcessosGruposUsuarios").serialize();
   $.ajax({
-    url: "/veterinariaUNESC/server/gruposUsuarios/acessos",
+    url: "/veterinariaUNESC/server/gruposUsuarios/salvaAcessos",
     method: "POST",
     data: formData,
     beforeSend: function () {

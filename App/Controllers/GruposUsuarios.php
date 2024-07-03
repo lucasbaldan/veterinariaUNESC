@@ -200,6 +200,43 @@ class GruposUsuarios
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
 
+    public static function RetornarAcessos(Request $request, Response $response)
+    {
+
+        try {
+            $Formulario = $request->getParsedBody();
+
+            $cdGrupoUsuarios = !empty($Formulario['cdGrupoUsuarios']) ? $Formulario['cdGrupoUsuarios'] : '';
+            $filtroAcesso = !empty($Formulario['filtroAcesso']) ? $Formulario['filtroAcesso'] : '';
+
+
+            $retorno = \App\Models\GruposUsuarios::RetornaDadosGrupoUsuarios($cdGrupoUsuarios);
+            
+            $permissoesArray = json_decode($retorno['PERMISSOES'], true);
+            $permissoes = [];
+            
+            if (!empty($filtroAcesso)) {
+                if (isset($permissoesArray[$filtroAcesso])) {
+                    $permissoes = $permissoesArray[$filtroAcesso];
+                }
+            } else {
+                $permissoes = $permissoesArray;
+            }
+
+            if (!$retorno) {
+                throw new Exception("<b>Erro ao tentar acessar as permissoes do grupo de usuários</b><br><br> Por favor, tente novamente.", 400);
+            }
+
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $permissoes];
+            $codigoHTTP = 200;
+        } catch (Exception $e) {
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $codigoHTTP = $e->getCode();
+        }
+        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
+    }
+
     public static function MontarGrid(Request $request, Response $response)
     {
 
