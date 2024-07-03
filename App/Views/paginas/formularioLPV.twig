@@ -12,7 +12,7 @@
     <div class="card rounded" style="min-width: 100%;">
         <div class="card-body border border-1S rounded-2">
 
-            <form id="formFichaLPV" name="formFichaLPV">
+            <form id="formFichaLPV" name="formFichaLPV" enctype="multipart/form-data">
                 <div class="mb-3 row">
                     <div class="col-md-4">
                         <div class="form-floating mb-3">
@@ -331,7 +331,28 @@
                         <label for="dsRelatorio">Relatório</label>
                     </div>
                 </div>
-                 </form>
+                 
+
+                 <div class="accordion mb-3" id="accordionAnexos">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelAnexos" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseOne">
+                                Anexos
+                            </button>
+                        </h2>
+                        <div id="panelAnexos" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <label for="imagensAtendimento" class="form-label">Imagens</label>
+                                <input type="file" class="my-pond" id="filepond" name="imagensAtendimento" multiple/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
         </div>
     </div>
 </div>

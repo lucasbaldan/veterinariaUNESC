@@ -5,6 +5,8 @@ namespace App\Controllers;
 use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\UploadedFileInterface;
+use Slim\App;
 
 class Atendimentos
 {
@@ -93,6 +95,8 @@ class Atendimentos
     {
         try {
             $dadosForm = $request->getParsedBody();
+            $imagensFicha = $request->getUploadedFiles();
+            //$diretorioImagens = $this->get('upload_directory');
 
             //INPUTUS DADOS FICHA ANIMAL
             $codigo = !empty($dadosForm['cdFichaLPV']) ? $dadosForm['cdFichaLPV'] : '';
@@ -215,6 +219,12 @@ class Atendimentos
                 throw new Exception($Atendimento->getMessage());
             }
 
+            foreach ($imagensFicha['imagensAtendimento'] as $imagem) {
+                if ($imagem->getError() === UPLOAD_ERR_OK) {
+                    self::moveUploadedFile(__DIR__, $imagem);
+                }
+            }
+
             $Conn->commit();
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
             $codigoHTTP = 200;
@@ -226,6 +236,19 @@ class Atendimentos
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
+
+   public static function moveUploadedFile(string $directory, UploadedFileInterface $uploadedFile)
+{
+    $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+
+    // see http://php.net/manual/en/function.random-bytes.php
+    $basename = bin2hex(random_bytes(8));
+    $filename = sprintf('%s.%0.8s', $basename, $extension);
+
+    $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+
+    return $filename;
+}
 
     public static function excluir(Request $request, Response $response)
     {
@@ -297,20 +320,35 @@ class Atendimentos
                 "orderAscDesc" => ''
             ];
 
-            //$dadosSelect = \App\Models\Atendimentos::SelectGrid($parametrosBusca);
+            $dadosSelect = \App\Models\Atendimentos::SelectGrid($parametrosBusca);
+            if($dadosSelect == []) throw new Exception("Não é possível Exportar para CSV quando a pesquisa apresenta nenhum resultado");
 
             $response = $response
-    ->withHeader('Content-Type', 'text/csv')
-    ->withHeader('Content-Disposition', 'attachment; filename="'. rawurlencode('atendimentos.csv'). '"')
-    ->withHeader('Cache-Control', 'ax-age=0');
+                ->withHeader('Content-Type', 'text/csv; charset=UTF-8')
+                ->withHeader('Content-Disposition', 'attachment; filename="atendimentos.csv"')
+                ->withHeader('Cache-Control', 'max-age=0');
 
-            $arquivo = fopen("php://output", 'w');
-            $cabecalho = ['id', 'teste', 'nome'];
+            $arquivo = fopen('php://output', 'w');
+
+            // Escrever o cabeçalho com BOM para UTF-8
+            fputs($arquivo, "\xEF\xBB\xBF");
+
+            $cabecalho = ['Código', 'Data', 'Nome do Animal', 'Tipo de Animal', 'Espécie', 'Raça', 'Sexo', 'Dono', 'Veterinário', 'Município Origem', 'Material Recebido', 'Diagnóstico Presuntivo', 'Avaliação Tumoral Margem', 'Epidemiologia e História Clínica', 'Lesões Macroscópias', 'Lesões Histológicas', 'Diagnóstico', 'Relatório'];
             fputcsv($arquivo, $cabecalho, ';');
+
+            foreach ($dadosSelect as $dado) {
+                // Convertendo cada campo individualmente para UTF-8
+                $linha = array_map(function ($campo) {
+                    return mb_convert_encoding($campo, 'UTF-8', 'auto');
+                }, $dado);
+
+                fputcsv($arquivo, $linha, ';');
+            }
 
             fclose($arquivo);
 
             return $response;
+
 
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
             $codigoHTTP = 200;
@@ -322,3 +360,4 @@ class Atendimentos
         }
     }
 }
+

@@ -1,9 +1,11 @@
 <?php
 
 use Slim\Factory\AppFactory;
+use DI\ContainerBuilder;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Message\UploadedFileInterface;
 use Slim\Routing\RouteCollectorProxy;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
@@ -16,6 +18,13 @@ foreach ($config as $key => $value) {
     $GLOBALS[$key] = $value;
 }
 date_default_timezone_set('America/Sao_Paulo');
+
+// $containerBuilder = new ContainerBuilder();
+// $container = $containerBuilder->build();
+
+// $container->set('uploadAtendimento', __DIR__ . '/App/Assets/imagens/imagens_atendimento');
+// AppFactory::setContainer($container);
+
 
 $app = AppFactory::create();
 $app->setBasePath('/veterinariaUNESC');

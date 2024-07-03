@@ -221,10 +221,11 @@ class Atendimentos
             ];
 
             $insert->ExeInsert("FICHA_LPV", $dadosInsert);
-
+            
             if (!$insert->getResult()) {
                 throw new Exception($insert->getMessage());
             }
+            $this->codigo = $insert->getLastInsert();
 
             $this->Result = true;
         } catch (Exception $e) {

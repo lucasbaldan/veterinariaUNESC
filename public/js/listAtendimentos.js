@@ -144,46 +144,51 @@ function editarAtendimento(id) {
   form.submit();
 }
 
-function gerarCSVAtendimentos(){
+function gerarCSVAtendimentos() {
   Loading.on();
 
-  formData = [
-    pesquisaCodigoAtendimento = $("#pesquisaCodigoAtendimento").val(),
-    pesquisaDataAtendimento = $("#pesquisaDataAtendimentoInicio").val()+'|'+$("#pesquisaDataAtendimentoFim").val(),
-    pesquisaNomeAnimalAtendimento = $("#pesquisaNomeAnimalAtendimento").val(),
-    pesquisaNomeTipoAnimalAtendimento = $("#pesquisaNomeTipoAnimalAtendimento").val(),
-    pesquisaEspecieAnimalAtendimento = $("#pesquisaEspecieAnimalAtendimento").val(),
-    pesquisaRacaAnimalAtendimento = $("#pesquisaRacaAnimalAtendimento").val(),
-    pesquisaSexoAnimalAtendimento = $("#pesquisaSexoAnimalAtendimento").val(),
-    pesquisaDonoAnimalAtendimento = $("#pesquisaDonoAnimalAtendimento").val(),
-    pesquisaVeterinarioAtendimento = $("#pesquisaVeterinarioAtendimento").val(),
-    pesquisaMunicipioOrigemAtendimento = $("#pesquisaMunicipioOrigemAtendimento").val(),
-    pesquisaMaterialAtendimento = $("#pesquisaMaterialAtendimento").val(),
-    pesquisaDiagnosticoPresuntivoAtendimento = $("#pesquisaDiagnosticoPresuntivoAtendimento").val(),
-    pesquisaAvalicaoTumoralAtendimento = $("#pesquisaAvalicaoTumoralAtendimento").val(),
-    pesquisaEpidemiologiaAtendimento = $("#pesquisaEpidemiologiaAtendimento").val(),
-    pesquisaLesoesMacrocospiasAtendimento = $("#pesquisaLesoesMacrocospiasAtendimento").val(),
-    pesquisaLesoesHistologicasAtendimento = $("#pesquisaLesoesHistologicasAtendimento").val(),
-    pesquisaDiagnosticoAtendimento = $("#pesquisaDiagnosticoAtendimento").val(),
-    pesquisaRelatorioAtendimento = $("#pesquisaRelatorioAtendimento").val(),
-  ];
+  let formData = {
+    pesquisaCodigoAtendimento: $("#pesquisaCodigoAtendimento").val(),
+    pesquisaDataAtendimento: $("#pesquisaDataAtendimentoInicio").val()+'|'+$("#pesquisaDataAtendimentoFim").val(),
+    pesquisaNomeAnimalAtendimento: $("#pesquisaNomeAnimalAtendimento").val(),
+    pesquisaNomeTipoAnimalAtendimento: $("#pesquisaNomeTipoAnimalAtendimento").val(),
+    pesquisaEspecieAnimalAtendimento: $("#pesquisaEspecieAnimalAtendimento").val(),
+    pesquisaRacaAnimalAtendimento: $("#pesquisaRacaAnimalAtendimento").val(),
+    pesquisaSexoAnimalAtendimento: $("#pesquisaSexoAnimalAtendimento").val(),
+    pesquisaDonoAnimalAtendimento: $("#pesquisaDonoAnimalAtendimento").val(),
+    pesquisaVeterinarioAtendimento: $("#pesquisaVeterinarioAtendimento").val(),
+    pesquisaMunicipioOrigemAtendimento: $("#pesquisaMunicipioOrigemAtendimento").val(),
+    pesquisaMaterialAtendimento: $("#pesquisaMaterialAtendimento").val(),
+    pesquisaDiagnosticoPresuntivoAtendimento: $("#pesquisaDiagnosticoPresuntivoAtendimento").val(),
+    pesquisaAvalicaoTumoralAtendimento: $("#pesquisaAvalicaoTumoralAtendimento").val(),
+    pesquisaEpidemiologiaAtendimento: $("#pesquisaEpidemiologiaAtendimento").val(),
+    pesquisaLesoesMacrocospiasAtendimento: $("#pesquisaLesoesMacrocospiasAtendimento").val(),
+    pesquisaLesoesHistologicasAtendimento: $("#pesquisaLesoesHistologicasAtendimento").val(),
+    pesquisaDiagnosticoAtendimento: $("#pesquisaDiagnosticoAtendimento").val(),
+    pesquisaRelatorioAtendimento: $("#pesquisaRelatorioAtendimento").val()
+  };
 
   $.ajax({
     url: "/veterinariaUNESC/server/atendimentos/gerarCSV",
     method: "POST",
     data: formData,
+    xhrFields: {
+        responseType: 'blob'
+    },
     success: function (response) {
-      var blob=new Blob([response]);
-    var link=document.createElement('a');
-    link.href=window.URL.createObjectURL(blob);
-    link.download="atendimentos.csv";
-    link.click();
+        var blob = new Blob([response], { type: 'text/csv;charset=utf-8;' });
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "atendimentos.csv";
+        document.body.appendChild(link); // Para Firefox
+        link.click();
+        document.body.removeChild(link); // Para Firefox
     },
     error: function (xhr, status, error) {
-      Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
-    },
+      Notificacao.NotificacaoAviso("Não é possível Exportar para CSV quando a pesquisa apresenta nenhum resultado");
+  },
     complete: function () {
-      Loading.off();
-    },
-  });
+        Loading.off();
+    }
+});
 }
