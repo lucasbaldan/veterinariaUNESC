@@ -6,7 +6,7 @@ function salvarCadastroGrupoUsuarios() {
   Loading.on();
   var formData = $("#formCadastroGruposUsuarios").serialize();
 
-  console.log("FORM: ", formData);
+  // console.log("FORM: ", formData);
 
   $.ajax({
     url: "/veterinariaUNESC/server/gruposUsuarios/salvaGrupoUsuarios",

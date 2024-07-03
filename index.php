@@ -102,6 +102,16 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
+    $group->get('/listAcessosGruposUsuarios', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\ListAcessosGruposUsuarios($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
+    $group->post('/cadastroAcessosGruposUsuarios', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\CadastroAcessosGruposUsuarios($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
     $group->post('/cadastroGruposUsuarios', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\CadastroGruposUsuariosModal($twig);
         return $tela->exibir($request, $response, $args);
@@ -148,6 +158,8 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         '/veterinariaUNESC/paginas/cadastroUsuarios',
         '/veterinariaUNESC/paginas/cadastroAnimais',
         '/veterinariaUNESC/paginas/gruposUsuarios',
+        '/veterinariaUNESC/paginas/listAcessosGruposUsuarios',
+        '/veterinariaUNESC/paginas/cadastroAcessosGruposUsuarios',
         '/veterinariaUNESC/paginas/cadastroGruposUsuarios',
         '/veterinariaUNESC/paginas/listPessoas',
         '/veterinariaUNESC/paginas/listAnimais',
@@ -339,6 +351,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $GrUsuariosGroup->post('/retornaDadosGrupoUsuarios',  App\Controllers\GruposUsuarios::class . ':RetornarDadosGrupoUsuario');
         $GrUsuariosGroup->post('/general',  App\Controllers\GruposUsuarios::class . ':General');
         $GrUsuariosGroup->post('/grid',  App\Controllers\GruposUsuarios::class . ':MontarGrid');
+        $GrUsuariosGroup->post('/acessos',  App\Controllers\GruposUsuarios::class . ':GestaoAcessos');
 
     });
 
@@ -416,6 +429,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/gruposUsuarios/retornaDadosGrupoUsuarios',
         '/veterinariaUNESC/server/gruposUsuarios/general',
         '/veterinariaUNESC/server/gruposUsuarios/grid',
+        '/veterinariaUNESC/server/gruposUsuarios/acessos',
 
         '/veterinariaUNESC/server/usuarios/salvaUsuario',
         '/veterinariaUNESC/server/usuarios/excluiUsuario',

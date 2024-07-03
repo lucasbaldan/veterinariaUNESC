@@ -105,6 +105,34 @@ class GruposUsuarios
     }
   }
 
+  public static function SalvarPermissoes($cdGrupoUsuarios, $permissoes)
+  {
+    $read = new \App\Conn\Read();
+    try {
+      $read->ExeRead("grupos_usuarios", "WHERE CD_GRUPO_USUARIOS = :C", "C=$cdGrupoUsuarios");
+      $dadosFicha = $read->getResult()[0] ?? [];
+      if ($dadosFicha) {
+
+        $update = new \App\Conn\Update();
+
+        $update->ExeUpdate("grupos_usuarios", [ "PERMISSOES" => $permissoes], "WHERE CD_GRUPO_USUARIOS = :C", "C=$cdGrupoUsuarios");
+        $atualizado = !empty($update->getResult());
+
+        if (!$atualizado) {
+          throw new Exception($update->getMessage());
+        } else {
+          return true;
+        }
+        // $this->Result = true;
+      } else {
+        throw new Exception("Ops! PARECE QUE ESSE REGISTRO NÃO EXISTE NA BASE DE DADOS!");
+      }
+    } catch (Exception $e) {
+      // $this->Result = false;
+      // $this->Message = $e->getMessage();
+    }
+  }
+
 
   public function GeneralSearch($search)
   {
