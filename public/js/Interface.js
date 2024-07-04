@@ -6,13 +6,34 @@ window.onload = function() {
     });
 };
 
+$('#sairSistema').on('click', function(){
+    $.ajax({
+        url: '/veterinariaUNESC/server/usuarios/deslogar',
+        type: 'POST',
+        dataType: 'json',
+        beforeSend: function(){
+        Loading.on();
+        },
+        success: function(response) {
+            window.location.href = '/veterinariaUNESC/paginas/login';
+        },
+        error: function(xhr, status, error) {
+            window.location.href = '/veterinariaUNESC/paginas/login';
+        },
+        complete: function(){
+            window.location.href = '/veterinariaUNESC/paginas/login';
+            Loading.off();
+        }
+    });
+});
+
 
 
 class Notificacao {
     constructor(opcoes = {}) {
         const configuracaoPadrao = {
             dismissible: true,
-            duration: 5000,
+            duration: 6000,
             position: {
                 x: 'right',
                 y: 'top',

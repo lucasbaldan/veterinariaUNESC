@@ -159,23 +159,23 @@ class Usuarios
     }
   }
 
-  public static function AtivarDesativarUsuario($cdUsuario, $acao)
+  public static function efetuarLogin($Usuario, $senha)
   {
-    $update = new \App\Conn\Update();
+    $read = new \App\Conn\Read();
 
-    if ($acao == 'DESATIVAR') {
-      $dado = ["FL_ATIVO" => "N"];
+    $read->ExeRead("USUARIOS", "WHERE USUARIO = :U AND SENHA = :S LIMIT 1", "U=$Usuario&S=$senha");
+
+    if($read->getResult()){
+      return new self(
+        $read->getResult()[0]['CD_PESSOA'],
+        $read->getResult()[0]['USUARIO'],
+        '',
+        $read->getResult()[0]['CD_GRUPO_USUARIOS'],
+        $read->getResult()[0]['FL_ATIVO'],
+        $read->getResult()[0]['CD_USUARIO']
+    );
     } else {
-      $dado = ["FL_ATIVO" => "S"];
-    }
-
-    $update->ExeUpdate("usuarios", $dado, "WHERE CD_USUARIO = :C", "C=$cdUsuario");
-    $atualizado = !empty($update->getResult());
-
-    if ($atualizado) {
-      return true;
-    } else {
-      return false;
+      return new self('','','','','');
     }
   }
 

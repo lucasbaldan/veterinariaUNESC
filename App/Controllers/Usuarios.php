@@ -123,31 +123,33 @@ class Usuarios
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
 
-    public static function AtivarDesativarUsuario(Request $request, Response $response)
+    public static function efetuarLogin(Request $request, Response $response)
     {
 
         try {
             $Formulario = $request->getParsedBody();
 
-            $cdUsuario = !empty($Formulario['cdUsuario']) ? $Formulario['cdUsuario'] : '';
-            $acao = !empty($Formulario['acao']) ? $Formulario['acao'] : '';
+            $usuario = !empty($Formulario['usuario']) ? $Formulario['usuario'] : '';
+            $senha = !empty($Formulario['senha']) ? $Formulario['senha'] : '';
 
 
-            $retorno = \App\Models\Usuarios::AtivarDesativarUsuario($cdUsuario, $acao);
+            $usuario = \App\Models\Usuarios::efetuarLogin($usuario, $senha);
 
-            if (!$retorno) {
-                if ($acao == 'DESATIVAR'){
-                    throw new Exception("<b>Erro ao desativar o usuário</b><br><br> Por favor, tente novamente.", 400);
-                }else{
-                    throw new Exception("<b>Erro ao ativar o usuário</b><br><br> Por favor, tente novamente.", 400);
-                }
+            if(!empty($usuario->getCodigo())){
+                $arrayUsuario = [
+                    "CD_USUARIO" => $usuario->getCodigo(),
+                    "USERNAME" => $usuario->getPessoa()->getNome()
+                ];
+                \App\Helpers\Sessao::startSession($arrayUsuario);
+            } else {
+                throw new Exception("Dados de acesso inválidos <br><br>Verifique seu usuário e senha");
             }
 
-            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno];
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
             $codigoHTTP = 200;
         } catch (Exception $e) {
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
-            $codigoHTTP = $e->getCode();
+            $codigoHTTP = 500;
         }
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');

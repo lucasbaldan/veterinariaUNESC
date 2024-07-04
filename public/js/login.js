@@ -1,13 +1,5 @@
     $(document).ready(function () {
 
-        const notificacao = new Notificacao({
-            duration: 10000,
-            position: {
-                x: 'center',
-                y: 'bottom',
-            },
-        });
-
         $('#formLogin').submit(function (event) {
             event.preventDefault();
 
@@ -33,7 +25,7 @@
             }
 
             $.ajax({
-                url: '/veterinariaUNESC/server/pessoas/login',
+            url: '/veterinariaUNESC/server/usuarios/efetuarLogin',
             type: 'POST',
             dataType: 'json',
             data: dadosForm,
@@ -41,10 +33,10 @@
             Loading.on();
             },
             success: function(response) {
-                alert(response);
+                window.location.href = '/veterinariaUNESC/paginas/inicial';
             },
             error: function(xhr, status, error) {
-                notificacao.push(xhr.responseJSON.MESSAGE, 'warning');
+                Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
             },
             complete: function(){
                 Loading.off();

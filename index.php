@@ -9,6 +9,8 @@ use Psr\Http\Message\UploadedFileInterface;
 use Slim\Routing\RouteCollectorProxy;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
+use App\Middleware\SessionMiddleware;
+
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -31,21 +33,60 @@ $app->setBasePath('/veterinariaUNESC');
 $app->addRoutingMiddleware();
 $app->addErrorMiddleware($GLOBALS['desenvolvimento'], true, true);
 
+$sessionMiddleware = new SessionMiddleware();
+
 $twig = Twig::create(__DIR__ . '/App/Views/paginas', ['cache' => false]);
 $app->add(TwigMiddleware::create($app, $twig));
 
-/////////////////////// ROTAS DE REQUISIÇÕES PARA PROCESSAMENTO DE TELAS
 
-$app->get('/', function ($request, $response, array $args) {
-    return $response->withHeader('Location', '/veterinariaUNESC/paginas/inicial')->withStatus(302);
-});
 
+/////// ROTAS PARA REQUISIÇÕES QUE NÃO EXIGEM AUTENTICAÇÃO DE SESSÃO
 $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
 
     $group->get('/login', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\LoginPage($twig);
         return $tela->exibir($request, $response, $args);
     });
+})->add(function (Request $request, RequestHandlerInterface $handler) {
+    $uri = $request->getUri()->getPath();
+    if (!in_array($uri, [
+        '/veterinariaUNESC/paginas/login',
+    ])) {
+        $response = new \Slim\Psr7\Response();
+        $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
+        return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+    }
+
+    return $handler->handle($request);
+});
+
+$app->group('/server', function (RouteCollectorProxy $group) {
+
+        $group->group('/usuarios', function (RouteCollectorProxy $usuariosGroup) {
+            $usuariosGroup->post('/efetuarLogin',  App\Controllers\Usuarios::class . ':efetuarLogin');
+            $usuariosGroup->post('/deslogar',  App\Helpers\Sessao::class . ':encerrarSessao');
+    });
+})->add(function (Request $request, RequestHandlerInterface $handler) {
+    $uri = $request->getUri()->getPath();
+    if (!in_array($uri, [
+        '/veterinariaUNESC/server/usuarios/efetuarLogin',
+        '/veterinariaUNESC/server/usuarios/deslogar'
+        ])) {
+            $response = new \Slim\Psr7\Response();
+            $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisição foi efetuada de maneira incorreta.']));
+            return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+        }
+    
+        return $handler->handle($request);
+    });
+
+
+/////////////////////// ROTAS DE REQUISIÇÕES PARA PROCESSAMENTO DE TELAS COM SESSÃO
+
+$app->get('/', function ($request, $response, array $args) {
+    return $response->withHeader('Location', '/veterinariaUNESC/paginas/inicial')->withStatus(302);
+});
+$app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
 
     $group->post('/fichaLPV', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\FormularioLPV($twig);
@@ -145,7 +186,6 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
         '/veterinariaUNESC/paginas',
-        '/veterinariaUNESC/paginas/login',
         '/veterinariaUNESC/paginas/fichaLPV',
         '/veterinariaUNESC/paginas/inicial',
         '/veterinariaUNESC/paginas/listTipoAnimal',
@@ -172,11 +212,10 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
     }
 
     return $handler->handle($request);
-});
+})->add($sessionMiddleware);
 
 
 /////////////////////// ROTAS DE REQUISIÇÕES PARA CARREGAMENTO DINÂMICO DE MODAIS
-
 $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
 
     $group->post('/cadastroTipoAnimal', function (Request $request, Response $response, $args) use ($twig) {
@@ -223,7 +262,6 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
         $tela =  new App\Views\CadastroGruposUsuariosModal($twig);
         return $tela->exibir($request, $response, $args);
     });
-
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
@@ -243,7 +281,7 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
     }
 
     return $handler->handle($request);
-});
+})->add($sessionMiddleware);
 
 /////////////////////// ROTAS DE REQUISIÇÕES PARA PROCESSAMENTO DE BACKEND
 
@@ -353,7 +391,6 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $GrUsuariosGroup->post('/grid',  App\Controllers\GruposUsuarios::class . ':MontarGrid');
         $GrUsuariosGroup->post('/salvaAcessos',  App\Controllers\GruposUsuarios::class . ':GestaoAcessos');
         $GrUsuariosGroup->post('/retornaAcessos',  App\Controllers\GruposUsuarios::class . ':RetornarAcessos');
-
     });
 
     $group->group('/usuarios', function (RouteCollectorProxy $usuariosGroup) {
@@ -361,16 +398,15 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $usuariosGroup->post('/excluiUsuario',  App\Controllers\Usuarios::class . ':ExcluirUsuario');
         $usuariosGroup->post('/retornaUsuarios',  App\Controllers\Usuarios::class . ':RetornarUsuarios');
         $usuariosGroup->post('/retornaDadosUsuario',  App\Controllers\Usuarios::class . ':RetornarDadosUsuario');
-        $usuariosGroup->post('/ativaDesativaUsuario',  App\Controllers\Usuarios::class . ':AtivarDesativarUsuario');
         $usuariosGroup->post('/grid',  App\Controllers\Usuarios::class . ':montarGrid');
     });
 
-    $group->group('/fichaLPV', function (RouteCollectorProxy $fichaLPVGroup) {
-        $fichaLPVGroup->post('/salvafichaLPV',  App\Controllers\FormularioLPV::class . ':Salvar');
-        $fichaLPVGroup->post('/retornaFichasLPV',  App\Controllers\FormularioLPV::class . ':RetornarFichasLPV');
-        $fichaLPVGroup->post('/retornaDadosFichaLPV',  App\Controllers\FormularioLPV::class . ':RetornarDadosFichaLPV');
-        $fichaLPVGroup->post('/apagaFichaLPV',  App\Controllers\FormularioLPV::class . ':ApagarFichaLPV');
-    });
+    // $group->group('/fichaLPV', function (RouteCollectorProxy $fichaLPVGroup) {
+    //     $fichaLPVGroup->post('/salvafichaLPV',  App\Controllers\FormularioLPV::class . ':Salvar');
+    //     $fichaLPVGroup->post('/retornaFichasLPV',  App\Controllers\FormularioLPV::class . ':RetornarFichasLPV');
+    //     $fichaLPVGroup->post('/retornaDadosFichaLPV',  App\Controllers\FormularioLPV::class . ':RetornarDadosFichaLPV');
+    //     $fichaLPVGroup->post('/apagaFichaLPV',  App\Controllers\FormularioLPV::class . ':ApagarFichaLPV');
+    // });
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
@@ -437,7 +473,6 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/usuarios/excluiUsuario',
         '/veterinariaUNESC/server/usuarios/retornaUsuarios',
         '/veterinariaUNESC/server/usuarios/retornaDadosUsuario',
-        '/veterinariaUNESC/server/usuarios/ativaDesativaUsuario',
         '/veterinariaUNESC/server/usuarios/grid',
 
         '/veterinariaUNESC/server/fichaLPV/salvafichaLPV',
@@ -451,7 +486,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     }
 
     return $handler->handle($request);
-});
+})->add($sessionMiddleware);
 
 // $app->group('/gruposUsuarios', function (RouteCollectorProxy $group) {
 
