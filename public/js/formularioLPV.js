@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
   FilePond.registerPlugin(FilePondPluginImagePreview);
   $("#filepond").filepond({
     allowMultiple: true,
@@ -247,14 +248,15 @@ $("#desvincularVeterinario").on("click", function () {
 function salvarCadastroAtendimentos() {
   Loading.on();
   
-  var formData = new FormData($("#formFichaLPV")[0]);
+  var form = $('#formFichaLPV')[0]; // You need to use standard javascript object here
+  var formData = new FormData(form);
 
   $.ajax({
-      url: "/veterinariaUNESC/server/atendimentos/controlar",
+      url: "/veterinariaUNESC/server/atendimentos/controlar-",
       method: "POST",
       data: formData,
-      processData: false,  // Não processar dados (importante para enviar arquivos)
-      contentType: false,  // Não definir tipo de conteúdo (importante para enviar arquivos)
+      contentType: false,
+      processData: false,
       success: function (response) {
           if (response.RESULT) {
               sessionStorage.setItem("notificarSucesso", "true");
