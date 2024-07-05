@@ -62,7 +62,7 @@ function openCadastro($id = null) {
       data: { id: $id },
     });
 
-    var script = $.getScript("/veterinariaUNESC/public/js/CadastroLogradouroModal.js");
+    var script = $.getScript("/veterinariaUNESC/public/js/CadastroLogradouroModal.js?v=" + window.scriptVersao);
 
     $.when(ajaxModal, script).done(function (respostaAjaxModal) {
         bootbox.dialog({

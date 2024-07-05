@@ -23,9 +23,9 @@
       {{ conteudo_tela|raw }}
 
 </body>
-{% include 'importadoresScript.twig' %}
+{% include 'importadoresScript.twig' with {'versao': versao} %}
 {% set jsArray = jsLinks | split(';') %}
   {% for link in jsArray %}
- <script src="/veterinariaUNESC/public/js/{{ link }}"></script>    
+ <script src="/veterinariaUNESC/public/js/{{ link }}?v={{versao}}"></script>    
   {% endfor %}
 </html>

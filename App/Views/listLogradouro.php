@@ -21,6 +21,7 @@ class listLogradouro
         $conteudoTela = $this->twig->fetch('TelaComMenus.twig', ['conteudo_tela' => $formulario]);
 
         return $this->twig->render($response, 'TelaBase.twig', [
+            'versao' => $GLOBALS['versao'],
             'jsLinks' => 'listLogradouro.js',
             'cssLinks' => 'TelaMenus.css',
             'conteudo_tela' => $conteudoTela,

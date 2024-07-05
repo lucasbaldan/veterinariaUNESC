@@ -21,6 +21,7 @@ class LoginPage
         $tela = $this->twig->fetch('login.twig');
 
         return $this->twig->render($response, 'TelaBase.twig', [
+            'versao' => $GLOBALS['versao'],
             'cssLinks' => "login.css",
             'jsLinks' => "login.js",
             'conteudo_tela' => $tela,

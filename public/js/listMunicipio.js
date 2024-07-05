@@ -64,7 +64,7 @@ function openCadastro($id = null) {
       data: { id: $id },
     });
 
-    var script = $.getScript("/veterinariaUNESC/public/js/CadastroMunicipioModal.js");
+    var script = $.getScript("/veterinariaUNESC/public/js/CadastroMunicipioModal.js?v=" + window.scriptVersao);
 
     $.when(ajaxModal, script).done(function (respostaAjaxModal) {
         bootbox.dialog({

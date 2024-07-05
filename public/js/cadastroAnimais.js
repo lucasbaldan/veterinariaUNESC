@@ -124,7 +124,7 @@ $(document).ready(function () {
       });
 
       var script = $.getScript(
-        "/veterinariaUNESC/public/js/buscaRapidaPessoaModal.js"
+        "/veterinariaUNESC/public/js/buscaRapidaPessoaModal.js?v=" + window.scriptVersao
       );
 
       $.when(ajaxModal, script)

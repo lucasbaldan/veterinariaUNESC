@@ -23,6 +23,7 @@ class InicialPage
         $conteudoTela = $this->twig->fetch('TelaComMenus.twig', [ 'conteudo_tela' => $inicial]);
 
         return $this->twig->render($response, 'TelaBase.twig', [
+            'versao' => $GLOBALS['versao'],
             'cssLinks' => 'TelaMenus.css',
             'conteudo_tela' => $conteudoTela,
         ]);

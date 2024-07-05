@@ -22,6 +22,7 @@ class ListGruposUsuarios
         $conteudoTela = $this->twig->fetch('TelaComMenus.twig', ['conteudo_tela' => $pessoas]);
 
         return $this->twig->render($response, 'TelaBase.twig', [
+            'versao' => $GLOBALS['versao'],
             'cssLinks' => "TelaMenus.css;",
             'jsLinks' => "listGrupoUsuarios.js",
             'conteudo_tela' => $conteudoTela,

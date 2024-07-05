@@ -52,6 +52,7 @@ class CadastroUsuarios
         $conteudoTela = $this->twig->fetch('TelaComMenus.twig', ['conteudo_tela' => $telaCadastroUsuarios]);
 
         return $this->twig->render($response, 'TelaBase.twig', [
+            'versao' => $GLOBALS['versao'],
             'cssLinks' => "TelaMenus.css;",
             'jsLinks' => "cadastroUsuarios.js",
             'conteudo_tela' => $conteudoTela,

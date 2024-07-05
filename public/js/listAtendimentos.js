@@ -100,7 +100,7 @@ function openCadastro() {
     });
 
     var script = $.getScript(
-      "/veterinariaUNESC/public/js/buscaRapidaAnimalModal.js"
+      "/veterinariaUNESC/public/js/buscaRapidaAnimalModal.js?v=" + window.scriptVersao
     );
 
     $.when(ajaxModal, script)

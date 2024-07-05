@@ -141,6 +141,7 @@ class FormularioLPV
         $conteudoTela = $this->twig->fetch('TelaComMenus.twig', ['conteudo_tela' => $formulario]);
 
         return $this->twig->render($response, 'TelaBase.twig', [
+            'versao' => $GLOBALS['versao'],
             'cssLinks' => 'TelaMenus.css;formularioLPV.css',
             'jsLinks' => 'formularioLPV.js',
             'conteudo_tela' => $conteudoTela,

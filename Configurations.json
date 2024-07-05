@@ -14,5 +14,6 @@
         "driver": "mysql"
     },
     "desenvolvimento": true,
-    "timesession": 10800
+    "timesession": 10800,
+    "versao": 1.002
 }

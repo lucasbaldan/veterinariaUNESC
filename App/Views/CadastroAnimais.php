@@ -90,6 +90,7 @@ class CadastroAnimais
         $conteudoTela = $this->twig->fetch('TelaComMenus.twig', ['conteudo_tela' => $Cadastro]);
 
         return $this->twig->render($response, 'TelaBase.twig', [
+            'versao' => $GLOBALS['versao'],
             'cssLinks' => 'TelaMenus.css',
             'jsLinks' => 'cadastroAnimais.js',
             'conteudo_tela' => $conteudoTela,

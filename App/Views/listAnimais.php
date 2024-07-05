@@ -21,6 +21,7 @@ class listAnimais
         $conteudoTela = $this->twig->fetch('TelaComMenus.twig', ['conteudo_tela' => $formulario]);
 
         return $this->twig->render($response, 'TelaBase.twig', [
+            'versao' => $GLOBALS['versao'],
             'jsLinks' => 'listAnimais.js',
             'cssLinks' => 'TelaMenus.css',
             'conteudo_tela' => $conteudoTela,
