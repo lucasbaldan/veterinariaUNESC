@@ -85,8 +85,8 @@ class CadastroAcessosGruposUsuarios
         }
 
 
-
-
+        $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CONTROLE_ACESSOS', 'FL_ACESSAR');
+        $exibeSalvar = $permissaoSalvar == true ? true : false;
 
         $telaCadastroUsuarios = $this->twig->fetch('cadastroAcessosGruposUsuarios.twig', [
             'cdGrupoUsuarios' => $cdGrupoUsuarios,

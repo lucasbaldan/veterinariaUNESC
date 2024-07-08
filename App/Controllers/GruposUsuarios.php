@@ -200,42 +200,86 @@ class GruposUsuarios
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
 
-    public static function RetornarAcessos(Request $request, Response $response)
+    public static function VerificaAcessos(Request $request, Response $response)
     {
-
         try {
             $Formulario = $request->getParsedBody();
 
-            $cdGrupoUsuarios = !empty($Formulario['cdGrupoUsuarios']) ? $Formulario['cdGrupoUsuarios'] : '';
-            $filtroAcesso = !empty($Formulario['filtroAcesso']) ? $Formulario['filtroAcesso'] : '';
+            $cdUsuario = !empty($Formulario['cdUsuario']) ? $Formulario['cdUsuario'] : null;
+            $parteSistema = !empty($Formulario['parteSistema']) ? $Formulario['parteSistema'] : null;
+            $tpAcesso = !empty($Formulario['tpAcesso']) ? $Formulario['tpAcesso'] : null;
 
-
-            $retorno = \App\Models\GruposUsuarios::RetornaDadosGrupoUsuarios($cdGrupoUsuarios);
-            
-            $permissoesArray = json_decode($retorno['PERMISSOES'], true);
-            $permissoes = [];
-            
-            if (!empty($filtroAcesso)) {
-                if (isset($permissoesArray[$filtroAcesso])) {
-                    $permissoes = $permissoesArray[$filtroAcesso];
-                }
-            } else {
-                $permissoes = $permissoesArray;
+            if (is_null($cdUsuario) || is_null($parteSistema) || is_null($tpAcesso)) {
+                throw new Exception("Parâmetros inválidos fornecidos.", 400);
             }
 
+            $usuario = \App\Models\Usuarios::RetornaDadosUsuario($cdUsuario);
+            if (!$usuario) {
+                throw new Exception("Usuário não encontrado.", 404);
+            }
+
+            $retorno = \App\Models\GruposUsuarios::RetornaDadosGrupoUsuarios($usuario['CD_GRUPO_USUARIOS']);
             if (!$retorno) {
-                throw new Exception("<b>Erro ao tentar acessar as permissoes do grupo de usuários</b><br><br> Por favor, tente novamente.", 400);
+                throw new Exception("Erro ao tentar acessar as permissões do grupo de usuários. Por favor, tente novamente.", 400);
             }
 
-            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $permissoes];
+            $permissoesArray = json_decode($retorno['PERMISSOES'], true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception("Erro ao decodificar as permissões do grupo de usuários.", 500);
+            }
+
+            $resultado = false;
+            if (!empty($permissoesArray) && isset($permissoesArray[$parteSistema][$tpAcesso])) {
+                $resultado = $permissoesArray[$parteSistema][$tpAcesso] === 'S';
+            }
+
+            $respostaServidor = ["RESULT" => true, "MESSAGE" => '', "RETURN" => $resultado];
             $codigoHTTP = 200;
         } catch (Exception $e) {
-            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
-            $codigoHTTP = $e->getCode();
+            $respostaServidor = ["RESULT" => false, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $codigoHTTP = $e->getCode() ? $e->getCode() : 500;
         }
+
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
+
+    public static function VerificaAcessosSemRequisicao($parteSistema, $tpAcesso)
+    {
+        try {
+            $cdUsuario = $_SESSION['userid'];
+
+            if (is_null($cdUsuario) || is_null($parteSistema) || is_null($tpAcesso)) {
+                throw new Exception("Parâmetros inválidos fornecidos.", 400);
+            }
+
+            $usuario = \App\Models\Usuarios::RetornaDadosUsuario($cdUsuario);
+            if (!$usuario) {
+                throw new Exception("Usuário não encontrado.", 404);
+            }
+
+            $retorno = \App\Models\GruposUsuarios::RetornaDadosGrupoUsuarios($usuario['CD_GRUPO_USUARIOS']);
+            if (!$retorno) {
+                throw new Exception("Erro ao tentar acessar as permissões do grupo de usuários. Por favor, tente novamente.", 400);
+            }
+
+            $permissoesArray = json_decode($retorno['PERMISSOES'], true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception("Erro ao decodificar as permissões do grupo de usuários.", 500);
+            }
+
+            if (!empty($permissoesArray) && isset($permissoesArray[$parteSistema][$tpAcesso])) {
+                return $permissoesArray[$parteSistema][$tpAcesso] === 'S';
+            }
+    
+            return false;
+
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+    }
+
 
     public static function MontarGrid(Request $request, Response $response)
     {

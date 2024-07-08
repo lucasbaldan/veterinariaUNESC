@@ -158,7 +158,7 @@ class GruposUsuarios
   public static function RetornaDadosGrupoUsuarios($cdGrupoUsuarios)
   {
     $read = new \App\Conn\Read();
-    $read->FullRead("SELECT G.* FROM grupos_usuarios G  WHERE G.CD_GRUPO_USUARIOS = :C ASC", "C=$cdGrupoUsuarios");
+    $read->FullRead("SELECT G.* FROM grupos_usuarios G  WHERE G.CD_GRUPO_USUARIOS = :C", "C=$cdGrupoUsuarios");
 
     return $read->getResult()[0];
   }

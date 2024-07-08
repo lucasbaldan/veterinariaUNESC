@@ -136,13 +136,13 @@ class Usuarios
   public static function RetornaDadosUsuario($cdUsuario)
   {
     $read = new \App\Conn\Read();
-    $read->FullRead("SELECT U.CD_USUARIO, U.CD_PESSOA, P.NM_PESSOA, U.USUARIO, FL_ATIVO, U.CD_GRUPO_USUARIOS, G.NM_GRUPO_USUARIOS
+    $read->FullRead("SELECT U.CD_USUARIO, U.CD_PESSOA, P.NM_PESSOA, U.USUARIO, U.FL_ATIVO, U.CD_GRUPO_USUARIOS, G.NM_GRUPO_USUARIOS
     FROM usuarios U
     INNER JOIN pessoas P ON P.CD_PESSOA = U.CD_PESSOA
     INNER JOIN grupos_usuarios G ON G.CD_GRUPO_USUARIOS = U.CD_GRUPO_USUARIOS
     WHERE U.CD_USUARIO = :C", "C=$cdUsuario");
 
-    return $read->getResult();
+    return $read->getResult()[0];
   }
 
   public static function Delete($cdUsuario)
