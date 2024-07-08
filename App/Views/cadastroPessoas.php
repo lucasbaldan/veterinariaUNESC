@@ -37,6 +37,12 @@ class CadastroPessoas
             $selectLogradouro = "";
         }
 
+        $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_PESSOAS', 'FL_EDITAR');
+        $exibeSalvar = $permissaoSalvar == true ? true : false;
+
+        $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_PESSOAS', 'FL_EXCLUIR');
+        $exibeExcluir = $permissaoExcluir == true ? true : false;
+
         $selectAtivo =  '<select name="AtivoPessoa" id="AtivoPessoa" class="form-select">
                         <option value="S" '.($pessoa->getAtivo() == 'S' ? 'selected' : '').'>Sim</option>
                         <option value="N" '.($pessoa->getAtivo() == 'N' ? 'selected' : '').'>Não</option>

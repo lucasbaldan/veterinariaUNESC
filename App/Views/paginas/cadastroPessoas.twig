@@ -16,22 +16,25 @@
                     <h4>Cadastro de Pessoas</h4>
                     <hr>
                 </div>
+                <div class="text-end">
+                    <button type="button" onclick="gerarPDF()"><i class="bi bi-printer"></i></button>
+                </div>
 
                 <div class="row">
-                <div class="col-3 mb-4">
-                    <label for="cdPessoa" class="form-label">Código: </label>
-                    <input type="text" readonly class="form-control" id="cdPessoa" name="cdPessoa"
-                    value="{{cdPessoa}}">
+                    <div class="col-3 mb-4">
+                        <label for="cdPessoa" class="form-label">Código: </label>
+                        <input type="text" readonly class="form-control" id="cdPessoa" name="cdPessoa"
+                            value="{{cdPessoa}}">
+                    </div>
+
+                    <div class="col-6"></div>
+
+                    <div class="col-3 mb-4">
+                        <label for="AtivoPessoa" class="form-label">Ativo </label>
+                        {{selectAtivoPessoa|raw}}
+                    </div>
                 </div>
 
-                <div class="col-6"></div>
-
-                <div class="col-3 mb-4">
-                    <label for="AtivoPessoa" class="form-label">Ativo </label>
-                    {{selectAtivoPessoa|raw}}
-                </div>
-            </div>
-                
                 <div class="row">
                     <div class="mb-4 col-md-12">
                         <label for="nmPessoa" class="form-label">Nome</label>
@@ -45,23 +48,23 @@
                     </div>
                     <div class="mb-4 col-md-6">
                         <label for="dataNascimento" class="form-label">Data de Nascimento</label>
-                        <input type="date" class="form-control" id="dataNascimento" name="dataNascimento" placeholder=" "
-                            value="{{dataNascimento}}" required>
+                        <input type="date" class="form-control" id="dataNascimento" name="dataNascimento"
+                            placeholder=" " value="{{dataNascimento}}" required>
                     </div>
                     <div class="mb-4 col-md-4">
                         <label for="nrTelefone" class="form-label">Telefone</label>
                         <input type="text" class="form-control" id="nrTelefone" name="nrTelefone" placeholder=" "
-                        value="{{nrTelefone}}" required>
+                            value="{{nrTelefone}}" required>
                     </div>
                     <div class="mb-4 col-md-4">
                         <label for="dsEmail" class="form-label">E-mail</label>
                         <input type="email" class="form-control" id="dsEmail" name="dsEmail" placeholder=" "
-                        value="{{dsEmail}}" required>
+                            value="{{dsEmail}}" required>
                     </div>
                     <div class="mb-4 col-md-4">
                         <label for="nrCRMV" class="form-label">N° CRMV (Se possuir)</label>
                         <input type="text" class="form-control" id="nrCRMV" name="nrCRMV" value="{{nrCRMV}}"
-                        placeholder=" ">
+                            placeholder=" ">
                     </div>
                     <div class="mb-4 col-md-4">
                         <label for="dsCidade" class="form-label">Cidade</label>
@@ -92,7 +95,8 @@
         <div class="card-body border border-1S rounded-2">
             <div class="row">
                 <div class="col">
-                    <a class="btn btn-warning w-100 call-screen" type="button" href="/veterinariaUNESC/paginas/listPessoas"><i class="bi bi-sign-turn-left-fill"></i>
+                    <a class="btn btn-warning w-100 call-screen" type="button"
+                        href="/veterinariaUNESC/paginas/listPessoas"><i class="bi bi-sign-turn-left-fill"></i>
                         <b>Voltar</b></a>
                 </div>
 
@@ -106,7 +110,8 @@
 
                 {% if exibeSalvar %}
                 <div class="col">
-                    <button class="btn btn-primary w-100" onclick="salvarCadastroPessoas()"><i class="bi bi-floppy2-fill"></i>
+                    <button class="btn btn-primary w-100" onclick="salvarCadastroPessoas()"><i
+                            class="bi bi-floppy2-fill"></i>
                         <b>Salvar</b></button>
                 </div>
                 {% endif %}

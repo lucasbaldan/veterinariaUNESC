@@ -88,6 +88,11 @@ class FormularioLPV
                         <option value="S" ' . ($Ficha->getAvalicaoTumoralMargem() == 'S' ? 'selected' : '') . '>Sim</option>
                     </select>';
 
+            $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('FICHA_LPV', 'FL_EDITAR');
+            $exibeSalvar = $permissaoSalvar == true ? true : false;
+
+            $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('FICHA_LPV', 'FL_EXCLUIR');
+            $exibeExcluir = $permissaoExcluir == true ? true : false;
 
 
             $formulario = $this->twig->fetch('formularioLPV.twig', [

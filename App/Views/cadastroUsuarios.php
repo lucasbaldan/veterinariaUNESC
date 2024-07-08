@@ -33,6 +33,12 @@ class CadastroUsuarios
             $exibeExcluir = false;
         }
 
+        $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_EDITAR');
+        $exibeSalvar = $permissaoSalvar == true ? true : false;
+
+        $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_EXCLUIR');
+        $exibeExcluir = $permissaoExcluir == true ? true : false;
+
         $selectAtivoUsuario =  '<select name="flAtivo" id="flAtivo" class="form-select">
                                 <option value="S" ' . ($usuario->getFlAtivo() == 'S' ? 'selected' : '') . '>Sim</option>
                                 <option value="N" ' . ($usuario->getFlAtivo() == 'N' ? 'selected' : '') . '>Não</option>
