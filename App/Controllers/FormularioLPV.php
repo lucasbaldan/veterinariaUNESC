@@ -93,6 +93,36 @@ class FormularioLPV
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
 
+    // public static function GerarRelatorioFichasLPV(Request $request, Response $response)
+    // {
+
+    //     try {
+
+    //         $Formulario = $request->getParsedBody();
+
+    //         $cdAnimal = !empty($Formulario['cdAnimal']) ? $Formulario['cdAnimal'] : '';
+    //         $cdCidade = !empty($Formulario['cdCidade']) ? $Formulario['cdCidade'] : '';
+    //         $cdVetRemetente = !empty($Formulario['cdVetRemetente']) ? $Formulario['cdVetRemetente'] : '';
+    //         $dtInicialFicha = !empty($Formulario['dtInicialFicha']) ? $Formulario['dtInicialFicha'] : '';
+    //         $dtFinalFicha = !empty($Formulario['dtFinalFicha']) ? $Formulario['dtFinalFicha'] : '';
+    //         $flAvaliacaoTumoral = !empty($Formulario['flAvaliacaoTumoral']) ? $Formulario['flAvaliacaoTumoral'] : '';
+
+    //         $retorno = \App\Models\FormularioLPV::RetornaFichasFiltradas($cdAnimal, $cdCidade, $cdVetRemetente, $dtInicialFicha, $dtFinalFicha, $flAvaliacaoTumoral);
+
+    //         if (!$retorno) {
+    //             throw new Exception("<b>Erro ao tentar acessar os grupos de usuários</b><br><br> Por favor, tente novamente.", 400);
+    //         }
+
+    //         $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno];
+    //         $codigoHTTP = 200;
+    //     } catch (Exception $e) {
+    //         $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+    //         $codigoHTTP = $e->getCode();
+    //     }
+    //     $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+    //     return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
+    // }
+
     public static function RetornarDadosFichaLPV(Request $request, Response $response)
     {
         

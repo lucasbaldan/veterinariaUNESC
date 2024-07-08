@@ -216,6 +216,35 @@ class FormularioLPV
     }
   }
 
+  public static function RetornaFichasFiltradas($cdAnimal, $cdCidade, $cdVetRemetente, $dtInicialFicha, $dtFinalFicha, $flAvaliacaoTumoral)
+  {
+    $read = new \App\Conn\Read();
+
+    $sql = "SELECT F.*, C.NOME AS NM_CIDADE, TA.descricao AS NM_TIPO_ANIMAL, P.nm_pessoa AS NM_VETERINARIO_REMETENTE 
+            FROM FICHA_LPV F
+            INNER JOIN cidades C ON C.CD_CIDADE = F.CD_CIDADE_PROPRIEDADE
+            INNER JOIN tipo_animal TA ON TA.cd_tipo_animal = F.CD_ANIMAL
+            INNER JOIN pessoas P ON P.cd_pessoa = F.CD_PESSOA_VETERINARIO_REMETENTE
+            WHERE 1=1";
+
+    if(!empty($cdAnimal)) $sql .= " AND F.CD_ANIMAL = $cdAnimal";
+    if(!empty($cdCidade)) $sql .= " AND F.CD_CIDADE_PROPRIEDADE = $cdCidade";
+    if(!empty($cdVetRemetente)) $sql .= " AND F.CD_PESSOA_VETERINARIO_REMETENTE = $cdVetRemetente";
+    if(!empty($flAvaliacaoTumoral)) $sql .= " AND F.FL_AVALIACAO_TUMORAL_COM_MARGEM = '$flAvaliacaoTumoral'";
+    
+    if(!empty($dtInicialFicha) && empty($dtFinalFicha)) {
+      $sql .= " AND F.DT_FICHA > '$dtInicialFicha'";
+    } else if(empty($dtInicialFicha) && !empty($dtFinalFicha)) {
+      $sql .= " AND F.DT_FICHA < '$dtFinalFicha'";
+    } else if(!empty($dtInicialFicha) && !empty($dtFinalFicha)){
+      $sql .= " AND F.DT_FICHA BETWEEN '$dtInicialFicha' AND '$dtFinalFicha'";
+    }
+
+    $read->FullRead($sql);
+
+    return $read->getResult();
+  }
+
   public function GetMessage()
   {
     return $this->Message;

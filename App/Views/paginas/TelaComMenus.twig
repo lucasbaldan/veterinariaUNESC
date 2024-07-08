@@ -1,113 +1,146 @@
+<div class="d-flex" id="wrapper">
 
-        <div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div class="border-end bg-light" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light text-center">
+            <img src="/veterinariaUNESC/public/img/logoLabPato.png" alt="" style="max-width: 90px;">
+        </div>
+        <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen"
+                href="/veterinariaUNESC/paginas/inicial">
+                <i class="bi bi-house-door-fill"></i> <b>Início</b>
+            </a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen"
+                href="/veterinariaUNESC/paginas/listAnimais">
+                <i class="bi bi-gitlab"></i> <b>Animal</b>
+            </a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen"
+                href="/veterinariaUNESC/paginas/listPessoas">
+                <i class="bi bi-file-earmark-person-fill"></i> <b>Pessoa</b>
+            </a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen"
+                href="/veterinariaUNESC/paginas/listAtendimentos">
+                <i class="bi bi-heart-pulse-fill"></i><b> Atendimentos (LPV)</b>
+            </a>
 
-            <!-- Sidebar-->
-            <div class="border-end bg-light" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom bg-light text-center">
-                    <img src="/veterinariaUNESC/public/img/logoLabPato.png" alt="" style="max-width: 90px;">
+            <!-- Cadastros Gerais with Submenu -->
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" data-bs-toggle="collapse"
+                href="#collapseCadastrosGerais" role="button" aria-expanded="false"
+                aria-controls="collapseCadastrosGerais">
+                <span><i class="bi bi-chevron-down ms-auto"></i> <b>Cadastros Gerais</b></span>
+            </a>
+            <div class="collapse" id="collapseCadastrosGerais">
+
+                <a class="list-group-item list-group-item-action list-group-item-light ps-5" data-bs-toggle="collapse"
+                    href="#collapseAnimal" role="button" aria-expanded="false" aria-controls="collapseAnimal">
+                    <i class="bi bi-chevron-down ms-auto"></i> <b>Animal</b>
+                </a>
+                <div class="collapse" id="collapseAnimal">
+                    <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
+                        href="/veterinariaUNESC/paginas/listTipoAnimal"> <i class="bi bi-github"></i> </i> Tipo de
+                        Animal </a>
+                    <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
+                        href="/veterinariaUNESC/paginas/listEspecie"> <i class="bi bi-diagram-2"></i> Espécie </a>
+                    <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
+                        href="/veterinariaUNESC/paginas/listRaca"><i class="bi bi-diagram-3"></i> Raça </a>
+
                 </div>
-                <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen" href="/veterinariaUNESC/paginas/inicial">
-                        <i class="bi bi-house-door-fill"></i> <b>Início</b>
-                    </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen" href="/veterinariaUNESC/paginas/listAnimais">
-                        <i class="bi bi-gitlab"></i> <b>Animal</b>
-                    </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen" href="/veterinariaUNESC/paginas/listPessoas">
-                        <i class="bi bi-file-earmark-person-fill"></i> <b>Pessoa</b>
-                    </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen" href="/veterinariaUNESC/paginas/listAtendimentos">
-                        <i class="bi bi-heart-pulse-fill"></i><b> Atendimentos (LPV)</b>
-                    </a>
-            
-                    <!-- Cadastros Gerais with Submenu -->
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" data-bs-toggle="collapse" href="#collapseCadastrosGerais" role="button" aria-expanded="false" aria-controls="collapseCadastrosGerais">
-                        <span><i class="bi bi-chevron-down ms-auto"></i> <b>Cadastros Gerais</b></span>
-                    </a>
-                    <div class="collapse" id="collapseCadastrosGerais">
-                        
-                        <a class="list-group-item list-group-item-action list-group-item-light ps-5" data-bs-toggle="collapse" href="#collapseAnimal" role="button" aria-expanded="false" aria-controls="collapseAnimal">
-                            <i class="bi bi-chevron-down ms-auto"></i> <b>Animal</b>
-                        </a>
-                        <div class="collapse" id="collapseAnimal">
-                            <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/listTipoAnimal"> <i class="bi bi-github"></i> </i> Tipo de Animal </a>
-                            <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/listEspecie"> <i class="bi bi-diagram-2"></i> Espécie </a>
-                            <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/listRaca"><i class="bi bi-diagram-3"></i> Raça </a>
-                            
-                        </div>
 
-                        <a class="list-group-item list-group-item-action list-group-item-light ps-5" data-bs-toggle="collapse" href="#collapseEndereco" role="button" aria-expanded="false" aria-controls="collapseEndereco">
-                            <i class="bi bi-chevron-down ms-auto"></i> <b>Endereço</b>
-                        </a>
-                        <div class="collapse" id="collapseEndereco">
-                            <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/listMunicipio"> <i class="bi bi-building"></i> Município </a>
-                            <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/listBairro"><i class="bi bi-pin-map"></i> Bairro </a>
-                            <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/listLogradouro"><i class="bi bi-houses"></i> Logradouro </a>
-                            
-                        </div>
+                <a class="list-group-item list-group-item-action list-group-item-light ps-5" data-bs-toggle="collapse"
+                    href="#collapseEndereco" role="button" aria-expanded="false" aria-controls="collapseEndereco">
+                    <i class="bi bi-chevron-down ms-auto"></i> <b>Endereço</b>
+                </a>
+                <div class="collapse" id="collapseEndereco">
+                    <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
+                        href="/veterinariaUNESC/paginas/listMunicipio"> <i class="bi bi-building"></i> Município </a>
+                    <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
+                        href="/veterinariaUNESC/paginas/listBairro"><i class="bi bi-pin-map"></i> Bairro </a>
+                    <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
+                        href="/veterinariaUNESC/paginas/listLogradouro"><i class="bi bi-houses"></i> Logradouro </a>
 
-                        <a class="list-group-item list-group-item-action list-group-item-light ps-5" data-bs-toggle="collapse" href="#collapseUsuarios" role="button" aria-expanded="false" aria-controls="collapseUsuarios">
-                            <i class="bi bi-chevron-down ms-auto"></i> <b>Usuários do sistema</b>
-                        </a>
-                        <div class="collapse" id="collapseUsuarios">
-                            <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/listUsuarios"><i class="bi bi-person"></i></i> Usuários </a>
-                            <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/gruposUsuarios"><i class="bi bi-people"></i></i> Grupo de Usuários </a>
-                            
-                        </div>
-
-                    </div>
-            
-                    <!-- Grupo de Usuários with Submenu -->
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" data-bs-toggle="collapse" href="#collapseGrupoUsuarios" role="button" aria-expanded="false" aria-controls="collapseGrupoUsuarios">
-                        <i class="bi bi-chevron-down ms-auto"></i> <b>Controle de Acesso</b>
-                    </a>
-                    <div class="collapse" id="collapseGrupoUsuarios">
-                        <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/listAcessosGruposUsuarios"><i class="bi bi-key"></i> Acessos Grupos Usuarios</a>
-                        <!-- <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#!">Submenu 2</a> -->
-                    </div>
-            
-                    <!-- Relatórios with Submenu -->
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" data-bs-toggle="collapse" href="#collapseRelatorios" role="button" aria-expanded="false" aria-controls="collapseRelatorios">
-                        <i class="bi bi-chevron-down ms-auto"></i> <b>Relatórios</b>
-                    </a>
-                    <div class="collapse" id="collapseRelatorios">
-                        <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#!">Submenu 1</a>
-                        <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#!">Submenu 2</a>
-                    </div>
                 </div>
+
+                <a class="list-group-item list-group-item-action list-group-item-light ps-5" data-bs-toggle="collapse"
+                    href="#collapseUsuarios" role="button" aria-expanded="false" aria-controls="collapseUsuarios">
+                    <i class="bi bi-chevron-down ms-auto"></i> <b>Usuários do sistema</b>
+                </a>
+                <div class="collapse" id="collapseUsuarios">
+                    <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
+                        href="/veterinariaUNESC/paginas/listUsuarios"><i class="bi bi-person"></i></i> Usuários </a>
+                    <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
+                        href="/veterinariaUNESC/paginas/gruposUsuarios"><i class="bi bi-people"></i></i> Grupo de
+                        Usuários </a>
+
+                </div>
+
             </div>
-            
 
+            <!-- Grupo de Usuários with Submenu -->
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" data-bs-toggle="collapse"
+                href="#collapseGrupoUsuarios" role="button" aria-expanded="false" aria-controls="collapseGrupoUsuarios">
+                <i class="bi bi-chevron-down ms-auto"></i> <b>Controle de Acesso</b>
+            </a>
+            <div class="collapse" id="collapseGrupoUsuarios">
+                <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
+                    href="/veterinariaUNESC/paginas/listAcessosGruposUsuarios"><i class="bi bi-key"></i> Acessos Grupos
+                    Usuarios</a>
+                <!-- <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#!">Submenu 2</a> -->
+            </div>
 
-            <!-- Page content wrapper-->
-            <div id="page-content-wrapper">
-                <!-- Top navigation-->
-                <nav class="navbar bg-light border-bottom">
-                    <div class="container-fluid">
-                        <button class="btn btn-outline-secondary" id="sidebarToggle"><i class="bi bi-list-nested"></i>  <i class="bi bi-code"></i></button>
-                        <span class="navbar-text mx-auto text-center">Vet.App - UNESC</span>
-                        <div class="dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                                </svg>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <!-- <a class="dropdown-item" href="#!">Action</a>
-                                <a class="dropdown-item" href="#!">Another action</a> -->
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" id="sairSistema" href="#"><i class="bi bi-door-open"></i> Sair </a>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-                
-
-                <!-- Page content-->
-                <div class="container-fluid">
-                    
-                    {{ conteudo_tela|raw }}
-                </div>
+            <!-- Relatórios with Submenu -->
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" data-bs-toggle="collapse"
+                href="#collapseRelatorios" role="button" aria-expanded="false" aria-controls="collapseRelatorios">
+                <i class="bi bi-chevron-down ms-auto"></i> <b>Relatórios</b>
+            </a>
+            <div class="collapse" id="collapseRelatorios">
+                <form id="fichaLPVForm" action="/veterinariaUNESC/paginas/relatorioFichaLPV" method="POST"
+                    style="display: inline;">
+                    <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#"
+                        onclick="document.getElementById('fichaLPVForm').submit(); return false;">
+                        <i class="bi bi-clipboard-data-fill"></i> Fichas LPV
+                    </a>
+                </form>
+                <!-- <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/relatorioFichaLPV"><i class="bi bi-clipboard-data-fill"></i> Fichas LPV</a> -->
+                <!-- <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#!">Submenu 2</a> -->
             </div>
         </div>
+    </div>
+
+
+
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <nav class="navbar bg-light border-bottom">
+            <div class="container-fluid">
+                <button class="btn btn-outline-secondary" id="sidebarToggle"><i class="bi bi-list-nested"></i> <i
+                        class="bi bi-code"></i></button>
+                <span class="navbar-text mx-auto text-center">Vet.App - UNESC</span>
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                            class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                            <path fill-rule="evenodd"
+                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                        </svg>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <!-- <a class="dropdown-item" href="#!">Action</a>
+                                <a class="dropdown-item" href="#!">Another action</a> -->
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" id="sairSistema" href="#"><i class="bi bi-door-open"></i> Sair </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
+        <!-- Page content-->
+        <div class="container-fluid">
+
+            {{ conteudo_tela|raw }}
+        </div>
+    </div>
+</div>

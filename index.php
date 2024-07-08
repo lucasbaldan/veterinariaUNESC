@@ -59,23 +59,23 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
 
 $app->group('/server', function (RouteCollectorProxy $group) {
 
-        $group->group('/usuarios', function (RouteCollectorProxy $usuariosGroup) {
-            $usuariosGroup->post('/efetuarLogin',  App\Controllers\Usuarios::class . ':efetuarLogin');
-            $usuariosGroup->post('/deslogar',  App\Helpers\Sessao::class . ':encerrarSessao');
+    $group->group('/usuarios', function (RouteCollectorProxy $usuariosGroup) {
+        $usuariosGroup->post('/efetuarLogin',  App\Controllers\Usuarios::class . ':efetuarLogin');
+        $usuariosGroup->post('/deslogar',  App\Helpers\Sessao::class . ':encerrarSessao');
     });
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
         '/veterinariaUNESC/server/usuarios/efetuarLogin',
         '/veterinariaUNESC/server/usuarios/deslogar'
-        ])) {
-            $response = new \Slim\Psr7\Response();
-            $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisição foi efetuada de maneira incorreta.']));
-            return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
-        }
-    
-        return $handler->handle($request);
-    });
+    ])) {
+        $response = new \Slim\Psr7\Response();
+        $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisição foi efetuada de maneira incorreta.']));
+        return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+    }
+
+    return $handler->handle($request);
+});
 
 
 /////////////////////// ROTAS DE REQUISIÇÕES PARA PROCESSAMENTO DE TELAS COM SESSÃO
@@ -179,6 +179,12 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         $tela =  new App\Views\CadastroAnimais($twig);
         return $tela->exibir($request, $response, $args);
     });
+
+    $group->post('/relatorioFichaLPV', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\RelatorioFichaLPV($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
@@ -202,6 +208,7 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         '/veterinariaUNESC/paginas/listAnimais',
         '/veterinariaUNESC/paginas/listAtendimentos',
         '/veterinariaUNESC/paginas/listUsuarios',
+        '/veterinariaUNESC/paginas/relatorioFichaLPV',
     ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
@@ -264,6 +271,7 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
         $tela =  new App\Views\recarregarGaleria($twig);
         return $tela->exibir($request, $response, $args);
     });
+
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
@@ -302,90 +310,63 @@ $app->group('/server', function (RouteCollectorProxy $group) {
 
     $group->group('/tipoAnimal', function (RouteCollectorProxy $Group) {
         $Group->post('/grid', App\Controllers\TiposAnimais::class . ':montarGrid');
-
         $Group->post('/general', App\Controllers\TiposAnimais::class . ':buscar');
-
         $Group->post('/controlar', App\Controllers\TiposAnimais::class . ':controlar');
-
         $Group->post('/excluir', App\Controllers\TiposAnimais::class . ':excluir');
     });
 
     $group->group('/especie', function (RouteCollectorProxy $Group) {
         $Group->post('/grid', App\Controllers\Especies::class . ':montarGrid');
-
         $Group->post('/controlar', App\Controllers\Especies::class . ':controlar');
-
         $Group->post('/excluir', App\Controllers\Especies::class . ':excluir');
-
         $Group->post('/general', App\Controllers\Especies::class . ':general');
     });
 
     $group->group('/raca', function (RouteCollectorProxy $Group) {
         $Group->post('/grid', App\Controllers\Raças::class . ':montarGrid');
-
         $Group->post('/controlar', App\Controllers\Raças::class . ':controlar');
-
         $Group->post('/excluir', App\Controllers\Raças::class . ':excluir');
-
         $Group->post('/general', App\Controllers\Raças::class . ':general');
     });
 
     $group->group('/municipio', function (RouteCollectorProxy $Group) {
         $Group->post('/grid', App\Controllers\Municipios::class . ':montarGrid');
-
         $Group->post('/controlar', App\Controllers\Municipios::class . ':controlar');
-
         $Group->post('/excluir', App\Controllers\Municipios::class . ':excluir');
-
         $Group->post('/general', App\Controllers\Municipios::class . ':general');
     });
 
     $group->group('/bairro', function (RouteCollectorProxy $Group) {
         $Group->post('/grid', App\Controllers\Bairros::class . ':montarGrid');
-
         $Group->post('/controlar', App\Controllers\Bairros::class . ':controlar');
-
         $Group->post('/excluir', App\Controllers\Bairros::class . ':excluir');
-
         $Group->post('/general', App\Controllers\Bairros::class . ':general');
     });
 
     $group->group('/logradouro', function (RouteCollectorProxy $Group) {
         $Group->post('/grid', App\Controllers\Logradouros::class . ':montarGrid');
-
         $Group->post('/controlar', App\Controllers\Logradouros::class . ':controlar');
-
         $Group->post('/excluir', App\Controllers\Logradouros::class . ':excluir');
-
         $Group->post('/general', App\Controllers\Logradouros::class . ':general');
     });
 
     $group->group('/animais', function (RouteCollectorProxy $Group) {
         $Group->post('/grid', App\Controllers\Animais::class . ':montarGrid');
-
         $Group->post('/controlar', App\Controllers\Animais::class . ':controlar');
-
         $Group->post('/excluir', App\Controllers\Animais::class . ':excluir');
-
         $Group->post('/retornaPesquisaModal', App\Controllers\Animais::class . ':retornaPesquisaModal');
     });
 
     $group->group('/atendimentos', function (RouteCollectorProxy $Group) {
         $Group->post('/grid', App\Controllers\Atendimentos::class . ':montarGrid');
-
         $Group->post('/controlar', App\Controllers\Atendimentos::class . ':controlar');
-
         $Group->post('/excluir', App\Controllers\Atendimentos::class . ':excluir');
-
         $Group->post('/gerarCSV', App\Controllers\Atendimentos::class . ':gerarCSVGrid');
-
         $Group->post('/uploadGaleria', App\Controllers\Atendimentos::class . ':uploadGaleria');
-
         $Group->post('/excluirImagem', App\Controllers\Atendimentos::class . ':excluirGaleria');
     });
 
     $group->group('/estado', function (RouteCollectorProxy $Group) {
-
         $Group->post('/general', App\Controllers\Estados::class . ':general');
     });
 
@@ -408,12 +389,17 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $usuariosGroup->post('/grid',  App\Controllers\Usuarios::class . ':montarGrid');
     });
 
-    // $group->group('/fichaLPV', function (RouteCollectorProxy $fichaLPVGroup) {
-    //     $fichaLPVGroup->post('/salvafichaLPV',  App\Controllers\FormularioLPV::class . ':Salvar');
-    //     $fichaLPVGroup->post('/retornaFichasLPV',  App\Controllers\FormularioLPV::class . ':RetornarFichasLPV');
-    //     $fichaLPVGroup->post('/retornaDadosFichaLPV',  App\Controllers\FormularioLPV::class . ':RetornarDadosFichaLPV');
-    //     $fichaLPVGroup->post('/apagaFichaLPV',  App\Controllers\FormularioLPV::class . ':ApagarFichaLPV');
-    // });
+    $group->group('/pdf', function (RouteCollectorProxy $pdf) {
+        $pdf->post('/geraPdf',  App\Controllers\GerarPDF::class . ':GerarPdf');
+    });
+
+    $group->group('/fichaLPV', function (RouteCollectorProxy $fichaLPVGroup) {
+        // $fichaLPVGroup->post('/salvafichaLPV',  App\Controllers\FormularioLPV::class . ':Salvar');
+        // $fichaLPVGroup->post('/retornaFichasLPV',  App\Controllers\FormularioLPV::class . ':RetornarFichasLPV');
+        // $fichaLPVGroup->post('/retornaDadosFichaLPV',  App\Controllers\FormularioLPV::class . ':RetornarDadosFichaLPV');
+        // $fichaLPVGroup->post('/apagaFichaLPV',  App\Controllers\FormularioLPV::class . ':ApagarFichaLPV');
+        $fichaLPVGroup->post('/relatorioFichaLPV',  App\Controllers\FormularioLPV::class . ':GerarRelatorioFichasLPV');
+    });
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
@@ -489,6 +475,9 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/fichaLPV/retornaFichasLPV',
         '/veterinariaUNESC/server/fichaLPV/retornaDadosFichaLPV',
         '/veterinariaUNESC/server/fichaLPV/apagaFichaLPV',
+        '/veterinariaUNESC/server/fichaLPV/relatorioFichaLPV',
+
+        '/veterinariaUNESC/server/pdf/geraPdf',
     ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisição foi efetuada de maneira incorreta.']));
@@ -500,20 +489,19 @@ $app->group('/server', function (RouteCollectorProxy $group) {
 
 $app->group('/server', function (RouteCollectorProxy $group) {
 
-$group->group('/midia', function (RouteCollectorProxy $Group) {
-    $Group->get('/atendimento/{filename}', function(Request $request, Response $response, array $args){
-    $filename = $args['filename'];
-    $filePath = __DIR__ . '/App/Assets/imagens/imagens_atendimento/' . $filename;
+    $group->group('/midia', function (RouteCollectorProxy $Group) {
+        $Group->get('/atendimento/{filename}', function (Request $request, Response $response, array $args) {
+            $filename = $args['filename'];
+            $filePath = __DIR__ . '/App/Assets/imagens/imagens_atendimento/' . $filename;
 
-if (!file_exists($filePath)) {
-    return $response->withStatus(404);
-}
+            if (!file_exists($filePath)) {
+                return $response->withStatus(404);
+            }
 
-$response->getBody()->write(file_get_contents($filePath));
-return $response->withHeader('Content-Type', mime_content_type($filePath));
-
+            $response->getBody()->write(file_get_contents($filePath));
+            return $response->withHeader('Content-Type', mime_content_type($filePath));
+        });
     });
-});
 })->add($sessionMiddleware);
 
 // $app->group('/gruposUsuarios', function (RouteCollectorProxy $group) {

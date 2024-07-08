@@ -10,12 +10,18 @@
         {
             "name": "Lucas Faé Baldan",
             "email": "lucasbaldan2014@gmail.com"
+        },
+        {
+            "name" : "Carlos Antonio Morethson Neto",
+            "email": "morethsoncarlos@gmail.com"
         }
     ],
     "require": {
         "slim/slim": "4.*",
         "slim/psr7": "^1.6",
         "slim/twig-view": "^3.4",
-        "php-di/php-di": "^7.0"
+        "php-di/php-di": "^7.0",
+        "knplabs/knp-snappy": "^1.5"
     }
+    
 }

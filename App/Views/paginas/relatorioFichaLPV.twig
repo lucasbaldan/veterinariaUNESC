@@ -1,0 +1,88 @@
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;); background-color: #F8F9FA ;"
+    aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/veterinariaUNESC/paginas/inicial"><i
+                    class="bi bi-house-door-fill"></i></a></li>
+        <li class="breadcrumb-item" aria-current="page">Pessoas</li>
+        <li class="breadcrumb-item" aria-current="page">Cadastro</li>
+    </ol>
+</nav>
+
+<div class="container-fluid d-flex justify-content-center align-items-center mt-2">
+    <div class="card rounded" style="min-width: 100%;">
+        <div class="card-body border border-1S rounded-2">
+            <form id="formRelatorioFichaLPV" name="formRelatorioFichaLPV" action="/veterinariaUNESC/paginas/relatorioFichaLPV" method="post" ajax="true">
+                <div class="text-center">
+                    <h4>Relatório de Fichas LPV</h4>
+                    <hr>
+                </div>
+                <input type="hidden" value="S" name="filtrar" id="filtrar">
+
+
+                <div class="row mb-2">
+                    <div class="col-md-4 mb-1">
+                        <label for="cdAnimal" class="form-label">Animal</label>
+                        <select class="form-select" id="cdAnimal" name="cdAnimal">
+                            {{selectAnimal|raw}}
+                        </select>
+                        <!-- <input type="text" class="form-control" id="cdAnimal" name="cdAnimal" placeholder=" "> -->
+                    </div>
+                    <div class="col-md-4 mb-1">
+                        <label for="cdCidade" class="form-label">Cidade</label>
+                        <select class="form-select" id="cdCidade" name="cdCidade">
+                            {{selectCidade|raw}}
+                        </select>
+                        <!-- <input type="text" class="form-control" id="cdCidade" name="cdCidade" placeholder=" "> -->
+                    </div>
+                    <div class="col-md-4 mb-1">
+                        <label for="cdVetRemetente" class="form-label">Veterinário Remetente</label>
+                        <select class="form-select" id="cdVetRemetente" name="cdVetRemetente">
+                            {{selectVeterinarioRemetente|raw}}
+                        </select>
+                        <!-- <input type="text" class="form-control" id="cdVetRemetente" name="cdVetRemetente"
+                        placeholder=" "> -->
+                    </div>
+                    <div class="col-md-4">
+                        <label for="dtInicialFicha" class="form-label">Data Inicial</label>
+                        <input type="date" class="form-control" id="dtInicialFicha" name="dtInicialFicha" value="{{dtInicialFicha}}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="dtFinalFicha" class="form-label">Data Final</label>
+                        <input type="date" class="form-control" id="dtFinalFicha" name="dtFinalFicha" value="{{dtFinalFicha}}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="flAvaliacaoTumoral" class="form-label">Avaliação Tumoral</label>
+                        <select class="form-control" id="flAvaliacaoTumoral" name="flAvaliacaoTumoral"> 
+                            <option value="">Selecione...</option>
+                            <option value="S">Sim</option>
+                            <option value="N">Não</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary w-100" type="submit"><b><i class="bi bi-search"></i>
+                                Filtrar</b></button>
+                    </div>
+
+                    <div class="col">
+                        <button class="btn btn-danger w-100" type="button" onclick="LimparCamposFiltroFichaLPV()"><i
+                            class="bi bi-trash3-fill"></i>
+                            <b>Limpar</b></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if exibeFichas %}
+<div class="container-fluid d-flex justify-content-center align-items-center mt-2 mb-3">
+    <div class="card rounded" style="min-width: 100%;">
+        <div class="card-body border border-1S rounded-2">
+            {{ table | raw }}
+        </div>
+    </div>
+</div>
+{% endif %}
