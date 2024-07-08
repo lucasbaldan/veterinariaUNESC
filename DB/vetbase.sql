@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 29/06/2024 às 05:28
+-- Tempo de geração: 08/07/2024 às 03:26
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.1.25
 
@@ -59,7 +59,7 @@ CREATE TABLE `animais` (
 --
 
 INSERT INTO `animais` (`cd_animal`, `nm_animal`, `fl_dono_nao_declarado`, `cd_pessoa_dono1`, `cd_pessoa_dono2`, `cd_raca`, `cd_especie`, `sexo`, `idade_aproximada`, `ano_nascimento`, `cd_tipo_animal`) VALUES
-(3, 'Margarida', 'N', 1, NULL, 3, 11, 'F', 21, 2003, 64);
+(7, 'Margarida', 'N', 1, NULL, 3, 11, 'F', 21, 2003, 64);
 
 -- --------------------------------------------------------
 
@@ -5693,7 +5693,8 @@ INSERT INTO `especies` (`cd_especie`, `descricao`, `id_tipo_animal`, `fl_ativo`)
 (5, 'Buldog', 5, 1),
 (6, 'Salsicha', 5, 1),
 (10, 'Pinscher', 5, 1),
-(11, 'Jabuti', 64, 1);
+(11, 'Jabuti', 64, 1),
+(12, 'Doméstica', 65, 1);
 
 -- --------------------------------------------------------
 
@@ -5753,7 +5754,7 @@ CREATE TABLE `ficha_lpv` (
   `CD_FICHA_LPV` int(11) NOT NULL,
   `DT_FICHA` date NOT NULL,
   `CD_ANIMAL` int(11) NOT NULL,
-  `CD_PESSOA_VETERINARIO_REMETENTE` int(11) DEFAULT NULL,
+  `CD_PESSOA_VETERINARIO_REMETENTE` int(11) NOT NULL,
   `CD_USUARIO_PLANTONISTA` int(11) DEFAULT NULL,
   `CD_CIDADE_PROPRIEDADE` int(11) DEFAULT NULL,
   `TOTAL_ANIMAIS` int(11) DEFAULT NULL,
@@ -5774,7 +5775,8 @@ CREATE TABLE `ficha_lpv` (
 --
 
 INSERT INTO `ficha_lpv` (`CD_FICHA_LPV`, `DT_FICHA`, `CD_ANIMAL`, `CD_PESSOA_VETERINARIO_REMETENTE`, `CD_USUARIO_PLANTONISTA`, `CD_CIDADE_PROPRIEDADE`, `TOTAL_ANIMAIS`, `QTD_ANIMAIS_MORTOS`, `QTD_ANIMAIS_DOENTES`, `DS_MATERIAL_RECEBIDO`, `DS_DIAGNOSTICO_PRESUNTIVO`, `FL_AVALIACAO_TUMORAL_COM_MARGEM`, `DS_EPIDEMIOLOGIA_HISTORIA_CLINICA`, `DS_LESOES_MACROSCOPICAS`, `DS_LESOES_HISTOLOGICAS`, `DS_DIAGNOSTICO`, `DS_RELATORIO`) VALUES
-(1, '0000-00-00', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'N', NULL, NULL, NULL, NULL, NULL);
+(3, '2024-06-29', 7, 2, NULL, 3144, 5, 0, 0, 'sei lá o que é isso', 'Em observação até segunda ordem ', 'N', 'história:\r\n1 - Ele nasceu;\r\n2 - Está vivo até o momento.', 'não apresenta', 'não apresenta', 'Em observação até segunda ordem ', 'calopsita defeca a cada 5 min'),
+(4, '2024-06-30', 7, 2, NULL, 1, 1, 1, 1, 'trrnrt', 'tnr', 'S', 'rtnrtn', 'rtn', 'rtnrt', 'tnr', 'rtn');
 
 -- --------------------------------------------------------
 
@@ -5788,6 +5790,18 @@ CREATE TABLE `grupos_usuarios` (
   `FL_ACESSAR` int(11) DEFAULT NULL,
   `FL_EDITAR` int(11) DEFAULT NULL,
   `FL_EXCLUIR` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `imagens_atendimentos`
+--
+
+CREATE TABLE `imagens_atendimentos` (
+  `cd_imagem_atm` int(11) NOT NULL,
+  `id_imagem` varchar(100) NOT NULL,
+  `cd_atendimento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -5853,12 +5867,12 @@ CREATE TABLE `pessoas` (
   `nm_pessoa` varchar(255) NOT NULL,
   `cpf` varchar(11) DEFAULT NULL,
   `data_nascimento` date DEFAULT NULL,
-  `cd_cidade` int(11) NOT NULL,
+  `cd_cidade` int(11) DEFAULT NULL,
   `cd_bairro` int(11) DEFAULT NULL,
   `cd_logradouro` int(11) DEFAULT NULL,
   `nr_telefone` varchar(13) DEFAULT NULL,
   `nr_celular` varchar(13) DEFAULT NULL,
-  `ds_email` varchar(45) NOT NULL,
+  `ds_email` varchar(200) DEFAULT NULL,
   `nr_crmv` varchar(50) DEFAULT NULL,
   `fl_ativo` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -5868,7 +5882,8 @@ CREATE TABLE `pessoas` (
 --
 
 INSERT INTO `pessoas` (`cd_pessoa`, `nm_pessoa`, `cpf`, `data_nascimento`, `cd_cidade`, `cd_bairro`, `cd_logradouro`, `nr_telefone`, `nr_celular`, `ds_email`, `nr_crmv`, `fl_ativo`) VALUES
-(1, 'Lucas Faé Baldan', '10931426774', '2002-06-13', 3116, 1, 1, '27997556565', NULL, 'lucasbaldan2014@gmail.com', NULL, 'S');
+(1, 'Lucas Faé Baldan', '10931426774', '2002-06-13', 3116, 1, 1, '27996109595', NULL, 'lucasbaldan2014@gmail.com', NULL, 'S'),
+(2, 'Carlos Antonio Morethson Neto', '99999999999', '2001-01-01', 3116, 2, NULL, '27999990000', NULL, 'morethsoncarlos@gmail.com', '15456987', 'S');
 
 -- --------------------------------------------------------
 
@@ -5889,7 +5904,8 @@ CREATE TABLE `racas` (
 
 INSERT INTO `racas` (`cd_raca`, `descricao`, `fl_ativo`, `cd_especie`) VALUES
 (1, 'Austríaco', 1, 10),
-(3, 'pintada', 1, 11);
+(3, 'pintada', 1, 11),
+(4, 'Cinza', 1, 12);
 
 -- --------------------------------------------------------
 
@@ -5930,7 +5946,8 @@ INSERT INTO `tipo_animal` (`cd_tipo_animal`, `descricao`, `fl_ativo`) VALUES
 (21, 'Tamanduá', 0),
 (30, 'Macaco Branco', 1),
 (42, 'Amazonense', 1),
-(64, 'Tartaruga', 1);
+(64, 'Tartaruga', 1),
+(65, 'Calopsita', 1);
 
 -- --------------------------------------------------------
 
@@ -5942,7 +5959,7 @@ CREATE TABLE `usuarios` (
   `CD_USUARIO` int(11) NOT NULL,
   `CD_PESSOA` int(11) DEFAULT NULL,
   `USUARIO` varchar(45) DEFAULT NULL,
-  `SENHA` varchar(45) DEFAULT NULL,
+  `SENHA` varchar(100) DEFAULT NULL,
   `FL_ATIVO` char(1) DEFAULT 'S',
   `CD_GRUPO_USUARIOS` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -5952,7 +5969,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`CD_USUARIO`, `CD_PESSOA`, `USUARIO`, `SENHA`, `FL_ATIVO`, `CD_GRUPO_USUARIOS`) VALUES
-(1, 1, 'carlos', 'carlos', 'S', 2);
+(1, 1, 'carlos', 'carlos', 'S', 2),
+(3, 1, 'lucas', 'lucas', 'S', 2);
 
 --
 -- Índices para tabelas despejadas
@@ -6005,6 +6023,12 @@ ALTER TABLE `ficha_lpv`
 --
 ALTER TABLE `grupos_usuarios`
   ADD PRIMARY KEY (`CD_GRUPO_USUARIOS`);
+
+--
+-- Índices de tabela `imagens_atendimentos`
+--
+ALTER TABLE `imagens_atendimentos`
+  ADD PRIMARY KEY (`cd_imagem_atm`);
 
 --
 -- Índices de tabela `logradouros`
@@ -6064,7 +6088,7 @@ ALTER TABLE `acessos_tipos_usuarios`
 -- AUTO_INCREMENT de tabela `animais`
 --
 ALTER TABLE `animais`
-  MODIFY `cd_animal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cd_animal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `bairros`
@@ -6082,7 +6106,7 @@ ALTER TABLE `cidades`
 -- AUTO_INCREMENT de tabela `especies`
 --
 ALTER TABLE `especies`
-  MODIFY `cd_especie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `cd_especie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `estados`
@@ -6094,13 +6118,19 @@ ALTER TABLE `estados`
 -- AUTO_INCREMENT de tabela `ficha_lpv`
 --
 ALTER TABLE `ficha_lpv`
-  MODIFY `CD_FICHA_LPV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `CD_FICHA_LPV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `grupos_usuarios`
 --
 ALTER TABLE `grupos_usuarios`
   MODIFY `CD_GRUPO_USUARIOS` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `imagens_atendimentos`
+--
+ALTER TABLE `imagens_atendimentos`
+  MODIFY `cd_imagem_atm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de tabela `logradouros`
@@ -6124,25 +6154,25 @@ ALTER TABLE `paises`
 -- AUTO_INCREMENT de tabela `pessoas`
 --
 ALTER TABLE `pessoas`
-  MODIFY `cd_pessoa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cd_pessoa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `racas`
 --
 ALTER TABLE `racas`
-  MODIFY `cd_raca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `cd_raca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `tipo_animal`
 --
 ALTER TABLE `tipo_animal`
-  MODIFY `cd_tipo_animal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `cd_tipo_animal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `CD_USUARIO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `CD_USUARIO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restrições para tabelas despejadas
