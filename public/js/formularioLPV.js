@@ -1,11 +1,40 @@
 $(document).ready(function () {
-
-  FilePond.registerPlugin(FilePondPluginImagePreview);
-  $("#filepond").filepond({
+  
+  $.fn.filepond.registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
+  $('.my-pond').filepond({
     allowMultiple: true,
-    filePosterDownload: true,
-    labelIdle: 'Arraste suas imagens aqui ou <span class="filepond--label-action">Navegue...</span>'
+    labelIdle: 'Arraste e solte os arquivos ou <span class="filepond--label-action">clique aqui</span>', // Texto personalizado para o label
+    maxFileSize: '2MB', // Tamanho máximo do arquivo
+    imagePreviewHeight: 150,
+    imagePreviewWidth: 200,
+    acceptedFileTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'], // Tipos de arquivo aceitos
+  
+    instantUpload: true,
+    server: {
+      process: {
+        url: '/veterinariaUNESC/server/atendimentos/uploadGaleria',
+        method: 'POST',
+        withCredentials: false,
+        headers: {},
+        onerror: function(response) {
+          console.log('Erro no envio:', response);
+        },
+        ondata: function(formData) {
+          formData.append('cdAtendimento', $('#cdFichaLPV').val());
+          return formData;
+        }
+      }
+    },
   });
+
+  $('.my-pond').on('FilePond:processfile', function(e, file) {
+    console.log('Arquivo enviado com sucesso:');
+    atualizarGaleria();
+  });
+
+  Fancybox.bind('[data-fancybox]', {
+    // Custom options for all galleries
+  });  
 
   $("#ExpandFicha").click(function () {
     $(".accordion-collapse").each(function () {
@@ -252,7 +281,7 @@ function salvarCadastroAtendimentos() {
   var formData = new FormData(form);
 
   $.ajax({
-      url: "/veterinariaUNESC/server/atendimentos/controlar-",
+      url: "/veterinariaUNESC/server/atendimentos/controlar",
       method: "POST",
       data: formData,
       contentType: false,
@@ -316,3 +345,64 @@ function excluirCadastroAtendimentos() {
     },
   });
 }
+
+function atualizarGaleria() {
+  var dados = {
+      cdAtendimento: $('#cdFichaLPV').val()
+  };
+
+  $.post('/veterinariaUNESC/modais/recarregarGaleria', dados, function(response) {
+      $('#galeriaDIV').html(response);
+
+      // $('[data-fancybox="gallery-a"]').fancybox({
+      //     // Configurações do Fancybox, se houver
+      // });
+  });
+}
+
+$('#galeriaDIV').on('click', '.btn-excluir-galeria', function(e) {
+  e.preventDefault();
+  
+  // Obtém o nome ou identificador da imagem a ser excluída do atributo data-imagem
+  var idImagem = $(this).attr('id');
+
+  bootbox.confirm({
+    className: "bootbox-delete",
+    size: "extra-large",
+    title: "Confirmar exclusão?",
+    centerVertical: true,
+    message:
+      "Você tem <b>certeza</b> que deseja excluir esse registro? Esta ação não poderá ser desfeita.",
+    buttons: {
+      cancel: {
+        label: '<i class="bi bi-arrow-left"></i> Cancelar',
+      },
+      confirm: {
+        label: '<i class="bi bi-check-lg"></i> Confirmar',
+      },
+    },
+    callback: function (result) {
+      if (result) {
+        $("#bootbox-delete").modal("hide");
+        Loading.on();
+        $.ajax({
+          url: "/veterinariaUNESC/server/atendimentos/excluirImagem",
+          method: "POST",
+          data: {idImagem : idImagem},
+          success: function (response) {
+            if (response.RESULT) {
+              Notificacao.NotificacaoSucesso();
+              atualizarGaleria();
+            }
+          },
+          error: function (xhr, status, error) {
+            Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
+          },
+          complete: function () {
+            Loading.off();
+          },
+        });
+      }
+    },
+  });
+});

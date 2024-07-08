@@ -24,6 +24,8 @@ class Atendimentos
     private $diagnostico;
     private $relatorio;
 
+    private $idImagem;
+
     private $Result;
     private $Message;
     private $Return;
@@ -100,6 +102,32 @@ class Atendimentos
         } catch (Exception $e) {
             return new self('','','','','','','','','','','','','','','');
         }
+    }
+
+    public function getImagesIds($Conn = false){
+        if(empty($this->codigo)){
+            return null;
+        }
+
+        $read = new \App\Conn\Read($Conn);
+        $read->ExeRead("IMAGENS_ATENDIMENTOS", "WHERE CD_ATENDIMENTO = :C", "C=$this->codigo");
+
+        if($read->getRowCount() == 0) return null;
+        
+        return array_column($read->getResult(), 'id_imagem');
+    }
+
+    public static function deleteImageById($imageID, $Conn = false){
+        if(empty($imageID)){
+            return null;
+        }
+
+        $delete = new \App\Conn\Delete($Conn = false);
+        $delete->ExeDelete("IMAGENS_ATENDIMENTOS", "WHERE ID_IMAGEM = :C", "C=$imageID");
+
+        if(!$delete->getResult()[0]) return false;
+
+        return true;
     }
 
     public static function SelectGrid($arrayParam)
@@ -234,6 +262,32 @@ class Atendimentos
         }
     }
 
+    public function InserirImagem()
+    {
+
+        try {
+            $insert = new \App\Conn\Insert();
+
+            $dadosInsert = [
+                "CD_ATENDIMENTO" => $this->codigo,
+                "ID_IMAGEM" => $this->idImagem
+            ];
+
+            $insert->ExeInsert("IMAGENS_ATENDIMENTOS", $dadosInsert);
+            
+            if (!$insert->getResult()) {
+                throw new Exception($insert->getMessage());
+            }
+
+            $this->Result = true;
+            $insert->Commit();
+        } catch (Exception $e) {
+            $insert->Rollback();
+            $this->Result = false;
+            $this->Message = $e->getMessage();
+        }
+    }
+
     public function Atualizar($Conn = false)
     {
         try {
@@ -278,12 +332,11 @@ class Atendimentos
         }
     }
 
-    public function Excluir()
+    public function Excluir($Conn = false)
     {
 
         try {
-            $conn = \App\Conn\Conn::getConn();
-            $delete = new \App\Conn\Delete($conn);
+            $delete = new \App\Conn\Delete($Conn);
 
             $delete->ExeDelete("FICHA_LPV", "WHERE CD_FICHA_LPV = :C", "C=$this->codigo");
 
@@ -394,5 +447,9 @@ class Atendimentos
 
     public function getReturn() {
         return $this->Return;
+    }
+
+    public function setImagem($e) {
+        $this->idImagem = $e;
     }
 }

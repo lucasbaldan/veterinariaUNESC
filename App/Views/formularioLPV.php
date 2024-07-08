@@ -67,6 +67,7 @@ class FormularioLPV
         } elseif (!empty($idFichaAlteracao)) {
             $Ficha = \App\Models\Atendimentos::findById($idFichaAlteracao);
             $AnimalFicha = $Ficha->getAnimal();
+            $urlGaleria = $Ficha->getImagesIds();
 
             $selectTipoAnimal = '<option value="' . $AnimalFicha->getTipoAnimal()->getCodigo() . '" selected>' . $AnimalFicha->getTipoAnimal()->getDescricao() . '</option>';
             $selectEspecie = '<option value="' . $AnimalFicha->getEspecie()->getCodigo() . '" selected>' . $AnimalFicha->getEspecie()->getDescricao() . '</option>';
@@ -86,6 +87,7 @@ class FormularioLPV
                         <option value="N" ' . ($Ficha->getAvalicaoTumoralMargem() == 'N' ? 'selected' : '') . '>Não</option>
                         <option value="S" ' . ($Ficha->getAvalicaoTumoralMargem() == 'S' ? 'selected' : '') . '>Sim</option>
                     </select>';
+
 
 
             $formulario = $this->twig->fetch('formularioLPV.twig', [
@@ -123,6 +125,7 @@ class FormularioLPV
                 "LesoesHistologicas" => $Ficha->getLessoesHistologicas(),
                 "diagnostico" => $Ficha->getDiagnostico(),
                 "relatorio" => $Ficha->getRelatorio(),
+                "urlGaleria" => $urlGaleria,
 
 
 

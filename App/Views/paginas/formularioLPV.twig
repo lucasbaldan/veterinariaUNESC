@@ -332,6 +332,7 @@
                     </div>
                 </div>
                  
+            </form>
 
                  <div class="accordion mb-3" id="accordionAnexos">
                     <div class="accordion-item">
@@ -339,21 +340,32 @@
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#panelAnexos" aria-expanded="true"
                                 aria-controls="panelsStayOpen-collapseOne">
-                                Anexos
+                                Galeria
                             </button>
                         </h2>
                         <div id="panelAnexos" class="accordion-collapse collapse show">
                             <div class="accordion-body">
-                                <label for="imagensAtendimento" class="form-label">Imagens</label>
-                                <input type="file" class="my-pond" id="filepond" name="imagensAtendimento" multiple/>
+                                <input type="file" class="my-pond" name="imageAtendimento"/>
+                                <br>
+                                <hr>
+                                        <div id="galeriaDIV" class="row">
+                                            {% for imagem in urlGaleria %}
+                                            <div class="col-md-4 mb-3">
+                                                <div class="gallery-item border rounded position-relative">
+                                                    <a href="/veterinariaUNESC/server/midia/atendimento/{{ imagem }}" data-fancybox="gallery-a" data-caption="Anexo/imagem - {{ animal }}">
+                                                        <img src="/veterinariaUNESC/server/midia/atendimento/{{ imagem }}" class="img-fluid" alt="Imagem">
+                                                    </a>
+                                                    <button class="btn btn-danger btn-sm btn-excluir-galeria w-100" id="{{ imagem }}">
+                                                        <i class="bi bi-trash"></i></button>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
                             </div>
-
-                            
                         </div>
                     </div>
                 </div>
 
-            </form>
 
         </div>
     </div>

@@ -1,0 +1,14 @@
+
+    <div id="galeriaDIV" class="row">
+        {% for imagem in urlGaleria %}
+        <div class="col-md-4 mb-3">
+            <div class="gallery-item border rounded position-relative">
+                <a href="/veterinariaUNESC/server/midia/atendimento/{{ imagem }}" data-fancybox="gallery-a" data-caption="Anexo/imagem - {{ animal }}">
+                    <img src="/veterinariaUNESC/server/midia/atendimento/{{ imagem }}" class="img-fluid" alt="Imagem">
+                </a>
+                <button class="btn btn-danger btn-sm btn-excluir-galeria w-100" id="{{ imagem }}">
+                    <i class="bi bi-trash"></i></button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>

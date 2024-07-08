@@ -95,7 +95,6 @@ class Atendimentos
     {
         try {
             $dadosForm = $request->getParsedBody();
-            $imagensFicha = $request->getUploadedFiles();
             //$diretorioImagens = $this->get('upload_directory');
 
             //INPUTUS DADOS FICHA ANIMAL
@@ -132,7 +131,7 @@ class Atendimentos
             $nrTelefoneDono = isset($dadosForm['nrTelefoneProprietario']) ? $dadosForm['nrTelefoneProprietario'] : '';
 
             // INPUTS DA PESSOA VETERINÁRIA
-            $codigoVeterinario = !empty($dadosForm['cdVeterinarioRemetente']) ? $dadosForm['cdVeterinarioRemetente'] : '';
+            $codigoVeterinario = isset($dadosForm['cdVeterinarioRemetente']) ? $dadosForm['cdVeterinarioRemetente'] : '';
             $alterouVeterinario = !empty($dadosForm['alterouVeterinario']) ? $dadosForm['alterouVeterinario'] : '';
             $nomeVeterinario = isset($dadosForm['nmVeterinarioRemetente']) ? $dadosForm['nmVeterinarioRemetente'] : '';
             $crmvVeterinario = isset($dadosForm['crmvVeterinarioRemetente']) ? $dadosForm['crmvVeterinarioRemetente'] : '';
@@ -219,36 +218,17 @@ class Atendimentos
                 throw new Exception($Atendimento->getMessage());
             }
 
-            foreach ($imagensFicha['imagensAtendimento'] as $imagem) {
-                if ($imagem->getError() === UPLOAD_ERR_OK) {
-                    self::moveUploadedFile(__DIR__, $imagem);
-                }
-            }
-
             $Conn->commit();
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
             $codigoHTTP = 200;
         } catch (Exception $e) {
-            $Conn->rollBack();
+            if(isset($Conn)) $Conn->rollBack();
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
             $codigoHTTP = 500;
         }
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
-
-   public static function moveUploadedFile(string $directory, UploadedFileInterface $uploadedFile)
-{
-    $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-
-    // see http://php.net/manual/en/function.random-bytes.php
-    $basename = bin2hex(random_bytes(8));
-    $filename = sprintf('%s.%0.8s', $basename, $extension);
-
-    $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
-
-    return $filename;
-}
 
     public static function excluir(Request $request, Response $response)
     {
@@ -261,8 +241,38 @@ class Atendimentos
                 throw new Exception("Houve um erro ao processo a requisição<br>Tente novamente mais tarde");
             }
 
-            $cad = new \App\Models\Atendimentos('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', $codigo);
-            $cad->Excluir();
+            $cad = \App\Models\Atendimentos::findById($codigo);
+            if(empty($cad->getCodigo())) throw new Exception("Ops, parece que esse registro não existe mais na base de dados!");
+
+            $Conn = \App\Conn\Conn::getConn(true);
+
+            $imagensFicha = $cad->getImagesIds($Conn);
+
+if (!empty($imagensFicha)) {
+    $uploadDirectory = __DIR__ . '/../Assets/imagens/imagens_atendimento';
+    
+    foreach ($imagensFicha as $imagem) {
+        $filePath = $uploadDirectory . DIRECTORY_SEPARATOR . $imagem;
+        
+        if (file_exists($filePath)) {
+            if (unlink($filePath)) {
+            } else {
+                throw new Exception("Erro ao excluir arquivo servidor ");
+            }
+        } else {
+            throw new Exception("Arquivo não encontrado ");
+        }
+        
+        // Exclua a entrada no banco de dados
+        $result = \App\Models\Atendimentos::deleteImageById($imagem, $Conn);
+        
+        if (!$result) {
+            throw new Exception("Erro ao excluir imagem banco");
+        }
+    }
+}
+
+            $cad->Excluir($Conn);
 
 
             if (!$cad->getResult()) {
@@ -272,7 +282,7 @@ class Atendimentos
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
             $codigoHTTP = 200;
         } catch (Exception $e) {
-            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => $imagensFicha];
             $codigoHTTP = 500;
         }
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
@@ -358,6 +368,89 @@ class Atendimentos
             $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
             return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
         }
+    }
+
+    public static function uploadGaleria(Request $request, Response $response) {
+        try {
+            $dadosForm = $request->getParsedBody();
+            // Captura os arquivos enviados
+            $arquivos = $request->getUploadedFiles();
+            $imagem = isset($arquivos['imageAtendimento']) ? $arquivos['imageAtendimento'] : null;
+            $cdAtendimento = !empty($dadosForm['cdAtendimento']) ? $dadosForm['cdAtendimento'] : '';
+
+            if (!$imagem || $imagem->getError() !== UPLOAD_ERR_OK || empty($cdAtendimento)) {
+                throw new \Exception("Houve um erro ao processar a requisição. Tente novamente mais tarde.");
+            }
+
+            // Diretório de upload
+            $uploadDirectory = __DIR__ . '/../Assets/imagens/imagens_atendimento';
+
+            // Gera um nome de arquivo único
+            $filename = self::moveUploadedFile($uploadDirectory, $imagem);
+
+            if(!file_exists($uploadDirectory . DIRECTORY_SEPARATOR . $filename)) throw new Exception("Erro ao fazer upload da imagem");
+
+            $Atendimento = \App\Models\Atendimentos::findById($cdAtendimento);
+            $Atendimento->setImagem($filename);
+            $Atendimento->InserirImagem();
+
+            if(!$Atendimento->getResult()){
+                throw new Exception($Atendimento->getMessage());
+            }
+
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
+            $codigoHTTP = 200;
+        } catch (Exception $e) {
+            // Resposta de erro
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $codigoHTTP = 500;
+        }
+
+        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
+    }
+
+    private static function moveUploadedFile($directory, $uploadedFile) {
+        $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+        $basename = bin2hex(random_bytes(8)); // Gera um nome de arquivo único
+        $filename = sprintf('%s.%0.8s', $basename, $extension);
+
+        $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+
+        return $filename;
+    }
+
+    public static function excluirGaleria(Request $request, Response $response) {
+        try {
+            $dadosForm = $request->getParsedBody();
+            $filename = !empty($dadosForm['idImagem']) ? $dadosForm['idImagem'] : '';
+
+            if ( empty($filename)) {
+                throw new \Exception("Houve um erro ao processar a requisição. Tente novamente mais tarde.");
+            }
+
+            // Diretório de upload
+            $uploadDirectory = __DIR__ . '/../Assets/imagens/imagens_atendimento';
+
+            if(!file_exists($uploadDirectory . DIRECTORY_SEPARATOR . $filename)) throw new Exception("Erro ao fazer exclusão da imagem");
+
+            unlink($uploadDirectory . DIRECTORY_SEPARATOR . $filename);
+
+            $Imagem = \App\Models\Atendimentos::deleteImageById($filename);
+
+            if(!$filename){
+                throw new Exception("Erro ao excluir Imagem");
+            }
+
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
+            $codigoHTTP = 200;
+        } catch (Exception $e) {
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $codigoHTTP = 500;
+        }
+
+        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
 }
 

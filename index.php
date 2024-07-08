@@ -1,11 +1,9 @@
 <?php
 
 use Slim\Factory\AppFactory;
-use DI\ContainerBuilder;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Http\Message\UploadedFileInterface;
 use Slim\Routing\RouteCollectorProxy;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
@@ -21,11 +19,10 @@ foreach ($config as $key => $value) {
 }
 date_default_timezone_set('America/Sao_Paulo');
 
-// $containerBuilder = new ContainerBuilder();
-// $container = $containerBuilder->build();
-
-// $container->set('uploadAtendimento', __DIR__ . '/App/Assets/imagens/imagens_atendimento');
-// AppFactory::setContainer($container);
+//  $containerBuilder = new ContainerBuilder();
+//  $container = $containerBuilder->build();
+//  $container->set('uploadAtendimento', __DIR__ . '/App/Assets/imagens/imagens_atendimento');
+//  AppFactory::setContainer($container);
 
 
 $app = AppFactory::create();
@@ -262,6 +259,11 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
         $tela =  new App\Views\CadastroGruposUsuariosModal($twig);
         return $tela->exibir($request, $response, $args);
     });
+
+    $group->post('/recarregarGaleria', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\recarregarGaleria($twig);
+        return $tela->exibir($request, $response, $args);
+    });
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
@@ -274,6 +276,7 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
         '/veterinariaUNESC/modais/buscaRapidaAnimal',
         '/veterinariaUNESC/modais/buscaRapidaPessoa',
         '/veterinariaUNESC/modais/cadastroGruposUsuarios',
+        '/veterinariaUNESC/modais/recarregarGaleria',
     ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
@@ -375,6 +378,10 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->post('/excluir', App\Controllers\Atendimentos::class . ':excluir');
 
         $Group->post('/gerarCSV', App\Controllers\Atendimentos::class . ':gerarCSVGrid');
+
+        $Group->post('/uploadGaleria', App\Controllers\Atendimentos::class . ':uploadGaleria');
+
+        $Group->post('/excluirImagem', App\Controllers\Atendimentos::class . ':excluirGaleria');
     });
 
     $group->group('/estado', function (RouteCollectorProxy $Group) {
@@ -410,6 +417,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
+
         '/veterinariaUNESC/server/pessoas/controlar',
         '/veterinariaUNESC/server/pessoas/retornaPesquisaModal',
         '/veterinariaUNESC/server/pessoas/selecionarPessoa',
@@ -459,6 +467,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/atendimentos/controlar',
         '/veterinariaUNESC/server/atendimentos/excluir',
         '/veterinariaUNESC/server/atendimentos/gerarCSV',
+        '/veterinariaUNESC/server/atendimentos/uploadGaleria',
+        '/veterinariaUNESC/server/atendimentos/excluirImagem',
 
         '/veterinariaUNESC/server/gruposUsuarios/salvaGrupoUsuarios',
         '/veterinariaUNESC/server/gruposUsuarios/excluiGruposUsuarios',
@@ -486,6 +496,24 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     }
 
     return $handler->handle($request);
+})->add($sessionMiddleware);
+
+$app->group('/server', function (RouteCollectorProxy $group) {
+
+$group->group('/midia', function (RouteCollectorProxy $Group) {
+    $Group->get('/atendimento/{filename}', function(Request $request, Response $response, array $args){
+    $filename = $args['filename'];
+    $filePath = __DIR__ . '/App/Assets/imagens/imagens_atendimento/' . $filename;
+
+if (!file_exists($filePath)) {
+    return $response->withStatus(404);
+}
+
+$response->getBody()->write(file_get_contents($filePath));
+return $response->withHeader('Content-Type', mime_content_type($filePath));
+
+    });
+});
 })->add($sessionMiddleware);
 
 // $app->group('/gruposUsuarios', function (RouteCollectorProxy $group) {
