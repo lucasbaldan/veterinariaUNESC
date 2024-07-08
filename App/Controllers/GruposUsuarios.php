@@ -263,6 +263,10 @@ class GruposUsuarios
                 throw new Exception("Erro ao tentar acessar as permissões do grupo de usuários. Por favor, tente novamente.", 400);
             }
 
+            if(empty($retorno['PERMISSOES'])) {
+                return false;
+            }
+
             $permissoesArray = json_decode($retorno['PERMISSOES'], true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new Exception("Erro ao decodificar as permissões do grupo de usuários.", 500);
