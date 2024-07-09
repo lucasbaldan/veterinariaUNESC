@@ -1,12 +1,12 @@
 {
-    "database__f": {
-        "host": "sql307.infinityfree.com",
-        "username": "if0_36752638",
-        "password": "StnEfZHwLnhsi",
-        "database": "if0_36752638_vetbase",
+    "database": {
+        "host": "sql.freedb.tech",
+        "username": "freedb_vetadmin",
+        "password": "xMPv?7kxXF2eKex",
+        "database": "freedb_vetbase",
         "driver": "mysql"
     },
-    "database": {
+    "database__F": {
         "host": "localhost",
         "username": "root",
         "password": "",
