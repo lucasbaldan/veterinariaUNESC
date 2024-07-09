@@ -31,8 +31,17 @@ class CadastroEspecieModal
             if (empty($Especie->getCodigo())) {
                 $exibirExcluir = false;
                 $selectTipoAnimal = " ";
+
+                $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_INSERIR');
+                $exibirSalvar = $permissaoSalvar == true ? true : false;
             } else {
                 $selectTipoAnimal = '<option value="' . $Especie->getTipoAnimal()->getCodigo() . '" selected>' . $Especie->getTipoAnimal()->getDescricao() . '</option>';
+
+                $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_EDITAR');
+                $exibirSalvar = $permissaoSalvar == true ? true : false;
+
+                $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_EXCLUIR');
+                $exibirExcluir = $permissaoExcluir == true ? true : false;
             }
 
             $selectAtivo = '

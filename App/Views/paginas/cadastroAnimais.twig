@@ -199,15 +199,20 @@
                     <a class="btn btn-warning w-100 call-screen" type="button" href="/veterinariaUNESC/paginas/listAnimais"><i class="bi bi-sign-turn-left-fill"></i>
                         <b>Voltar</b></a>
                 </div>
+                {% if exibeExcluir %}
                 <div class="col">
                     <button class="btn btn-danger w-100" type="button" onclick="excluirCadastroAnimais()" id="bntExcluirPessoa"><b><i
                                 class="bi bi-trash3-fill"></i>
                             Excluir</b></button>
                 </div>
+                {% endif %}
+
+                {% if exibeSalvar %}
                 <div class="col">
                     <button class="btn btn-primary w-100" type="button" onclick="salvarCadastroAnimais()"><i class="bi bi-floppy2-fill"></i>
                         <b>Salvar</b></button>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

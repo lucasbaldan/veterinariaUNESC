@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08/07/2024 às 03:26
+-- Tempo de geração: 09/07/2024 às 02:30
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.1.25
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -5776,7 +5776,8 @@ CREATE TABLE `ficha_lpv` (
 
 INSERT INTO `ficha_lpv` (`CD_FICHA_LPV`, `DT_FICHA`, `CD_ANIMAL`, `CD_PESSOA_VETERINARIO_REMETENTE`, `CD_USUARIO_PLANTONISTA`, `CD_CIDADE_PROPRIEDADE`, `TOTAL_ANIMAIS`, `QTD_ANIMAIS_MORTOS`, `QTD_ANIMAIS_DOENTES`, `DS_MATERIAL_RECEBIDO`, `DS_DIAGNOSTICO_PRESUNTIVO`, `FL_AVALIACAO_TUMORAL_COM_MARGEM`, `DS_EPIDEMIOLOGIA_HISTORIA_CLINICA`, `DS_LESOES_MACROSCOPICAS`, `DS_LESOES_HISTOLOGICAS`, `DS_DIAGNOSTICO`, `DS_RELATORIO`) VALUES
 (3, '2024-06-29', 7, 2, NULL, 3144, 5, 0, 0, 'sei lá o que é isso', 'Em observação até segunda ordem ', 'N', 'história:\r\n1 - Ele nasceu;\r\n2 - Está vivo até o momento.', 'não apresenta', 'não apresenta', 'Em observação até segunda ordem ', 'calopsita defeca a cada 5 min'),
-(4, '2024-06-30', 7, 2, NULL, 1, 1, 1, 1, 'trrnrt', 'tnr', 'S', 'rtnrtn', 'rtn', 'rtnrt', 'tnr', 'rtn');
+(4, '2024-06-30', 7, 2, NULL, 1, 1, 1, 1, 'trrnrt', 'tnr', 'S', 'rtnrtn', 'rtn', 'rtnrt', 'tnr', 'rtn'),
+(9, '2024-07-08', 7, 2, NULL, 3116, 20, 0, 0, 'não sei', 'Doença do carrapato', 'N', 'afjkldjflskjfdlksjdf', 'sdnfsdnf,msnfd,', 'sdlkfslkdfjlksdf', 'Doença do carrapato', 'dfdfdsdfsfsdfsdfsd');
 
 -- --------------------------------------------------------
 
@@ -5787,10 +5788,18 @@ INSERT INTO `ficha_lpv` (`CD_FICHA_LPV`, `DT_FICHA`, `CD_ANIMAL`, `CD_PESSOA_VET
 CREATE TABLE `grupos_usuarios` (
   `CD_GRUPO_USUARIOS` int(11) NOT NULL,
   `NM_GRUPO_USUARIOS` varchar(45) NOT NULL,
-  `FL_ACESSAR` int(11) DEFAULT NULL,
-  `FL_EDITAR` int(11) DEFAULT NULL,
-  `FL_EXCLUIR` int(11) DEFAULT NULL
+  `PERMISSOES` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`PERMISSOES`)),
+  `FL_ATIVO` char(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Despejando dados para a tabela `grupos_usuarios`
+--
+
+INSERT INTO `grupos_usuarios` (`CD_GRUPO_USUARIOS`, `NM_GRUPO_USUARIOS`, `PERMISSOES`, `FL_ATIVO`) VALUES
+(1, 'Devs', NULL, 'S'),
+(2, 'Users', NULL, 'S'),
+(3, 'admin', '{\"FICHA_LPV\":{\"FL_ACESSAR\":\"S\",\"FL_EDITAR\":\"S\",\"FL_INSERIR\":\"S\",\"FL_EXCLUIR\":\"S\"},\"CADASTRO_PESSOAS\":{\"FL_ACESSAR\":\"S\",\"FL_EDITAR\":\"S\",\"FL_INSERIR\":\"S\",\"FL_EXCLUIR\":\"S\"},\"CADASTRO_USUARIOS\":{\"FL_ACESSAR\":\"S\",\"FL_EDITAR\":\"S\",\"FL_INSERIR\":\"S\",\"FL_EXCLUIR\":\"S\"},\"CONTROLE_ACESSOS\":{\"FL_ACESSAR\":\"S\",\"FL_EDITAR\":\"S\",\"FL_INSERIR\":\"S\",\"FL_EXCLUIR\":\"S\"}}', 'S');
 
 -- --------------------------------------------------------
 
@@ -5803,6 +5812,13 @@ CREATE TABLE `imagens_atendimentos` (
   `id_imagem` varchar(100) NOT NULL,
   `cd_atendimento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Despejando dados para a tabela `imagens_atendimentos`
+--
+
+INSERT INTO `imagens_atendimentos` (`cd_imagem_atm`, `id_imagem`, `cd_atendimento`) VALUES
+(33, '047732045aa90aa6.png', 9);
 
 -- --------------------------------------------------------
 
@@ -5883,7 +5899,7 @@ CREATE TABLE `pessoas` (
 
 INSERT INTO `pessoas` (`cd_pessoa`, `nm_pessoa`, `cpf`, `data_nascimento`, `cd_cidade`, `cd_bairro`, `cd_logradouro`, `nr_telefone`, `nr_celular`, `ds_email`, `nr_crmv`, `fl_ativo`) VALUES
 (1, 'Lucas Faé Baldan', '10931426774', '2002-06-13', 3116, 1, 1, '27996109595', NULL, 'lucasbaldan2014@gmail.com', NULL, 'S'),
-(2, 'Carlos Antonio Morethson Neto', '99999999999', '2001-01-01', 3116, 2, NULL, '27999990000', NULL, 'morethsoncarlos@gmail.com', '15456987', 'S');
+(2, 'Carlos Antonio Morethson Neto', '12345678900', '2001-07-28', 3116, 2, NULL, '27998496179', NULL, 'morethsoncarlos@gmail.com', '15456987', 'S');
 
 -- --------------------------------------------------------
 
@@ -5969,8 +5985,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`CD_USUARIO`, `CD_PESSOA`, `USUARIO`, `SENHA`, `FL_ATIVO`, `CD_GRUPO_USUARIOS`) VALUES
-(1, 1, 'carlos', 'carlos', 'S', 2),
-(3, 1, 'lucas', 'lucas', 'S', 2);
+(1, 2, 'carlos', 'd41d8cd98f00b204e9800998ecf8427e', 'S', 3),
+(3, 1, 'lucas', 'd41d8cd98f00b204e9800998ecf8427e', 'S', 1);
 
 --
 -- Índices para tabelas despejadas
@@ -6118,19 +6134,19 @@ ALTER TABLE `estados`
 -- AUTO_INCREMENT de tabela `ficha_lpv`
 --
 ALTER TABLE `ficha_lpv`
-  MODIFY `CD_FICHA_LPV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `CD_FICHA_LPV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `grupos_usuarios`
 --
 ALTER TABLE `grupos_usuarios`
-  MODIFY `CD_GRUPO_USUARIOS` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `CD_GRUPO_USUARIOS` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `imagens_atendimentos`
 --
 ALTER TABLE `imagens_atendimentos`
-  MODIFY `cd_imagem_atm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `cd_imagem_atm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de tabela `logradouros`

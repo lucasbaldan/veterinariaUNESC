@@ -30,6 +30,15 @@ class CadastroBairroModal
 
             if (empty($Bairro->getCodigo())) {
                 $exibirExcluir = false;
+
+                $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('BAIRRO', 'FL_INSERIR');
+                $exibirSalvar = $permissaoSalvar == true ? true : false;
+            } else {
+                $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('BAIRRO', 'FL_EDITAR');
+                $exibirSalvar = $permissaoSalvar == true ? true : false;
+
+                $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('BAIRRO', 'FL_EXCLUIR');
+                $exibirExcluir = $permissaoExcluir == true ? true : false;
             }
 
         } catch (Exception $e) {
