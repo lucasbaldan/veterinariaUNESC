@@ -394,7 +394,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     });
 
     $group->group('/pdf', function (RouteCollectorProxy $pdf) {
-        $pdf->post('/geraPdf',  App\Controllers\GerarPDF::class . ':GerarPdf');
+        $pdf->post('/geraPdf',  App\Reports\RelFichaLPV::class . ':GerarPdf');
     });
 
     $group->group('/fichaLPV', function (RouteCollectorProxy $fichaLPVGroup) {

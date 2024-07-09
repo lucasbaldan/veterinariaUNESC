@@ -93,7 +93,7 @@ function gerarPDF() {
   // return;
 
   $.ajax({
-    url: "/veterinariaUNESC/server/pdf/geraPdf",
+    url: "/veterinariaUNESC/server/relatorios/fichaLPV",
     method: "POST",
     data: {
       html: html,
@@ -101,14 +101,6 @@ function gerarPDF() {
       orientacao: 'portrait'
     },
     success: function (data) {
-      var blob = new Blob([data], { type: 'application/pdf' });
-      var url = window.URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = 'ficha_'+ nmPdf + '.pdf';
-      document.body.appendChild(a); // Necessário para o Firefox
-      a.click();
-      window.URL.revokeObjectURL(url);
     },
     error: function (xhr, status, error) {
       // Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);

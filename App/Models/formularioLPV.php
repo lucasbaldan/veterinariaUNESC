@@ -199,7 +199,21 @@ class FormularioLPV
     $read = new \App\Conn\Read();
     $read->FullRead("SELECT F.* FROM FICHA_LPV F  WHERE F.CD_FICHA_LPV = :C", "C=$cdFichaLPV");
 
-    return $read->getResult();
+    return $read->getResult()[0];
+  }
+
+  public static function RetornarDadosRelatorioFichaLPV($cdFichaLPV)
+  {
+    $read = new \App\Conn\Read();
+    $read->FullRead("SELECT F.*, P.NM_PESSOA AS NM_VETERINARIO, A.NM_ANIMAL, TP.descricao AS NM_TIPO_ANIMAL, C.nome AS NM_CIDADE
+    FROM FICHA_LPV F  
+    LEFT JOIN pessoas P ON P.CD_PESSOA = F.CD_PESSOA_VETERINARIO_REMETENTE
+    INNER JOIN animais A ON A.CD_ANIMAL = F.CD_ANIMAL
+    INNER JOIN tipo_animal TP ON TP.CD_TIPO_ANIMAL = A.CD_TIPO_ANIMAL
+    INNER JOIN cidades C ON C.CD_CIDADE = CD_CIDADE_PROPRIEDADE
+    WHERE F.CD_FICHA_LPV = :C", "C=$cdFichaLPV");
+
+    return $read->getResult()[0];
   }
 
   public static function Delete($cdFichaLPV)

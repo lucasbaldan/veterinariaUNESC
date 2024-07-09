@@ -53,6 +53,7 @@ class RelatorioFichaLPV
                                         <th>Data</th>
                                         <th>Cidade Propriedades</th>
                                         <th>Animal</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody> 
@@ -64,6 +65,14 @@ class RelatorioFichaLPV
                                 <td>" . $dataFormatada . "</td>
                                 <td>" . $ficha['NM_CIDADE'] . "</td>
                                 <td>" . $ficha['NM_TIPO_ANIMAL'] . "</td>
+                                <td>
+                                <form id='pdfForm' action='/veterinariaUNESC/server/relatorios/fichaLPV' method='post'>
+                                    <input type='hidden' name='cdFichaLPV' id='cdFichaLPV' value=" . $ficha['CD_FICHA_LPV'] . ">
+                                    <button class='btn btn-dark rounded-pill' id='printFichaLPV' type='submit'>
+                                    <i class='bi bi-printer-fill'></i>
+                                    </button>
+                                </form>
+                                </td>
                                 </tr>";
                 }
 

@@ -13,6 +13,7 @@
         <div class="card-body border border-1S rounded-2">
 
             <form id="pdfForm" action="/veterinariaUNESC/server/relatorios/fichaLPV" method="post">
+                <input type="hidden" name="cdFichaLPV" id="cdFichaLPV" value="{{cdFichaLPV}}">
                 <button class="btn btn-dark rounded-pill m-4" id="printFichaLPV" type="submit">
                     <i class="bi bi-printer-fill"></i>
                 </button>
