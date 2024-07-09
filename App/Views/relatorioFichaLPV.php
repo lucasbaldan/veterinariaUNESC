@@ -49,10 +49,11 @@ class RelatorioFichaLPV
                 $table = "<table class='table'>
                                 <thead>
                                     <tr>
+                                        <th>Código</th>
                                         <th>Veterinário Remetente</th>
                                         <th>Data</th>
                                         <th>Cidade Propriedades</th>
-                                        <th>Animal</th>
+                                        <th>Tipo Animal</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -61,6 +62,7 @@ class RelatorioFichaLPV
                 foreach ($retorno as $ficha) {
                     $dataFormatada = \App\Helpers\UteisAleatorios::FormataDataDoBanco($ficha['DT_FICHA']);
                     $table .= "<tr>
+                                <td>" . $ficha['CD_FICHA_LPV'] . "</td>
                                 <td>" . $ficha['NM_VETERINARIO_REMETENTE'] . "</td>
                                 <td>" . $dataFormatada . "</td>
                                 <td>" . $ficha['NM_CIDADE'] . "</td>
