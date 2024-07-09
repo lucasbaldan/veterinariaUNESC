@@ -12,7 +12,13 @@
     <div class="card rounded" style="min-width: 100%;">
         <div class="card-body border border-1S rounded-2">
 
-            <form id="formFichaLPV" name="formFichaLPV" enctype="multipart/form-data">
+            <form id="pdfForm" action="/veterinariaUNESC/server/relatorios/fichaLPV" method="post">
+                <button class="btn btn-dark rounded-pill m-4" id="printFichaLPV" type="submit">
+                    <i class="bi bi-printer-fill"></i>
+                </button>
+            </form>
+
+            <form id="formFichaLPV" name="formFichaLPV" method="post" enctype="multipart/form-data">
                 <div class="mb-3 row">
                     <div class="col-md-4">
                         <div class="form-floating mb-3">
@@ -171,7 +177,7 @@
                                 <div class="row">
                                     <div class="col col-md-12 col-sm-2 mb-4 d-flex justify-content-end">
                                         <div class="btn-group" role="group">
-                                          <button class="btn btn-success" id="buscaRapidaVeterinario" type="button"><i class="bi bi-plus-circle-dotted"></i> <i class="bi bi-person-arms-up"></i></button>
+                                          <button class="btn btn-success" id="buscaRapidaVeterinario" type="button"><i class="bi bi-search"></i> <i class="bi bi-person-arms-up"></i></button>
                                           </button>
                                           <button class="btn btn-secondary" id="alterarVeterinario" type="button"><i class="bi bi-pencil-fill"></i> <i class="bi bi-person-arms-up"></i></button>
                                           </button>
@@ -334,6 +340,7 @@
                  
             </form>
 
+            {% if exibeGaleria %}
                  <div class="accordion mb-3" id="accordionAnexos">
                     <div class="accordion-item">
                         <h2 class="accordion-header">
@@ -365,7 +372,7 @@
                         </div>
                     </div>
                 </div>
-
+                {% endif %}
 
         </div>
     </div>
@@ -386,10 +393,16 @@
                             Excluir</b></button>
                 </div>
                 {% endif %}
+                {% if exibeSalvarGaleria %}
+                <div class="col">
+                    <button class="btn btn-primary w-100" type="button" onclick="salvarCadastroAtendimentos(true)"><b>
+                            Salvar e Ir para Galeria <i class="bi bi-images"></i></b></button>
+                </div>
+                {% endif %}
                 {% if exibeSalvar %}
                 <div class="col">
                     <button class="btn btn-primary w-100" type="button" onclick="salvarCadastroAtendimentos()"><i class="bi bi-floppy2-fill"></i>
-                        <b>Salvar</b></button>
+                        <b>{{nomeSalvar}}</b></button>
                 </div>
                 {% endif %}
             </div>

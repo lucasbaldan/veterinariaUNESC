@@ -219,7 +219,7 @@ class Atendimentos
             }
 
             $Conn->commit();
-            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $Atendimento->getCodigo()];
             $codigoHTTP = 200;
         } catch (Exception $e) {
             if(isset($Conn)) $Conn->rollBack();

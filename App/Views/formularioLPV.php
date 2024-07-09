@@ -23,9 +23,11 @@ class FormularioLPV
 
         $exibeSalvar = true;
         $exibeExcluir = true;
+        $exibeSalvarGaleria = false;
 
         if (!empty($idAnimal)) {
             $exibeExcluir = false;
+            $exibeSalvarGaleria = true;
 
             $AnimalFicha = \App\Models\Animais::findById($idAnimal);
 
@@ -61,8 +63,11 @@ class FormularioLPV
 
                 "selectTurmoralcomMargem" => $selectTumoralMargem,
 
+                "exibeGaleria" => false,
                 "exibeExcluir" => $exibeExcluir,
-                "exibeSalvar" => $exibeSalvar
+                "exibeSalvarGaleria" => $exibeSalvarGaleria,
+                "exibeSalvar" => $exibeSalvar,
+                "nomeSalvar" => "Salvar e Sair"
             ]);
         } elseif (!empty($idFichaAlteracao)) {
             $Ficha = \App\Models\Atendimentos::findById($idFichaAlteracao);
@@ -132,11 +137,11 @@ class FormularioLPV
                 "relatorio" => $Ficha->getRelatorio(),
                 "urlGaleria" => $urlGaleria,
 
-
-
-
+                "exibeGaleria" => true,
                 "exibeExcluir" => $exibeExcluir,
-                "exibeSalvar" => $exibeSalvar
+                "exibeSalvarGaleria" => false,
+                "exibeSalvar" => $exibeSalvar,
+                "nomeSalvar" => "Salvar" 
             ]);
         } else {
             $formulario = '<div class="alert alert-danger" role="alert">

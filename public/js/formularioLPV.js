@@ -274,24 +274,36 @@ $("#desvincularVeterinario").on("click", function () {
   $("#alterouVeterinario").val("N");
 });
 
-function salvarCadastroAtendimentos() {
+function salvarCadastroAtendimentos(atualizarPage = false) {
   Loading.on();
   
-  var form = $('#formFichaLPV')[0]; // You need to use standard javascript object here
-  var formData = new FormData(form);
+  var formData = $('#formFichaLPV').serialize();
 
   $.ajax({
       url: "/veterinariaUNESC/server/atendimentos/controlar",
       method: "POST",
       data: formData,
-      contentType: false,
-      processData: false,
       success: function (response) {
-          if (response.RESULT) {
-              sessionStorage.setItem("notificarSucesso", "true");
-              window.location.href = "/veterinariaUNESC/paginas/listAtendimentos";
-          }
-      },
+        if (response.RESULT) {
+            if (atualizarPage) {
+                var idFicha = response.RETURN;
+                var form = $('<form>', {
+                    action: '/veterinariaUNESC/paginas/fichaLPV',
+                    method: 'POST'
+                });
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'idFicha',
+                    value: idFicha
+                }).appendTo(form);
+                form.appendTo('body').submit();
+                sessionStorage.setItem("notificarSucesso", "true");
+            } else {
+                sessionStorage.setItem("notificarSucesso", "true");
+                window.location.href = "/veterinariaUNESC/paginas/listAtendimentos";
+            }
+        }
+    },
       error: function (xhr, status, error) {
           Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
       },

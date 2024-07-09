@@ -20,8 +20,7 @@
         "slim/slim": "4.*",
         "slim/psr7": "^1.6",
         "slim/twig-view": "^3.4",
-        "php-di/php-di": "^7.0",
-        "knplabs/knp-snappy": "^1.5"
+        "dompdf/dompdf": "^3.0"
     }
     
 }

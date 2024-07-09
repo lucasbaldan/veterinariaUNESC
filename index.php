@@ -298,6 +298,10 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
 
 $app->group('/server', function (RouteCollectorProxy $group) {
 
+    $group->group('/relatorios', function (RouteCollectorProxy $Group) {
+        $Group->post('/fichaLPV', App\Reports\RelFichaLPV::class . ':gerar');
+    });
+
     $group->group('/pessoas', function (RouteCollectorProxy $pessoasGroup) {
         $pessoasGroup->post('/controlar', App\Controllers\Pessoas::class . ':Salvar');
         $pessoasGroup->post('/retornaPesquisaModal', App\Controllers\Pessoas::class . ':retornaPesquisaModal');
@@ -403,6 +407,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
+        
+        '/veterinariaUNESC/server/relatorios/fichaLPV',
 
         '/veterinariaUNESC/server/pessoas/controlar',
         '/veterinariaUNESC/server/pessoas/retornaPesquisaModal',
