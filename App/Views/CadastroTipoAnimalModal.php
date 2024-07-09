@@ -29,7 +29,20 @@ class CadastroTipoAnimalModal
 
                 $TipoAnimal = \App\Models\TipoAnimais::findById($idAlteracao);
 
-                $exibirExcluir = empty($TipoAnimal->getCodigo()) ? false : true;
+                // $exibirExcluir = empty($TipoAnimal->getCodigo()) ? false : true;
+
+                if (empty($TipoAnimal->getCodigo())) {
+                    $exibirExcluir = false;
+    
+                    $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('TIPO_ANIMAL', 'FL_INSERIR');
+                    $exibirSalvar = $permissaoSalvar == true ? true : false;
+                } else {
+                    $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('TIPO_ANIMAL', 'FL_EDITAR');
+                    $exibirSalvar = $permissaoSalvar == true ? true : false;
+    
+                    $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('TIPO_ANIMAL', 'FL_EXCLUIR');
+                    $exibirExcluir = $permissaoExcluir == true ? true : false;
+                }
             
 
             $select = '

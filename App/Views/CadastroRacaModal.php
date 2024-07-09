@@ -31,8 +31,18 @@ class CadastroRacaModal
             if (empty($Raca->getCodigo())) {
                 $exibirExcluir = false;
                 $selectEspecie = " ";
+
+                $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('RACA', 'FL_INSERIR');
+                $exibirSalvar = $permissaoSalvar == true ? true : false;
+                
             } else {
                 $selectEspecie = '<option value="' . $Raca->getEspecie()->getCodigo() . '" selected>' . $Raca->getEspecie()->getDescricao() . '</option>';
+
+                $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('RACA', 'FL_EDITAR');
+                $exibirSalvar = $permissaoSalvar == true ? true : false;
+
+                $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('RACA', 'FL_EXCLUIR');
+                $exibirExcluir = $permissaoExcluir == true ? true : false;
             }
 
             $selectAtivo = '
@@ -47,6 +57,12 @@ class CadastroRacaModal
         } catch (Exception $e) {
             return $this->twig->render($response, 'erroModal.twig', ["erro" => $e->getMessage()]);
         }
+
+        // $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('RACA', 'FL_EDITAR');
+        // $exibirSalvar = $permissaoSalvar == true ? true : false;
+
+        // $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('RACA', 'FL_EXCLUIR');
+        // $exibirExcluir = $permissaoExcluir == true ? true : false;
 
         return $this->twig->render(
             $response,

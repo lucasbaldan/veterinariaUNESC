@@ -30,6 +30,15 @@ class CadastroLogradouroModal
 
             if (empty($Logradouro->getCodigo())) {
                 $exibirExcluir = false;
+
+                $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('LOGRADOURO', 'FL_INSERIR');
+                $exibirSalvar = $permissaoSalvar == true ? true : false;
+            } else {
+                $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('LOGRADOURO', 'FL_EDITAR');
+                $exibirSalvar = $permissaoSalvar == true ? true : false;
+
+                $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('LOGRADOURO', 'FL_EXCLUIR');
+                $exibirExcluir = $permissaoExcluir == true ? true : false;
             }
 
         } catch (Exception $e) {

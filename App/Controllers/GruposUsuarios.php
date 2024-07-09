@@ -154,6 +154,45 @@ class GruposUsuarios
             $flInserirControleAcessos = !empty($Formulario['flInserirControleAcessos']) ? $Formulario['flInserirControleAcessos'] : '';
             $flExcluirControleAcessos = !empty($Formulario['flExcluirControleAcessos']) ? $Formulario['flExcluirControleAcessos'] : '';
 
+            $flAcessarAnimal = !empty($Formulario['flAcessarAnimal']) ? $Formulario['flAcessarAnimal'] : '';
+            $flEditarAnimal = !empty($Formulario['flEditarAnimal']) ? $Formulario['flEditarAnimal'] : '';
+            $flInserirAnimal = !empty($Formulario['flInserirAnimal']) ? $Formulario['flInserirAnimal'] : '';
+            $flExcluirAnimal = !empty($Formulario['flExcluirAnimal']) ? $Formulario['flExcluirAnimal'] : '';
+
+            $flAcessarTipoAnimal = !empty($Formulario['flAcessarTipoAnimal']) ? $Formulario['flAcessarTipoAnimal'] : '';
+            $flEditarTipoAnimal = !empty($Formulario['flEditarTipoAnimal']) ? $Formulario['flEditarTipoAnimal'] : '';
+            $flInserirTipoAnimal = !empty($Formulario['flInserirTipoAnimal']) ? $Formulario['flInserirTipoAnimal'] : '';
+            $flExcluirTipoAnimal = !empty($Formulario['flExcluirTipoAnimal']) ? $Formulario['flExcluirTipoAnimal'] : '';
+
+            $flAcessarEspecie = !empty($Formulario['flAcessarEspecie']) ? $Formulario['flAcessarEspecie'] : '';
+            $flEditarEspecie = !empty($Formulario['flEditarEspecie']) ? $Formulario['flEditarEspecie'] : '';
+            $flInserirEspecie = !empty($Formulario['flInserirEspecie']) ? $Formulario['flInserirEspecie'] : '';
+            $flExcluirEspecie = !empty($Formulario['flExcluirEspecie']) ? $Formulario['flExcluirEspecie'] : '';
+
+            $flAcessarRaca = !empty($Formulario['flAcessarRaca']) ? $Formulario['flAcessarRaca'] : '';
+            $flEditarRaca = !empty($Formulario['flEditarRaca']) ? $Formulario['flEditarRaca'] : '';
+            $flInserirRaca = !empty($Formulario['flInserirRaca']) ? $Formulario['flInserirRaca'] : '';
+            $flExcluirRaca = !empty($Formulario['flExcluirRaca']) ? $Formulario['flExcluirRaca'] : '';
+
+            $flAcessarMunicipio = !empty($Formulario['flAcessarMunicipio']) ? $Formulario['flAcessarMunicipio'] : '';
+            $flEditarMunicipio = !empty($Formulario['flEditarMunicipio']) ? $Formulario['flEditarMunicipio'] : '';
+            $flInserirMunicipio = !empty($Formulario['flInserirMunicipio']) ? $Formulario['flInserirMunicipio'] : '';
+            $flExcluirMunicipio = !empty($Formulario['flExcluirMunicipio']) ? $Formulario['flExcluirMunicipio'] : '';
+
+            $flAcessarBairro = !empty($Formulario['flAcessarBairro']) ? $Formulario['flAcessarBairro'] : '';
+            $flEditarBairro = !empty($Formulario['flEditarBairro']) ? $Formulario['flEditarBairro'] : '';
+            $flInserirBairro = !empty($Formulario['flInserirBairro']) ? $Formulario['flInserirBairro'] : '';
+            $flExcluirBairro = !empty($Formulario['flExcluirBairro']) ? $Formulario['flExcluirBairro'] : '';
+
+            $flAcessarLogradouro = !empty($Formulario['flAcessarLogradouro']) ? $Formulario['flAcessarLogradouro'] : '';
+            $flEditarLogradouro = !empty($Formulario['flEditarLogradouro']) ? $Formulario['flEditarLogradouro'] : '';
+            $flInserirLogradouro = !empty($Formulario['flInserirLogradouro']) ? $Formulario['flInserirLogradouro'] : '';
+            $flExcluirLogradouro = !empty($Formulario['flExcluirLogradouro']) ? $Formulario['flExcluirLogradouro'] : '';
+
+            $flAcessarRelatorios = !empty($Formulario['flAcessarRelatorios']) ? $Formulario['flAcessarRelatorios'] : '';
+            $flEditarRelatorios = !empty($Formulario['flEditarRelatorios']) ? $Formulario['flEditarRelatorios'] : '';
+            $flInserirRelatorios = !empty($Formulario['flInserirRelatorios']) ? $Formulario['flInserirRelatorios'] : '';
+            $flExcluirRelatorios = !empty($Formulario['flExcluirRelatorios']) ? $Formulario['flExcluirRelatorios'] : '';
 
             $data = [
                 "FICHA_LPV" => [
@@ -179,8 +218,57 @@ class GruposUsuarios
                     "FL_EDITAR" => $flEditarControleAcessos ? "S" : "N",
                     "FL_INSERIR" => $flInserirControleAcessos ? "S" : "N",
                     "FL_EXCLUIR" => $flExcluirControleAcessos ? "S" : "N"
+                ],
+                "ANIMAL" => [
+                    "FL_ACESSAR" => $flAcessarAnimal ? "S" : "N",
+                    "FL_EDITAR" => $flEditarAnimal ? "S" : "N",
+                    "FL_INSERIR" => $flInserirAnimal ? "S" : "N",
+                    "FL_EXCLUIR" => $flExcluirAnimal ? "S" : "N"
+                ],
+                "TIPO_ANIMAL" => [
+                    "FL_ACESSAR" => $flAcessarTipoAnimal ? "S" : "N",
+                    "FL_EDITAR" => $flEditarTipoAnimal ? "S" : "N",
+                    "FL_INSERIR" => $flInserirTipoAnimal ? "S" : "N",
+                    "FL_EXCLUIR" => $flExcluirTipoAnimal ? "S" : "N"
+                ],
+                "ESPECIE" => [
+                    "FL_ACESSAR" => $flAcessarEspecie ? "S" : "N",
+                    "FL_EDITAR" => $flEditarEspecie ? "S" : "N",
+                    "FL_INSERIR" => $flInserirEspecie ? "S" : "N",
+                    "FL_EXCLUIR" => $flExcluirEspecie ? "S" : "N"
+                ],
+                "RACA" => [
+                    "FL_ACESSAR" => $flAcessarRaca ? "S" : "N",
+                    "FL_EDITAR" => $flEditarRaca ? "S" : "N",
+                    "FL_INSERIR" => $flInserirRaca ? "S" : "N",
+                    "FL_EXCLUIR" => $flExcluirRaca ? "S" : "N"
+                ],
+                "MUNICIPIO" => [
+                    "FL_ACESSAR" => $flAcessarMunicipio ? "S" : "N",
+                    "FL_EDITAR" => $flEditarMunicipio ? "S" : "N",
+                    "FL_INSERIR" => $flInserirMunicipio ? "S" : "N",
+                    "FL_EXCLUIR" => $flExcluirMunicipio ? "S" : "N"
+                ],
+                "BAIRRO" => [
+                    "FL_ACESSAR" => $flAcessarBairro ? "S" : "N",
+                    "FL_EDITAR" => $flEditarBairro ? "S" : "N",
+                    "FL_INSERIR" => $flInserirBairro ? "S" : "N",
+                    "FL_EXCLUIR" => $flExcluirBairro ? "S" : "N"
+                ],
+                "LOGRADOURO" => [
+                    "FL_ACESSAR" => $flAcessarLogradouro ? "S" : "N",
+                    "FL_EDITAR" => $flEditarLogradouro ? "S" : "N",
+                    "FL_INSERIR" => $flInserirLogradouro ? "S" : "N",
+                    "FL_EXCLUIR" => $flExcluirLogradouro ? "S" : "N"
+                ],
+                "RELATORIOS" => [
+                    "FL_ACESSAR" => $flAcessarRelatorios ? "S" : "N",
+                    "FL_EDITAR" => $flEditarRelatorios ? "S" : "N",
+                    "FL_INSERIR" => $flInserirRelatorios ? "S" : "N",
+                    "FL_EXCLUIR" => $flExcluirRelatorios ? "S" : "N"
                 ]
             ];
+
 
             $permissoes = json_encode($data);
 
@@ -263,7 +351,7 @@ class GruposUsuarios
                 throw new Exception("Erro ao tentar acessar as permissões do grupo de usuários. Por favor, tente novamente.", 400);
             }
 
-            if(empty($retorno['PERMISSOES'])) {
+            if (empty($retorno['PERMISSOES'])) {
                 return false;
             }
 
@@ -275,13 +363,11 @@ class GruposUsuarios
             if (!empty($permissoesArray) && isset($permissoesArray[$parteSistema][$tpAcesso])) {
                 return $permissoesArray[$parteSistema][$tpAcesso] === 'S';
             }
-    
-            return false;
 
+            return false;
         } catch (Exception $e) {
             return $e->getMessage();
         }
-
     }
 
 

@@ -20,30 +20,28 @@ class CadastroAnimais
         $ajaxTela = $request->getParsedBody();
 
         $exibeSalvar = true;
-        $exbieExcluir = true;
+        $exibeExcluir = true;
 
         $idAlteracao = !empty($ajaxTela['id']) ? $ajaxTela['id'] : '';
 
         $Animal = \App\Models\Animais::findById($idAlteracao);
 
-        if(!empty($Animal->getCodigo())){
-            $selectTipoAnimal = '<option value="'.$Animal->getTipoAnimal()->getCodigo().'" selected>'.$Animal->getTipoAnimal()->getDescricao().'</option>';
-            $selectEspecie = '<option value="'.$Animal->getEspecie()->getCodigo().'" selected>'.$Animal->getEspecie()->getDescricao().'</option>';
-            $selectRaca = '<option value="'.$Animal->getRaca()->getCodigo().'" selected>'.$Animal->getRaca()->getDescricao().'</option>';
+        if (!empty($Animal->getCodigo())) {
+            $selectTipoAnimal = '<option value="' . $Animal->getTipoAnimal()->getCodigo() . '" selected>' . $Animal->getTipoAnimal()->getDescricao() . '</option>';
+            $selectEspecie = '<option value="' . $Animal->getEspecie()->getCodigo() . '" selected>' . $Animal->getEspecie()->getDescricao() . '</option>';
+            $selectRaca = '<option value="' . $Animal->getRaca()->getCodigo() . '" selected>' . $Animal->getRaca()->getDescricao() . '</option>';
 
-            if(!empty($Animal->getDono1()->getCodigo())){
-                $selectCidadePessoa = '<option value="'.$Animal->getDono1()->getCidade()->getCodigo().'" selected>'.$Animal->getDono1()->getCidade()->getDescricao().'</option>';
-                $selectBairroPessoa = '<option value="'.$Animal->getDono1()->getBairro()->getCodigo().'" selected>'.$Animal->getDono1()->getBairro()->getNome().'</option>';
-                $selectLogradouroPessoa = '<option value="'.$Animal->getDono1()->getLogradouro()->getCodigo().'" selected>'.$Animal->getDono1()->getLogradouro()->getNome().'</option>';
-            }
-            else {
+            if (!empty($Animal->getDono1()->getCodigo())) {
+                $selectCidadePessoa = '<option value="' . $Animal->getDono1()->getCidade()->getCodigo() . '" selected>' . $Animal->getDono1()->getCidade()->getDescricao() . '</option>';
+                $selectBairroPessoa = '<option value="' . $Animal->getDono1()->getBairro()->getCodigo() . '" selected>' . $Animal->getDono1()->getBairro()->getNome() . '</option>';
+                $selectLogradouroPessoa = '<option value="' . $Animal->getDono1()->getLogradouro()->getCodigo() . '" selected>' . $Animal->getDono1()->getLogradouro()->getNome() . '</option>';
+            } else {
                 $selectBairroPessoa = '';
                 $selectCidadePessoa = '';
                 $selectLogradouroPessoa = '';
             }
-            
         } else {
-            $exbieExcluir = false;
+            $exibeExcluir = false;
             $selectTipoAnimal = '';
             $selectEspecie = '';
             $selectRaca = '';
@@ -54,12 +52,18 @@ class CadastroAnimais
 
         $selectSexoAnimal = '<select class="form-select" id="dsSexo" name="dsSexo" aria-label="Sexo Animal">
                                     <option value="">Selecione...</option>
-                                    <option value="M" '.($Animal->getSexo() == 'M' ? 'selected' : ' ').'>Macho</option>
-                                    <option value="F" '.($Animal->getSexo() == 'F' ? 'selected' : ' ').'>Fêmea</option>
+                                    <option value="M" ' . ($Animal->getSexo() == 'M' ? 'selected' : ' ') . '>Macho</option>
+                                    <option value="F" ' . ($Animal->getSexo() == 'F' ? 'selected' : ' ') . '>Fêmea</option>
                                 </select>';
 
+        $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('ESPECIE', 'FL_EDITAR');
+        $exibeSalvar = $permissaoSalvar == true ? true : false;
 
-        
+        $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('ESPECIE', 'FL_EXCLUIR');
+        $exibeExcluir = $permissaoExcluir == true ? true : false;
+
+
+
 
         $Cadastro = $this->twig->fetch('cadastroAnimais.twig', [
             "cdAnimal" => $Animal->getCodigo(),
@@ -73,9 +77,9 @@ class CadastroAnimais
 
             "cdPessoa" => $Animal->getDono1()->getCodigo(),
             "nmPessoa" => $Animal->getDono1()->getNome(),
-            "cpfPessoa" => $Animal->getDono1()-> getCPF(),
+            "cpfPessoa" => $Animal->getDono1()->getCPF(),
             "dataNascimento" => $Animal->getDono1()->getDataNascimento(),
-            "nrTelefone" => $Animal->getDono1()->getTelefone(),            
+            "nrTelefone" => $Animal->getDono1()->getTelefone(),
             "dsEmail" => $Animal->getDono1()->getEmail(),
             "nrCRMV" => $Animal->getDono1()->getNrCRMV(),
             "selectCidadePessoa" => $selectCidadePessoa,
@@ -83,7 +87,7 @@ class CadastroAnimais
             "selectLogradouroPessoa" => $selectLogradouroPessoa,
             "donoNaoDeclarado" => $Animal->getFlDonoNaoDeclarado() == 'S' ? true : false,
 
-            "exibeExcluir" => $exbieExcluir,
+            "exibeExcluir" => $exibeExcluir,
             "exibeSalvar" => $exibeSalvar
         ]);
 

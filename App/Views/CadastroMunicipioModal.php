@@ -31,8 +31,17 @@ class CadastroMunicipioModal
             if (empty($Municipio->getCodigo())) {
                 $exibirExcluir = false;
                 $selectEstado = " ";
+
+                $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('MUNICIPIO', 'FL_INSERIR');
+                $exibirSalvar = $permissaoSalvar == true ? true : false;
             } else {
                 $selectEstado = '<option value="' . $Municipio->getEstado()->getCodigoIbge() . '" selected>' . $Municipio->getEstado()->getNome() . '</option>';
+
+                $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('MUNICIPIO', 'FL_EDITAR');
+                $exibirSalvar = $permissaoSalvar == true ? true : false;
+        
+                $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('MUNICIPIO', 'FL_EXCLUIR');
+                $exibirExcluir = $permissaoExcluir == true ? true : false;
             }
 
         } catch (Exception $e) {
