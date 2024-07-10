@@ -1,12 +1,12 @@
 {
-    "database__f": {
-        "host": "sql.freedb.tech",
-        "username": "freedb_vetadmin",
-        "password": "xMPv?7kxXF2eKex",
-        "database": "freedb_vetbase",
+    "database": {
+        "host": "vetapp_unesc.mysql.dbaas.com.br",
+        "username": "vetapp_unesc",
+        "password": "vetappUnesc@24",
+        "database": "vetapp_unesc",
         "driver": "mysql"
     },
-    "database": {
+    "database__f": {
         "host": "localhost",
         "username": "root",
         "password": "",

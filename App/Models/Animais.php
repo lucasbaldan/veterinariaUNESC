@@ -23,7 +23,7 @@ class Animais
     private $Message;
     private $Return;
 
-    public function __construct($nome, $donoDeclarado, $cdTipoAnimal, $cdEspecie, $cdRaca, $sexo, $idadeAproximada, $anoNascimento, $cdDono1, $cdDono2 = null , $codigo = null)
+    public function __construct($nome, $donoDeclarado, $cdTipoAnimal, $cdEspecie, $cdRaca, $sexo, $idadeAproximada, $anoNascimento, $cdDono1, $cdDono2 = null, $codigo = null)
     {
         $this->nome = $nome;
         $this->fl_dono_nao_declarado = $donoDeclarado;
@@ -41,7 +41,7 @@ class Animais
     public static function findById($id, $Conn = false)
     {
         try {
-            if(empty($id)){
+            if (empty($id)) {
                 throw new Exception("Objeto vazio");
             }
 
@@ -53,20 +53,21 @@ class Animais
                 throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
             }
 
-            return new self($read->getResult()[0]['nm_animal'], 
-                            $read->getResult()[0]['fl_dono_nao_declarado'], 
-                            $read->getResult()[0]['cd_tipo_animal'], 
-                            $read->getResult()[0]['cd_especie'], 
-                            $read->getResult()[0]['cd_raca'],
-                            $read->getResult()[0]['sexo'],
-                            $read->getResult()[0]['idade_aproximada'],
-                            $read->getResult()[0]['ano_nascimento'], 
-                            $read->getResult()[0]['cd_pessoa_dono1'], 
-                            $read->getResult()[0]['cd_pessoa_dono2'], 
-                            $read->getResult()[0]['cd_animal']);
-
+            return new self(
+                $read->getResult()[0]['nm_animal'],
+                $read->getResult()[0]['fl_dono_nao_declarado'],
+                $read->getResult()[0]['cd_tipo_animal'],
+                $read->getResult()[0]['cd_especie'],
+                $read->getResult()[0]['cd_raca'],
+                $read->getResult()[0]['sexo'],
+                $read->getResult()[0]['idade_aproximada'],
+                $read->getResult()[0]['ano_nascimento'],
+                $read->getResult()[0]['cd_pessoa_dono1'],
+                $read->getResult()[0]['cd_pessoa_dono2'],
+                $read->getResult()[0]['cd_animal']
+            );
         } catch (Exception $e) {
-            return new self('','','','','','','','','','');
+            return new self('', '', '', '', '', '', '', '', '', '');
         }
     }
 
@@ -87,18 +88,36 @@ class Animais
         $read = new \App\Conn\Read();
 
         $query = "SELECT animais.cd_animal,
-                  animais.nm_animal,
-                  tipo_animal.descricao as tipo_animal_descricao,
-                  '-' as nome_dono,
-                  especies.descricao especie_descricao,
-                  racas.descricao raca_descricao,
-                  COUNT(animais.cd_animal) OVER() AS total_filtered,  
-                  (SELECT COUNT(animais.cd_animal) FROM animais) AS total_table 
-                  FROM animais
-                  INNER JOIN tipo_animal ON (animais.cd_tipo_animal = tipo_animal.cd_tipo_animal)
-                  LEFT JOIN racas ON (animais.cd_raca = racas.cd_raca)
-                  LEFT JOIN especies ON (racas.cd_especie = especies.cd_especie)
-                  WHERE 1=1";
+                animais.nm_animal,
+                tipo_animal.descricao as tipo_animal_descricao,
+                '-' as nome_dono,
+                especies.descricao especie_descricao,
+                racas.descricao raca_descricao,
+                (SELECT COUNT(*) 
+                    FROM animais 
+                    INNER JOIN tipo_animal ON (animais.cd_tipo_animal = tipo_animal.cd_tipo_animal)
+                    LEFT JOIN racas ON (animais.cd_raca = racas.cd_raca)
+                    LEFT JOIN especies ON (racas.cd_especie = especies.cd_especie)
+                    WHERE 1=1) AS total_filtered,
+                (SELECT COUNT(*) FROM animais) AS total_table 
+            FROM animais
+            INNER JOIN tipo_animal ON (animais.cd_tipo_animal = tipo_animal.cd_tipo_animal)
+            LEFT JOIN racas ON (animais.cd_raca = racas.cd_raca)
+            LEFT JOIN especies ON (racas.cd_especie = especies.cd_especie)
+            WHERE 1=1";
+        // $query = "SELECT animais.cd_animal,
+        //           animais.nm_animal,
+        //           tipo_animal.descricao as tipo_animal_descricao,
+        //           '-' as nome_dono,
+        //           especies.descricao especie_descricao,
+        //           racas.descricao raca_descricao,
+        //           COUNT(animais.cd_animal) OVER() AS total_filtered,  
+        //           (SELECT COUNT(animais.cd_animal) FROM animais) AS total_table 
+        //           FROM animais
+        //           INNER JOIN tipo_animal ON (animais.cd_tipo_animal = tipo_animal.cd_tipo_animal)
+        //           LEFT JOIN racas ON (animais.cd_raca = racas.cd_raca)
+        //           LEFT JOIN especies ON (racas.cd_especie = especies.cd_especie)
+        //           WHERE 1=1";
 
         if (!empty($pesquisaCodigo)) {
             $query .= " AND animais.cd_animal LIKE '%$pesquisaCodigo%'";
@@ -134,20 +153,22 @@ class Animais
             $conn = \App\Conn\Conn::getConn(true);
             $insert = new \App\Conn\Insert($conn);
 
-            $dadosInsert = ["NM_ANIMAL" => $this->nome, 
-                            "FL_DONO_NAO_DECLARADO" => $this->fl_dono_nao_declarado, 
-                            "CD_PESSOA_DONO1" => $this->dono1->getCodigo(),
-                            "CD_PESSOA_DONO2" => null,
-                            "CD_ESPECIE" => $this->especie->getCodigo(),
-                            "CD_RACA" => $this->raca->getCodigo(),
-                            "SEXO" => $this->sexo,
-                            "IDADE_APROXIMADA" => $this->idadeAproximada,
-                            "ANO_NASCIMENTO" => $this->anoNascimento,
-                            "CD_TIPO_ANIMAL" => $this->tipoAnimal->getCodigo()];
-            
-             $insert->ExeInsert("ANIMAIS", $dadosInsert);
+            $dadosInsert = [
+                "NM_ANIMAL" => $this->nome,
+                "FL_DONO_NAO_DECLARADO" => $this->fl_dono_nao_declarado,
+                "CD_PESSOA_DONO1" => $this->dono1->getCodigo(),
+                "CD_PESSOA_DONO2" => null,
+                "CD_ESPECIE" => $this->especie->getCodigo(),
+                "CD_RACA" => $this->raca->getCodigo(),
+                "SEXO" => $this->sexo,
+                "IDADE_APROXIMADA" => $this->idadeAproximada,
+                "ANO_NASCIMENTO" => $this->anoNascimento,
+                "CD_TIPO_ANIMAL" => $this->tipoAnimal->getCodigo()
+            ];
 
-            if(!$insert->getResult()){
+            $insert->ExeInsert("ANIMAIS", $dadosInsert);
+
+            if (!$insert->getResult()) {
                 throw new Exception($insert->getMessage());
             }
 
@@ -171,17 +192,18 @@ class Animais
 
                 $update = new \App\Conn\Update($Conn);
 
-               $dadosUpdate = [
-                "NM_ANIMAL" => $this->nome, 
-                "FL_DONO_NAO_DECLARADO" => $this->fl_dono_nao_declarado, 
-                "CD_PESSOA_DONO1" => $this->dono1->getCodigo(),
-                "CD_PESSOA_DONO2" => null,
-                "CD_ESPECIE" => $this->especie->getCodigo(),
-                "CD_RACA" => $this->raca->getCodigo(),
-                "SEXO" => $this->sexo,
-                "IDADE_APROXIMADA" => $this->idadeAproximada,
-                "ANO_NASCIMENTO" => $this->anoNascimento,
-                "CD_TIPO_ANIMAL" => $this->tipoAnimal->getCodigo()];
+                $dadosUpdate = [
+                    "NM_ANIMAL" => $this->nome,
+                    "FL_DONO_NAO_DECLARADO" => $this->fl_dono_nao_declarado,
+                    "CD_PESSOA_DONO1" => $this->dono1->getCodigo(),
+                    "CD_PESSOA_DONO2" => null,
+                    "CD_ESPECIE" => $this->especie->getCodigo(),
+                    "CD_RACA" => $this->raca->getCodigo(),
+                    "SEXO" => $this->sexo,
+                    "IDADE_APROXIMADA" => $this->idadeAproximada,
+                    "ANO_NASCIMENTO" => $this->anoNascimento,
+                    "CD_TIPO_ANIMAL" => $this->tipoAnimal->getCodigo()
+                ];
 
                 $update->ExeUpdate("ANIMAIS", $dadosUpdate, "WHERE CD_ANIMAL = :D", "D=$this->codigo");
 
@@ -218,42 +240,41 @@ class Animais
 
     public static function GeneralSearch($search)
     {
-        try{
+        try {
 
-        $colunas = !empty($search['COLUNAS']) ? $search['COLUNAS'] : '*';
-        $nome = !empty($search['NM_ANIMAL']) ? $search['NM_ANIMAL'] : '';
-        $tipoAnimal = !empty($search['TIPO_ANIMAL']) ? $search['TIPO_ANIMAL'] : '';
-        $anoNascimento = !empty($search['ANO_NASCIMENTO']) ? $search['ANO_NASCIMENTO'] : '';
-        $dono1 = !empty($search['DONO']) ? $search['DONO'] : '';
+            $colunas = !empty($search['COLUNAS']) ? $search['COLUNAS'] : '*';
+            $nome = !empty($search['NM_ANIMAL']) ? $search['NM_ANIMAL'] : '';
+            $tipoAnimal = !empty($search['TIPO_ANIMAL']) ? $search['TIPO_ANIMAL'] : '';
+            $anoNascimento = !empty($search['ANO_NASCIMENTO']) ? $search['ANO_NASCIMENTO'] : '';
+            $dono1 = !empty($search['DONO']) ? $search['DONO'] : '';
 
-        $read = new \App\Conn\Read();
+            $read = new \App\Conn\Read();
 
-        $query = "SELECT $colunas
+            $query = "SELECT $colunas
                   FROM animais
                   LEFT JOIN tipo_animal ON (animais.cd_tipo_animal = tipo_animal.cd_tipo_animal) 
                   LEFT JOIN pessoas dono ON (animais.cd_pessoa_dono1 = dono.cd_pessoa)
                   WHERE 1=1 ";
 
-        if (!empty($nome)) $query .= " AND animais.nm_animal LIKE '%$nome%' ";
-        if (!empty($tipoAnimal)) $query .= " AND tipo_animal.descricao LIKE '%$tipoAnimal%' ";
-        if (!empty($anoNascimento)) $query .= " AND animais.ano_nascimento = '$anoNascimento' ";
-        if (!empty($dono1)) $query .= " AND dono.nm_pessoa LIKE '%$dono1%' ";
+            if (!empty($nome)) $query .= " AND animais.nm_animal LIKE '%$nome%' ";
+            if (!empty($tipoAnimal)) $query .= " AND tipo_animal.descricao LIKE '%$tipoAnimal%' ";
+            if (!empty($anoNascimento)) $query .= " AND animais.ano_nascimento = '$anoNascimento' ";
+            if (!empty($dono1)) $query .= " AND dono.nm_pessoa LIKE '%$dono1%' ";
 
-        $query .= "LIMIT 50";
+            $query .= "LIMIT 50";
 
-        // if (!empty($search)) {
-        //     $read->FullRead("SELECT P.* FROM pessoas P  WHERE UPPER(CONCAT(P.CD_PESSOA, ' ', P.NM_PESSOA)) LIKE UPPER(CONCAT('%', :P, '%')) ORDER BY P.NM_PESSOA ASC", "P=$search");
-        // } else {
-        //     $read->FullRead("SELECT P.* FROM PESSOAS P");
-        // }
-        
-        $read->FullRead($query);
+            // if (!empty($search)) {
+            //     $read->FullRead("SELECT P.* FROM pessoas P  WHERE UPPER(CONCAT(P.CD_PESSOA, ' ', P.NM_PESSOA)) LIKE UPPER(CONCAT('%', :P, '%')) ORDER BY P.NM_PESSOA ASC", "P=$search");
+            // } else {
+            //     $read->FullRead("SELECT P.* FROM PESSOAS P");
+            // }
 
-        if($read->getRowCount() == 0) return null;
-        else return $read->getResult();
-        }
-        catch(Exception $e){
-           throw new Exception($e->getMessage()); 
+            $read->FullRead($query);
+
+            if ($read->getRowCount() == 0) return null;
+            else return $read->getResult();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -261,7 +282,7 @@ class Animais
     //     try{
     //         $colunas = $arrayParam['colunas'];
     //         $descricao = !empty($arrayParam['descricaoPesquisa']) ? $arrayParam['descricaoPesquisa'] : '';
-            
+
     //         $read = new \App\Conn\Read();
 
     //         $query = "SELECT $colunas FROM ESPECIES WHERE 1=1";
@@ -351,34 +372,43 @@ class Animais
         return $this->Return;
     }
 
-    public function setDonoNaoDeclarado($fl){
+    public function setDonoNaoDeclarado($fl)
+    {
         $this->fl_dono_nao_declarado = $fl;
     }
 
-    public function setDono1($dono1){
+    public function setDono1($dono1)
+    {
         $this->dono1 = \App\Models\Pessoas::findById($dono1);
     }
 
-    public function setNome($nome){
+    public function setNome($nome)
+    {
         $this->nome = $nome;
     }
-    public function setTipoAnimal($cd){
+    public function setTipoAnimal($cd)
+    {
 
         $this->tipoAnimal = \App\Models\TipoAnimais::findById($cd);
     }
-    public function setEspecie($cd){
+    public function setEspecie($cd)
+    {
         $this->especie = \App\Models\Especies::findById($cd);
     }
-    public function setRaca($cd){
+    public function setRaca($cd)
+    {
         $this->raca = \App\Models\Raças::findById($cd);
     }
-    public function setSexo($sexo){
+    public function setSexo($sexo)
+    {
         $this->sexo = $sexo;
     }
-    public function setIdade($idade){
+    public function setIdade($idade)
+    {
         $this->idadeAproximada = $idade;
     }
-    public function setAnoNascimento($Ano){
+    public function setAnoNascimento($Ano)
+    {
         $this->anoNascimento = $Ano;
     }
 }
