@@ -25,7 +25,7 @@ class Municipios
     public static function findById($id)
     {
         try {
-            if(empty($id)){
+            if (empty($id)) {
                 throw new Exception("Objeto vazio");
             }
 
@@ -37,8 +37,7 @@ class Municipios
                 throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
             }
 
-            return new self($read->getResult()[0]['nome'], $read->getResult()[0]['id_ibge_estado'], $read->getResult()[0]['cd_cidade']);
-
+            return new self($read->getResult()[0]['NOME'], $read->getResult()[0]['ID_IBGE_ESTADO'], $read->getResult()[0]['CD_CIDADE']);
         } catch (Exception $e) {
             return new self('', '', '');
         }
@@ -57,24 +56,25 @@ class Municipios
 
         $read = new \App\Conn\Read();
 
-        $query = "SELECT cidades.cd_cidade,
-                  cidades.nome,
-                  estados.nome as nome_estado,
-                  COUNT(cidades.cd_cidade) OVER() AS total_filtered,  
-                  (SELECT COUNT(cidades.cd_cidade) FROM cidades) AS total_table 
-                  FROM cidades
-                  LEFT JOIN estados ON (cidades.id_ibge_estado = estados.cd_ibge)
+        $query = "SELECT CIDADES.CD_CIDADE,
+                  CIDADES.NOME,
+                  ESTADOS.NOME AS NOME_ESTADO,
+                  COUNT(CIDADES.CD_CIDADE) OVER() AS TOTAL_FILTERED,  
+                  (SELECT COUNT(CIDADES.CD_CIDADE) FROM CIDADES) AS TOTAL_TABLE 
+                  FROM CIDADES
+                  LEFT JOIN ESTADOS ON (CIDADES.ID_IBGE_ESTADO = ESTADOS.CD_IBGE)
                   WHERE 1=1";
 
         if (!empty($pesquisaCodigo)) {
-            $query .= " AND cidades.cd_cidade LIKE '%$pesquisaCodigo%'";
+            $query .= " AND CIDADES.CD_CIDADE LIKE '%$pesquisaCodigo%'";
         }
         if (!empty($pesquisaDescricao)) {
-            $query .= " AND cidades.nome LIKE '%$pesquisaDescricao%'";
+            $query .= " AND CIDADES.NOME LIKE '%$pesquisaDescricao%'";
         }
         if (!empty($pesquisaEstado)) {
-            $query .= " AND estados.nome LIKE '%$pesquisaEstado%'";
+            $query .= " AND ESTADOS.NOME LIKE '%$pesquisaEstado%'";
         }
+
 
         if (!empty($orderBy)) {
             $query .= " ORDER BY $orderBy $orderAscDesc";
@@ -97,7 +97,7 @@ class Municipios
             $dadosInsert = ["CD_CIDADE" => $this->codigo, "NOME" => $this->descricao, "ID_IBGE_ESTADO" => $this->estado->getCodigoIbge()];
             $insert->ExeInsert("CIDADES", $dadosInsert);
 
-            if(!$insert->getResult()){
+            if (!$insert->getResult()) {
                 throw new Exception($insert->getMessage());
             }
 
@@ -159,17 +159,18 @@ class Municipios
         }
     }
 
-    public function generalSearch($arrayParam){
-        try{
+    public function generalSearch($arrayParam)
+    {
+        try {
             $colunas = $arrayParam['colunas'];
             $descricao = !empty($arrayParam['descricaoPesquisa']) ? $arrayParam['descricaoPesquisa'] : '';
             $innerJoin = !empty($arrayParam['innerJoin']) ? $arrayParam['innerJoin'] : '';
-            
+
             $read = new \App\Conn\Read();
 
             $query = "SELECT $colunas FROM CIDADES $innerJoin WHERE 1=1";
 
-            if(!empty($descricao)){
+            if (!empty($descricao)) {
                 $query .= " AND cidades.nome LIKE '%$descricao%'";
             }
 
@@ -178,10 +179,9 @@ class Municipios
             $read->FullRead($query);
             $this->Result = true;
             $this->Return = $read->getResult();
-        } catch(Exception $e){
+        } catch (Exception $e) {
             $this->Result = false;
             $this->Message = $e->getMessage();
-
         }
     }
 

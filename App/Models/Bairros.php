@@ -23,7 +23,7 @@ class Bairros
     public static function findById($id)
     {
         try {
-            if(empty($id)){
+            if (empty($id)) {
                 throw new Exception("Objeto vazio");
             }
 
@@ -35,8 +35,7 @@ class Bairros
                 throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
             }
 
-            return new self($read->getResult()[0]['nome'], $read->getResult()[0]['cd_bairro']);
-
+            return new self($read->getResult()[0]['NOME'], $read->getResult()[0]['CD_BAIRRO']);
         } catch (Exception $e) {
             return new self('', '');
         }
@@ -54,18 +53,18 @@ class Bairros
 
         $read = new \App\Conn\Read();
 
-        $query = "SELECT bairros.cd_bairro,
-                  bairros.nome,
-                  COUNT(bairros.cd_bairro) OVER() AS total_filtered,  
-                  (SELECT COUNT(bairros.cd_bairro) FROM bairros) AS total_table 
-                  FROM bairros
+        $query = "SELECT BAIRROS.CD_BAIRRO,
+                  BAIRROS.NOME,
+                  COUNT(BAIRROS.CD_BAIRRO) OVER() AS TOTAL_FILTERED,  
+                  (SELECT COUNT(BAIRROS.CD_BAIRRO) FROM BAIRROS) AS TOTAL_TABLE 
+                  FROM BAIRROS
                   WHERE 1=1";
 
         if (!empty($pesquisaCodigo)) {
-            $query .= " AND bairros.cd_bairro LIKE '%$pesquisaCodigo%'";
+            $query .= " AND BAIRROS.CD_BAIRRO LIKE '%$pesquisaCodigo%'";
         }
         if (!empty($pesquisaDescricao)) {
-            $query .= " AND bairros.nome LIKE '%$pesquisaDescricao%'";
+            $query .= " AND BAIRROS.NOME LIKE '%$pesquisaDescricao%'";
         }
 
         if (!empty($orderBy)) {
@@ -89,7 +88,7 @@ class Bairros
             $dadosInsert = ["CD_BAIRRO" => $this->codigo, "NOME" => $this->nome];
             $insert->ExeInsert("BAIRROS", $dadosInsert);
 
-            if(!$insert->getResult()){
+            if (!$insert->getResult()) {
                 throw new Exception($insert->getMessage());
             }
 
@@ -151,17 +150,18 @@ class Bairros
         }
     }
 
-    public function generalSearch($arrayParam){
-        try{
+    public function generalSearch($arrayParam)
+    {
+        try {
             $colunas = $arrayParam['colunas'];
             $descricao = !empty($arrayParam['descricaoPesquisa']) ? $arrayParam['descricaoPesquisa'] : '';
-            
+
             $read = new \App\Conn\Read();
 
             $query = "SELECT $colunas FROM BAIRROS WHERE 1=1";
 
-            if(!empty($descricao)){
-                $query .= " AND bairros.nome LIKE '%$descricao%'";
+            if (!empty($descricao)) {
+                $query .= " AND BAIRROS.NOME LIKE '%$descricao%'";
             }
 
             $query .= " LIMIT 30";
@@ -169,10 +169,9 @@ class Bairros
             $read->FullRead($query);
             $this->Result = true;
             $this->Return = $read->getResult();
-        } catch(Exception $e){
+        } catch (Exception $e) {
             $this->Result = false;
             $this->Message = $e->getMessage();
-
         }
     }
 

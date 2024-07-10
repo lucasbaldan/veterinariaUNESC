@@ -27,7 +27,7 @@ class Especies
     public static function findById($id)
     {
         try {
-            if(empty($id)){
+            if (empty($id)) {
                 throw new Exception("Objeto vazio");
             }
 
@@ -39,8 +39,7 @@ class Especies
                 throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
             }
 
-            return new self($read->getResult()[0]['descricao'], $read->getResult()[0]['fl_ativo'], $read->getResult()[0]['id_tipo_animal'], $read->getResult()[0]['cd_especie']);
-
+            return new self($read->getResult()[0]['DESCRICAO'], $read->getResult()[0]['FL_ATIVO'], $read->getResult()[0]['ID_TIPO_ANIMAL'], $read->getResult()[0]['CD_ESPECIE']);
         } catch (Exception $e) {
             return new self('', '', '', '');
         }
@@ -60,29 +59,30 @@ class Especies
 
         $read = new \App\Conn\Read();
 
-        $query = "SELECT especies.cd_especie,
-                  especies.descricao,
-                  tipo_animal.descricao as tipo_animal_descricao,
-                  (CASE WHEN especies.fl_ativo = 1 THEN 'Sim' ELSE 'Não' END) as fl_ativo,
-                  COUNT(especies.cd_especie) OVER() AS total_filtered,  
-                  (SELECT COUNT(especies.cd_especie) FROM especies) AS total_table 
-                  FROM especies
-                  INNER JOIN tipo_animal ON (especies.id_tipo_animal = tipo_animal.cd_tipo_animal)
+        $query = "SELECT ESPECIES.CD_ESPECIE,
+                  ESPECIES.DESCRICAO,
+                  TIPO_ANIMAL.DESCRICAO AS TIPO_ANIMAL_DESCRICAO,
+                  (CASE WHEN ESPECIES.FL_ATIVO = 1 THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO,
+                  COUNT(ESPECIES.CD_ESPECIE) OVER() AS TOTAL_FILTERED,  
+                  (SELECT COUNT(ESPECIES.CD_ESPECIE) FROM ESPECIES) AS TOTAL_TABLE 
+                  FROM ESPECIES
+                  INNER JOIN TIPO_ANIMAL ON (ESPECIES.ID_TIPO_ANIMAL = TIPO_ANIMAL.CD_TIPO_ANIMAL)
                   WHERE 1=1";
 
         if (!empty($pesquisaCodigo)) {
-            $query .= " AND especies.cd_especie LIKE '%$pesquisaCodigo%'";
+            $query .= " AND ESPECIES.CD_ESPECIE LIKE '%$pesquisaCodigo%'";
         }
         if (!empty($pesquisaDescricao)) {
-            $query .= " AND especies.descricao LIKE '%$pesquisaDescricao%'";
+            $query .= " AND ESPECIES.DESCRICAO LIKE '%$pesquisaDescricao%'";
         }
         if (!empty($pesquisaTipoAnimal)) {
-            $query .= " AND tipo_animal.descricao LIKE '%$pesquisaTipoAnimal%'";
+            $query .= " AND TIPO_ANIMAL.DESCRICAO LIKE '%$pesquisaTipoAnimal%'";
         }
         if (!empty($pesquisaAtivo)) {
             $pesquisaAtivo = $pesquisaAtivo == 2 ? 0 : 1;
-            $query .= " AND especies.fl_ativo = $pesquisaAtivo";
+            $query .= " AND ESPECIES.FL_ATIVO = $pesquisaAtivo";
         }
+
 
         if (!empty($orderBy)) {
             $query .= " ORDER BY $orderBy $orderAscDesc";
@@ -105,7 +105,7 @@ class Especies
             $dadosInsert = ["CD_ESPECIE" => $this->codigo, "DESCRICAO" => $this->descricao, "ID_TIPO_ANIMAL" => $this->tipoAnimal->getCodigo(), "FL_ATIVO" => $this->ativo];
             $insert->ExeInsert("ESPECIES", $dadosInsert);
 
-            if(!$insert->getResult()){
+            if (!$insert->getResult()) {
                 throw new Exception($insert->getMessage());
             }
 
@@ -167,8 +167,9 @@ class Especies
         }
     }
 
-    public function generalSearch($arrayParam){
-        try{
+    public function generalSearch($arrayParam)
+    {
+        try {
             $colunas = $arrayParam['colunas'];
             $descricao = !empty($arrayParam['descricaoPesquisa']) ? $arrayParam['descricaoPesquisa'] : '';
             $tipoAnimal = !empty($arrayParam['TipoAnimal']) ? $arrayParam['TipoAnimal'] : '';
@@ -177,21 +178,20 @@ class Especies
 
             $query = "SELECT $colunas FROM ESPECIES WHERE 1=1";
 
-            if(!empty($descricao)){
+            if (!empty($descricao)) {
                 $query .= " AND DESCRICAO LIKE '%$descricao%'";
             }
 
-            if(!empty($tipoAnimal)){
+            if (!empty($tipoAnimal)) {
                 $query .= " AND ID_TIPO_ANIMAL = $tipoAnimal";
             }
 
             $read->FullRead($query);
             $this->Result = true;
             $this->Return = $read->getResult();
-        } catch(Exception $e){
+        } catch (Exception $e) {
             $this->Result = false;
             $this->Message = $e->getMessage();
-
         }
     }
 

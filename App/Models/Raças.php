@@ -27,7 +27,7 @@ class Raças
     public static function findById($id)
     {
         try {
-            if(empty($id)){
+            if (empty($id)) {
                 throw new Exception("Objeto vazio");
             }
 
@@ -39,8 +39,7 @@ class Raças
                 throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
             }
 
-            return new self($read->getResult()[0]['descricao'], $read->getResult()[0]['fl_ativo'], $read->getResult()[0]['cd_especie'], $read->getResult()[0]['cd_raca']);
-
+            return new self($read->getResult()[0]['DESCRICAO'], $read->getResult()[0]['FL_ATIVO'], $read->getResult()[0]['CD_ESPECIE'], $read->getResult()[0]['CD_RACA']);
         } catch (Exception $e) {
             return new self('', '', '', '');
         }
@@ -60,28 +59,28 @@ class Raças
 
         $read = new \App\Conn\Read();
 
-        $query = "SELECT racas.cd_raca,
-                  racas.descricao,
-                  especies.descricao as especie_descricao,
-                  (CASE WHEN racas.fl_ativo = 1 THEN 'Sim' ELSE 'Não' END) as fl_ativo,
-                  COUNT(racas.cd_raca) OVER() AS total_filtered,  
-                  (SELECT COUNT(racas.cd_raca) FROM racas) AS total_table 
-                  FROM racas
-                  INNER JOIN especies ON (racas.cd_especie = especies.cd_especie)
+        $query = "SELECT RACAS.CD_RACA,
+                  RACAS.DESCRICAO,
+                  ESPECIES.DESCRICAO AS ESPECIE_DESCRICAO,
+                  (CASE WHEN RACAS.FL_ATIVO = 1 THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO,
+                  COUNT(RACAS.CD_RACA) OVER() AS TOTAL_FILTERED,  
+                  (SELECT COUNT(RACAS.CD_RACA) FROM RACAS) AS TOTAL_TABLE 
+                  FROM RACAS
+                  INNER JOIN ESPECIES ON (RACAS.CD_ESPECIE = ESPECIES.CD_ESPECIE)
                   WHERE 1=1";
 
         if (!empty($pesquisaCodigo)) {
-            $query .= " AND racas.cd_raca LIKE '%$pesquisaCodigo%'";
+            $query .= " AND RACAS.CD_RACA LIKE '%$pesquisaCodigo%'";
         }
         if (!empty($pesquisaDescricao)) {
-            $query .= " AND racas.descricao LIKE '%$pesquisaDescricao%'";
+            $query .= " AND RACAS.DESCRICAO LIKE '%$pesquisaDescricao%'";
         }
         if (!empty($pesquisaEspecie)) {
-            $query .= " AND especies.descricao LIKE '%$pesquisaEspecie%'";
+            $query .= " AND ESPECIES.DESCRICAO LIKE '%$pesquisaEspecie%'";
         }
         if (!empty($pesquisaAtivo)) {
             $pesquisaAtivo = $pesquisaAtivo == 2 ? 0 : 1;
-            $query .= " AND racas.fl_ativo = $pesquisaAtivo";
+            $query .= " AND RACAS.FL_ATIVO = $pesquisaAtivo";
         }
 
         if (!empty($orderBy)) {
@@ -105,7 +104,7 @@ class Raças
             $dadosInsert = ["CD_RACA" => $this->codigo, "DESCRICAO" => $this->descricao, "CD_ESPECIE" => $this->especie->getCodigo(), "FL_ATIVO" => $this->ativo];
             $insert->ExeInsert("RACAS", $dadosInsert);
 
-            if(!$insert->getResult()){
+            if (!$insert->getResult()) {
                 throw new Exception($insert->getMessage());
             }
 
@@ -167,20 +166,21 @@ class Raças
         }
     }
 
-    public function generalSearch($arrayParam){
-        try{
+    public function generalSearch($arrayParam)
+    {
+        try {
             $colunas = $arrayParam['colunas'];
             $descricao = !empty($arrayParam['descricaoPesquisa']) ? $arrayParam['descricaoPesquisa'] : '';
             $especie = !empty($arrayParam['idEspecie']) ? $arrayParam['idEspecie'] : '';
-            
+
             $read = new \App\Conn\Read();
 
-            $query = "SELECT $colunas FROM RACAS WHERE fl_ativo = 1";
+            $query = "SELECT $colunas FROM RACAS WHERE FL_ATIVO = 1";
 
-            if(!empty($descricao)){
+            if (!empty($descricao)) {
                 $query .= " AND DESCRICAO LIKE '%$descricao%'";
             }
-            if(!empty($especie)){
+            if (!empty($especie)) {
                 $query .= " AND CD_ESPECIE = $especie";
             }
 
@@ -190,10 +190,9 @@ class Raças
             $read->FullRead($query);
             $this->Result = true;
             $this->Return = $read->getResult();
-        } catch(Exception $e){
+        } catch (Exception $e) {
             $this->Result = false;
             $this->Message = $e->getMessage();
-
         }
     }
 

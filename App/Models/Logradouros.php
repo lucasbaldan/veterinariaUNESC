@@ -23,7 +23,7 @@ class Logradouros
     public static function findById($id)
     {
         try {
-            if(empty($id)){
+            if (empty($id)) {
                 throw new Exception("Objeto vazio");
             }
 
@@ -35,8 +35,7 @@ class Logradouros
                 throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
             }
 
-            return new self($read->getResult()[0]['nome'], $read->getResult()[0]['cd_logradouro']);
-
+            return new self($read->getResult()[0]['NOME'], $read->getResult()[0]['CD_LOGRADOURO']);
         } catch (Exception $e) {
             return new self('', '');
         }
@@ -54,18 +53,18 @@ class Logradouros
 
         $read = new \App\Conn\Read();
 
-        $query = "SELECT logradouros.cd_logradouro,
-                  logradouros.nome,
-                  COUNT(logradouros.cd_logradouro) OVER() AS total_filtered,  
-                  (SELECT COUNT(logradouros.cd_logradouro) FROM logradouros) AS total_table 
-                  FROM logradouros
+        $query = "SELECT LOGRADOUROS.CD_LOGRADOURO,
+                  LOGRADOUROS.NOME,
+                  COUNT(LOGRADOUROS.CD_LOGRADOURO) OVER() AS TOTAL_FILTERED,  
+                  (SELECT COUNT(LOGRADOUROS.CD_LOGRADOURO) FROM LOGRADOUROS) AS TOTAL_TABLE 
+                  FROM LOGRADOUROS
                   WHERE 1=1";
 
         if (!empty($pesquisaCodigo)) {
-            $query .= " AND logradouros.cd_logradouro LIKE '%$pesquisaCodigo%'";
+            $query .= " AND LOGRADOUROS.CD_LOGRADOURO LIKE '%$pesquisaCodigo%'";
         }
         if (!empty($pesquisaDescricao)) {
-            $query .= " AND logradouros.nome LIKE '%$pesquisaDescricao%'";
+            $query .= " AND LOGRADOUROS.NOME LIKE '%$pesquisaDescricao%'";
         }
 
         if (!empty($orderBy)) {
@@ -89,7 +88,7 @@ class Logradouros
             $dadosInsert = ["CD_LOGRADOURO" => $this->codigo, "NOME" => $this->nome];
             $insert->ExeInsert("LOGRADOUROS", $dadosInsert);
 
-            if(!$insert->getResult()){
+            if (!$insert->getResult()) {
                 throw new Exception($insert->getMessage());
             }
 
@@ -151,17 +150,18 @@ class Logradouros
         }
     }
 
-    public function generalSearch($arrayParam){
-        try{
+    public function generalSearch($arrayParam)
+    {
+        try {
             $colunas = $arrayParam['colunas'];
             $descricao = !empty($arrayParam['descricaoPesquisa']) ? $arrayParam['descricaoPesquisa'] : '';
-            
+
             $read = new \App\Conn\Read();
 
             $query = "SELECT $colunas FROM LOGRADOUROS WHERE 1=1";
 
-            if(!empty($descricao)){
-                $query .= " AND logradouros.nome LIKE '%$descricao%'";
+            if (!empty($descricao)) {
+                $query .= " AND LOGRADOUROS.NOME LIKE '%$descricao%'";
             }
 
             $query .= " LIMIT 30";
@@ -169,10 +169,9 @@ class Logradouros
             $read->FullRead($query);
             $this->Result = true;
             $this->Return = $read->getResult();
-        } catch(Exception $e){
+        } catch (Exception $e) {
             $this->Result = false;
             $this->Message = $e->getMessage();
-
         }
     }
 

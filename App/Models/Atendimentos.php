@@ -100,32 +100,34 @@ class Atendimentos
                 $read->getResult()[0]['CD_FICHA_LPV']
             );
         } catch (Exception $e) {
-            return new self('','','','','','','','','','','','','','','');
+            return new self('', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
         }
     }
 
-    public function getImagesIds($Conn = false){
-        if(empty($this->codigo)){
+    public function getImagesIds($Conn = false)
+    {
+        if (empty($this->codigo)) {
             return null;
         }
 
         $read = new \App\Conn\Read($Conn);
         $read->ExeRead("IMAGENS_ATENDIMENTOS", "WHERE CD_ATENDIMENTO = :C", "C=$this->codigo");
 
-        if($read->getRowCount() == 0) return null;
-        
-        return array_column($read->getResult(), 'id_imagem');
+        if ($read->getRowCount() == 0) return null;
+
+        return array_column($read->getResult(), 'ID_IMAGEM');
     }
 
-    public static function deleteImageById($imageID, $Conn = false){
-        if(empty($imageID)){
+    public static function deleteImageById($imageID, $Conn = false)
+    {
+        if (empty($imageID)) {
             return null;
         }
 
         $delete = new \App\Conn\Delete($Conn = false);
         $delete->ExeDelete("IMAGENS_ATENDIMENTOS", "WHERE ID_IMAGEM = :C", "C=$imageID");
 
-        if(!$delete->getResult()[0]) return false;
+        if (!$delete->getResult()[0]) return false;
 
         return true;
     }
@@ -148,76 +150,76 @@ class Atendimentos
         $pesquisaDono = $arrayParam['pesquisaDono'];
         $pesquisaVeterinario = $arrayParam['pesquisaVeterinario'];
         $pesquisaMunicipio = $arrayParam['pesquisaMunicipio'];
-        $pesquisaMaterial = $arrayParam['pesquisaMaterial']; 
-        $pesquisaDiagnosticoPresuntivo = $arrayParam['pesquisaDiagnosticoPresuntivo']; 
-        $pesquisaAvaliacaoTumor = $arrayParam['pesquisaAvaliacaoTumor']; 
-        $pesquisaEpidemiologia = $arrayParam['pesquisaEpidemiologia']; 
-        $pesquisaLessaoMacro = $arrayParam['pesquisaLessaoMacro']; 
-        $pesquisaLessaoHisto = $arrayParam['pesquisaLessaoHisto']; 
-        $pesquisaDiagnostico = $arrayParam['pesquisaDiagnostico']; 
+        $pesquisaMaterial = $arrayParam['pesquisaMaterial'];
+        $pesquisaDiagnosticoPresuntivo = $arrayParam['pesquisaDiagnosticoPresuntivo'];
+        $pesquisaAvaliacaoTumor = $arrayParam['pesquisaAvaliacaoTumor'];
+        $pesquisaEpidemiologia = $arrayParam['pesquisaEpidemiologia'];
+        $pesquisaLessaoMacro = $arrayParam['pesquisaLessaoMacro'];
+        $pesquisaLessaoHisto = $arrayParam['pesquisaLessaoHisto'];
+        $pesquisaDiagnostico = $arrayParam['pesquisaDiagnostico'];
         $pesquisaRelatorio = $arrayParam['pesquisaRelatorio'];
 
         $read = new \App\Conn\Read();
 
-        $query = "  SELECT ficha_lpv.CD_FICHA_LPV,
-                    DATE_FORMAT(ficha_lpv.DT_FICHA, '%d/%m/%Y') as DT_FICHA,
-                    animais.nm_animal,
-                    tipo_animal.descricao as nm_tipo_animal,
-                    especies.descricao as nm_especie,
-                    racas.descricao as nm_raca,
-                    (CASE WHEN animais.sexo = 'F' THEN 'Fêmea' WHEN animais.sexo = 'M' THEN 'Macho' ELSE '-' END) AS sexo,
-                    dono.nm_pessoa as nm_dono,
-                    veterinario.nm_pessoa as nm_veterinario,
-                    cidades.nome as cidade_propridade,
-                    ficha_lpv.DS_MATERIAL_RECEBIDO,
-                    ficha_lpv.DS_DIAGNOSTICO_PRESUNTIVO,
-                    (CASE WHEN ficha_lpv.FL_AVALIACAO_TUMORAL_COM_MARGEM = 'S' THEN 'Sim' WHEN ficha_lpv.FL_AVALIACAO_TUMORAL_COM_MARGEM = 'N' THEN 'Não' ELSE '-' END) AS FL_AVALIACAO_TUMORAL_COM_MARGEM,
-                    ficha_lpv.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA,
-                    ficha_lpv.DS_LESOES_MACROSCOPICAS,
-                    ficha_lpv.DS_LESOES_HISTOLOGICAS,
-                    ficha_lpv.DS_DIAGNOSTICO,
-                    ficha_lpv.DS_RELATORIO,
+        $query = "  SELECT FICHA_LPV.CD_FICHA_LPV,
+        DATE_FORMAT(FICHA_LPV.DT_FICHA, '%d/%m/%Y') as DT_FICHA,
+        ANIMAIS.NM_ANIMAL,
+        TIPO_ANIMAL.DESCRICAO as NM_TIPO_ANIMAL,
+        ESPECIES.DESCRICAO as NM_ESPECIE,
+        RACAS.DESCRICAO as NM_RACA,
+        (CASE WHEN ANIMAIS.SEXO = 'F' THEN 'Fêmea' WHEN ANIMAIS.SEXO = 'M' THEN 'Macho' ELSE '-' END) AS SEXO,
+        DONO.NM_PESSOA as NM_DONO,
+        VETERINARIO.NM_PESSOA as NM_VETERINARIO,
+        CIDADES.NOME as CIDADE_PROPRIEDADE,
+        FICHA_LPV.DS_MATERIAL_RECEBIDO,
+        FICHA_LPV.DS_DIAGNOSTICO_PRESUNTIVO,
+        (CASE WHEN FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM = 'S' THEN 'Sim' WHEN FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM = 'N' THEN 'Não' ELSE '-' END) AS FL_AVALIACAO_TUMORAL_COM_MARGEM,
+        FICHA_LPV.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA,
+        FICHA_LPV.DS_LESOES_MACROSCOPICAS,
+        FICHA_LPV.DS_LESOES_HISTOLOGICAS,
+        FICHA_LPV.DS_DIAGNOSTICO,
+        FICHA_LPV.DS_RELATORIO,
 
-                    COUNT(ficha_lpv.CD_FICHA_LPV) OVER() AS total_filtered,  
-                    (SELECT COUNT(ficha_lpv.CD_FICHA_LPV) FROM ficha_lpv) AS total_table 
+        COUNT(FICHA_LPV.CD_FICHA_LPV) OVER() AS TOTAL_FILTERED,  
+        (SELECT COUNT(FICHA_LPV.CD_FICHA_LPV) FROM FICHA_LPV) AS TOTAL_TABLE 
 
-                    FROM ficha_lpv
-                    INNER JOIN animais ON (ficha_lpv.CD_ANIMAL = animais.cd_animal)
-                    LEFT JOIN tipo_animal ON (animais.cd_tipo_animal = tipo_animal.cd_tipo_animal)
-                    LEFT JOIN especies ON (animais.cd_especie = especies.cd_especie)
-                    LEFT JOIN racas ON (animais.cd_raca = racas.cd_raca)
-                    LEFT JOIN pessoas dono ON (animais.cd_pessoa_dono1 = dono.cd_pessoa)
-                    LEFT JOIN pessoas veterinario ON (ficha_lpv.CD_PESSOA_VETERINARIO_REMETENTE = veterinario.cd_pessoa)
-                    LEFT JOIN cidades ON (ficha_lpv.CD_CIDADE_PROPRIEDADE = cidades.cd_cidade)
+        FROM FICHA_LPV
+        INNER JOIN ANIMAIS ON (FICHA_LPV.CD_ANIMAL = ANIMAIS.CD_ANIMAL)
+        LEFT JOIN TIPO_ANIMAL ON (ANIMAIS.CD_TIPO_ANIMAL = TIPO_ANIMAL.CD_TIPO_ANIMAL)
+        LEFT JOIN ESPECIES ON (ANIMAIS.CD_ESPECIE = ESPECIES.CD_ESPECIE)
+        LEFT JOIN RACAS ON (ANIMAIS.CD_RACA = RACAS.CD_RACA)
+        LEFT JOIN PESSOAS DONO ON (ANIMAIS.CD_PESSOA_DONO1 = DONO.CD_PESSOA)
+        LEFT JOIN PESSOAS VETERINARIO ON (FICHA_LPV.CD_PESSOA_VETERINARIO_REMETENTE = VETERINARIO.CD_PESSOA)
+        LEFT JOIN CIDADES ON (FICHA_LPV.CD_CIDADE_PROPRIEDADE = CIDADES.CD_CIDADE)
 
-                    WHERE 1=1 ";
+        WHERE 1=1 ";
 
-        if (!empty($pesquisaCodigo)) $query .= " AND ficha_lpv.CD_FICHA_LPV LIKE '%$pesquisaCodigo%'";
-        if (!empty($pesquisaDataInicio)) $query .= " AND ficha_lpv.DT_FICHA >= '$pesquisaDataInicio'";
-        if (!empty($pesquisaDataFim)) $query .= " AND ficha_lpv.DT_FICHA <= '$pesquisaDataFim'";
-        if (!empty($pesquisaNomeAnimal)) $query .= " AND animais.nm_animal LIKE '%$pesquisaNomeAnimal%'";
-        if (!empty($pesquisaTipoAnimal)) $query .= " AND tipo_animal.descricao LIKE '%$pesquisaTipoAnimal%'";
-        if (!empty($pesquisaEspecieAnimal)) $query .= " AND especies.descricao LIKE '%$pesquisaEspecieAnimal%'";
-        if (!empty($pesquisaRacaAnimal)) $query .= " AND racas.descricao LIKE '%$pesquisaRacaAnimal%'";
-        if (!empty($pesquisaSexoAnimal)) $query .= " AND animais.sexo = '$pesquisaSexoAnimal'";
-        if (!empty($pesquisaDono)) $query .= " AND dono.nm_pessoa LIKE '%$pesquisaDono%'";
-        if (!empty($pesquisaVeterinario)) $query .= " AND veterinario.nm_pessoa LIKE '%$pesquisaVeterinario%'";
-        if (!empty($pesquisaMunicipio)) $query .= " AND cidades.nome LIKE '%$pesquisaMunicipio%'";
-        if (!empty($pesquisaMaterial)) $query .= " AND ficha_lpv.DS_MATERIAL_RECEBIDO LIKE '%$pesquisaMaterial%'";
-        if (!empty($pesquisaDiagnosticoPresuntivo)) $query .= " AND ficha_lpv.DS_DIAGNOSTICO_PRESUNTIVO LIKE '%$pesquisaDiagnosticoPresuntivo%'";
-        if (!empty($pesquisaAvaliacaoTumor)) $query .= " AND ficha_lpv.FL_AVALIACAO_TUMORAL_COM_MARGEM = '$pesquisaAvaliacaoTumor'";
-        if (!empty($pesquisaEpidemiologia)) $query .= " AND ficha_lpv.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA LIKE '%$pesquisaEpidemiologia%'";
-        if (!empty($pesquisaLessaoMacro)) $query .= " AND ficha_lpv.DS_LESOES_MACROSCOPICAS LIKE '%$pesquisaLessaoMacro%'";
-        if (!empty($pesquisaLessaoHisto)) $query .= " AND ficha_lpv.DS_LESOES_HISTOLOGICAS LIKE '%$pesquisaLessaoHisto%'";
-        if (!empty($pesquisaDiagnostico)) $query .= " AND ficha_lpv.DS_DIAGNOSTICO LIKE '%$pesquisaDiagnostico%'";
-        if (!empty($pesquisaRelatorio)) $query .= " AND ficha_lpv.DS_RELATORIO LIKE '%$pesquisaRelatorio%'";
-       
+        if (!empty($pesquisaCodigo)) $query .= " AND FICHA_LPV.CD_FICHA_LPV LIKE '%$pesquisaCodigo%'";
+        if (!empty($pesquisaDataInicio)) $query .= " AND FICHA_LPV.DT_FICHA >= '$pesquisaDataInicio'";
+        if (!empty($pesquisaDataFim)) $query .= " AND FICHA_LPV.DT_FICHA <= '$pesquisaDataFim'";
+        if (!empty($pesquisaNomeAnimal)) $query .= " AND ANIMAIS.NM_ANIMAL LIKE '%$pesquisaNomeAnimal%'";
+        if (!empty($pesquisaTipoAnimal)) $query .= " AND TIPO_ANIMAL.DESCRICAO LIKE '%$pesquisaTipoAnimal%'";
+        if (!empty($pesquisaEspecieAnimal)) $query .= " AND ESPECIES.DESCRICAO LIKE '%$pesquisaEspecieAnimal%'";
+        if (!empty($pesquisaRacaAnimal)) $query .= " AND RACAS.DESCRICAO LIKE '%$pesquisaRacaAnimal%'";
+        if (!empty($pesquisaSexoAnimal)) $query .= " AND ANIMAIS.SEXO = '$pesquisaSexoAnimal'";
+        if (!empty($pesquisaDono)) $query .= " AND DONO.NM_PESSOA LIKE '%$pesquisaDono%'";
+        if (!empty($pesquisaVeterinario)) $query .= " AND VETERINARIO.NM_PESSOA LIKE '%$pesquisaVeterinario%'";
+        if (!empty($pesquisaMunicipio)) $query .= " AND CIDADES.NOME LIKE '%$pesquisaMunicipio%'";
+        if (!empty($pesquisaMaterial)) $query .= " AND FICHA_LPV.DS_MATERIAL_RECEBIDO LIKE '%$pesquisaMaterial%'";
+        if (!empty($pesquisaDiagnosticoPresuntivo)) $query .= " AND FICHA_LPV.DS_DIAGNOSTICO_PRESUNTIVO LIKE '%$pesquisaDiagnosticoPresuntivo%'";
+        if (!empty($pesquisaAvaliacaoTumor)) $query .= " AND FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM = '$pesquisaAvaliacaoTumor'";
+        if (!empty($pesquisaEpidemiologia)) $query .= " AND FICHA_LPV.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA LIKE '%$pesquisaEpidemiologia%'";
+        if (!empty($pesquisaLessaoMacro)) $query .= " AND FICHA_LPV.DS_LESOES_MACROSCOPICAS LIKE '%$pesquisaLessaoMacro%'";
+        if (!empty($pesquisaLessaoHisto)) $query .= " AND FICHA_LPV.DS_LESOES_HISTOLOGICAS LIKE '%$pesquisaLessaoHisto%'";
+        if (!empty($pesquisaDiagnostico)) $query .= " AND FICHA_LPV.DS_DIAGNOSTICO LIKE '%$pesquisaDiagnostico%'";
+        if (!empty($pesquisaRelatorio)) $query .= " AND FICHA_LPV.DS_RELATORIO LIKE '%$pesquisaRelatorio%'";
+
 
         if (!empty($orderBy)) {
             $query .= " ORDER BY $orderBy $orderAscDesc";
         }
 
-       if(!empty($start) && !empty($limit)) $query .= " LIMIT $start, $limit";
+        if (!empty($start) && !empty($limit)) $query .= " LIMIT $start, $limit";
 
         $read->FullRead($query);
 
@@ -242,14 +244,14 @@ class Atendimentos
                 "DS_DIAGNOSTICO_PRESUNTIVO" => $this->diagnosticoPresuntivo,
                 "FL_AVALIACAO_TUMORAL_COM_MARGEM" => $this->avalicaoTumoralMargem,
                 "DS_EPIDEMIOLOGIA_HISTORIA_CLINICA" => $this->epidemiologia,
-                "DS_LESOES_MACROSCOPICAS" => $this-> lessoesMacroscopias,
+                "DS_LESOES_MACROSCOPICAS" => $this->lessoesMacroscopias,
                 "DS_LESOES_HISTOLOGICAS" => $this->lessoesHistologicas,
                 "DS_DIAGNOSTICO" => $this->diagnostico,
                 "DS_RELATORIO" => $this->relatorio
             ];
 
             $insert->ExeInsert("FICHA_LPV", $dadosInsert);
-            
+
             if (!$insert->getResult()) {
                 throw new Exception($insert->getMessage());
             }
@@ -274,7 +276,7 @@ class Atendimentos
             ];
 
             $insert->ExeInsert("IMAGENS_ATENDIMENTOS", $dadosInsert);
-            
+
             if (!$insert->getResult()) {
                 throw new Exception($insert->getMessage());
             }
@@ -300,21 +302,21 @@ class Atendimentos
                 $update = new \App\Conn\Update($Conn);
 
                 $dadosUpdate = [
-                "DT_FICHA" => $this->data,
-                "CD_ANIMAL" => $this->animal->getCodigo(),
-                "CD_PESSOA_VETERINARIO_REMETENTE" => $this->veterinarioRemetente->getCodigo(),
-                "CD_CIDADE_PROPRIEDADE" => $this->cidadeOrigem->getCodigo(),
-                "TOTAL_ANIMAIS" => $this->totalAnimais,
-                "QTD_ANIMAIS_MORTOS" => $this->AnimaisMortos,
-                "QTD_ANIMAIS_DOENTES" => $this->AnimaisDoentes,
-                "DS_MATERIAL_RECEBIDO" => $this->materialRecebido,
-                "DS_DIAGNOSTICO_PRESUNTIVO" => $this->diagnosticoPresuntivo,
-                "FL_AVALIACAO_TUMORAL_COM_MARGEM" => $this->avalicaoTumoralMargem,
-                "DS_EPIDEMIOLOGIA_HISTORIA_CLINICA" => $this->epidemiologia,
-                "DS_LESOES_MACROSCOPICAS" => $this-> lessoesMacroscopias,
-                "DS_LESOES_HISTOLOGICAS" => $this->lessoesHistologicas,
-                "DS_DIAGNOSTICO" => $this->diagnostico,
-                "DS_RELATORIO" => $this->relatorio
+                    "DT_FICHA" => $this->data,
+                    "CD_ANIMAL" => $this->animal->getCodigo(),
+                    "CD_PESSOA_VETERINARIO_REMETENTE" => $this->veterinarioRemetente->getCodigo(),
+                    "CD_CIDADE_PROPRIEDADE" => $this->cidadeOrigem->getCodigo(),
+                    "TOTAL_ANIMAIS" => $this->totalAnimais,
+                    "QTD_ANIMAIS_MORTOS" => $this->AnimaisMortos,
+                    "QTD_ANIMAIS_DOENTES" => $this->AnimaisDoentes,
+                    "DS_MATERIAL_RECEBIDO" => $this->materialRecebido,
+                    "DS_DIAGNOSTICO_PRESUNTIVO" => $this->diagnosticoPresuntivo,
+                    "FL_AVALIACAO_TUMORAL_COM_MARGEM" => $this->avalicaoTumoralMargem,
+                    "DS_EPIDEMIOLOGIA_HISTORIA_CLINICA" => $this->epidemiologia,
+                    "DS_LESOES_MACROSCOPICAS" => $this->lessoesMacroscopias,
+                    "DS_LESOES_HISTOLOGICAS" => $this->lessoesHistologicas,
+                    "DS_DIAGNOSTICO" => $this->diagnostico,
+                    "DS_RELATORIO" => $this->relatorio
                 ];
 
                 $update->ExeUpdate("FICHA_LPV", $dadosUpdate, "WHERE CD_FICHA_LPV = :D", "D=$this->codigo");
@@ -373,83 +375,103 @@ class Atendimentos
     // }
 
 
-    public function getCodigo() {
+    public function getCodigo()
+    {
         return $this->codigo;
     }
 
-    public function getData() {
+    public function getData()
+    {
         return $this->data;
     }
 
-    public function getAnimal() {
+    public function getAnimal()
+    {
         return $this->animal;
     }
 
-    public function getVeterinarioRemetente() {
+    public function getVeterinarioRemetente()
+    {
         return $this->veterinarioRemetente;
     }
 
-    public function getCidadeOrigem() {
+    public function getCidadeOrigem()
+    {
         return $this->cidadeOrigem;
     }
 
-    public function getTotalAnimais() {
+    public function getTotalAnimais()
+    {
         return $this->totalAnimais;
     }
 
-    public function getAnimaisMortos() {
+    public function getAnimaisMortos()
+    {
         return $this->AnimaisMortos;
     }
 
-    public function getAnimaisDoentes() {
+    public function getAnimaisDoentes()
+    {
         return $this->AnimaisDoentes;
     }
 
-    public function getMaterialRecebido() {
+    public function getMaterialRecebido()
+    {
         return $this->materialRecebido;
     }
 
-    public function getDiagnosticoPresuntivo() {
+    public function getDiagnosticoPresuntivo()
+    {
         return $this->diagnosticoPresuntivo;
     }
 
-    public function getAvalicaoTumoralMargem() {
+    public function getAvalicaoTumoralMargem()
+    {
         return $this->avalicaoTumoralMargem;
     }
 
-    public function getEpidemiologia() {
+    public function getEpidemiologia()
+    {
         return $this->epidemiologia;
     }
 
-    public function getLessoesMacroscopias() {
+    public function getLessoesMacroscopias()
+    {
         return $this->lessoesMacroscopias;
     }
 
-    public function getLessoesHistologicas() {
+    public function getLessoesHistologicas()
+    {
         return $this->lessoesHistologicas;
     }
 
-    public function getDiagnostico() {
+    public function getDiagnostico()
+    {
         return $this->diagnostico;
     }
 
-    public function getRelatorio() {
+    public function getRelatorio()
+    {
         return $this->relatorio;
     }
 
-    public function getResult() {
+    public function getResult()
+    {
         return $this->Result;
     }
 
-    public function getMessage() {
+    public function getMessage()
+    {
         return $this->Message;
     }
 
-    public function getReturn() {
+    public function getReturn()
+    {
         return $this->Return;
     }
 
-    public function setImagem($e) {
+    public function setImagem($e)
+    {
         $this->idImagem = $e;
     }
 }

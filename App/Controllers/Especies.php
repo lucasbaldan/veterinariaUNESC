@@ -17,10 +17,11 @@ class Especies
             $grid = $request->getParsedBody();
 
             $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
-            if ($orderBy == 0) $orderBy = "especies.cd_especie";
-            if ($orderBy == 1) $orderBy = "especies.descricao";
-            if ($orderBy == 2) $orderBy = "tipo_animal.descricao";
-            if ($orderBy == 3) $orderBy = "especies.fl_ativo";
+            if ($orderBy == 0) $orderBy = "ESPECIES.CD_ESPECIE";
+            if ($orderBy == 1) $orderBy = "ESPECIES.DESCRICAO";
+            if ($orderBy == 2) $orderBy = "TIPO_ANIMAL.DESCRICAO";
+            if ($orderBy == 3) $orderBy = "ESPECIES.FL_ATIVO";
+
 
             $parametrosBusca = [
                 "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',
@@ -73,7 +74,7 @@ class Especies
                 $cad->Atualizar();
             }
 
-            if(!$cad->getResult()){
+            if (!$cad->getResult()) {
                 throw new Exception($cad->getMessage());
             }
 
@@ -100,9 +101,9 @@ class Especies
 
             $cad = new \App\Models\Especies(null, null, '', $codigo);
             $cad->Excluir();
-            
 
-            if(!$cad->getResult()){
+
+            if (!$cad->getResult()) {
                 throw new Exception($cad->getMessage());
             }
 
@@ -132,14 +133,13 @@ class Especies
                 $parametrosPesquisa = [
                     "colunas" => "CD_ESPECIE AS id, DESCRICAO AS text",
                     "descricaoPesquisa" => empty($descricao) ? '' : $descricao,
-                    "TipoAnimal" => $tipoAnimal 
+                    "TipoAnimal" => $tipoAnimal
                 ];
 
                 $busca->generalSearch($parametrosPesquisa);
-                
             }
 
-            if(!$busca->getResult()){
+            if (!$busca->getResult()) {
                 throw new Exception($busca->getMessage());
             }
 

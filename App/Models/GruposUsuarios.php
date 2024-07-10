@@ -54,7 +54,7 @@ class GruposUsuarios
     $insert = new \App\Conn\Insert();
 
     try {
-      $insert->ExeInsert("grupos_usuarios", [
+      $insert->ExeInsert("GRUPOS_USUARIOS", [
         // "CD_GRUPO_USUARIOS" => $this->CdGrupoUsuarios,
         "NM_GRUPO_USUARIOS" => $this->NmGrupoUsuarios,
         "PERMISSOES" => $this->Permissoes,
@@ -78,7 +78,7 @@ class GruposUsuarios
   {
     $read = new \App\Conn\Read();
     try {
-      $read->ExeRead("grupos_usuarios", "WHERE CD_GRUPO_USUARIOS = :C", "C=$this->CdGrupoUsuarios");
+      $read->ExeRead("GRUPOS_USUARIOS", "WHERE CD_GRUPO_USUARIOS = :C", "C=$this->CdGrupoUsuarios");
       $dadosFicha = $read->getResult()[0] ?? [];
       if ($dadosFicha) {
         $dadosUpdate = [
@@ -89,7 +89,7 @@ class GruposUsuarios
 
         $update = new \App\Conn\Update();
 
-        $update->ExeUpdate("grupos_usuarios", $dadosUpdate, "WHERE CD_GRUPO_USUARIOS = :C", "C=$this->CdGrupoUsuarios");
+        $update->ExeUpdate("GRUPOS_USUARIOS", $dadosUpdate, "WHERE CD_GRUPO_USUARIOS = :C", "C=$this->CdGrupoUsuarios");
         $atualizado = !empty($update->getResult());
 
         if (!$atualizado) {
@@ -109,13 +109,13 @@ class GruposUsuarios
   {
     $read = new \App\Conn\Read();
     try {
-      $read->ExeRead("grupos_usuarios", "WHERE CD_GRUPO_USUARIOS = :C", "C=$cdGrupoUsuarios");
+      $read->ExeRead("GRUPOS_USUARIOS", "WHERE CD_GRUPO_USUARIOS = :C", "C=$cdGrupoUsuarios");
       $dadosFicha = $read->getResult()[0] ?? [];
       if ($dadosFicha) {
 
         $update = new \App\Conn\Update();
 
-        $update->ExeUpdate("grupos_usuarios", [ "PERMISSOES" => $permissoes], "WHERE CD_GRUPO_USUARIOS = :C", "C=$cdGrupoUsuarios");
+        $update->ExeUpdate("GRUPOS_USUARIOS", ["PERMISSOES" => $permissoes], "WHERE CD_GRUPO_USUARIOS = :C", "C=$cdGrupoUsuarios");
         $atualizado = !empty($update->getResult());
 
         if (!$atualizado) {
@@ -158,7 +158,7 @@ class GruposUsuarios
   public static function RetornaDadosGrupoUsuarios($cdGrupoUsuarios)
   {
     $read = new \App\Conn\Read();
-    $read->FullRead("SELECT G.* FROM grupos_usuarios G  WHERE G.CD_GRUPO_USUARIOS = :C", "C=$cdGrupoUsuarios");
+    $read->FullRead("SELECT G.* FROM GRUPOS_USUARIOS G  WHERE G.CD_GRUPO_USUARIOS = :C LIMIT 30", "C=$cdGrupoUsuarios");
 
     return $read->getResult()[0];
   }
@@ -167,7 +167,7 @@ class GruposUsuarios
   {
     $delete = new \App\Conn\delete();
 
-    $delete->ExeDelete("grupos_usuarios", "WHERE CD_GRUPO_USUARIOS =:C", "C=$cdGrupoUsuarios");
+    $delete->ExeDelete("GRUPOS_USUARIOS", "WHERE CD_GRUPO_USUARIOS =:C", "C=$cdGrupoUsuarios");
     $deletado = !empty($delete->getResult());
 
     if ($deletado) {
@@ -180,44 +180,45 @@ class GruposUsuarios
   public static function SelectGrid($arrayParam)
   {
 
-      $start = $arrayParam['inicio'];
-      $limit = $arrayParam['limit'];
-      $orderBy = $arrayParam['orderBy'];
-      $orderAscDesc = $arrayParam['orderAscDesc'];
-      $pesquisaCodigo = $arrayParam['pesquisaCodigo'];
-      $pesquisaDescricao = $arrayParam['pesquisaDescricao'];
-      $pesquisaAtivo = $arrayParam['pesquisaAtivo'];
+    $start = $arrayParam['inicio'];
+    $limit = $arrayParam['limit'];
+    $orderBy = $arrayParam['orderBy'];
+    $orderAscDesc = $arrayParam['orderAscDesc'];
+    $pesquisaCodigo = $arrayParam['pesquisaCodigo'];
+    $pesquisaDescricao = $arrayParam['pesquisaDescricao'];
+    $pesquisaAtivo = $arrayParam['pesquisaAtivo'];
 
-      $read = new \App\Conn\Read();
+    $read = new \App\Conn\Read();
 
-      $query = "SELECT grupos_usuarios.cd_grupo_usuarios,
-                grupos_usuarios.nm_grupo_usuarios,
-                (CASE WHEN grupos_usuarios.fl_ativo = 'S' THEN 'Sim' ELSE 'Não' END) as fl_ativo, 
-                COUNT(grupos_usuarios.cd_grupo_usuarios) OVER() AS total_filtered,  
-                (SELECT COUNT(grupos_usuarios.cd_grupo_usuarios) FROM grupos_usuarios) AS total_table 
-                FROM grupos_usuarios
+    $query = "SELECT GRUPOS_USUARIOS.CD_GRUPO_USUARIOS,
+                GRUPOS_USUARIOS.NM_GRUPO_USUARIOS,
+                (CASE WHEN GRUPOS_USUARIOS.FL_ATIVO = 'S' THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO, 
+                COUNT(GRUPOS_USUARIOS.CD_GRUPO_USUARIOS) OVER() AS TOTAL_FILTERED,  
+                (SELECT COUNT(GRUPOS_USUARIOS.CD_GRUPO_USUARIOS) FROM GRUPOS_USUARIOS) AS TOTAL_TABLE 
+                FROM GRUPOS_USUARIOS
                 WHERE 1=1";
 
-      if (!empty($pesquisaCodigo)) {
-          $query .= " AND grupos_usuarios.cd_grupo_usuarios LIKE '%$pesquisaCodigo%'";
-      }
-      if (!empty($pesquisaDescricao)) {
-          $query .= " AND grupos_usuarios.nm_grupo_usuarios LIKE '%$pesquisaDescricao%'";
-      }
-      if (!empty($pesquisaAtivo)) {
-          $pesquisaAtivo = $pesquisaAtivo == 2 ? 0 : 1;
-          $query .= " AND grupos_usuarios.fl_ativo = $pesquisaAtivo";
-      }
+    if (!empty($pesquisaCodigo)) {
+      $query .= " AND GRUPOS_USUARIOS.CD_GRUPO_USUARIOS LIKE '%$pesquisaCodigo%'";
+    }
+    if (!empty($pesquisaDescricao)) {
+      $query .= " AND GRUPOS_USUARIOS.NM_GRUPO_USUARIOS LIKE '%$pesquisaDescricao%'";
+    }
+    if (!empty($pesquisaAtivo)) {
+      $pesquisaAtivo = $pesquisaAtivo == 2 ? 0 : 1;
+      $query .= " AND GRUPOS_USUARIOS.FL_ATIVO = $pesquisaAtivo";
+    }
 
-      if (!empty($orderBy)) {
-          $query .= " ORDER BY $orderBy $orderAscDesc";
-      }
 
-      $query .= " LIMIT $start, $limit";
+    if (!empty($orderBy)) {
+      $query .= " ORDER BY $orderBy $orderAscDesc";
+    }
 
-      $read->FullRead($query);
+    $query .= " LIMIT $start, $limit";
 
-      return $read->getResult();
+    $read->FullRead($query);
+
+    return $read->getResult();
   }
 
   public function GetMessage()

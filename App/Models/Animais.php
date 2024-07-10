@@ -54,17 +54,17 @@ class Animais
             }
 
             return new self(
-                $read->getResult()[0]['nm_animal'],
-                $read->getResult()[0]['fl_dono_nao_declarado'],
-                $read->getResult()[0]['cd_tipo_animal'],
-                $read->getResult()[0]['cd_especie'],
-                $read->getResult()[0]['cd_raca'],
-                $read->getResult()[0]['sexo'],
-                $read->getResult()[0]['idade_aproximada'],
-                $read->getResult()[0]['ano_nascimento'],
-                $read->getResult()[0]['cd_pessoa_dono1'],
-                $read->getResult()[0]['cd_pessoa_dono2'],
-                $read->getResult()[0]['cd_animal']
+                $read->getResult()[0]['NM_ANIMAL'],
+                $read->getResult()[0]['FL_DONO_NAO_DECLARADO'],
+                $read->getResult()[0]['CD_TIPO_ANIMAL'],
+                $read->getResult()[0]['CD_ESPECIE'],
+                $read->getResult()[0]['CD_RACA'],
+                $read->getResult()[0]['SEXO'],
+                $read->getResult()[0]['IDADE_APROXIMADA'],
+                $read->getResult()[0]['ANO_NASCIMENTO'],
+                $read->getResult()[0]['CD_PESSOA_DONO1'],
+                $read->getResult()[0]['CD_PESSOA_DONO2'],
+                $read->getResult()[0]['CD_ANIMAL']
             );
         } catch (Exception $e) {
             return new self('', '', '', '', '', '', '', '', '', '');
@@ -87,23 +87,23 @@ class Animais
 
         $read = new \App\Conn\Read();
 
-        $query = "SELECT animais.cd_animal,
-                animais.nm_animal,
-                tipo_animal.descricao as tipo_animal_descricao,
-                '-' as nome_dono,
-                especies.descricao especie_descricao,
-                racas.descricao raca_descricao,
+        $query = "SELECT ANIMAIS.CD_ANIMAL,
+                ANIMAIS.NM_ANIMAL,
+                TIPO_ANIMAL.DESCRICAO AS TIPO_ANIMAL_DESCRICAO,
+                '-' AS NOME_DONO,
+                ESPECIES.DESCRICAO ESPECIE_DESCRICAO,
+                RACAS.DESCRICAO RACA_DESCRICAO,
                 (SELECT COUNT(*) 
-                    FROM animais 
-                    INNER JOIN tipo_animal ON (animais.cd_tipo_animal = tipo_animal.cd_tipo_animal)
-                    LEFT JOIN racas ON (animais.cd_raca = racas.cd_raca)
-                    LEFT JOIN especies ON (racas.cd_especie = especies.cd_especie)
-                    WHERE 1=1) AS total_filtered,
-                (SELECT COUNT(*) FROM animais) AS total_table 
-            FROM animais
-            INNER JOIN tipo_animal ON (animais.cd_tipo_animal = tipo_animal.cd_tipo_animal)
-            LEFT JOIN racas ON (animais.cd_raca = racas.cd_raca)
-            LEFT JOIN especies ON (racas.cd_especie = especies.cd_especie)
+                    FROM ANIMAIS 
+                    INNER JOIN TIPO_ANIMAL ON (ANIMAIS.CD_TIPO_ANIMAL = TIPO_ANIMAL.CD_TIPO_ANIMAL)
+                    LEFT JOIN RACAS ON (ANIMAIS.CD_RACA = RACAS.CD_RACA)
+                    LEFT JOIN ESPECIES ON (RACAS.CD_ESPECIE = ESPECIES.CD_ESPECIE)
+                    WHERE 1=1) AS TOTAL_FILTERED,
+                (SELECT COUNT(*) FROM ANIMAIS) AS TOTAL_TABLE 
+            FROM ANIMAIS
+            INNER JOIN TIPO_ANIMAL ON (ANIMAIS.CD_TIPO_ANIMAL = TIPO_ANIMAL.CD_TIPO_ANIMAL)
+            LEFT JOIN RACAS ON (ANIMAIS.CD_RACA = RACAS.CD_RACA)
+            LEFT JOIN ESPECIES ON (RACAS.CD_ESPECIE = ESPECIES.CD_ESPECIE)
             WHERE 1=1";
         // $query = "SELECT animais.cd_animal,
         //           animais.nm_animal,
@@ -120,19 +120,19 @@ class Animais
         //           WHERE 1=1";
 
         if (!empty($pesquisaCodigo)) {
-            $query .= " AND animais.cd_animal LIKE '%$pesquisaCodigo%'";
+            $query .= " AND ANIMAIS.CD_ANIMAL LIKE '%$pesquisaCodigo%'";
         }
         if (!empty($pesquisaDescricao)) {
-            $query .= " AND animais.nm_animal LIKE '%$pesquisaDescricao%'";
+            $query .= " AND ANIMAIS.NM_ANIMAL LIKE '%$pesquisaDescricao%'";
         }
         if (!empty($pesquisaTipoAnimal)) {
-            $query .= " AND tipo_animal.descricao LIKE '%$pesquisaTipoAnimal%'";
+            $query .= " AND TIPO_ANIMAL.DESCRICAO LIKE '%$pesquisaTipoAnimal%'";
         }
         if (!empty($pesquisaEspecie)) {
-            $query .= " AND especies.descricao LIKE '%$pesquisaEspecie%'";
+            $query .= " AND ESPECIES.DESCRICAO LIKE '%$pesquisaEspecie%'";
         }
         if (!empty($pesquisaRaca)) {
-            $query .= " AND racas.descricao LIKE '%$pesquisaRaca%'";
+            $query .= " AND RACAS.DESCRICAO LIKE '%$pesquisaRaca%'";
         }
 
         if (!empty($orderBy)) {
@@ -251,15 +251,15 @@ class Animais
             $read = new \App\Conn\Read();
 
             $query = "SELECT $colunas
-                  FROM animais
-                  LEFT JOIN tipo_animal ON (animais.cd_tipo_animal = tipo_animal.cd_tipo_animal) 
-                  LEFT JOIN pessoas dono ON (animais.cd_pessoa_dono1 = dono.cd_pessoa)
-                  WHERE 1=1 ";
+          FROM ANIMAIS
+          LEFT JOIN TIPO_ANIMAL ON (ANIMAIS.CD_TIPO_ANIMAL = TIPO_ANIMAL.CD_TIPO_ANIMAL) 
+          LEFT JOIN PESSOAS DONO ON (ANIMAIS.CD_PESSOA_DONO1 = DONO.CD_PESSOA)
+          WHERE 1=1 ";
 
-            if (!empty($nome)) $query .= " AND animais.nm_animal LIKE '%$nome%' ";
-            if (!empty($tipoAnimal)) $query .= " AND tipo_animal.descricao LIKE '%$tipoAnimal%' ";
-            if (!empty($anoNascimento)) $query .= " AND animais.ano_nascimento = '$anoNascimento' ";
-            if (!empty($dono1)) $query .= " AND dono.nm_pessoa LIKE '%$dono1%' ";
+            if (!empty($nome)) $query .= " AND ANIMAIS.NM_ANIMAL LIKE '%$nome%' ";
+            if (!empty($tipoAnimal)) $query .= " AND TIPO_ANIMAL.DESCRICAO LIKE '%$tipoAnimal%' ";
+            if (!empty($anoNascimento)) $query .= " AND ANO_NASCIMENTO = '$anoNascimento' ";
+            if (!empty($dono1)) $query .= " AND DONO.NM_PESSOA LIKE '%$dono1%' ";
 
             $query .= "LIMIT 50";
 

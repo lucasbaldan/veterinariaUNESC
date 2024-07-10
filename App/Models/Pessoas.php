@@ -73,18 +73,18 @@ class Pessoas
             }
 
             return new self(
-                $read->getResult()[0]['nm_pessoa'],
-                $read->getResult()[0]['cd_cidade'],
-                $read->getResult()[0]['nr_telefone'],
+                $read->getResult()[0]['NM_PESSOA'],
+                $read->getResult()[0]['CD_CIDADE'],
+                $read->getResult()[0]['NR_TELEFONE'],
                 '',
-                $read->getResult()[0]['ds_email'],
-                $read->getResult()[0]['nr_crmv'],
-                $read->getResult()[0]['cd_bairro'],
-                $read->getResult()[0]['cd_logradouro'],
-                $read->getResult()[0]['fl_ativo'],
-                $read->getResult()[0]['cpf'],
-                $read->getResult()[0]['data_nascimento'],
-                $read->getResult()[0]['cd_pessoa']
+                $read->getResult()[0]['DS_EMAIL'],
+                $read->getResult()[0]['NR_CRMV'],
+                $read->getResult()[0]['CD_BAIRRO'],
+                $read->getResult()[0]['CD_LOGRADOURO'],
+                $read->getResult()[0]['FL_ATIVO'],
+                $read->getResult()[0]['CPF'],
+                $read->getResult()[0]['DATA_NASCIMENTO'],
+                $read->getResult()[0]['CD_PESSOA']
             );
         } catch (Exception $e) {
             return new self('', '', '', '', '', '', '', '', '', '', '');
@@ -171,21 +171,28 @@ class Pessoas
         $read = new \App\Conn\Read();
 
         $query = "SELECT $colunas
-                  FROM pessoas
-                  WHERE pessoas.fl_ativo = 'S' ";
+          FROM PESSOAS
+          WHERE PESSOAS.FL_ATIVO = 'S' ";
 
-        if (!empty($nome)) $query .= " AND pessoas.nm_pessoa LIKE '%$nome%' ";
-        if (!empty($cpf)) $query .= " AND pessoas.cpf LIKE '%$cpf%' ";
-        if (!empty($dataNascimento)) $query .= " AND pessoas.data_nascimento = '$dataNascimento' ";
+        if (!empty($nome)) {
+            $query .= " AND PESSOAS.NM_PESSOA LIKE '%$nome%' ";
+        }
+        if (!empty($cpf)) {
+            $query .= " AND PESSOAS.CPF LIKE '%$cpf%' ";
+        }
+        if (!empty($dataNascimento)) {
+            $query .= " AND PESSOAS.DATA_NASCIMENTO = '$dataNascimento' ";
+        }
 
         $query .= "LIMIT 100";
+
 
         // if (!empty($search)) {
         //     $read->FullRead("SELECT P.* FROM pessoas P  WHERE UPPER(CONCAT(P.CD_PESSOA, ' ', P.NM_PESSOA)) LIKE UPPER(CONCAT('%', :P, '%')) ORDER BY P.NM_PESSOA ASC", "P=$search");
         // } else {
         //     $read->FullRead("SELECT P.* FROM PESSOAS P");
         // }
-        
+
         $read->FullRead($query);
         if (empty($read->getResult())) {
             return false;
@@ -205,7 +212,7 @@ class Pessoas
     public static function RetornaDadosPessoa($cdPessoa)
     {
         $read = new \App\Conn\Read();
-        $read->FullRead("SELECT P.* FROM pessoas
+        $read->FullRead("SELECT P.* FROM PESSOAS
                           WHERE CD_PESSOA = :C", "C=$cdPessoa");
 
         return $read->getResult();
@@ -216,7 +223,7 @@ class Pessoas
         try {
             $delete = new \App\Conn\delete();
 
-            $delete->ExeDelete("pessoas", "WHERE CD_PESSOA =:C", "C=$this->CdPessoa");
+            $delete->ExeDelete("PESSOAS", "WHERE CD_PESSOA =:C", "C=$this->CdPessoa");
 
             if (!$delete->getResult()[0]) throw new Exception($delete->getResult()[1]);
 
@@ -232,7 +239,7 @@ class Pessoas
     public static function AtualizarExclusaoPessoa($cdPessoa, $acao)
     {
         $read = new \App\Conn\Read();
-        $read->ExeRead("pessoas", "WHERE CD_PESSOA = :C", "C=$cdPessoa");
+        $read->ExeRead("PESSOAS", "WHERE CD_PESSOA = :C", "C=$cdPessoa");
         $dadosFicha = $read->getResult()[0] ?? [];
         if ($dadosFicha) {
             $update = new \App\Conn\Update();
@@ -240,7 +247,7 @@ class Pessoas
             if ($acao == 'excluir') {
                 $update->ExeUpdate("pessoas", ['FL_EXCLUIDO' => 'S'], "WHERE CD_PESSOA = :C", "C=$cdPessoa");
             } else {
-                $update->ExeUpdate("pessoas", ['FL_EXCLUIDO' => 'N'], "WHERE CD_PESSOA = :C", "C=$cdPessoa");
+                $update->ExeUpdate("PESSOAS", ['FL_EXCLUIDO' => 'N'], "WHERE CD_PESSOA = :C", "C=$cdPessoa");
             }
 
             $atualizado = !empty($update->getResult());
@@ -268,23 +275,24 @@ class Pessoas
 
         $read = new \App\Conn\Read();
 
-        $query = "SELECT pessoas.cd_pessoa,
-                  pessoas.nm_pessoa,
-                  (CASE WHEN pessoas.fl_ativo = 'S' THEN 'Sim' ELSE 'Não' END) as fl_ativo, 
-                  COUNT(pessoas.CD_PESSOA) OVER() AS total_filtered,  
-                  (SELECT COUNT(pessoas.CD_PESSOA) FROM pessoas) AS total_table 
-                  FROM pessoas
+        $query = "SELECT PESSOAS.CD_PESSOA,
+                  PESSOAS.NM_PESSOA,
+                  (CASE WHEN PESSOAS.FL_ATIVO = 'S' THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO, 
+                  COUNT(PESSOAS.CD_PESSOA) OVER() AS TOTAL_FILTERED,  
+                  (SELECT COUNT(PESSOAS.CD_PESSOA) FROM PESSOAS) AS TOTAL_TABLE 
+                  FROM PESSOAS
                   WHERE 1=1";
 
         if (!empty($pesquisaCodigo)) {
-            $query .= " AND pessoas.cd_pessoa LIKE '%$pesquisaCodigo%'";
+            $query .= " AND PESSOAS.CD_PESSOA LIKE '%$pesquisaCodigo%'";
         }
         if (!empty($pesquisaDescricao)) {
-            $query .= " AND pessoas.nm_pessoa LIKE '%$pesquisaDescricao%'";
+            $query .= " AND PESSOAS.NM_PESSOA LIKE '%$pesquisaDescricao%'";
         }
         if (!empty($pesquisaAtivo)) {
-            $query .= " AND pessoas.fl_ativo LIKE '%$pesquisaAtivo%'";
+            $query .= " AND PESSOAS.FL_ATIVO LIKE '%$pesquisaAtivo%'";
         }
+
 
         if (!empty($orderBy)) {
             $query .= " ORDER BY $orderBy $orderAscDesc";
@@ -371,23 +379,28 @@ class Pessoas
         return $this->Message;
     }
 
-    public function setNome($nome){
+    public function setNome($nome)
+    {
         $this->NmPessoa = $nome;
     }
 
-    public function setTelefone($telefone){
+    public function setTelefone($telefone)
+    {
         $this->NrTelefone = $telefone;
     }
 
-    public function setCRMV($crmv){
+    public function setCRMV($crmv)
+    {
         $this->NrCRMV = $crmv;
     }
 
-    public function setEmail($email){
+    public function setEmail($email)
+    {
         $this->DsEmail = $email;
     }
 
-    public function setCidade($cidade){
+    public function setCidade($cidade)
+    {
         $this->cidade = \App\Models\Municipios::findById($cidade);
     }
 }

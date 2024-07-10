@@ -17,8 +17,8 @@ class Bairros
             $grid = $request->getParsedBody();
 
             $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
-            if ($orderBy == 0) $orderBy = "bairros.cd_bairro";
-            if ($orderBy == 1) $orderBy = "bairros.nome";
+            if ($orderBy == 0) $orderBy = "BAIRROS.CD_BAIRRO";
+            if ($orderBy == 1) $orderBy = "BAIRROS.NOME";
 
             $parametrosBusca = [
                 "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',
@@ -123,7 +123,7 @@ class Bairros
                 $busca = new \App\Models\Bairros('', '',);
 
                 $parametrosPesquisa = [
-                    "colunas" => "cd_bairro AS id, nome AS text",
+                    "colunas" => "CD_BAIRRO AS id, NOME AS text",
                     "descricaoPesquisa" => empty($descricao) ? '' : $descricao,
                 ];
 

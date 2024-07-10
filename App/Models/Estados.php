@@ -42,7 +42,11 @@ class Estados
                 throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
             }
 
-            return new self($read->getResult()[0]['nome'], $read->getResult()[0]['UF'], $read->getResult()[0]['cd_ibge'], $read->getResult()[0]['desc_regiao_geografica'], $read->getResult()[0]['cd_estado']);
+            return new self($read->getResult()[0]['NOME'], 
+                            $read->getResult()[0]['UF'], 
+                            $read->getResult()[0]['CD_IBGE'], 
+                            $read->getResult()[0]['DESC_REGIAO_GEOGRAFICA'], 
+                            $read->getResult()[0]['CD_ESTADO']);
 
         } catch (Exception $e) {
             return new self('', '', '', '', '');
@@ -64,11 +68,11 @@ class Estados
                 throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
             }
 
-            return new self($read->getResult()[0]['nome'], 
+            return new self($read->getResult()[0]['NOME'], 
                             $read->getResult()[0]['UF'], 
-                            $read->getResult()[0]['cd_ibge'], 
-                            $read->getResult()[0]['desc_regiao_geografica'], 
-                            $read->getResult()[0]['cd_estado']);
+                            $read->getResult()[0]['CD_IBGE'], 
+                            $read->getResult()[0]['DESC_REGIAO_GEOGRAFICA'], 
+                            $read->getResult()[0]['CD_ESTADO']);
 
         } catch (Exception $e) {
             return new self('', '', '', '', '');

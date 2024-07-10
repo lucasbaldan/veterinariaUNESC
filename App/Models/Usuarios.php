@@ -28,30 +28,30 @@ class Usuarios
 
   public static function findById($id)
   {
-      try {
-          if (empty($id)) {
-              throw new Exception("Objeto vazio");
-          }
-
-          $read = new \App\Conn\Read();
-
-          $read->ExeRead("USUARIOS", "WHERE CD_USUARIO = :C LIMIT 1", "C=$id");
-
-          if ($read->getRowCount() == 0) {
-              throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
-          }
-
-          return new self(
-              $read->getResult()[0]['CD_PESSOA'],
-              $read->getResult()[0]['USUARIO'],
-              '',
-              $read->getResult()[0]['CD_GRUPO_USUARIOS'],
-              $read->getResult()[0]['FL_ATIVO'],
-              $read->getResult()[0]['CD_USUARIO']
-          );
-      } catch (Exception $e) {
-          return new self('', '', '', '', '');
+    try {
+      if (empty($id)) {
+        throw new Exception("Objeto vazio");
       }
+
+      $read = new \App\Conn\Read();
+
+      $read->ExeRead("USUARIOS", "WHERE CD_USUARIO = :C LIMIT 1", "C=$id");
+
+      if ($read->getRowCount() == 0) {
+        throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
+      }
+
+      return new self(
+        $read->getResult()[0]['CD_PESSOA'],
+        $read->getResult()[0]['USUARIO'],
+        '',
+        $read->getResult()[0]['CD_GRUPO_USUARIOS'],
+        $read->getResult()[0]['FL_ATIVO'],
+        $read->getResult()[0]['CD_USUARIO']
+      );
+    } catch (Exception $e) {
+      return new self('', '', '', '', '');
+    }
   }
 
   public function Insert()
@@ -59,7 +59,7 @@ class Usuarios
     $insert = new \App\Conn\Insert();
 
     try {
-      $insert->ExeInsert("usuarios", [
+      $insert->ExeInsert("USUARIOS", [
         "CD_PESSOA" => $this->CdPessoa->getCodigo(),
         "USUARIO" => $this->Usuario,
         "SENHA" => $this->Senha,
@@ -82,7 +82,7 @@ class Usuarios
   {
     $read = new \App\Conn\Read();
     try {
-      $read->ExeRead("usuarios", "WHERE CD_USUARIO = :C", "C=$this->CdUsuario");
+      $read->ExeRead("USUARIOS", "WHERE CD_USUARIO = :C", "C=$this->CdUsuario");
       $dadosFicha = $read->getResult()[0] ?? [];
       if ($dadosFicha) {
         if (empty($this->Senha)) {
@@ -105,7 +105,7 @@ class Usuarios
 
         $update = new \App\Conn\Update();
 
-        $update->ExeUpdate("usuarios", $dadosUpdate, "WHERE CD_USUARIO = :C", "C=$this->CdUsuario");
+        $update->ExeUpdate("USUARIOS", $dadosUpdate, "WHERE CD_USUARIO = :C", "C=$this->CdUsuario");
         $atualizado = !empty($update->getResult());
 
         if (!$atualizado) {
@@ -165,7 +165,7 @@ class Usuarios
 
     $read->ExeRead("USUARIOS", "WHERE USUARIO = :U AND SENHA = :S LIMIT 1", "U=$Usuario&S=$senha");
 
-    if($read->getResult()){
+    if ($read->getResult()) {
       return new self(
         $read->getResult()[0]['CD_PESSOA'],
         $read->getResult()[0]['USUARIO'],
@@ -173,60 +173,61 @@ class Usuarios
         $read->getResult()[0]['CD_GRUPO_USUARIOS'],
         $read->getResult()[0]['FL_ATIVO'],
         $read->getResult()[0]['CD_USUARIO']
-    );
+      );
     } else {
-      return new self('','','','','');
+      return new self('', '', '', '', '');
     }
   }
 
   public static function SelectGrid($arrayParam)
-    {
+  {
 
-        $start = $arrayParam['inicio'];
-        $limit = $arrayParam['limit'];
-        $orderBy = $arrayParam['orderBy'];
-        $orderAscDesc = $arrayParam['orderAscDesc'];
-        $pesquisaCodigo = $arrayParam['pesquisaCodigo'];
-        $pesquisaNmUsuario = $arrayParam['pesquisaNmUsuario'];
-        $pesquisaGrupoUsuario = $arrayParam['pesquisaGrupoUsuario'];
-        $pesquisaAtivo = $arrayParam['pesquisaAtivo'];
+    $start = $arrayParam['inicio'];
+    $limit = $arrayParam['limit'];
+    $orderBy = $arrayParam['orderBy'];
+    $orderAscDesc = $arrayParam['orderAscDesc'];
+    $pesquisaCodigo = $arrayParam['pesquisaCodigo'];
+    $pesquisaNmUsuario = $arrayParam['pesquisaNmUsuario'];
+    $pesquisaGrupoUsuario = $arrayParam['pesquisaGrupoUsuario'];
+    $pesquisaAtivo = $arrayParam['pesquisaAtivo'];
 
-        $read = new \App\Conn\Read();
+    $read = new \App\Conn\Read();
 
-        $query = "SELECT usuarios.cd_usuario,
-                  pessoas.nm_pessoa as nm_usuario,
-                  grupos_usuarios.nm_grupo_usuarios,
-                  (CASE WHEN usuarios.fl_ativo = 'S' THEN 'Sim' ELSE 'Não' END) as fl_ativo, 
-                  COUNT(usuarios.cd_usuario) OVER() AS total_filtered,  
-                  (SELECT COUNT(usuarios.cd_usuario) FROM usuarios) AS total_table 
-                  FROM usuarios
-                  LEFT JOIN grupos_usuarios on (grupos_usuarios.cd_grupo_usuarios = usuarios.cd_grupo_usuarios)
-                  INNER JOIN pessoas on (pessoas.cd_pessoa = usuarios.CD_PESSOA)
-                  WHERE 1=1";
+    $query = "SELECT USUARIOS.CD_USUARIO,
+        PESSOAS.NM_PESSOA AS NM_USUARIO,
+        GRUPOS_USUARIOS.NM_GRUPO_USUARIOS,
+        (CASE WHEN USUARIOS.FL_ATIVO = 'S' THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO, 
+        COUNT(USUARIOS.CD_USUARIO) OVER() AS TOTAL_FILTERED,  
+        (SELECT COUNT(USUARIOS.CD_USUARIO) FROM USUARIOS) AS TOTAL_TABLE 
+        FROM USUARIOS
+        LEFT JOIN GRUPOS_USUARIOS ON (GRUPOS_USUARIOS.CD_GRUPO_USUARIOS = USUARIOS.CD_GRUPO_USUARIOS)
+        INNER JOIN PESSOAS ON (PESSOAS.CD_PESSOA = USUARIOS.CD_PESSOA)
+        WHERE 1=1";
 
-        if (!empty($pesquisaCodigo)) {
-            $query .= " AND usuarios.cd_usuario LIKE '%$pesquisaCodigo%'";
-        }
-        if (!empty($pesquisaNmUsuario)) {
-            $query .= " AND usuarios.nm_usuario LIKE '%$pesquisaNmUsuario%'";
-        }
-        if (!empty($pesquisaGrupoUsuario)) {
-            $query .= " AND grupos_usuarios.NM_GRUPO_USUARIOS LIKE '%$pesquisaGrupoUsuario%'";
-        }
-        if (!empty($pesquisaAtivo)) {
-            $query .= " AND usuarios.fl_ativo LIKE '%$pesquisaAtivo%'";
-        }
-
-        if (!empty($orderBy)) {
-            $query .= " ORDER BY $orderBy $orderAscDesc";
-        }
-
-        $query .= " LIMIT $start, $limit";
-
-        $read->FullRead($query);
-
-        return $read->getResult();
+    if (!empty($pesquisaCodigo)) {
+      $query .= " AND USUARIOS.CD_USUARIO LIKE '%$pesquisaCodigo%'";
     }
+    if (!empty($pesquisaNmUsuario)) {
+      $query .= " AND USUARIOS.NM_USUARIO LIKE '%$pesquisaNmUsuario%'";
+    }
+    if (!empty($pesquisaGrupoUsuario)) {
+      $query .= " AND GRUPOS_USUARIOS.NM_GRUPO_USUARIOS LIKE '%$pesquisaGrupoUsuario%'";
+    }
+    if (!empty($pesquisaAtivo)) {
+      $query .= " AND USUARIOS.FL_ATIVO LIKE '%$pesquisaAtivo%'";
+    }
+
+
+    if (!empty($orderBy)) {
+      $query .= " ORDER BY $orderBy $orderAscDesc";
+    }
+
+    $query .= " LIMIT $start, $limit";
+
+    $read->FullRead($query);
+
+    return $read->getResult();
+  }
 
   public function GetMessage()
   {
@@ -245,27 +246,26 @@ class Usuarios
 
   public function getCodigo()
   {
-      return $this->CdUsuario;
+    return $this->CdUsuario;
   }
 
   public function getPessoa()
   {
-      return $this->CdPessoa;
+    return $this->CdPessoa;
   }
 
   public function getGrupoUsuario()
   {
-      return $this->CdGrupoUsuarios;
+    return $this->CdGrupoUsuarios;
   }
 
   public function getLogin()
   {
-      return $this->Usuario;
+    return $this->Usuario;
   }
 
   public function getFlAtivo()
   {
-      return $this->FlAtivo;
+    return $this->FlAtivo;
   }
-
 }
