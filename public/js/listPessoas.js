@@ -30,16 +30,16 @@ $(document).ready(function () {
       },
     },
     columns: [
-      { data: "cd_pessoa" },
-      { data: "nm_pessoa" },
-      { data: "fl_ativo" },
+      { data: "CD_PESSOA" },
+      { data: "NM_PESSOA" },
+      { data: "FL_ATIVO" },
     ],
     processing: true,
     serverSide: true,
     createdRow: function (row, data, dataIndex) {
       $("td", row).each(function (index) {
         var cell = $(this);
-        var recordId = data.cd_pessoa;
+        var recordId = data.CD_PESSOA;
         var cellText = cell.text();
         cell.html(
           '<span class="dataTable-item" onclick="openCadastro(' +

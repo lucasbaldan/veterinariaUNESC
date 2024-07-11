@@ -9,43 +9,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class Pessoas
 {
 
-    // ESSA FUNÇÃO É DOS USUÁRIOS, NÃO PESSOAS
-
-    // COM CERTEZA MEU AMIGO, SÓ ESTAVA TESTANDO E FUNCIONOUUUUUUU!
-    // public static function efetuarLogin(Request $request, Response $response)
-    // {
-
-    //     try {
-    //         $Formulario = $request->getParsedBody();
-
-    //         $login = !empty($Formulario['usuario']) ? $Formulario['usuario'] : '';
-    //         $senha = !empty($Formulario['senha']) ? $Formulario['senha'] : '';
-
-    //         if (empty($login) || empty($senha)) {
-    //             throw new Exception("Preencha os campos Login e Senha.", 400);
-    //         }
-
-    //         $dadosUsuario = new \App\Models\Pessoas($login, $senha);
-    //         $dadosUsuario = $dadosUsuario->verificarAcesso();
-
-    //         if (!$dadosUsuario) {
-    //             throw new Exception("<b>Usuário ou senha inválidos</b><br><br> Por favor verifique os dados de acesso e tente novamente.", 400);
-    //         }
-
-
-
-    //         $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
-    //         $codigoHTTP = 200;
-    //     } catch (Exception $e) {
-    //         $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
-    //         $codigoHTTP = 500;
-    //     }
-    //     $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
-    //     return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
-    // }
-
-
-    public static function Salvar(Request $request, Response $response)
+   public static function Salvar(Request $request, Response $response)
     {
 
         try {
@@ -97,14 +61,14 @@ class Pessoas
             $Formulario = $request->getParsedBody();
 
             $nmPessoa = !empty($Formulario['nmPessoaModal']) ? $Formulario['nmPessoaModal'] : '';
-            $cpf = !empty($Formulario['cpfPessoaModal']) ? $Formulario['cpfPessoaModal'] : '';
-            $dataNascimento = !empty($Formulario['dataNascimentoModal']) ? $Formulario['dataNascimentoModal'] : '';
+            $cdCidade = !empty($Formulario['cdCidadeModal']) ? $Formulario['cdCidadeModal'] : '';
+            $telefone = !empty($Formulario['telefoneCelularModal']) ? $Formulario['telefoneCelularModal'] : '';
 
             $arrayParam = [
-                "COLUNAS" => "pessoas.cd_pessoa, pessoas.nm_pessoa, pessoas.cpf, pessoas.data_nascimento",
+                "COLUNAS" => "PESSOAS.CD_PESSOA, PESSOAS.NM_PESSOA, PESSOAS.NR_TELEFONE CIDADES.NOME",
                 "NM_PESSOA" => $nmPessoa,
-                "CPF" => $cpf,
-                "DATA_NASCIMENTO" => $dataNascimento
+                "ID_CIDADE" => $cdCidade,
+                "TELEFONE" => $telefone
             ];
 
             $retorno = new \App\Models\Pessoas('', '', '', '', '', '', '', '', '', '', '');
@@ -216,9 +180,9 @@ class Pessoas
             $grid = $request->getParsedBody();
 
             $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
-            if ($orderBy == 0) $orderBy = "pessoas.CD_PESSOA";
-            if ($orderBy == 1) $orderBy = "pessoas.NM_PESSOA";
-            if ($orderBy == 2) $orderBy = "pessoas.FL_EXCLUIDO";
+            if ($orderBy == 0) $orderBy = "PESSOAS.CD_PESSOA";
+            if ($orderBy == 1) $orderBy = "PESSOAS.NM_PESSOA";
+            if ($orderBy == 2) $orderBy = "PESSOAS.FL_EXCLUIDO";
 
             $parametrosBusca = [
                 "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',

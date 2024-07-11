@@ -165,8 +165,8 @@ class Pessoas
 
         $colunas = !empty($search['COLUNAS']) ? $search['COLUNAS'] : '*';
         $nome = !empty($search['NM_PESSOA']) ? $search['NM_PESSOA'] : '';
-        $cpf = !empty($search['CPF']) ? $search['CPF'] : '';
-        $dataNascimento = !empty($search['DATA_NASCIMENTO']) ? $search['DATA_NASCIMENTO'] : '';
+        $cidade = !empty($search['ID_CIDADE']) ? $search['ID_CIDADE'] : '';
+        $telefone = !empty($search['TELEFONE']) ? $search['TELEFONE'] : '';
 
         $read = new \App\Conn\Read();
 
@@ -174,24 +174,19 @@ class Pessoas
           FROM PESSOAS
           WHERE PESSOAS.FL_ATIVO = 'S' ";
 
+        $query .= empty($cidade) ? "" : "LEFT JOIN CIDADES ON (PESSOAS.CD_CIDADE = CIDADES.CD_CIDADE) ";
+
         if (!empty($nome)) {
             $query .= " AND PESSOAS.NM_PESSOA LIKE '%$nome%' ";
         }
-        if (!empty($cpf)) {
-            $query .= " AND PESSOAS.CPF LIKE '%$cpf%' ";
+        if (!empty($cidade)) {
+            $query .= " AND CIDADES.CD_CIDADE = $cidade ";
         }
-        if (!empty($dataNascimento)) {
-            $query .= " AND PESSOAS.DATA_NASCIMENTO = '$dataNascimento' ";
+        if (!empty($telefone)) {
+            $query .= " AND PESSOAS.NR_TELEFONE LIKE  '%$telefone%' ";
         }
 
         $query .= "LIMIT 100";
-
-
-        // if (!empty($search)) {
-        //     $read->FullRead("SELECT P.* FROM pessoas P  WHERE UPPER(CONCAT(P.CD_PESSOA, ' ', P.NM_PESSOA)) LIKE UPPER(CONCAT('%', :P, '%')) ORDER BY P.NM_PESSOA ASC", "P=$search");
-        // } else {
-        //     $read->FullRead("SELECT P.* FROM PESSOAS P");
-        // }
 
         $read->FullRead($query);
         if (empty($read->getResult())) {
@@ -275,13 +270,29 @@ class Pessoas
 
         $read = new \App\Conn\Read();
 
-        $query = "SELECT PESSOAS.CD_PESSOA,
-                  PESSOAS.NM_PESSOA,
-                  (CASE WHEN PESSOAS.FL_ATIVO = 'S' THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO, 
-                  COUNT(PESSOAS.CD_PESSOA) OVER() AS TOTAL_FILTERED,  
-                  (SELECT COUNT(PESSOAS.CD_PESSOA) FROM PESSOAS) AS TOTAL_TABLE 
-                  FROM PESSOAS
-                  WHERE 1=1";
+        // $query = "SELECT PESSOAS.CD_PESSOA,
+        //           PESSOAS.NM_PESSOA,
+        //           (CASE WHEN PESSOAS.FL_ATIVO = 'S' THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO, 
+        //           COUNT(PESSOAS.CD_PESSOA) OVER() AS TOTAL_FILTERED,  
+        //           (SELECT COUNT(PESSOAS.CD_PESSOA) FROM PESSOAS) AS TOTAL_TABLE 
+        //           FROM PESSOAS
+        //           WHERE 1=1";
+
+        $query = "SELECT 
+        PESSOAS.CD_PESSOA,
+        PESSOAS.NM_PESSOA,
+        CASE 
+        WHEN PESSOAS.FL_ATIVO = 'S' THEN 'Sim' 
+        ELSE 'Não' 
+        END AS FL_ATIVO, 
+        (SELECT COUNT(*)
+        FROM PESSOAS P2 
+        WHERE 1=1) AS TOTAL_FILTERED,
+        (SELECT COUNT(*) 
+        FROM PESSOAS) AS TOTAL_TABLE 
+        FROM
+        PESSOAS
+        WHERE 1=1 ";
 
         if (!empty($pesquisaCodigo)) {
             $query .= " AND PESSOAS.CD_PESSOA LIKE '%$pesquisaCodigo%'";
