@@ -9,17 +9,19 @@ use Slim\Views\Twig;
 class ListGruposUsuarios
 {
     private $twig;
+    private $TelaComMenus;
 
     public function __construct(Twig $twig)
     {
         $this->twig = $twig;
+        $this->TelaComMenus = \App\Views\TelaComMenus::getTelaComMenus($this->twig);
     }
 
     public function exibir(Request $request, Response $response, $args)
     {
 
         $pessoas = $this->twig->fetch('listGruposUsuarios.twig');
-        $conteudoTela = $this->twig->fetch('TelaComMenus.twig', ['conteudo_tela' => $pessoas]);
+        $conteudoTela = $this->TelaComMenus->renderTelaComMenus($pessoas);
 
         return $this->twig->render($response, 'TelaBase.twig', [
             'versao' => $GLOBALS['versao'],

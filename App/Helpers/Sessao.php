@@ -47,6 +47,15 @@ class Sessao {
             return false;
         }
     }
+
+    public static function getInfoSessao(){
+        if (isset($_SESSION['userid']) && isset($_SESSION['session_start_time']) && session_status() == PHP_SESSION_ACTIVE) {
+            return $_SESSION;
+        } else {
+            self::encerrarSessao();
+            return false;
+        }
+    }
     
 
     public static function encerrarSessao() {

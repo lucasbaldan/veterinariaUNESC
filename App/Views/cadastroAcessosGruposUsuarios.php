@@ -9,10 +9,12 @@ use Slim\Views\Twig;
 class CadastroAcessosGruposUsuarios
 {
     private $twig;
+    private $TelaComMenus;
 
     public function __construct(Twig $twig)
     {
         $this->twig = $twig;
+        $this->TelaComMenus = \App\Views\TelaComMenus::getTelaComMenus($this->twig);
     }
 
     public function exibir(Request $request, Response $response, $args)
@@ -263,7 +265,7 @@ class CadastroAcessosGruposUsuarios
 
         ]);
 
-        $conteudoTela = $this->twig->fetch('TelaComMenus.twig', ['conteudo_tela' => $telaCadastroUsuarios]);
+        $conteudoTela = $this->TelaComMenus->renderTelaComMenus($telaCadastroUsuarios);
 
         return $this->twig->render($response, 'TelaBase.twig', [
             'versao' => $GLOBALS['versao'],
