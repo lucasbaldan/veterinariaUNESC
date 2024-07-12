@@ -12,6 +12,11 @@ function constructModalBuscaPessoa() {
   });
 }
 
+function formatarData(data) {
+  const partes = data.split('-');
+  return `${partes[2]}-${partes[1]}-${partes[0]}`;
+}
+
 function BuscarRapidoPessoa() {
   Loading.on();
   var formData = $("#formBuscaRapidaPessoa").serialize();
@@ -29,10 +34,10 @@ function BuscarRapidoPessoa() {
             var pessoa = pessoas[i];
             table.row
               .add([
-                pessoa.nm_pessoa,
-                pessoa.cpf,
-                pessoa.data_nascimento,
-                '<button class="btn btn-primary" onclick="selecionarPessoa(' + pessoa.cd_pessoa + ')">Selecionar</button>',
+                pessoa.NM_PESSOA,
+                pessoa.CPF,
+                formatarData(pessoa.DATA_NASCIMENTO),
+                '<button class="btn btn-primary" onclick="selecionarPessoa(' + pessoa.CD_PESSOA + ')">Selecionar</button>',
               ])
               .draw();
           }

@@ -101,7 +101,7 @@ class Pessoas
             $dataNascimento = !empty($Formulario['dataNascimentoModal']) ? $Formulario['dataNascimentoModal'] : '';
 
             $arrayParam = [
-                "COLUNAS" => "pessoas.cd_pessoa, pessoas.nm_pessoa, pessoas.cpf, pessoas.data_nascimento",
+                "COLUNAS" => "PESSOAS.CD_PESSOA, PESSOAS.NM_PESSOA, PESSOAS.CPF, PESSOAS.DATA_NASCIMENTO",
                 "NM_PESSOA" => $nmPessoa,
                 "CPF" => $cpf,
                 "DATA_NASCIMENTO" => $dataNascimento
@@ -216,9 +216,9 @@ class Pessoas
             $grid = $request->getParsedBody();
 
             $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
-            if ($orderBy == 0) $orderBy = "pessoas.CD_PESSOA";
-            if ($orderBy == 1) $orderBy = "pessoas.NM_PESSOA";
-            if ($orderBy == 2) $orderBy = "pessoas.FL_EXCLUIDO";
+            if ($orderBy == 0) $orderBy = "PESSOAS.CD_PESSOA";
+            if ($orderBy == 1) $orderBy = "PESSOAS.NM_PESSOA";
+            if ($orderBy == 2) $orderBy = "PESSOAS.FL_EXCLUIDO";
 
             $parametrosBusca = [
                 "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',

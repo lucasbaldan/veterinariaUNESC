@@ -55,7 +55,7 @@ class Atendimentos
                 "pesquisaEspecieAnimal" => !empty($grid['columns'][4]['search']['value']) ? $grid['columns'][4]['search']['value'] : '',
                 "pesquisaRacaAnimal" => !empty($grid['columns'][5]['search']['value']) ? $grid['columns'][5]['search']['value'] : '',
                 "pesquisaSexoAnimal" => !empty($grid['columns'][6]['search']['value']) ? $grid['columns'][6]['search']['value'] : '',
-                "pesquisaDono" => !empty($grid['columns'][7]['search']['value']) ? $grid['columns'][7]['search']['value'] : '',
+                "pesquisaTutor" => !empty($grid['columns'][7]['search']['value']) ? $grid['columns'][7]['search']['value'] : '',
                 "pesquisaVeterinario" => !empty($grid['columns'][8]['search']['value']) ? $grid['columns'][8]['search']['value'] : '',
                 "pesquisaMunicipio" => !empty($grid['columns'][9]['search']['value']) ? $grid['columns'][9]['search']['value'] : '',
                 "pesquisaMaterial" => !empty($grid['columns'][10]['search']['value']) ? $grid['columns'][10]['search']['value'] : '',
@@ -163,12 +163,12 @@ class Atendimentos
             if (($alterouDono == 'S' && $donoNaoDeclarado == 'S') || $alterouAnimal) {
                 if ($alterouAnimal == 'S') {
                     $AnimalFicha->setNome($nomeAnimal);
-                    $AnimalFicha->setTipoAnimal($tipoAnimal);
+                    // $AnimalFicha->setTipoAnimal($tipoAnimal);
                     $AnimalFicha->setEspecie($especieAnimal);
                     $AnimalFicha->setRaca($racaAnimal);
                     $AnimalFicha->setSexo($sexoAnimal);
-                    $AnimalFicha->setIdade($idadeAnimal);
-                    $AnimalFicha->setAnoNascimento($anoNascimentoAnimal);
+                    // $AnimalFicha->setIdade($idadeAnimal);
+                    // $AnimalFicha->setAnoNascimento($anoNascimentoAnimal);
                 }
 
                 if ($donoNaoDeclarado == 'S') {
@@ -313,7 +313,7 @@ if (!empty($imagensFicha)) {
                 "pesquisaEspecieAnimal" => !empty($grid['pesquisaEspecieAnimalAtendimento']) ? $grid['pesquisaEspecieAnimalAtendimento'] : '',
                 "pesquisaRacaAnimal" => !empty($grid['pesquisaRacaAnimalAtendimento']) ? $grid['pesquisaRacaAnimalAtendimento'] : '',
                 "pesquisaSexoAnimal" => !empty($grid['pesquisaSexoAnimalAtendimento']) ? $grid['pesquisaSexoAnimalAtendimento'] : '',
-                "pesquisaDono" => !empty($grid['pesquisaDonoAnimalAtendimento']) ? $grid['pesquisaDonoAnimalAtendimento'] : '',
+                "pesquisaTutor" => !empty($grid['pesquisaTutorAnimalAtendimento']) ? $grid['pesquisaTutorAnimalAtendimento'] : '',
                 "pesquisaVeterinario" => !empty($grid['pesquisaVeterinarioAtendimento']) ? $grid['pesquisaVeterinarioAtendimento'] : '',
                 "pesquisaMunicipio" => !empty($grid['pesquisaMunicipioOrigemAtendimento']) ? $grid['pesquisaMunicipioOrigemAtendimento'] : '',
                 "pesquisaMaterial" => !empty($grid['pesquisaMaterialAtendimento']) ? $grid['pesquisaMaterialAtendimento'] : '',

@@ -19,10 +19,10 @@ $(document).ready(function () {
       data: function (d) {
         d.columns[0].search.value = $('#pesquisaCodigoAnimal').val();
         d.columns[1].search.value = $('#pesquisaNomeAnimal').val();
-        d.columns[2].search.value = $('#pesquisaDescricaoTipoAnimal').val();
-        d.columns[3].search.value = $('#pesquisaNomeDonoAnimal').val();
-        d.columns[4].search.value = $('#pesquisaEspecieAnimal').val();
-        d.columns[5].search.value = $('#pesquisaRacaAnimal').val();
+        // d.columns[2].search.value = $('#pesquisaDescricaoTipoAnimal').val();
+        d.columns[2].search.value = $('#pesquisaNomeDonoAnimal').val();
+        d.columns[3].search.value = $('#pesquisaEspecieAnimal').val();
+        d.columns[4].search.value = $('#pesquisaRacaAnimal').val();
       },
       dataSrc: function (json) {
         json.draw = json.RETURN.draw;
@@ -32,12 +32,12 @@ $(document).ready(function () {
       },
     },
     columns: [
-      { data: "cd_animal" },
-      { data: "nm_animal" },
-      { data: "tipo_animal_descricao" },
-      { data: "nome_dono" },
-      { data: "especie_descricao" },
-      { data: "raca_descricao" },
+      { data: "CD_ANIMAL" },
+      { data: "NM_ANIMAL" },
+      // { data: "TIPO_ANIMAL_DESCRICAO" },
+      { data: "NOME_DONO" },
+      { data: "ESPECIE_DESCRICAO" },
+      { data: "RACA_DESCRICAO" },
       
     ],
     processing: true,
@@ -45,7 +45,7 @@ $(document).ready(function () {
     createdRow: function (row, data, dataIndex) {
       $("td", row).each(function (index) {
         var cell = $(this);
-        var recordId = data.cd_animal;
+        var recordId = data.CD_ANIMAL;
         var cellText = cell.text();
         cell.html(
           '<span class="dataTable-item" onclick="openCadastro(' +
@@ -59,7 +59,7 @@ $(document).ready(function () {
   });
 
 
-  $('#pesquisaCodigoAnimal, #pesquisaNomeAnimal, #pesquisaDescricaoTipoAnimal, #pesquisaNomeDonoAnimal, #pesquisaEspecieAnimal, #pesquisaRacaAnimal').on('keyup clear input', function() {
+  $('#pesquisaCodigoAnimal, #pesquisaNomeAnimal, #pesquisaNomeDonoAnimal, #pesquisaEspecieAnimal, #pesquisaRacaAnimal').on('keyup clear input', function() {
     if (this.timer) clearTimeout(this.timer);
     this.timer = setTimeout(function() {
       dataTableAnimais.draw();
