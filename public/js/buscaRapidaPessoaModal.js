@@ -33,10 +33,10 @@ function BuscarRapidoPessoa() {
             var pessoa = pessoas[i];
             table.row
               .add([
-                pessoa.nm_pessoa,
-                pessoa.cpf,
-                pessoa.data_nascimento,
-                '<button class="btn btn-primary" onclick="selecionarPessoa(' + pessoa.cd_pessoa + ')">Selecionar</button>',
+                pessoa.NM_PESSOA,
+                pessoa.CIDADE,
+                pessoa.NR_TELEFONE,
+                '<button class="btn btn-primary" onclick="selecionarPessoa(' + pessoa.CD_PESSOA + ')">Selecionar</button>',
               ])
               .draw();
           }

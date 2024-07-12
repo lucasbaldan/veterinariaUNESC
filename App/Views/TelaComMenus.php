@@ -3,6 +3,7 @@
 namespace App\Views;
 
 use Slim\Views\Twig;
+use DateTime;
 
 class TelaComMenus
 {
@@ -22,6 +23,10 @@ class TelaComMenus
         }
 
         $sessao['userid'];
+
+   $logout = $sessao['session_start_time'] + $GLOBALS['timesession'];
+    $logoutDate = new DateTime();
+    $logoutDate->setTimestamp($logout);
 
         $itemAnimal = true;
         $itemPessoa = true;
@@ -53,6 +58,8 @@ class TelaComMenus
 
         return $this->twig->fetch('TelaComMenus.twig', [
             'conteudo_tela' => $conteudoPrincipal,
+            'nomeUsuario' => $sessao['username'],
+            'tempoSessao' => $logoutDate->format('d/m/Y H:i'),
 
             'itemAnimal' => $itemAnimal,
             'itemPessoa' => $itemPessoa,
