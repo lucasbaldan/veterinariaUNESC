@@ -413,11 +413,11 @@ class Pessoas
 
     public function setBairro($bairro)
     {
-        $this->cidade = \App\Models\Bairros::findById($bairro);
+        $this->bairro = \App\Models\Bairros::findById($bairro);
     }
 
     public function setLogradouro($logradouro)
     {
-        $this->cidade = \App\Models\Logradouros::findById($logradouro);
+        $this->logradouro = \App\Models\Logradouros::findById($logradouro);
     }
 }

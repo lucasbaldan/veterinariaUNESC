@@ -94,23 +94,20 @@ class Animais
             //INPUTUS DADOS ANIMAL
             $codigo = !empty($dadosForm['cdAnimal']) ? $dadosForm['cdAnimal'] : '';
             $nome = !empty($dadosForm['animal']) ? $dadosForm['animal'] : '';
-            $cdTipoAnimal = isset($dadosForm['select2tipoAnimal']) ? $dadosForm['select2tipoAnimal'] : '';
             $cdEspecie = isset($dadosForm['select2especieAnimal']) ? $dadosForm['select2especieAnimal'] : '';
             $cdRaca = isset($dadosForm['select2racaAnimal']) ? $dadosForm['select2racaAnimal'] : '';
             $dsSexo = !empty($dadosForm['dsSexo']) ? $dadosForm['dsSexo'] : '';
-            $idade = !empty($dadosForm['idade']) ? $dadosForm['idade'] : '';
-            $anoNascimento = !empty($dadosForm['anoNascimento']) ? $dadosForm['anoNascimento'] : '';
             
-            // INPUTS DA PESSOA DONA DO ANIMAL
+            // INPUTS DA PESSOA TUTORA DO ANIMAL
             $tutorNaoDeclarado = isset($dadosForm['tutorNaoDeclarado']) ? 'S' : 'N';
             $cdPessoa = !empty($dadosForm['cdPessoa']) ? $dadosForm['cdPessoa'] : '';
             $alterouPessoa = !empty($dadosForm['alterouPessoa']) ? $dadosForm['alterouPessoa'] : '';
             $nomePessoa = isset($dadosForm['nmPessoa']) ? $dadosForm['nmPessoa'] : '';
-            $cpf = isset($dadosForm['cpfPessoa']) ? $dadosForm['cpfPessoa'] : '';
-            $dataNascimento = isset($dadosForm['dataNascimento']) ? $dadosForm['dataNascimento'] : '';
+            // $cpf = isset($dadosForm['cpfPessoa']) ? $dadosForm['cpfPessoa'] : '';
+            // $dataNascimento = isset($dadosForm['dataNascimento']) ? $dadosForm['dataNascimento'] : '';
             $nrTelefone = isset($dadosForm['nrTelefone']) ? $dadosForm['nrTelefone'] : '';
-            $email = isset($dadosForm['dsEmail']) ? $dadosForm['dsEmail'] : '';
-            $nrCRMV = isset($dadosForm['nrCRMV']) ? $dadosForm['nrCRMV'] : '';
+            // $email = isset($dadosForm['dsEmail']) ? $dadosForm['dsEmail'] : '';
+            // $nrCRMV = isset($dadosForm['nrCRMV']) ? $dadosForm['nrCRMV'] : '';
             $select2cdCidade = isset($dadosForm['select2cdCidade']) ? $dadosForm['select2cdCidade'] : '';
             $select2cdBairro = isset($dadosForm['select2cdBairro']) ? $dadosForm['select2cdBairro'] : '';
             $select2cdLogradouro = isset($dadosForm['select2cdLogradouro']) ? $dadosForm['select2cdLogradouro'] : '';
