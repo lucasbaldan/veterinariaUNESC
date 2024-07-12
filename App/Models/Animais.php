@@ -76,16 +76,18 @@ class Animais
 
         $query = "SELECT ANIMAIS.CD_ANIMAL,
                 ANIMAIS.NM_ANIMAL,
-                '-' AS NOME_DONO,
+                PESSOAS.NM_PESSOA AS NOME_DONO,
                 ESPECIES.DESCRICAO AS ESPECIE_DESCRICAO,
                 RACAS.DESCRICAO AS RACA_DESCRICAO,
                 (SELECT COUNT(*) 
                     FROM ANIMAIS 
+                    LEFT JOIN PESSOAS ON (ANIMAIS.CD_PESSOA_TUTOR1 = PESSOAS.CD_PESSOA)
                     LEFT JOIN RACAS ON (ANIMAIS.CD_RACA = RACAS.CD_RACA)
                     LEFT JOIN ESPECIES ON (RACAS.CD_ESPECIE = ESPECIES.CD_ESPECIE)
                     WHERE 1=1) AS TOTAL_FILTERED,
                 (SELECT COUNT(*) FROM ANIMAIS) AS TOTAL_TABLE 
             FROM ANIMAIS
+            LEFT JOIN PESSOAS ON (ANIMAIS.CD_PESSOA_TUTOR1 = PESSOAS.CD_PESSOA) 
             LEFT JOIN RACAS ON (ANIMAIS.CD_RACA = RACAS.CD_RACA)
             LEFT JOIN ESPECIES ON (RACAS.CD_ESPECIE = ESPECIES.CD_ESPECIE)
             WHERE 1=1";
@@ -114,6 +116,9 @@ class Animais
         }
         if (!empty($pesquisaRaca)) {
             $query .= " AND RACAS.DESCRICAO LIKE '%$pesquisaRaca%'";
+        }
+        if (!empty($pesquisaDono)) {
+            $query .= " AND PESSOAS.NM_PESSOA LIKE '%$pesquisaDono%'";
         }
 
         if (!empty($orderBy)) {

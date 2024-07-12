@@ -1,14 +1,21 @@
 $(document).ready(function () {
 
-  if($('#select2especieAnimal').val() == '') {
+  if ($("#tutorNaoDeclarado").is(":checked")) {
+    $("#buscaRapidaPessoa, #desvincularPessoa, #alterarPessoaAtual").prop(
+      "disabled",
+      true
+    );
+  }
+
+  if ($('#select2especieAnimal').val() == '') {
     $("#select2racaAnimal").prop("disabled", true);
   }
 
   if ($('#donoNaoDeclarado').is(':checked')) {
     $("#buscaRapidaPessoa").prop("disabled", true);
-}
+  }
 
-  if($('#cdPessoa').val() == '') {
+  if ($('#cdPessoa').val() == '') {
     $("#desvincularPessoa, #alterarPessoaAtual").prop("disabled", true);
   } else {
     $("#buscaRapidaPessoa").prop("disabled", true);
@@ -96,10 +103,10 @@ $(document).ready(function () {
             size: "extra-large",
             message: respostaAjaxModal[0],
             className: "search-pessoa",
-            onShown: function() {constructModalBuscaPessoa();}
+            onShown: function () { constructModalBuscaPessoa(); }
           });
         })
-        .fail(function (xhr, status, error) {})
+        .fail(function (xhr, status, error) { })
         .always(function () {
           Loading.off();
         });
@@ -269,7 +276,7 @@ function desvincularPessoa() {
   bloquearCamposPessoa();
 }
 
-function tableNaoEncontrado(){
+function tableNaoEncontrado() {
   Notificacao.NotificacaoAviso('Nenhum registro encontrado!<br> <b>Campos habilitados para inserir nova Pessoa</b>');
   desvincularPessoa();
   desbloquearCamposPessoa();

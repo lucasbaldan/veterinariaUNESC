@@ -19,7 +19,6 @@ $(document).ready(function () {
       data: function (d) {
         d.columns[0].search.value = $('#pesquisaCodigoAnimal').val();
         d.columns[1].search.value = $('#pesquisaNomeAnimal').val();
-        // d.columns[2].search.value = $('#pesquisaDescricaoTipoAnimal').val();
         d.columns[2].search.value = $('#pesquisaNomeDonoAnimal').val();
         d.columns[3].search.value = $('#pesquisaEspecieAnimal').val();
         d.columns[4].search.value = $('#pesquisaRacaAnimal').val();
@@ -34,7 +33,6 @@ $(document).ready(function () {
     columns: [
       { data: "CD_ANIMAL" },
       { data: "NM_ANIMAL" },
-      // { data: "TIPO_ANIMAL_DESCRICAO" },
       { data: "NOME_DONO" },
       { data: "ESPECIE_DESCRICAO" },
       { data: "RACA_DESCRICAO" },
