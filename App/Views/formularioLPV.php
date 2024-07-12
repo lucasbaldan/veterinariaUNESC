@@ -23,7 +23,7 @@ class FormularioLPV
         $idAnimal = isset($post['idAnimal']) ? $post['idAnimal'] : '';
         $idFichaAlteracao = isset($post['idFicha']) ? $post['idFicha'] : '';
 
-        $exibeSalvar = true;
+        $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('FICHA_LPV', 'FL_INSERIR');;
         $exibeExcluir = true;
         $exibeSalvarGaleria = false;
 
@@ -33,7 +33,6 @@ class FormularioLPV
 
             $AnimalFicha = \App\Models\Animais::findById($idAnimal);
 
-            $selectTipoAnimal = '<option value="' . $AnimalFicha->getTipoAnimal()->getCodigo() . '" selected>' . $AnimalFicha->getTipoAnimal()->getDescricao() . '</option>';
             $selectEspecie = '<option value="' . $AnimalFicha->getEspecie()->getCodigo() . '" selected>' . $AnimalFicha->getEspecie()->getDescricao() . '</option>';
             $selectRaca = '<option value="' . $AnimalFicha->getRaca()->getCodigo() . '" selected>' . $AnimalFicha->getRaca()->getDescricao() . '</option>';
 
@@ -52,12 +51,11 @@ class FormularioLPV
                 "DataFicha" => date('Y-m-d'),
                 "cdAnimal" => $AnimalFicha->getCodigo(),
                 "animal" => $AnimalFicha->getNome(),
-                "selectTipoAnimal" => $selectTipoAnimal,
                 "selectEspecieAnimal" => $selectEspecie,
                 "selectRacaAnimal" => $selectRaca,
                 "selectSexoAnimal" => $selectSexoAnimal,
-                "idadeAnimal" => $AnimalFicha->getIdadeAproximada(),
-                "anoNascimentoAnimal" => $AnimalFicha->getAnoNascimento(),
+                // "idadeAnimal" => $AnimalFicha->getIdadeAproximada(),
+                // "anoNascimentoAnimal" => $AnimalFicha->getAnoNascimento(),
 
                 "nmDonoAnimal" => $AnimalFicha->getDono1()->getNome(),
                 "nrTelefoneDono" => $AnimalFicha->getDono1()->getTelefone(),
@@ -72,11 +70,13 @@ class FormularioLPV
                 "nomeSalvar" => "Salvar e Sair"
             ]);
         } elseif (!empty($idFichaAlteracao)) {
+            $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('FICHA_LPV', 'FL_EDITAR');
+            $exibeExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('FICHA_LPV', 'FL_EXCLUIR');
+
             $Ficha = \App\Models\Atendimentos::findById($idFichaAlteracao);
             $AnimalFicha = $Ficha->getAnimal();
             $urlGaleria = $Ficha->getImagesIds();
 
-            $selectTipoAnimal = '<option value="' . $AnimalFicha->getTipoAnimal()->getCodigo() . '" selected>' . $AnimalFicha->getTipoAnimal()->getDescricao() . '</option>';
             $selectEspecie = '<option value="' . $AnimalFicha->getEspecie()->getCodigo() . '" selected>' . $AnimalFicha->getEspecie()->getDescricao() . '</option>';
             $selectRaca = '<option value="' . $AnimalFicha->getRaca()->getCodigo() . '" selected>' . $AnimalFicha->getRaca()->getDescricao() . '</option>';
 
@@ -95,11 +95,11 @@ class FormularioLPV
                         <option value="S" ' . ($Ficha->getAvalicaoTumoralMargem() == 'S' ? 'selected' : '') . '>Sim</option>
                     </select>';
 
-            $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('FICHA_LPV', 'FL_EDITAR');
-            $exibeSalvar = $permissaoSalvar == true ? true : false;
+            // $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('FICHA_LPV', 'FL_EDITAR');
+            // $exibeSalvar = $permissaoSalvar == true ? true : false;
 
-            $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('FICHA_LPV', 'FL_EXCLUIR');
-            $exibeExcluir = $permissaoExcluir == true ? true : false;
+            // $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('FICHA_LPV', 'FL_EXCLUIR');
+            // $exibeExcluir = $permissaoExcluir == true ? true : false;
 
 
             $formulario = $this->twig->fetch('formularioLPV.twig', [
@@ -107,12 +107,11 @@ class FormularioLPV
                 "DataFicha" => $Ficha->getData(),
                 "cdAnimal" => $AnimalFicha->getCodigo(),
                 "animal" => $AnimalFicha->getNome(),
-                "selectTipoAnimal" => $selectTipoAnimal,
                 "selectEspecieAnimal" => $selectEspecie,
                 "selectRacaAnimal" => $selectRaca,
                 "selectSexoAnimal" => $selectSexoAnimal,
-                "idadeAnimal" => $AnimalFicha->getIdadeAproximada(),
-                "anoNascimentoAnimal" => $AnimalFicha->getAnoNascimento(),
+                // "idadeAnimal" => $AnimalFicha->getIdadeAproximada(),
+                // "anoNascimentoAnimal" => $AnimalFicha->getAnoNascimento(),
 
                 "nmDonoAnimal" => $AnimalFicha->getDono1()->getNome(),
                 "nrTelefoneDono" => $AnimalFicha->getDono1()->getTelefone(),

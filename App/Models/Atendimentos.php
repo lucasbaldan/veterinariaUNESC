@@ -143,7 +143,6 @@ class Atendimentos
         $pesquisaDataInicio = $arrayParam['pesquisaDataInicio'];
         $pesquisaDataFim = $arrayParam['pesquisaDataFim'];
         $pesquisaNomeAnimal = $arrayParam['pesquisaNomeAnimal'];
-        $pesquisaTipoAnimal = $arrayParam['pesquisaTipoAnimal'];
         $pesquisaEspecieAnimal = $arrayParam['pesquisaEspecieAnimal'];
         $pesquisaRacaAnimal = $arrayParam['pesquisaRacaAnimal'];
         $pesquisaSexoAnimal = $arrayParam['pesquisaSexoAnimal'];
@@ -161,44 +160,81 @@ class Atendimentos
 
         $read = new \App\Conn\Read();
 
-        $query = "  SELECT FICHA_LPV.CD_FICHA_LPV,
-        DATE_FORMAT(FICHA_LPV.DT_FICHA, '%d/%m/%Y') as DT_FICHA,
-        ANIMAIS.NM_ANIMAL,
-        TIPO_ANIMAL.DESCRICAO as NM_TIPO_ANIMAL,
-        ESPECIES.DESCRICAO as NM_ESPECIE,
-        RACAS.DESCRICAO as NM_RACA,
-        (CASE WHEN ANIMAIS.SEXO = 'F' THEN 'Fêmea' WHEN ANIMAIS.SEXO = 'M' THEN 'Macho' ELSE '-' END) AS SEXO,
-        TUTOR.NM_PESSOA as NM_TUTOR,
-        VETERINARIO.NM_PESSOA as NM_VETERINARIO,
-        CIDADES.NOME as CIDADE_PROPRIEDADE,
-        FICHA_LPV.DS_MATERIAL_RECEBIDO,
-        FICHA_LPV.DS_DIAGNOSTICO_PRESUNTIVO,
-        (CASE WHEN FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM = 'S' THEN 'Sim' WHEN FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM = 'N' THEN 'Não' ELSE '-' END) AS FL_AVALIACAO_TUMORAL_COM_MARGEM,
-        FICHA_LPV.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA,
-        FICHA_LPV.DS_LESOES_MACROSCOPICAS,
-        FICHA_LPV.DS_LESOES_HISTOLOGICAS,
-        FICHA_LPV.DS_DIAGNOSTICO,
-        FICHA_LPV.DS_RELATORIO,
+        $query = " SELECT 
+                    FICHA_LPV.CD_FICHA_LPV,
+                    DATE_FORMAT(FICHA_LPV.DT_FICHA, '%d/%m/%Y') as DT_FICHA,
+                    ANIMAIS.NM_ANIMAL,
+                    ESPECIES.DESCRICAO as NM_ESPECIE,
+                    RACAS.DESCRICAO as NM_RACA,
+                    (CASE WHEN ANIMAIS.SEXO = 'F' THEN 'Fêmea' WHEN ANIMAIS.SEXO = 'M' THEN 'Macho' ELSE '-' END) AS SEXO,
+                    TUTOR.NM_PESSOA as NM_TUTOR,
+                    VETERINARIO.NM_PESSOA as NM_VETERINARIO,
+                    CIDADES.NOME as CIDADE_PROPRIEDADE,
+                    FICHA_LPV.DS_MATERIAL_RECEBIDO,
+                    FICHA_LPV.DS_DIAGNOSTICO_PRESUNTIVO,
+                    (CASE WHEN FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM = 'S' THEN 'Sim' 
+                        WHEN FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM = 'N' THEN 'Não' ELSE '-' END) AS FL_AVALIACAO_TUMORAL_COM_MARGEM,
+                    FICHA_LPV.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA,
+                    FICHA_LPV.DS_LESOES_MACROSCOPICAS,
+                    FICHA_LPV.DS_LESOES_HISTOLOGICAS,
+                    FICHA_LPV.DS_DIAGNOSTICO,
+                    FICHA_LPV.DS_RELATORIO,
+                    (SELECT COUNT(*) FROM FICHA_LPV) AS TOTAL_FILTERED,
+                    (SELECT COUNT(*) FROM FICHA_LPV) AS TOTAL_TABLE 
+                FROM 
+                    FICHA_LPV
+                INNER JOIN 
+                    ANIMAIS ON FICHA_LPV.CD_ANIMAL = ANIMAIS.CD_ANIMAL
+                LEFT JOIN 
+                    ESPECIES ON ANIMAIS.CD_ESPECIE = ESPECIES.CD_ESPECIE
+                LEFT JOIN 
+                    RACAS ON ANIMAIS.CD_RACA = RACAS.CD_RACA
+                LEFT JOIN 
+                    PESSOAS TUTOR ON ANIMAIS.CD_PESSOA_TUTOR1 = TUTOR.CD_PESSOA
+                LEFT JOIN 
+                    PESSOAS VETERINARIO ON FICHA_LPV.CD_PESSOA_VETERINARIO_REMETENTE = VETERINARIO.CD_PESSOA
+                LEFT JOIN 
+                    CIDADES ON FICHA_LPV.CD_CIDADE_PROPRIEDADE = CIDADES.CD_CIDADE
+                WHERE 
+                    1=1;";
 
-        COUNT(FICHA_LPV.CD_FICHA_LPV) OVER() AS TOTAL_FILTERED,  
-        (SELECT COUNT(FICHA_LPV.CD_FICHA_LPV) FROM FICHA_LPV) AS TOTAL_TABLE 
+        // $query = "  SELECT FICHA_LPV.CD_FICHA_LPV,
+        // DATE_FORMAT(FICHA_LPV.DT_FICHA, '%d/%m/%Y') as DT_FICHA,
+        // ANIMAIS.NM_ANIMAL,
+        // TIPO_ANIMAL.DESCRICAO as NM_TIPO_ANIMAL,
+        // ESPECIES.DESCRICAO as NM_ESPECIE,
+        // RACAS.DESCRICAO as NM_RACA,
+        // (CASE WHEN ANIMAIS.SEXO = 'F' THEN 'Fêmea' WHEN ANIMAIS.SEXO = 'M' THEN 'Macho' ELSE '-' END) AS SEXO,
+        // TUTOR.NM_PESSOA as NM_TUTOR,
+        // VETERINARIO.NM_PESSOA as NM_VETERINARIO,
+        // CIDADES.NOME as CIDADE_PROPRIEDADE,
+        // FICHA_LPV.DS_MATERIAL_RECEBIDO,
+        // FICHA_LPV.DS_DIAGNOSTICO_PRESUNTIVO,
+        // (CASE WHEN FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM = 'S' THEN 'Sim' WHEN FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM = 'N' THEN 'Não' ELSE '-' END) AS FL_AVALIACAO_TUMORAL_COM_MARGEM,
+        // FICHA_LPV.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA,
+        // FICHA_LPV.DS_LESOES_MACROSCOPICAS,
+        // FICHA_LPV.DS_LESOES_HISTOLOGICAS,
+        // FICHA_LPV.DS_DIAGNOSTICO,
+        // FICHA_LPV.DS_RELATORIO,
 
-        FROM FICHA_LPV
-        INNER JOIN ANIMAIS ON (FICHA_LPV.CD_ANIMAL = ANIMAIS.CD_ANIMAL)
-        LEFT JOIN TIPO_ANIMAL ON (ANIMAIS.CD_TIPO_ANIMAL = TIPO_ANIMAL.CD_TIPO_ANIMAL)
-        LEFT JOIN ESPECIES ON (ANIMAIS.CD_ESPECIE = ESPECIES.CD_ESPECIE)
-        LEFT JOIN RACAS ON (ANIMAIS.CD_RACA = RACAS.CD_RACA)
-        LEFT JOIN PESSOAS TUTOR ON (ANIMAIS.CD_PESSOA_TUTOR1 = TUTOR.CD_PESSOA)
-        LEFT JOIN PESSOAS VETERINARIO ON (FICHA_LPV.CD_PESSOA_VETERINARIO_REMETENTE = VETERINARIO.CD_PESSOA)
-        LEFT JOIN CIDADES ON (FICHA_LPV.CD_CIDADE_PROPRIEDADE = CIDADES.CD_CIDADE)
+        // COUNT(FICHA_LPV.CD_FICHA_LPV) OVER() AS TOTAL_FILTERED,  
+        // (SELECT COUNT(FICHA_LPV.CD_FICHA_LPV) FROM FICHA_LPV) AS TOTAL_TABLE 
 
-        WHERE 1=1 ";
+        // FROM FICHA_LPV
+        // INNER JOIN ANIMAIS ON (FICHA_LPV.CD_ANIMAL = ANIMAIS.CD_ANIMAL)
+        // LEFT JOIN TIPO_ANIMAL ON (ANIMAIS.CD_TIPO_ANIMAL = TIPO_ANIMAL.CD_TIPO_ANIMAL)
+        // LEFT JOIN ESPECIES ON (ANIMAIS.CD_ESPECIE = ESPECIES.CD_ESPECIE)
+        // LEFT JOIN RACAS ON (ANIMAIS.CD_RACA = RACAS.CD_RACA)
+        // LEFT JOIN PESSOAS TUTOR ON (ANIMAIS.CD_PESSOA_TUTOR1 = TUTOR.CD_PESSOA)
+        // LEFT JOIN PESSOAS VETERINARIO ON (FICHA_LPV.CD_PESSOA_VETERINARIO_REMETENTE = VETERINARIO.CD_PESSOA)
+        // LEFT JOIN CIDADES ON (FICHA_LPV.CD_CIDADE_PROPRIEDADE = CIDADES.CD_CIDADE)
+
+        // WHERE 1=1 ";
 
         if (!empty($pesquisaCodigo)) $query .= " AND FICHA_LPV.CD_FICHA_LPV LIKE '%$pesquisaCodigo%'";
         if (!empty($pesquisaDataInicio)) $query .= " AND FICHA_LPV.DT_FICHA >= '$pesquisaDataInicio'";
         if (!empty($pesquisaDataFim)) $query .= " AND FICHA_LPV.DT_FICHA <= '$pesquisaDataFim'";
         if (!empty($pesquisaNomeAnimal)) $query .= " AND ANIMAIS.NM_ANIMAL LIKE '%$pesquisaNomeAnimal%'";
-        if (!empty($pesquisaTipoAnimal)) $query .= " AND TIPO_ANIMAL.DESCRICAO LIKE '%$pesquisaTipoAnimal%'";
         if (!empty($pesquisaEspecieAnimal)) $query .= " AND ESPECIES.DESCRICAO LIKE '%$pesquisaEspecieAnimal%'";
         if (!empty($pesquisaRacaAnimal)) $query .= " AND RACAS.DESCRICAO LIKE '%$pesquisaRacaAnimal%'";
         if (!empty($pesquisaSexoAnimal)) $query .= " AND ANIMAIS.SEXO = '$pesquisaSexoAnimal'";

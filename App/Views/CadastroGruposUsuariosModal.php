@@ -30,6 +30,9 @@ class CadastroGruposUsuariosModal
 
       if (!empty($cdGrupoUsuarios)) {
 
+        $exibirExcluir =  \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_GRUPOS_USUARIOS', 'FL_EXCLUIR');
+        $exibirSalvar =  \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_GRUPOS_USUARIOS', 'FL_EDITAR');
+
         $grupoUsuarios = \App\Models\GruposUsuarios::findById($cdGrupoUsuarios);
         $codigo = $grupoUsuarios->getCodigo();
         $nome = $grupoUsuarios->GetNome();
@@ -45,6 +48,7 @@ class CadastroGruposUsuariosModal
               </div>';
       } else {
         $exibirExcluir = false;
+        $exibirSalvar =  \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_GRUPOS_USUARIOS', 'FL_INSERIR');
         $codigo = '';
         $nome = '';
         $select = '

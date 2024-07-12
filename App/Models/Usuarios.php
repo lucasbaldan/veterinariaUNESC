@@ -20,7 +20,8 @@ class Usuarios
   {
     $this->CdPessoa = \App\Models\Pessoas::findById($cdpessoa);
     $this->Usuario = $usuario;
-    $this->Senha = md5($senha);
+    // $this->Senha = md5($senha);
+    $this->Senha = $senha;
     $this->CdGrupoUsuarios = \App\Models\GruposUsuarios::findById($cdgrupousuarios);
     $this->FlAtivo = $flativo;
     $this->CdUsuario = $cdusuario;
@@ -137,9 +138,9 @@ class Usuarios
   {
     $read = new \App\Conn\Read();
     $read->FullRead("SELECT U.CD_USUARIO, U.CD_PESSOA, P.NM_PESSOA, U.USUARIO, U.FL_ATIVO, U.CD_GRUPO_USUARIOS, G.NM_GRUPO_USUARIOS
-    FROM usuarios U
-    INNER JOIN pessoas P ON P.CD_PESSOA = U.CD_PESSOA
-    INNER JOIN grupos_usuarios G ON G.CD_GRUPO_USUARIOS = U.CD_GRUPO_USUARIOS
+    FROM USUARIOS U
+    INNER JOIN PESSOAS P ON P.CD_PESSOA = U.CD_PESSOA
+    INNER JOIN GRUPOS_USUARIOS G ON G.CD_GRUPO_USUARIOS = U.CD_GRUPO_USUARIOS
     WHERE U.CD_USUARIO = :C", "C=$cdUsuario");
 
     return $read->getResult()[0];
@@ -193,16 +194,32 @@ class Usuarios
 
     $read = new \App\Conn\Read();
 
-    $query = "SELECT USUARIOS.CD_USUARIO,
-        PESSOAS.NM_PESSOA AS NM_USUARIO,
-        GRUPOS_USUARIOS.NM_GRUPO_USUARIOS,
-        (CASE WHEN USUARIOS.FL_ATIVO = 'S' THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO, 
-        COUNT(USUARIOS.CD_USUARIO) OVER() AS TOTAL_FILTERED,  
-        (SELECT COUNT(USUARIOS.CD_USUARIO) FROM USUARIOS) AS TOTAL_TABLE 
-        FROM USUARIOS
-        LEFT JOIN GRUPOS_USUARIOS ON (GRUPOS_USUARIOS.CD_GRUPO_USUARIOS = USUARIOS.CD_GRUPO_USUARIOS)
-        INNER JOIN PESSOAS ON (PESSOAS.CD_PESSOA = USUARIOS.CD_PESSOA)
-        WHERE 1=1";
+    $query = "SELECT 
+              USUARIOS.CD_USUARIO,
+              PESSOAS.NM_PESSOA AS NM_USUARIO,
+              GRUPOS_USUARIOS.NM_GRUPO_USUARIOS,
+              (CASE WHEN USUARIOS.FL_ATIVO = 'S' THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO, 
+              (SELECT COUNT(*) FROM USUARIOS) AS TOTAL_FILTERED,
+              (SELECT COUNT(*) FROM USUARIOS) AS TOTAL_TABLE 
+          FROM 
+              USUARIOS
+          LEFT JOIN 
+              GRUPOS_USUARIOS ON GRUPOS_USUARIOS.CD_GRUPO_USUARIOS = USUARIOS.CD_GRUPO_USUARIOS
+          INNER JOIN 
+              PESSOAS ON PESSOAS.CD_PESSOA = USUARIOS.CD_PESSOA
+          WHERE 
+              1=1;";
+
+    // $query = "SELECT USUARIOS.CD_USUARIO,
+    //     PESSOAS.NM_PESSOA AS NM_USUARIO,
+    //     GRUPOS_USUARIOS.NM_GRUPO_USUARIOS,
+    //     (CASE WHEN USUARIOS.FL_ATIVO = 'S' THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO, 
+    //     COUNT(USUARIOS.CD_USUARIO) OVER() AS TOTAL_FILTERED,  
+    //     (SELECT COUNT(USUARIOS.CD_USUARIO) FROM USUARIOS) AS TOTAL_TABLE 
+    //     FROM USUARIOS
+    //     LEFT JOIN GRUPOS_USUARIOS ON (GRUPOS_USUARIOS.CD_GRUPO_USUARIOS = USUARIOS.CD_GRUPO_USUARIOS)
+    //     INNER JOIN PESSOAS ON (PESSOAS.CD_PESSOA = USUARIOS.CD_PESSOA)
+    //     WHERE 1=1";
 
     if (!empty($pesquisaCodigo)) {
       $query .= " AND USUARIOS.CD_USUARIO LIKE '%$pesquisaCodigo%'";

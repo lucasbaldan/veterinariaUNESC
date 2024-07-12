@@ -41,7 +41,7 @@ class Usuarios
             }
 
             if (!$usuarios->GetResult()) {
-                throw new Exception("<b>Erro ao salvar o usuário</b><br><br> Por favor, tente novamente.", 400);
+                throw new Exception("<b>Erro ao salvar o usuário: ". $usuarios->GetMessage() ."</b><br><br> Por favor, tente novamente.", 400);
             }
 
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $usuarios->GetReturn()];
@@ -163,10 +163,10 @@ class Usuarios
             $grid = $request->getParsedBody();
 
             $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
-            if ($orderBy == 0) $orderBy = "cd_usuario";
-            if ($orderBy == 1) $orderBy = "nm_usuario";
-            if ($orderBy == 2) $orderBy = "nm_grupo_usuarios";
-            if ($orderBy == 3) $orderBy = "fl_ativo";
+            if ($orderBy == 0) $orderBy = "CD_USUARIO";
+            if ($orderBy == 1) $orderBy = "NM_USUARIO";
+            if ($orderBy == 2) $orderBy = "NM_GRUPO_USUARIOS";
+            if ($orderBy == 3) $orderBy = "FL_ATIVO";
 
             $parametrosBusca = [
                 "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',

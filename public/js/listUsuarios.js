@@ -24,17 +24,17 @@ $(document).ready(function () {
       },
     },
     columns: [
-      { data: "cd_usuario" },
-      { data: "nm_usuario" },
-      { data: "nm_grupo_usuarios" },
-      { data: "fl_ativo" },
+      { data: "CD_USUARIO" },
+      { data: "NM_USUARIO" },
+      { data: "NM_GRUPO_USUARIOS" },
+      { data: "FL_ATIVO" },
     ],
     processing: true,
     serverSide: true,
     createdRow: function (row, data, dataIndex) {
       $("td", row).each(function (index) {
         var cell = $(this);
-        var Id = data.cd_usuario;
+        var Id = data.CD_USUARIO;
         
         var cellText = cell.text();
         cell.html(

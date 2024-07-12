@@ -27,6 +27,9 @@ class CadastroAcessosGruposUsuarios
         $exibeSalvar = true;
 
         if (!empty($cdGrupoUsuarios)) {
+            $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CONTROLE_ACESSOS', 'FL_EDITAR');
+        // $exibeSalvar = $permissaoSalvar == true ? true : false;
+
             $cdGrupoUsuarios = $grupoUsuarios->GetCodigo();
             $nmGrupoUsuarios = $grupoUsuarios->GetNome();
 
@@ -50,6 +53,13 @@ class CadastroAcessosGruposUsuarios
             $flEditarCadastroUsuarios = !empty($permissoesArray['CADASTRO_USUARIOS']['FL_EDITAR']) ? $permissoesArray['CADASTRO_USUARIOS']['FL_EDITAR'] : 'N';
             $flInserirCadastroUsuarios = !empty($permissoesArray['CADASTRO_USUARIOS']['FL_INSERIR']) ? $permissoesArray['CADASTRO_USUARIOS']['FL_INSERIR'] : 'N';
             $flExcluirCadastroUsuarios = !empty($permissoesArray['CADASTRO_USUARIOS']['FL_EXCLUIR']) ? $permissoesArray['CADASTRO_USUARIOS']['FL_EXCLUIR'] : 'N';
+
+            // Cadastro de Grupos de Usuários
+            $flAcessarCadastroGruposUsuarios = !empty($permissoesArray['CADASTRO_GRUPOS_USUARIOS']['FL_ACESSAR']) ? $permissoesArray['CADASTRO_GRUPOS_USUARIOS']['FL_ACESSAR'] : 'N';
+            $flEditarCadastroGruposUsuarios = !empty($permissoesArray['CADASTRO_GRUPOS_USUARIOS']['FL_EDITAR']) ? $permissoesArray['CADASTRO_GRUPOS_USUARIOS']['FL_EDITAR'] : 'N';
+            $flInserirCadastroGruposUsuarios = !empty($permissoesArray['CADASTRO_GRUPOS_USUARIOS']['FL_INSERIR']) ? $permissoesArray['CADASTRO_GRUPOS_USUARIOS']['FL_INSERIR'] : 'N';
+            $flExcluirCadastroGruposUsuarios = !empty($permissoesArray['CADASTRO_GRUPOS_USUARIOS']['FL_EXCLUIR']) ? $permissoesArray['CADASTRO_GRUPOS_USUARIOS']['FL_EXCLUIR'] : 'N';
+
 
             // Controle de Acessos
             $flAcessarControleAcessos = !empty($permissoesArray['CONTROLE_ACESSOS']['FL_ACESSAR']) ? $permissoesArray['CONTROLE_ACESSOS']['FL_ACESSAR'] : 'N';
@@ -105,6 +115,7 @@ class CadastroAcessosGruposUsuarios
             $flInserirRelatorios = !empty($permissoesArray['RELATORIOS']['FL_INSERIR']) ? $permissoesArray['RELATORIOS']['FL_INSERIR'] : 'N';
             $flExcluirRelatorios = !empty($permissoesArray['RELATORIOS']['FL_EXCLUIR']) ? $permissoesArray['RELATORIOS']['FL_EXCLUIR'] : 'N';
         } else {
+            $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CONTROLE_ACESSOS', 'FL_INSERIR');
             $cdGrupoUsuarios = '';
             $nmGrupoUsuarios = '';
             $exibeExcluir = false;
@@ -126,6 +137,12 @@ class CadastroAcessosGruposUsuarios
             $flEditarCadastroUsuarios = 'N';
             $flInserirCadastroUsuarios = 'N';
             $flExcluirCadastroUsuarios = 'N';
+
+            // Cadastro Grupo Usuarios
+            $flAcessarCadastroGruposUsuarios = 'N';
+            $flEditarCadastroGruposUsuarios = 'N';
+            $flInserirCadastroGruposUsuarios = 'N';
+            $flExcluirCadastroGruposUsuarios = 'N';
 
             // Controle de Acessos
             $flAcessarControleAcessos = 'N';
@@ -183,8 +200,8 @@ class CadastroAcessosGruposUsuarios
         }
 
 
-        $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CONTROLE_ACESSOS', 'FL_EDITAR');
-        $exibeSalvar = $permissaoSalvar == true ? true : false;
+        // $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CONTROLE_ACESSOS', 'FL_EDITAR');
+        // $exibeSalvar = $permissaoSalvar == true ? true : false;
 
         $telaCadastroUsuarios = $this->twig->fetch('cadastroAcessosGruposUsuarios.twig', [
             'cdGrupoUsuarios' => $cdGrupoUsuarios,
@@ -208,6 +225,12 @@ class CadastroAcessosGruposUsuarios
             'flEditarCadastroUsuarios' => $flEditarCadastroUsuarios == 'S' ? 'checked' : '',
             'flInserirCadastroUsuarios' => $flInserirCadastroUsuarios == 'S' ? 'checked' : '',
             'flExcluirCadastroUsuarios' => $flExcluirCadastroUsuarios == 'S' ? 'checked' : '',
+
+            // Cadastro de Grupos de Usuários
+            'flAcessarCadastroGruposUsuarios' => $flAcessarCadastroGruposUsuarios == 'S' ? 'checked' : '',
+            'flEditarCadastroGruposUsuarios' => $flEditarCadastroGruposUsuarios == 'S' ? 'checked' : '',
+            'flInserirCadastroGruposUsuarios' => $flInserirCadastroGruposUsuarios == 'S' ? 'checked' : '',
+            'flExcluirCadastroGruposUsuarios' => $flExcluirCadastroGruposUsuarios == 'S' ? 'checked' : '',
 
             // Controle de Acessos
             'flAcessarControleAcessos' => $flAcessarControleAcessos == 'S' ? 'checked' : '',

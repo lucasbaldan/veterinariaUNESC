@@ -234,11 +234,11 @@ class FormularioLPV
   {
     $read = new \App\Conn\Read();
 
-    $sql = "SELECT F.*, C.NOME AS NM_CIDADE, TA.descricao AS NM_TIPO_ANIMAL, P.nm_pessoa AS NM_VETERINARIO_REMETENTE 
+    $sql = "SELECT F.*, C.NOME AS NM_CIDADE, TA.DESCRICAO AS NM_TIPO_ANIMAL, P.NM_PESSOA AS NM_VETERINARIO_REMETENTE 
             FROM FICHA_LPV F
-            INNER JOIN cidades C ON C.CD_CIDADE = F.CD_CIDADE_PROPRIEDADE
-            INNER JOIN tipo_animal TA ON TA.cd_tipo_animal = F.CD_ANIMAL
-            INNER JOIN pessoas P ON P.cd_pessoa = F.CD_PESSOA_VETERINARIO_REMETENTE
+            INNER JOIN CIDADES C ON C.CD_CIDADE = F.CD_CIDADE_PROPRIEDADE
+            INNER JOIN TIPO_ANIMAL TA ON TA.CD_TIPO_ANIMAL = F.CD_ANIMAL
+            INNER JOIN PESSOAS P ON P.CD_PESSOA = F.CD_PESSOA_VETERINARIO_REMETENTE
             WHERE 1=1";
 
     if(!empty($cdAnimal)) $sql .= " AND F.CD_ANIMAL = $cdAnimal";

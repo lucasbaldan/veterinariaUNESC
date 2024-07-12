@@ -25,32 +25,37 @@ class CadastroPessoas
 
         $exibeExcluir = true;
         $exibeSalvar = true;
-        
+
         $pessoa = \App\Models\Pessoas::findById($idAlteracao);
 
-        if(!empty($idAlteracao)){
-            $selectCidade = '<option value="'.($pessoa->getCidade()->getCodigo()).'">'.($pessoa->getCidade()->getDescricao()).'</option>';
-            $selectBairro = '<option value="'.($pessoa->getBairro()->getCodigo()).'">'.($pessoa->getBairro()->getNome()).'</option>';
-            $selectLogradouro = '<option value="'.($pessoa->getLogradouro()->getCodigo()).'">'.($pessoa->getLogradouro()->getNome()).'</option>';   
+        if (!empty($idAlteracao)) {
+            $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_PESSOAS', 'FL_EDITAR');
+            $exibeExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_PESSOAS', 'FL_EXCLUIR');
+
+            $selectCidade = '<option value="' . ($pessoa->getCidade()->getCodigo()) . '">' . ($pessoa->getCidade()->getDescricao()) . '</option>';
+            $selectBairro = '<option value="' . ($pessoa->getBairro()->getCodigo()) . '">' . ($pessoa->getBairro()->getNome()) . '</option>';
+            $selectLogradouro = '<option value="' . ($pessoa->getLogradouro()->getCodigo()) . '">' . ($pessoa->getLogradouro()->getNome()) . '</option>';
         } else {
             $exibeExcluir = false;
+            $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_PESSOAS', 'FL_INSERIR');
+            
             $selectCidade = "";
             $selectBairro = "";
             $selectLogradouro = "";
         }
 
-        $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_PESSOAS', 'FL_EDITAR');
-        $exibeSalvar = $permissaoSalvar == true ? true : false;
+        // $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_PESSOAS', 'FL_EDITAR');
+        // $exibeSalvar = $permissaoSalvar == true ? true : false;
 
-        $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_PESSOAS', 'FL_EXCLUIR');
-        $exibeExcluir = $permissaoExcluir == true ? true : false;
+        // $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_PESSOAS', 'FL_EXCLUIR');
+        // $exibeExcluir = $permissaoExcluir == true ? true : false;
 
         $selectAtivo =  '<select name="AtivoPessoa" id="AtivoPessoa" class="form-select">
-                        <option value="S" '.($pessoa->getAtivo() == 'S' ? 'selected' : '').'>Sim</option>
-                        <option value="N" '.($pessoa->getAtivo() == 'N' ? 'selected' : '').'>Não</option>
+                        <option value="S" ' . ($pessoa->getAtivo() == 'S' ? 'selected' : '') . '>Sim</option>
+                        <option value="N" ' . ($pessoa->getAtivo() == 'N' ? 'selected' : '') . '>Não</option>
                         </select>';
 
-        
+
         $telaCadastroPessoa = $this->twig->fetch('cadastroPessoas.twig', [
             "cdPessoa" => $pessoa->getCodigo(),
             "selectAtivoPessoa" => $selectAtivo,

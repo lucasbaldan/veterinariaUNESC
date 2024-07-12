@@ -227,7 +227,7 @@ class Pessoas
                 $busca = new \App\Models\Pessoas('', '', '', '', '', '', '', '', '', '', '');
 
                 $parametrosPesquisa = [
-                    "COLUNAS" => "pessoas.cd_pessoa AS id, pessoas.nm_pessoa AS text",
+                    "COLUNAS" => "PESSOAS.CD_PESSOA AS id, PESSOAS.NM_PESSOA AS text",
                     "descricaoPesquisa" => empty($descricao) ? '' : $descricao
                 ];
 

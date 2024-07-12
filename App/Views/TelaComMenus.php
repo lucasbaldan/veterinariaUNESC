@@ -24,36 +24,49 @@ class TelaComMenus
 
         $sessao['userid'];
 
-   $logout = $sessao['session_start_time'] + $GLOBALS['timesession'];
-    $logoutDate = new DateTime();
-    $logoutDate->setTimestamp($logout);
+        $logout = $sessao['session_start_time'] + $GLOBALS['timesession'];
+        $logoutDate = new DateTime();
+        $logoutDate->setTimestamp($logout);
 
-        $itemAnimal = true;
-        $itemPessoa = true;
-        $itemAtendimento = true;
-        $itemEspecie = true;
-        $itemRaca = true;
-        $itemLogradouro = true;
-        $itemBairro = false;
-        $itemCidade = true;
-        $itemAcessoGrupo = true;
-        $itemGrupoUsuario = true;
-        $itemUsuario = true;
-        $itemRelFichaLPV = true;
+        $itemAnimal = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('ANIMAL', 'FL_ACESSAR');
+        $itemPessoa = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_PESSOAS', 'FL_ACESSAR');
+        $itemAtendimento = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('FICHA_LPV', 'FL_ACESSAR');
+        $itemEspecie = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('ESPECIE', 'FL_ACESSAR');
+        $itemRaca = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('RACA', 'FL_ACESSAR');
+        $itemLogradouro = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('LOGRADOURO', 'FL_ACESSAR');
+        $itemBairro = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('BAIRRO', 'FL_ACESSAR');
+        $itemCidade = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CIDADE', 'FL_ACESSAR');
+        $itemAcessoGrupo = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CONTROLE_ACESSOS', 'FL_ACESSAR');
+        $itemGrupoUsuario = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_GRUPOS_USUARIOS', 'FL_ACESSAR');
+        $itemUsuario = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_ACESSAR');
+        $itemRelFichaLPV = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('RELATORIOS', 'FL_ACESSAR');
 
-        if($itemEspecie || $itemRaca) $abaAnimal = true;
+        // $itemAnimal = true;
+        // $itemPessoa = true;
+        // $itemAtendimento = true;
+        // $itemEspecie = true;
+        // $itemRaca = true;
+        // $itemLogradouro = true;
+        // $itemBairro = false;
+        // $itemCidade = true;
+        // $itemAcessoGrupo = true;
+        // $itemGrupoUsuario = true;
+        // $itemUsuario = true;
+        // $itemRelFichaLPV = true;
+
+        if ($itemEspecie || $itemRaca) $abaAnimal = true;
         else $abaAnimal = false;
 
-        if($itemBairro || $itemCidade || $itemLogradouro) $abaEndereco = true;
+        if ($itemBairro || $itemCidade || $itemLogradouro) $abaEndereco = true;
         else $abaEndereco = false;
 
-        if($abaAnimal || $abaEndereco) $abaCadastrosGerais = true;
+        if ($abaAnimal || $abaEndereco) $abaCadastrosGerais = true;
         else $abaCadastrosGerais = false;
 
-        if($itemAcessoGrupo || $itemGrupoUsuario || $itemUsuario) $abaControleAcesso = true;
+        if ($itemAcessoGrupo || $itemGrupoUsuario || $itemUsuario) $abaControleAcesso = true;
         else $abaControleAcesso = false;
 
-        if($itemRelFichaLPV) $abaRelatorios = true;
+        if ($itemRelFichaLPV) $abaRelatorios = true;
         else $abaRelatorios = false;
 
         return $this->twig->fetch('TelaComMenus.twig', [
@@ -70,9 +83,9 @@ class TelaComMenus
             'itemBairro' => $itemBairro,
             'itemCidade' => $itemCidade,
             'itemRelFichaLPV' => $itemRelFichaLPV,
-            'itemAcessoGrupo' => $itemAcessoGrupo, 
+            'itemAcessoGrupo' => $itemAcessoGrupo,
             'itemGrupoUsuario' => $itemGrupoUsuario,
-            'itemUsuario' => $itemUsuario, 
+            'itemUsuario' => $itemUsuario,
 
             'abaCadastrosGerais' => $abaCadastrosGerais,
             'abaAnimal' => $abaAnimal,
@@ -83,7 +96,8 @@ class TelaComMenus
         ]);
     }
 
-    public static function getTelaComMenus($twig){
+    public static function getTelaComMenus($twig)
+    {
         return new Self($twig);
     }
 }

@@ -32,7 +32,7 @@ class GruposUsuarios
 
       $read = new \App\Conn\Read();
 
-      $read->ExeRead("grupos_usuarios", "WHERE CD_GRUPO_USUARIOS = :C LIMIT 1", "C=$id");
+      $read->ExeRead("GRUPOS_USUARIOS", "WHERE CD_GRUPO_USUARIOS = :C LIMIT 1", "C=$id");
 
       if ($read->getRowCount() == 0) {
         throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
@@ -190,13 +190,24 @@ class GruposUsuarios
 
     $read = new \App\Conn\Read();
 
-    $query = "SELECT GRUPOS_USUARIOS.CD_GRUPO_USUARIOS,
-                GRUPOS_USUARIOS.NM_GRUPO_USUARIOS,
-                (CASE WHEN GRUPOS_USUARIOS.FL_ATIVO = 'S' THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO, 
-                COUNT(GRUPOS_USUARIOS.CD_GRUPO_USUARIOS) OVER() AS TOTAL_FILTERED,  
-                (SELECT COUNT(GRUPOS_USUARIOS.CD_GRUPO_USUARIOS) FROM GRUPOS_USUARIOS) AS TOTAL_TABLE 
-                FROM GRUPOS_USUARIOS
-                WHERE 1=1";
+    $query= "SELECT 
+              GRUPOS_USUARIOS.CD_GRUPO_USUARIOS,
+              GRUPOS_USUARIOS.NM_GRUPO_USUARIOS,
+              (CASE WHEN GRUPOS_USUARIOS.FL_ATIVO = 'S' THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO, 
+              (SELECT COUNT(*) FROM GRUPOS_USUARIOS WHERE 1=1) AS TOTAL_FILTERED,  
+              (SELECT COUNT(*) FROM GRUPOS_USUARIOS) AS TOTAL_TABLE 
+          FROM 
+              GRUPOS_USUARIOS
+          WHERE 
+              1=1;";
+
+    // $query = "SELECT GRUPOS_USUARIOS.CD_GRUPO_USUARIOS,
+    //             GRUPOS_USUARIOS.NM_GRUPO_USUARIOS,
+    //             (CASE WHEN GRUPOS_USUARIOS.FL_ATIVO = 'S' THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO, 
+    //             COUNT(GRUPOS_USUARIOS.CD_GRUPO_USUARIOS) OVER() AS TOTAL_FILTERED,  
+    //             (SELECT COUNT(GRUPOS_USUARIOS.CD_GRUPO_USUARIOS) FROM GRUPOS_USUARIOS) AS TOTAL_TABLE 
+    //             FROM GRUPOS_USUARIOS
+    //             WHERE 1=1";
 
     if (!empty($pesquisaCodigo)) {
       $query .= " AND GRUPOS_USUARIOS.CD_GRUPO_USUARIOS LIKE '%$pesquisaCodigo%'";

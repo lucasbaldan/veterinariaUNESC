@@ -149,6 +149,11 @@ class GruposUsuarios
             $flInserirCadastroUsuarios = !empty($Formulario['flInserirCadastroUsuarios']) ? $Formulario['flInserirCadastroUsuarios'] : '';
             $flExcluirCadastroUsuarios = !empty($Formulario['flExcluirCadastroUsuarios']) ? $Formulario['flExcluirCadastroUsuarios'] : '';
 
+            $flAcessarCadastroGruposUsuarios = !empty($Formulario['flAcessarCadastroGruposUsuarios']) ? $Formulario['flAcessarCadastroGruposUsuarios'] : '';
+            $flEditarCadastroGruposUsuarios = !empty($Formulario['flEditarCadastroGruposUsuarios']) ? $Formulario['flEditarCadastroGruposUsuarios'] : '';
+            $flInserirCadastroGruposUsuarios = !empty($Formulario['flInserirCadastroGruposUsuarios']) ? $Formulario['flInserirCadastroGruposUsuarios'] : '';
+            $flExcluirCadastroGruposUsuarios = !empty($Formulario['flExcluirCadastroGruposUsuarios']) ? $Formulario['flExcluirCadastroGruposUsuarios'] : '';
+
             $flAcessarControleAcessos = !empty($Formulario['flAcessarControleAcessos']) ? $Formulario['flAcessarControleAcessos'] : '';
             $flEditarControleAcessos = !empty($Formulario['flEditarControleAcessos']) ? $Formulario['flEditarControleAcessos'] : '';
             $flInserirControleAcessos = !empty($Formulario['flInserirControleAcessos']) ? $Formulario['flInserirControleAcessos'] : '';
@@ -212,6 +217,12 @@ class GruposUsuarios
                     "FL_EDITAR" => $flEditarCadastroUsuarios ? "S" : "N",
                     "FL_INSERIR" => $flInserirCadastroUsuarios ? "S" : "N",
                     "FL_EXCLUIR" => $flExcluirCadastroUsuarios ? "S" : "N"
+                ],
+                "CADASTRO_GRUPOS_USUARIOS" => [
+                    "FL_ACESSAR" => $flAcessarCadastroGruposUsuarios ? "S" : "N",
+                    "FL_EDITAR" => $flEditarCadastroGruposUsuarios ? "S" : "N",
+                    "FL_INSERIR" => $flInserirCadastroGruposUsuarios ? "S" : "N",
+                    "FL_EXCLUIR" => $flExcluirCadastroGruposUsuarios ? "S" : "N"
                 ],
                 "CONTROLE_ACESSOS" => [
                     "FL_ACESSAR" => $flAcessarControleAcessos ? "S" : "N",
@@ -379,9 +390,9 @@ class GruposUsuarios
             $grid = $request->getParsedBody();
 
             $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
-            if ($orderBy == 0) $orderBy = "grupos_usuarios.cd_grupo_usuarios";
-            if ($orderBy == 1) $orderBy = "grupos_usuarios.nm_grupo_usuarios";
-            if ($orderBy == 2) $orderBy = "grupos_usuarios.fl_ativo";
+            if ($orderBy == 0) $orderBy = "GRUPOS_USUARIOS.CD_GRUPO_USUARIOS";
+            if ($orderBy == 1) $orderBy = "GRUPOS_USUARIOS.NM_GRUPO_USUARIOS";
+            if ($orderBy == 2) $orderBy = "GRUPOS_USUARIOS.FL_ATIVO";
 
             $parametrosBusca = [
                 "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',

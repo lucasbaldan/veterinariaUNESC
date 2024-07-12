@@ -54,6 +54,13 @@ $('#btnCadastroUsuarios').on('click', function () {
   );
 });
 
+$('#btnCadastroGruposUsuarios').on('click', function () {
+  toggleCheckboxes(
+    ['flAcessarCadastroGruposUsuarios', 'flEditarCadastroGruposUsuarios', 'flInserirCadastroGruposUsuarios', 'flExcluirCadastroGruposUsuarios'],
+    'iconGruposUsuarios'
+  );
+});
+
 $('#btnControleAcessos').on('click', function () {
   toggleCheckboxes(
     ['flAcessarControleAcessos', 'flEditarControleAcessos', 'flInserirControleAcessos', 'flExcluirControleAcessos'],
