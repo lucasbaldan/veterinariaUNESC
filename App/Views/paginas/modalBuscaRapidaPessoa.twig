@@ -3,20 +3,29 @@
         <form id="formBuscaRapidaPessoa" class="row mb-2">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="nmPessoa">Nome: </label>
+                    <label for="nmPessoa">Nome </label>
                     <input type="text" class="form-control" id="nmPessoaModal" name="nmPessoaModal">
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="cpfPessoa">CPF: </label>
                     <input type="text" class="form-control" id="cpfPessoaModal" name="cpfPessoaModal" placeholder="">
+                </div> -->
+                <div class="form-group">
+                    <label for="cdCidadeModal" class="form-label">Cidade </label>
+                        <select class="form-select" id="cdCidadeModal" name="cdCidadeModal">
+                        </select>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="dataNascimento">Data de Nascimento: </label>
                     <input type="date" class="form-control" id="dataNascimentoModal" name="dataNascimentoModal" placeholder="">
+                </div> -->
+                <div class="form-group">
+                    <label for="telefoneCelularModal">Contato Telefônico </label>
+                    <input type="text" class="form-control" id="telefoneCelularModal" name="telefoneCelularModal">
                 </div>
             </div>
             <div class="col-md-2 d-flex align-items-end">
@@ -31,10 +40,9 @@
                 <thead>
                     <tr>
                         <th style="text-align: center;">Nome</th>
-                        <th style="text-align: center;">CPF</th>
-                        <th style="text-align: center;">Data de Nascimento</th>
+                        <th style="text-align: center;">Cidade</th>
+                        <th style="text-align: center;">Contato Telefônico</th>
                         <th style="text-align: center;">Ações</th>
-
                     </tr>
                 </thead>
                 <tbody>

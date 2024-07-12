@@ -95,11 +95,6 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
-    $group->get('/listTipoAnimal', function (Request $request, Response $response, $args) use ($twig) {
-        $tela =  new App\Views\listTipoAnimal($twig);
-        return $tela->exibir($request, $response, $args);
-    });
-
     $group->get('/listEspecie', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\listEspecie($twig);
         return $tela->exibir($request, $response, $args);
@@ -191,7 +186,6 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         '/veterinariaUNESC/paginas',
         '/veterinariaUNESC/paginas/fichaLPV',
         '/veterinariaUNESC/paginas/inicial',
-        '/veterinariaUNESC/paginas/listTipoAnimal',
         '/veterinariaUNESC/paginas/listEspecie',
         '/veterinariaUNESC/paginas/listRaca',
         '/veterinariaUNESC/paginas/listMunicipio',
@@ -221,11 +215,6 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
 
 /////////////////////// ROTAS DE REQUISIÇÕES PARA CARREGAMENTO DINÂMICO DE MODAIS
 $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
-
-    $group->post('/cadastroTipoAnimal', function (Request $request, Response $response, $args) use ($twig) {
-        $tela =  new App\Views\CadastroTipoAnimalModal($twig);
-        return $tela->exibir($request, $response, $args);
-    });
 
     $group->post('/cadastroEspecie', function (Request $request, Response $response, $args) use ($twig) {
         $tela =  new App\Views\CadastroEspecieModal($twig);
@@ -275,7 +264,6 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
-        '/veterinariaUNESC/modais/cadastroTipoAnimal',
         '/veterinariaUNESC/modais/cadastroRaca',
         '/veterinariaUNESC/modais/cadastroEspecie',
         '/veterinariaUNESC/modais/cadastroMunicipio',
@@ -310,13 +298,6 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $pessoasGroup->post('/excluiPessoa', App\Controllers\Pessoas::class . ':ApagarPessoa');
         $pessoasGroup->post('/grid', App\Controllers\Pessoas::class . ':montarGrid');
         $pessoasGroup->post('/general', App\Controllers\Pessoas::class . ':General');
-    });
-
-    $group->group('/tipoAnimal', function (RouteCollectorProxy $Group) {
-        $Group->post('/grid', App\Controllers\TiposAnimais::class . ':montarGrid');
-        $Group->post('/general', App\Controllers\TiposAnimais::class . ':buscar');
-        $Group->post('/controlar', App\Controllers\TiposAnimais::class . ':controlar');
-        $Group->post('/excluir', App\Controllers\TiposAnimais::class . ':excluir');
     });
 
     $group->group('/especie', function (RouteCollectorProxy $Group) {
@@ -417,11 +398,6 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/pessoas/excluiPessoa',
         '/veterinariaUNESC/server/pessoas/grid',
         '/veterinariaUNESC/server/pessoas/general',
-
-        '/veterinariaUNESC/server/tipoAnimal/grid',
-        '/veterinariaUNESC/server/tipoAnimal/controlar',
-        '/veterinariaUNESC/server/tipoAnimal/excluir',
-        '/veterinariaUNESC/server/tipoAnimal/general',
 
         '/veterinariaUNESC/server/especie/grid',
         '/veterinariaUNESC/server/especie/controlar',

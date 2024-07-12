@@ -1,7 +1,11 @@
 var table;
 
 function constructModalBuscaPessoa() {
-  $("#cpfPessoaModal").inputmask("999.999.999-99", { autoUnmask: true });
+  $("#telefoneCelularModal").inputmask("(99) 99999-9999", { autoUnmask: true });
+
+  new Select2('#select2cdCidade', {
+    url: '/veterinariaUNESC/server/municipio/general',
+  })
 
   table = $("#gridDataTable").DataTable({
     language: {
