@@ -171,7 +171,7 @@ class Municipios
             $query = "SELECT $colunas FROM CIDADES $innerJoin WHERE 1=1";
 
             if (!empty($descricao)) {
-                $query .= " AND cidades.nome LIKE '%$descricao%'";
+                $query .= " AND CIDADES.NOME LIKE '%$descricao%'";
             }
 
             $query .= " LIMIT 30";

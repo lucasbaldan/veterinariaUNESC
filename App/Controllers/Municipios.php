@@ -17,9 +17,9 @@ class Municipios
             $grid = $request->getParsedBody();
 
             $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
-            if ($orderBy == 0) $orderBy = "cidades.cd_cidade";
-            if ($orderBy == 1) $orderBy = "cidades.nome";
-            if ($orderBy == 2) $orderBy = "estados.nome";
+            if ($orderBy == 0) $orderBy = "CIDADES.CD_CIDADE";
+            if ($orderBy == 1) $orderBy = "CIDADES.NOME";
+            if ($orderBy == 2) $orderBy = "ESTADOS.NOME";
 
             $parametrosBusca = [
                 "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',
@@ -126,9 +126,9 @@ class Municipios
                 $busca = new \App\Models\Municipios('', '', '');
 
                 $parametrosPesquisa = [
-                    "colunas" => "cd_cidade AS id, CONCAT(cidades.nome, ' - ', COALESCE(estados.UF, '')) AS text",
+                    "colunas" => "CD_CIDADE AS id, CONCAT(CIDADES.NOME, ' - ', COALESCE(ESTADOS.UF, '')) AS text",
                     "descricaoPesquisa" => empty($descricao) ? '' : $descricao,
-                    "innerJoin" => " LEFT JOIN estados ON (cidades.id_ibge_estado = estados.cd_ibge)"
+                    "innerJoin" => " LEFT JOIN ESTADOS ON (CIDADES.ID_IBGE_ESTADO = ESTADOS.CD_IBGE)"
                 ];
 
                 $busca->generalSearch($parametrosPesquisa);

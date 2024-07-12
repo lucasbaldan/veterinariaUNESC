@@ -172,9 +172,8 @@ class Pessoas
 
         $query = "SELECT $colunas
           FROM PESSOAS
+          LEFT JOIN CIDADES ON (PESSOAS.CD_CIDADE = CIDADES.CD_CIDADE)
           WHERE PESSOAS.FL_ATIVO = 'S' ";
-
-        $query .= empty($cidade) ? "" : "LEFT JOIN CIDADES ON (PESSOAS.CD_CIDADE = CIDADES.CD_CIDADE) ";
 
         if (!empty($nome)) {
             $query .= " AND PESSOAS.NM_PESSOA LIKE '%$nome%' ";
