@@ -1,9 +1,5 @@
 $(document).ready(function () {
 
-  if($('#select2TipoAnimal').val() == '') {
-    $("#select2especieAnimal").prop("disabled", true);
-  }
-
   if($('#select2especieAnimal').val() == '') {
     $("#select2racaAnimal").prop("disabled", true);
   }
@@ -20,32 +16,12 @@ $(document).ready(function () {
 
   bloquearCamposPessoa();
 
-  var selectTipoAnimal = new Select2("#select2tipoAnimal", {
-    url: "/veterinariaUNESC/server/tipoAnimal/general",
-  });
-
   var selectEspecieAnimal = new Select2("#select2especieAnimal", {
     url: "/veterinariaUNESC/server/especie/general",
   });
 
   var selectRacaAnimal = new Select2("#select2racaAnimal", {
     url: "/veterinariaUNESC/server/raca/general",
-  });
-
-  selectTipoAnimal.on("change", function (e) {
-    var TipoAnimalSelecionado = $(this).val();
-    $("#select2especieAnimal").val(null).trigger("change");
-
-    if (TipoAnimalSelecionado) {
-      selectEspecieAnimal = new Select2("#select2especieAnimal", {
-        url: "/veterinariaUNESC/server/especie/general",
-        idTipoAnimal: TipoAnimalSelecionado,
-      });
-      $("#select2especieAnimal").prop("disabled", false);
-    } else {
-      $("#select2racaAnimal").val(null).trigger("change");
-      $("#select2especieAnimal, #select2racaAnimal").prop("disabled", true);
-    }
   });
 
   selectEspecieAnimal.on("change", function (e) {
@@ -63,21 +39,7 @@ $(document).ready(function () {
     }
   });
 
-  $("#idade").on("blur", function (e) {
-    if($("#idade").val() !== ""){
-    var anoCalculado = calcularAnoNascimento($("#idade").val());
-    $("#anoNascimento").val(anoCalculado);
-    }
-  });
-
-  $("#anoNascimento").on("blur", function (e) {
-    if($("#anoNascimento").val() !== ""){
-    var idadeCalculada = calcularIdade($("#anoNascimento").val());
-    $("#idade").val(idadeCalculada);
-    }
-  });
-
-  $("#donoNaoDeclarado").on("change", function () {
+  $("#tutorNaoDeclarado").on("change", function () {
     if ($(this).is(":checked")) {
       desvincularPessoa();
       $("#buscaRapidaPessoa, #desvincularPessoa, #alterarPessoaAtual").prop(
