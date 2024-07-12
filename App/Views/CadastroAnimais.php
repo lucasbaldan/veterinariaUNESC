@@ -29,7 +29,7 @@ class CadastroAnimais
         $Animal = \App\Models\Animais::findById($idAlteracao);
 
         if (!empty($Animal->getCodigo())) {
-            $selectTipoAnimal = '<option value="' . $Animal->getTipoAnimal()->getCodigo() . '" selected>' . $Animal->getTipoAnimal()->getDescricao() . '</option>';
+            // $selectTipoAnimal = '<option value="' . $Animal->getTipoAnimal()->getCodigo() . '" selected>' . $Animal->getTipoAnimal()->getDescricao() . '</option>';
             $selectEspecie = '<option value="' . $Animal->getEspecie()->getCodigo() . '" selected>' . $Animal->getEspecie()->getDescricao() . '</option>';
             $selectRaca = '<option value="' . $Animal->getRaca()->getCodigo() . '" selected>' . $Animal->getRaca()->getDescricao() . '</option>';
 
@@ -44,7 +44,7 @@ class CadastroAnimais
             }
         } else {
             $exibeExcluir = false;
-            $selectTipoAnimal = '';
+            // $selectTipoAnimal = '';
             $selectEspecie = '';
             $selectRaca = '';
             $selectBairroPessoa = '';
@@ -70,12 +70,12 @@ class CadastroAnimais
         $Cadastro = $this->twig->fetch('cadastroAnimais.twig', [
             "cdAnimal" => $Animal->getCodigo(),
             "animal" => $Animal->getNome(),
-            "selectTipoAnimal" => $selectTipoAnimal,
+            // "selectTipoAnimal" => $selectTipoAnimal,
             "selectEspecieAnimal" => $selectEspecie,
             "selectRacaAnimal" => $selectRaca,
             "selectSexoAnimal" => $selectSexoAnimal,
-            "idadeAnimal" => $Animal->getIdadeAproximada(),
-            "anoNascimentoAnimal" => $Animal->getAnoNascimento(),
+            // "idadeAnimal" => $Animal->getIdadeAproximada(),
+            // "anoNascimentoAnimal" => $Animal->getAnoNascimento(),
 
             "cdPessoa" => $Animal->getDono1()->getCodigo(),
             "nmPessoa" => $Animal->getDono1()->getNome(),

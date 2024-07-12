@@ -65,7 +65,7 @@ class Pessoas
             $telefone = !empty($Formulario['telefoneCelularModal']) ? $Formulario['telefoneCelularModal'] : '';
 
             $arrayParam = [
-                "COLUNAS" => "PESSOAS.CD_PESSOA, PESSOAS.NM_PESSOA, PESSOAS.NR_TELEFONE CIDADES.NOME",
+                "COLUNAS" => "PESSOAS.CD_PESSOA, PESSOAS.NM_PESSOA, PESSOAS.CPF, PESSOAS.DATA_NASCIMENTO",
                 "NM_PESSOA" => $nmPessoa,
                 "ID_CIDADE" => $cdCidade,
                 "TELEFONE" => $telefone

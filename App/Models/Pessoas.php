@@ -270,6 +270,18 @@ class Pessoas
 
         $read = new \App\Conn\Read();
 
+        $query = "SELECT 
+                    PESSOAS.CD_PESSOA,
+                    PESSOAS.NM_PESSOA,
+                    (CASE WHEN PESSOAS.FL_ATIVO = 'S' THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO, 
+                    (SELECT COUNT(*) FROM PESSOAS WHERE 1=1) AS TOTAL_FILTERED,  
+                    (SELECT COUNT(*) FROM PESSOAS) AS TOTAL_TABLE 
+                    FROM 
+                        PESSOAS
+                    WHERE 
+                        1=1;
+                    ";
+
         // $query = "SELECT PESSOAS.CD_PESSOA,
         //           PESSOAS.NM_PESSOA,
         //           (CASE WHEN PESSOAS.FL_ATIVO = 'S' THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO, 
@@ -277,22 +289,6 @@ class Pessoas
         //           (SELECT COUNT(PESSOAS.CD_PESSOA) FROM PESSOAS) AS TOTAL_TABLE 
         //           FROM PESSOAS
         //           WHERE 1=1";
-
-        $query = "SELECT 
-        PESSOAS.CD_PESSOA,
-        PESSOAS.NM_PESSOA,
-        CASE 
-        WHEN PESSOAS.FL_ATIVO = 'S' THEN 'Sim' 
-        ELSE 'Não' 
-        END AS FL_ATIVO, 
-        (SELECT COUNT(*)
-        FROM PESSOAS P2 
-        WHERE 1=1) AS TOTAL_FILTERED,
-        (SELECT COUNT(*) 
-        FROM PESSOAS) AS TOTAL_TABLE 
-        FROM
-        PESSOAS
-        WHERE 1=1 ";
 
         if (!empty($pesquisaCodigo)) {
             $query .= " AND PESSOAS.CD_PESSOA LIKE '%$pesquisaCodigo%'";
@@ -413,5 +409,15 @@ class Pessoas
     public function setCidade($cidade)
     {
         $this->cidade = \App\Models\Municipios::findById($cidade);
+    }
+
+    public function setBairro($bairro)
+    {
+        $this->bairro = \App\Models\Bairros::findById($bairro);
+    }
+
+    public function setLogradouro($logradouro)
+    {
+        $this->logradouro = \App\Models\Logradouros::findById($logradouro);
     }
 }

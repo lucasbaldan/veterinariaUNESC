@@ -17,12 +17,11 @@ class Animais
             $grid = $request->getParsedBody();
 
             $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
-            if ($orderBy == 0) $orderBy = "animais.cd_animal";
-            if ($orderBy == 1) $orderBy = "animais.nm_animal";
-            if ($orderBy == 2) $orderBy = "tipo_animal.descricao";
-            if ($orderBy == 3) $orderBy = "animais.cd_animal";
-            if ($orderBy == 4) $orderBy = "especies.descricao";
-            if ($orderBy == 5) $orderBy = "racas.descricao";
+            if ($orderBy == 0) $orderBy = "ANIMAIS.CD_ANIMAL";
+            if ($orderBy == 1) $orderBy = "ANIMAIS.NM_ANIMAL";
+            if ($orderBy == 2) $orderBy = "ANIMAIS.CD_ANIMAL";
+            if ($orderBy == 3) $orderBy = "ESPECIES.DESCRICAO";
+            if ($orderBy == 4) $orderBy = "RACAS.DESCRICAO";
 
             $parametrosBusca = [
                 "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',
@@ -95,60 +94,67 @@ class Animais
             //INPUTUS DADOS ANIMAL
             $codigo = !empty($dadosForm['cdAnimal']) ? $dadosForm['cdAnimal'] : '';
             $nome = !empty($dadosForm['animal']) ? $dadosForm['animal'] : '';
-            $cdTipoAnimal = isset($dadosForm['select2tipoAnimal']) ? $dadosForm['select2tipoAnimal'] : '';
             $cdEspecie = isset($dadosForm['select2especieAnimal']) ? $dadosForm['select2especieAnimal'] : '';
             $cdRaca = isset($dadosForm['select2racaAnimal']) ? $dadosForm['select2racaAnimal'] : '';
             $dsSexo = !empty($dadosForm['dsSexo']) ? $dadosForm['dsSexo'] : '';
-            $idade = !empty($dadosForm['idade']) ? $dadosForm['idade'] : '';
-            $anoNascimento = !empty($dadosForm['anoNascimento']) ? $dadosForm['anoNascimento'] : '';
             
-            // INPUTS DA PESSOA DONA DO ANIMAL
-            $donoNaoDeclarado = isset($dadosForm['donoNaoDeclarado']) ? 'S' : 'N';
+            // INPUTS DA PESSOA TUTORA DO ANIMAL
+            $tutorNaoDeclarado = isset($dadosForm['tutorNaoDeclarado']) ? 'S' : 'N';
             $cdPessoa = !empty($dadosForm['cdPessoa']) ? $dadosForm['cdPessoa'] : '';
             $alterouPessoa = !empty($dadosForm['alterouPessoa']) ? $dadosForm['alterouPessoa'] : '';
             $nomePessoa = isset($dadosForm['nmPessoa']) ? $dadosForm['nmPessoa'] : '';
-            $cpf = isset($dadosForm['cpfPessoa']) ? $dadosForm['cpfPessoa'] : '';
-            $dataNascimento = isset($dadosForm['dataNascimento']) ? $dadosForm['dataNascimento'] : '';
+            // $cpf = isset($dadosForm['cpfPessoa']) ? $dadosForm['cpfPessoa'] : '';
+            // $dataNascimento = isset($dadosForm['dataNascimento']) ? $dadosForm['dataNascimento'] : '';
             $nrTelefone = isset($dadosForm['nrTelefone']) ? $dadosForm['nrTelefone'] : '';
-            $email = isset($dadosForm['dsEmail']) ? $dadosForm['dsEmail'] : '';
-            $nrCRMV = isset($dadosForm['nrCRMV']) ? $dadosForm['nrCRMV'] : '';
+            // $email = isset($dadosForm['dsEmail']) ? $dadosForm['dsEmail'] : '';
+            // $nrCRMV = isset($dadosForm['nrCRMV']) ? $dadosForm['nrCRMV'] : '';
             $select2cdCidade = isset($dadosForm['select2cdCidade']) ? $dadosForm['select2cdCidade'] : '';
             $select2cdBairro = isset($dadosForm['select2cdBairro']) ? $dadosForm['select2cdBairro'] : '';
             $select2cdLogradouro = isset($dadosForm['select2cdLogradouro']) ? $dadosForm['select2cdLogradouro'] : '';
             
 
-            if (empty($alterouPessoa) || empty($donoNaoDeclarado)) {
+            if (empty($alterouPessoa) || empty($tutorNaoDeclarado)) {
                 throw new Exception("Erro ao processar Requisição <br> Tente novamente mais tarde!");
             }
 
             if (empty($nome) || empty($dsSexo)) {
                 throw new Exception("Preencha os campos <b>Nome do animal</b> e <b>Sexo do animal</b> para concluir o cadastro.");
             }
-            if ($donoNaoDeclarado == 'N' && empty($cdPessoa)) {
-                throw new Exception("Preencha a informação na aba <b>Proprietário do Animal</b> para concluir o cadastro.");
+            if ($tutorNaoDeclarado == 'N' && empty($cdPessoa)) {
+                throw new Exception("Preencha a informação na aba <b>Tutor do Animal</b> para concluir o cadastro.");
             }
 
-            if($donoNaoDeclarado == 'N'){
+            if($tutorNaoDeclarado == 'N'){
+
+                $tutor = \App\Models\Pessoas::findById($cdPessoa);
+
+                $tutor->setNome($nomePessoa);
+                $tutor->setTelefone($nrTelefone);
+                $tutor->setCidade($select2cdCidade);
+                $tutor->setBairro($select2cdBairro);
+                $tutor->setLogradouro($select2cdLogradouro);
+
+                // $tutor->Update();
                 
-                $dono = new \App\Models\Pessoas($nomePessoa, $select2cdCidade, $nrTelefone, '', $email, $nrCRMV, $select2cdBairro, $select2cdLogradouro, 'S', $cpf, $dataNascimento, $cdPessoa);
+                // $tutor = new \App\Models\Pessoas($nomePessoa, $select2cdCidade, $nrTelefone, '', $email, $nrCRMV, $select2cdBairro, $select2cdLogradouro, 'S', $cpf, $dataNascimento, $cdPessoa);
 
                 if(empty($cdPessoa)){
-                    $dono->Insert();
+                    $tutor->Insert();
                 } else {
                     if ($alterouPessoa == 'S'){
-                        $dono->Update();
+                        $tutor->Update();
                     }
                 }
-                if(!$dono->getResult()){
-                    throw new Exception($dono->getMessage());
+                if(!$tutor->getResult()){
+                    throw new Exception($tutor->getMessage());
                 }
-                $dono = $dono->getCodigo();
+                $dono = $tutor->getCodigo();
             } else {
-                $dono = null;
+                $tutor = null;
             }
 
 
-            $cad = new \App\Models\Animais($nome, $donoNaoDeclarado, $cdTipoAnimal, $cdEspecie, $cdRaca, $dsSexo, $idade, $anoNascimento, $dono, null, $codigo);
+            $cad = new \App\Models\Animais($nome, $tutorNaoDeclarado, $cdEspecie, $cdRaca, $dsSexo, $cdPessoa, $codigo);
             if (empty($codigo)) {
                 $cad->Inserir();
             } else {

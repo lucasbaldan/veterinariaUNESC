@@ -147,7 +147,7 @@ class Atendimentos
         $pesquisaEspecieAnimal = $arrayParam['pesquisaEspecieAnimal'];
         $pesquisaRacaAnimal = $arrayParam['pesquisaRacaAnimal'];
         $pesquisaSexoAnimal = $arrayParam['pesquisaSexoAnimal'];
-        $pesquisaDono = $arrayParam['pesquisaDono'];
+        $pesquisaTutor = $arrayParam['pesquisaTutor'];
         $pesquisaVeterinario = $arrayParam['pesquisaVeterinario'];
         $pesquisaMunicipio = $arrayParam['pesquisaMunicipio'];
         $pesquisaMaterial = $arrayParam['pesquisaMaterial'];
@@ -168,7 +168,7 @@ class Atendimentos
         ESPECIES.DESCRICAO as NM_ESPECIE,
         RACAS.DESCRICAO as NM_RACA,
         (CASE WHEN ANIMAIS.SEXO = 'F' THEN 'Fêmea' WHEN ANIMAIS.SEXO = 'M' THEN 'Macho' ELSE '-' END) AS SEXO,
-        DONO.NM_PESSOA as NM_DONO,
+        TUTOR.NM_PESSOA as NM_TUTOR,
         VETERINARIO.NM_PESSOA as NM_VETERINARIO,
         CIDADES.NOME as CIDADE_PROPRIEDADE,
         FICHA_LPV.DS_MATERIAL_RECEBIDO,
@@ -188,7 +188,7 @@ class Atendimentos
         LEFT JOIN TIPO_ANIMAL ON (ANIMAIS.CD_TIPO_ANIMAL = TIPO_ANIMAL.CD_TIPO_ANIMAL)
         LEFT JOIN ESPECIES ON (ANIMAIS.CD_ESPECIE = ESPECIES.CD_ESPECIE)
         LEFT JOIN RACAS ON (ANIMAIS.CD_RACA = RACAS.CD_RACA)
-        LEFT JOIN PESSOAS DONO ON (ANIMAIS.CD_PESSOA_DONO1 = DONO.CD_PESSOA)
+        LEFT JOIN PESSOAS TUTOR ON (ANIMAIS.CD_PESSOA_TUTOR1 = TUTOR.CD_PESSOA)
         LEFT JOIN PESSOAS VETERINARIO ON (FICHA_LPV.CD_PESSOA_VETERINARIO_REMETENTE = VETERINARIO.CD_PESSOA)
         LEFT JOIN CIDADES ON (FICHA_LPV.CD_CIDADE_PROPRIEDADE = CIDADES.CD_CIDADE)
 
@@ -202,7 +202,7 @@ class Atendimentos
         if (!empty($pesquisaEspecieAnimal)) $query .= " AND ESPECIES.DESCRICAO LIKE '%$pesquisaEspecieAnimal%'";
         if (!empty($pesquisaRacaAnimal)) $query .= " AND RACAS.DESCRICAO LIKE '%$pesquisaRacaAnimal%'";
         if (!empty($pesquisaSexoAnimal)) $query .= " AND ANIMAIS.SEXO = '$pesquisaSexoAnimal'";
-        if (!empty($pesquisaDono)) $query .= " AND DONO.NM_PESSOA LIKE '%$pesquisaDono%'";
+        if (!empty($pesquisaTutor)) $query .= " AND TUTOR.NM_PESSOA LIKE '%$pesquisaTutor%'";
         if (!empty($pesquisaVeterinario)) $query .= " AND VETERINARIO.NM_PESSOA LIKE '%$pesquisaVeterinario%'";
         if (!empty($pesquisaMunicipio)) $query .= " AND CIDADES.NOME LIKE '%$pesquisaMunicipio%'";
         if (!empty($pesquisaMaterial)) $query .= " AND FICHA_LPV.DS_MATERIAL_RECEBIDO LIKE '%$pesquisaMaterial%'";

@@ -16,6 +16,11 @@ function constructModalBuscaPessoa() {
   });
 }
 
+function formatarData(data) {
+  const partes = data.split('-');
+  return `${partes[2]}-${partes[1]}-${partes[0]}`;
+}
+
 function BuscarRapidoPessoa() {
   Loading.on();
   var formData = $("#formBuscaRapidaPessoa").serialize();
