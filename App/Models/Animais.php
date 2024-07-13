@@ -176,7 +176,7 @@ class Animais
 
                 $dadosUpdate = [
                     "NM_ANIMAL" => $this->nome,
-                    "FL_tutor_NAO_DECLARADO" => $this->fl_tutor_nao_declarado,
+                    "FL_TUTOR_NAO_DECLARADO" => $this->fl_tutor_nao_declarado,
                     "CD_PESSOA_TUTOR1" => $this->tutor1->getCodigo(),
                     "CD_ESPECIE" => $this->especie->getCodigo(),
                     "CD_RACA" => $this->raca->getCodigo(),
@@ -223,16 +223,22 @@ class Animais
             $colunas = !empty($search['COLUNAS']) ? $search['COLUNAS'] : '*';
             $nome = !empty($search['NM_ANIMAL']) ? $search['NM_ANIMAL'] : '';
             $tutor1 = !empty($search['DONO']) ? $search['DONO'] : '';
+            $especie = !empty($search['ESPECIE']) ? $search['ESPECIE'] : '';
+            $raca = !empty($search['RACA']) ? $search['RACA'] : '';
 
             $read = new \App\Conn\Read();
 
             $query = "SELECT $colunas
           FROM ANIMAIS
           LEFT JOIN PESSOAS DONO ON (ANIMAIS.CD_PESSOA_TUTOR1 = DONO.CD_PESSOA)
+          LEFT JOIN ESPECIES ON (ANIMAIS.CD_ESPECIE = ESPECIES.CD_ESPECIE)
+          LEFT JOIN RACAS ON (ANIMAIS.CD_RACA = RACAS.CD_RACA)
           WHERE 1=1 ";
 
             if (!empty($nome)) $query .= " AND ANIMAIS.NM_ANIMAL LIKE '%$nome%' ";
             if (!empty($tutor1)) $query .= " AND DONO.NM_PESSOA LIKE '%$tutor1%' ";
+            if (!empty($especie)) $query .= " AND ESPECIES.CD_ESPECIE = $especie ";
+            if (!empty($raca)) $query .= " AND RACAS.CD_RACA = $raca ";
 
             $query .= "LIMIT 50";
 

@@ -2,6 +2,16 @@ var tableBuscaRapida;
 
 function constructModalBuscaAnimal() {
 
+  new Select2('#especieModal', {
+    url: '/veterinariaUNESC/server/especie/general',
+    dropdownParent: '.search-animal'
+  })
+
+  new Select2('#racaModal', {
+    url: '/veterinariaUNESC/server/raca/general',
+    dropdownParent: '.search-animal'
+  })
+
   tableBuscaRapida = $("#gridDataTableBuscaRapidaAnimal").DataTable({
     language: {
       url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
@@ -31,11 +41,11 @@ function BuscarRapidaAnimal() {
             var animal = animais[i];
             tableBuscaRapida.row
               .add([
-                animal.nm_animal,
-                animal.nm_tipo_animal,
-                animal.ano_nascimento,
-                animal.nm_pessoa,
-                '<button class="btn btn-primary" onclick="iniciarAtendimento(' + animal.cd_animal + ')">Iniciar Atendimento <i class="bi bi-clipboard2-pulse-fill"></i></button>',
+                animal.NM_ANIMAL,
+                animal.ESPECIE,
+                animal.RACA,
+                animal.NM_PESSOA,
+                '<button class="btn btn-primary" onclick="iniciarAtendimento(' + animal.CD_ANIMAL + ')">Iniciar Atendimento <i class="bi bi-clipboard2-pulse-fill"></i></button>',
               ])
               .draw();
           }

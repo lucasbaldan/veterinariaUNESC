@@ -1,5 +1,6 @@
 var dataTableAtendimentos;
 $(document).ready(function () {
+
   if (sessionStorage.getItem("notificarSucesso") === "true") {
     Notificacao.NotificacaoSucesso();
     sessionStorage.removeItem("notificarSucesso");

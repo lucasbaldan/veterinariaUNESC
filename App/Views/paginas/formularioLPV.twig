@@ -3,7 +3,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/veterinariaUNESC/paginas/inicial"><i
                     class="bi bi-house-door-fill"></i></a></li>
-        <li class="breadcrumb-item" aria-current="page">Ficha de Diagnóstico Patologia</li>
+        <li class="breadcrumb-item" aria-current="page">Atendimento (LPV)</li>
         <li class="breadcrumb-item" aria-current="page">Cadastro</li>
     </ol>
 </nav>
@@ -14,18 +14,14 @@
 
             <form id="pdfForm" action="/veterinariaUNESC/server/relatorios/fichaLPV" method="post">
                 <input type="hidden" name="cdFichaLPV" id="cdFichaLPV" value="{{cdFichaLPV}}">
-                <button class="btn btn-dark rounded-pill m-4" id="printFichaLPV" type="submit">
-                    <i class="bi bi-printer-fill"></i>
-                </button>
             </form>
 
             <form id="formFichaLPV" name="formFichaLPV" method="post" enctype="multipart/form-data">
-                <div class="mb-3 row">
-                    <div class="col-md-4">
-                        <div class="form-floating mb-3">
-                            <input type="text" readonly class="form-control-plaintext" id="cdFichaLPV" name="cdFichaLPV" value="{{cdFichaLPV}}">
-                            <label for="cdFichaLPV">Código: </label>
-                          </div>
+            <div class="mb-3 row">
+                    <div class="col-md-3">
+                            <input type="hidden" readonly name="inserirFicha" value="{{inserirFicha}}">
+                            <label for="cdFichaLPV" class="form-label">Código: </label>
+                            <input type="number" class="form-control" id="cdFichaLPV" name="cdFichaLPV" value="{{cdFichaLPV}}" {% if exibeGaleria %} readonly {% endif %}>
                     </div>
                     <div class="col-md-4">
                         <label for="dtFicha" class="form-label">Data</label>
@@ -36,6 +32,16 @@
                         <button class="btn btn-primary rounded-pill m-4" id="ExpandFicha" type="button">Expandir Ficha
                             <i class="bi bi-arrows-expand"></i></button>
                     </div>
+
+                    {% if exibeGaleria %}
+                    <div class="col-md-1">
+                        <button class="btn btn-dark rounded-pill mt-4" id="printFichaLPV" type="button">
+                            <i class="bi bi-printer-fill"></i>
+                        </button>
+                    
+                </div>
+                {% endif %}
+
                 </div>
 
 
@@ -66,12 +72,10 @@
                                             <input type="text" class="form-control" id="animal" name="animal" value="{{animal}}"
                                                 placeholder="" disabled>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="tipoAnimal" class="form-label">Tipo de Animal </label>
-                                        <select class="form-select" id="select2tipoAnimal" name="select2tipoAnimal"aria-label="" disabled>
-                                        {{selectTipoAnimal|raw}}
-                                    </select>
-                                </div>
+                                    <div class="col">
+                                        <label for="dsSexo" class="form-label">Sexo do Animal</label>
+                                            {{selectSexoAnimal|raw}}
+                                    </div>
                                 </div>      
                                     <div class="row mb-4">
                                         <div class="col">
@@ -91,24 +95,25 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-floating mb-3">
-                                                {{selectSexoAnimal|raw}}
-                                                <label for="dsSexo">Sexo do animal</label>
+                                                <input type="number" maxlength="4" class="form-control" id="idadeAnos"
+                                                    name="idadeAnos" placeholder="" value="{{idadeAnos}}">
+                                                <label for="idade">Idade - <b>Anos</b></label>
                                             </div>
                                         </div>
                 
                                         <div class="col">
                                             <div class="form-floating mb-3">
-                                                <input type="number" maxlength="2" class="form-control" id="idade" value="{{idadeAnimal}}"
-                                                    name="idade" placeholder="" disabled>
-                                                <label for="idade">Idade Aproximada</label>
+                                                <input type="text" class="form-control" id="idadeMeses" 
+                                                    name="idadeMeses" placeholder="" value="{{idadeMeses}}">
+                                                <label for="idadeMeses">Idade - <b>Meses</b></label>
                                             </div>
                                         </div>
-                
+
                                         <div class="col">
                                             <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="anoNascimento" value="{{anoNascimentoAnimal}}"
-                                                    name="anoNascimento" placeholder="" disabled>
-                                                <label for="anoNascimento">Ano de nascimento</label>
+                                                <input type="text" class="form-control" id="IdadeDias" 
+                                                    name="idadeDias" placeholder="" value="{{idadeDias}}">
+                                                <label for="idadeDias">Idade - <b>Dias</b></label>
                                             </div>
                                         </div>
                 

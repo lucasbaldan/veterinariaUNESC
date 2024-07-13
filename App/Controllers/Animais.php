@@ -62,15 +62,15 @@ class Animais
             $Formulario = $request->getParsedBody();
 
             $nmAnimal = !empty($Formulario['nmAnimalModal']) ? $Formulario['nmAnimalModal'] : '';
-            $tpAnimal = !empty($Formulario['tipoAnimalModal']) ? $Formulario['tipoAnimalModal'] : '';
-            $anoNascimento = !empty($Formulario['anoNascimentoModal']) ? $Formulario['anoNascimentoModal'] : '';
+            $especie = !empty($Formulario['especieModal']) ? $Formulario['especieModal'] : '';
+            $raca = !empty($Formulario['racaModal']) ? $Formulario['racaModal'] : '';
             $dono = !empty($Formulario['donoAnimalModal']) ? $Formulario['donoAnimalModal'] : '';
 
             $arrayParam = [
-                "COLUNAS" => "animais.cd_animal, animais.nm_animal, tipo_animal.descricao as nm_tipo_animal, animais.ano_nascimento, dono.nm_pessoa",
+                "COLUNAS" => "ANIMAIS.CD_ANIMAL, ANIMAIS.NM_ANIMAL, DONO.NM_PESSOA, ESPECIES.DESCRICAO AS ESPECIE, RACAS.DESCRICAO AS RACA",
                 "NM_ANIMAL" => $nmAnimal,
-                "TIPO_ANIMAL" => $tpAnimal,
-                "ANO_NASCIMENTO" => $anoNascimento,
+                "ESPECIE" => $especie,
+                "RACA" => $raca,
                 "DONO" => $dono
             ];
 

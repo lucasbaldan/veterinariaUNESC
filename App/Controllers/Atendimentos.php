@@ -73,8 +73,8 @@ class Atendimentos
             $dadosSelect = \App\Models\Atendimentos::SelectGrid($parametrosBusca);
             $dados = [
                 "draw" => (int)$grid['draw'],
-                "recordsTotal" => isset($dadosSelect[0]['total_table']) ? $dadosSelect[0]['total_table'] : 0,
-                "recordsFiltered" => isset($dadosSelect[0]['total_filtered']) ? $dadosSelect[0]['total_filtered'] : 0,
+                "recordsTotal" => isset($dadosSelect[0]['TOTAL_TABLE']) ? $dadosSelect[0]['TOTAL_TABLE'] : 0,
+                "recordsFiltered" => isset($dadosSelect[0]['TOTAL_FILTERED']) ? $dadosSelect[0]['TOTAL_FILTERED'] : 0,
                 "data" => $dadosSelect
             ];
 
@@ -95,7 +95,8 @@ class Atendimentos
             $dadosForm = $request->getParsedBody();
             //$diretorioImagens = $this->get('upload_directory');
 
-            //INPUTUS DADOS FICHA ANIMAL
+            //INPUTUS DADOS FICHA
+            $inserirFicha = !empty($dadosForm['inserirFicha']) ? ($dadosForm['inserirFicha'] === 'S' || $dadosForm['inserirFicha'] === 'N' ? ($dadosForm['inserirFicha'] === 'S' ? true : false): throw new Exception("Erro crítico na requisição")) : '';
             $codigo = !empty($dadosForm['cdFichaLPV']) ? $dadosForm['cdFichaLPV'] : '';
             $data = !empty($dadosForm['dtFicha']) ? $dadosForm['dtFicha'] : '';
             $materialRecebido = !empty($dadosForm['dsMaterialRecebido']) ? $dadosForm['dsMaterialRecebido'] : '';
@@ -115,12 +116,12 @@ class Atendimentos
             $codigoAnimal = !empty($dadosForm['cdAnimal']) ? $dadosForm['cdAnimal'] : '';
             $alterouAnimal = !empty($dadosForm['alterouAnimal']) ? $dadosForm['alterouAnimal'] : '';
             $nomeAnimal = isset($dadosForm['animal']) ? $dadosForm['animal'] : '';
-            $tipoAnimal = isset($dadosForm['select2tipoAnimal']) ? $dadosForm['select2tipoAnimal'] : '';
             $especieAnimal = isset($dadosForm['select2especieAnimal']) ? $dadosForm['select2especieAnimal'] : '';
             $racaAnimal = isset($dadosForm['select2racaAnimal']) ? $dadosForm['select2racaAnimal'] : '';
             $sexoAnimal = isset($dadosForm['dsSexo']) ? $dadosForm['dsSexo'] : '';
-            $idadeAnimal = isset($dadosForm['idade']) ? $dadosForm['idade'] : '';
-            $anoNascimentoAnimal = isset($dadosForm['anoNascimento']) ? $dadosForm['anoNascimento'] : '';
+            $idadeAno = isset($dadosForm['idadeAnos']) ? $dadosForm['idadeAnos'] : '';
+            $idadeMes = isset($dadosForm['idadeMeses']) ? $dadosForm['idadeMeses'] : '';
+            $idadeDia = isset($dadosForm['idadeDias']) ? $dadosForm['idadeDias'] : '';
 
             // INPUTS DA PESSOA DONA DO ANIMAL
             $donoNaoDeclarado = isset($dadosForm['donoNaoDeclarado']) ? 'S' : 'N';
@@ -161,12 +162,9 @@ class Atendimentos
             if (($alterouDono == 'S' && $donoNaoDeclarado == 'S') || $alterouAnimal) {
                 if ($alterouAnimal == 'S') {
                     $AnimalFicha->setNome($nomeAnimal);
-                    // $AnimalFicha->setTipoAnimal($tipoAnimal);
                     $AnimalFicha->setEspecie($especieAnimal);
                     $AnimalFicha->setRaca($racaAnimal);
                     $AnimalFicha->setSexo($sexoAnimal);
-                    // $AnimalFicha->setIdade($idadeAnimal);
-                    // $AnimalFicha->setAnoNascimento($anoNascimentoAnimal);
                 }
 
                 if ($donoNaoDeclarado == 'S') {
@@ -197,7 +195,7 @@ class Atendimentos
                     $VeterinarioFicha->setEmail($emailVeterinario);
                     $VeterinarioFicha->setCidade($cdCidadeVeterinario);
 
-                    $VeterinarioFicha->Update();
+                    $VeterinarioFicha->Update($Conn);
 
                     if (!$VeterinarioFicha->getResult()) {
                         throw new Exception($VeterinarioFicha->getMessage());
@@ -205,8 +203,8 @@ class Atendimentos
                 }
             }
 
-            $Atendimento = new \App\Models\Atendimentos($data, $AnimalFicha->getCodigo(), $VeterinarioFicha->getCodigo(), $cdCidadePropridade, $totalAnimais, $animaisMortos, $animaisDoentes, $materialRecebido, $dsDiagnosticoPresuntivo, $flAvaliacaoTumoralComMargem, $dsEpidemiologia, $dsLesoesMacroscopicas, $dsLesoesHistologicas, $dsDiagnostico, $dsRelatorio, $codigo);
-            if (empty($codigo)) {
+            $Atendimento = new \App\Models\Atendimentos($data, $AnimalFicha->getCodigo(), $VeterinarioFicha->getCodigo(), $cdCidadePropridade, $totalAnimais, $animaisMortos, $animaisDoentes, $materialRecebido, $dsDiagnosticoPresuntivo, $flAvaliacaoTumoralComMargem, $dsEpidemiologia, $dsLesoesMacroscopicas, $dsLesoesHistologicas, $dsDiagnostico, $dsRelatorio, $idadeAno, $idadeMes, $idadeDia, $codigo);
+            if ($inserirFicha) {
                 $Atendimento->Inserir($Conn);
             } else {
                 $Atendimento->Atualizar($Conn);
@@ -220,7 +218,6 @@ class Atendimentos
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $Atendimento->getCodigo()];
             $codigoHTTP = 200;
         } catch (Exception $e) {
-            if(isset($Conn)) $Conn->rollBack();
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
             $codigoHTTP = 500;
         }

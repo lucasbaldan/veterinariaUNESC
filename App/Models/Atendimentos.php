@@ -12,6 +12,9 @@ class Atendimentos
     private \App\Models\Animais $animal;
     private \App\Models\Pessoas $veterinarioRemetente;
     private \App\Models\Municipios $cidadeOrigem;
+    private $idadeAnimalAno;
+    private $idadeAnimalMeses;
+    private $idadeAnimalDias;
     private $totalAnimais;
     private $AnimaisMortos;
     private $AnimaisDoentes;
@@ -46,6 +49,9 @@ class Atendimentos
         $lessoesHistologicas,
         $diagnostico,
         $relatorio,
+        $idadeAno,
+        $idadeMes,
+        $idadeDia,
         $codigo = null
     ) {
         $this->codigo = $codigo;
@@ -64,6 +70,9 @@ class Atendimentos
         $this->lessoesHistologicas = $lessoesHistologicas;
         $this->diagnostico = $diagnostico;
         $this->relatorio = $relatorio;
+        $this->idadeAnimalAno = $idadeAno;
+        $this->idadeAnimalMeses = $idadeMes;
+        $this->idadeAnimalDias = $idadeDia;
     }
 
     public static function findById($id)
@@ -97,10 +106,13 @@ class Atendimentos
                 $read->getResult()[0]['DS_LESOES_HISTOLOGICAS'],
                 $read->getResult()[0]['DS_DIAGNOSTICO'],
                 $read->getResult()[0]['DS_RELATORIO'],
-                $read->getResult()[0]['CD_FICHA_LPV']
+                $read->getResult()[0]['IDADE_ANIMAL_ANO'],
+                $read->getResult()[0]['IDADE_ANIMAL_MES'],
+                $read->getResult()[0]['IDADE_ANIMAL_DIA'],
+                $read->getResult()[0]['CD_FICHA_LPV'],
             );
         } catch (Exception $e) {
-            return new self('', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+            return new self('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
         }
     }
 
@@ -269,6 +281,7 @@ class Atendimentos
             $insert = new \App\Conn\Insert($Conn);
 
             $dadosInsert = [
+                "CD_FICHA_LPV" => $this->codigo,
                 "DT_FICHA" => $this->data,
                 "CD_ANIMAL" => $this->animal->getCodigo(),
                 "CD_PESSOA_VETERINARIO_REMETENTE" => $this->veterinarioRemetente->getCodigo(),
@@ -283,7 +296,10 @@ class Atendimentos
                 "DS_LESOES_MACROSCOPICAS" => $this->lessoesMacroscopias,
                 "DS_LESOES_HISTOLOGICAS" => $this->lessoesHistologicas,
                 "DS_DIAGNOSTICO" => $this->diagnostico,
-                "DS_RELATORIO" => $this->relatorio
+                "DS_RELATORIO" => $this->relatorio,
+                "IDADE_ANIMAL_ANO" => $this->idadeAnimalAno,
+                "IDADE_ANIMAL_MES" => $this->idadeAnimalMeses,
+                "IDADE_ANIMAL_DIA" => $this->idadeAnimalDias
             ];
 
             $insert->ExeInsert("FICHA_LPV", $dadosInsert);
@@ -352,7 +368,10 @@ class Atendimentos
                     "DS_LESOES_MACROSCOPICAS" => $this->lessoesMacroscopias,
                     "DS_LESOES_HISTOLOGICAS" => $this->lessoesHistologicas,
                     "DS_DIAGNOSTICO" => $this->diagnostico,
-                    "DS_RELATORIO" => $this->relatorio
+                    "DS_RELATORIO" => $this->relatorio,
+                    "IDADE_ANIMAL_ANO" => $this->idadeAnimalAno,
+                    "IDADE_ANIMAL_MES" => $this->idadeAnimalMeses,
+                    "IDADE_ANIMAL_DIA" => $this->idadeAnimalDias
                 ];
 
                 $update->ExeUpdate("FICHA_LPV", $dadosUpdate, "WHERE CD_FICHA_LPV = :D", "D=$this->codigo");
@@ -489,6 +508,21 @@ class Atendimentos
     public function getRelatorio()
     {
         return $this->relatorio;
+    }
+
+    public function getIdadeAno()
+    {
+        return $this->idadeAnimalAno;
+    }
+
+    public function getIdadeMes()
+    {
+        return $this->idadeAnimalMeses;
+    }
+
+    public function getIdadeDia()
+    {
+        return $this->idadeAnimalDias;
     }
 
     public function getResult()

@@ -1,10 +1,22 @@
 $(document).ready(function () {
+
+  if (sessionStorage.getItem("notificarSucesso") === "true") {
+    Notificacao.NotificacaoSucesso();
+    sessionStorage.removeItem("notificarSucesso");
+  }
+
+  if ($("#donoNaoDeclarado").is(":checked")) {
+    $("#alterarDonoFicha").prop(
+      "disabled",
+      true
+    );
+  }
   
   $.fn.filepond.registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
   $('.my-pond').filepond({
     allowMultiple: true,
     labelIdle: 'Arraste e solte os arquivos ou <span class="filepond--label-action">clique aqui</span>', // Texto personalizado para o label
-    maxFileSize: '2MB', // Tamanho máximo do arquivo
+    //maxFileSize: '2MB', // Tamanho máximo do arquivo
     imagePreviewHeight: 150,
     imagePreviewWidth: 200,
     acceptedFileTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'], // Tipos de arquivo aceitos
@@ -45,32 +57,12 @@ $(document).ready(function () {
     });
   });
 
-  var selectTipoAnimal = new Select2("#select2tipoAnimal", {
-    url: "/veterinariaUNESC/server/tipoAnimal/general",
-  });
-
   var selectEspecieAnimal = new Select2("#select2especieAnimal", {
     url: "/veterinariaUNESC/server/especie/general",
   });
 
   var selectRacaAnimal = new Select2("#select2racaAnimal", {
     url: "/veterinariaUNESC/server/raca/general",
-  });
-
-  selectTipoAnimal.on("change", function (e) {
-    var TipoAnimalSelecionado = $(this).val();
-    $("#select2especieAnimal").val(null).trigger("change");
-
-    if (TipoAnimalSelecionado) {
-      selectEspecieAnimal = new Select2("#select2especieAnimal", {
-        url: "/veterinariaUNESC/server/especie/general",
-        idTipoAnimal: TipoAnimalSelecionado,
-      });
-      $("#select2especieAnimal").prop("disabled", false);
-    } else {
-      $("#select2racaAnimal").val(null).trigger("change");
-      $("#select2especieAnimal, #select2racaAnimal").prop("disabled", true);
-    }
   });
 
   selectEspecieAnimal.on("change", function (e) {
@@ -122,26 +114,12 @@ $(document).ready(function () {
 
 $("#alterarAnimalFicha").on("click", function () {
   $(
-    "#select2racaAnimal, #animal, #select2tipoAnimal, #select2especieAnimal, #select2racaAnimal, #dsSexo, #idade, #anoNascimento"
+    "#select2racaAnimal, #animal, #select2especieAnimal, #select2racaAnimal, #dsSexo, #idade, #anoNascimento"
   ).prop("disabled", false);
   $("#alterouAnimal").val("S");
-  if ($("#select2TipoAnimal").val() == "") {
-    $("#select2especieAnimal").prop("disabled", true);
-  }
+
   if ($("#select2especieAnimal").val() == "") {
     $("#select2racaAnimal").prop("disabled", true);
-  }
-
-  if (
-    $("#select2tipoAnimal").val() !== "" &&
-    $("#select2especieAnimal").val() === ""
-  ) {
-    var TipoAnimalSelecionado = $("#select2tipoAnimal").val();
-    selectEspecieAnimal = new Select2("#select2especieAnimal", {
-      url: "/veterinariaUNESC/server/especie/general",
-      idTipoAnimal: TipoAnimalSelecionado,
-    });
-    $("#select2especieAnimal").prop("disabled", false);
   }
 
   if (
@@ -306,9 +284,10 @@ function salvarCadastroAtendimentos(atualizarPage = false) {
     },
       error: function (xhr, status, error) {
           Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
+          Loading.off();
       },
       complete: function () {
-          Loading.off();
+          
       },
   });
 }
@@ -321,7 +300,7 @@ function excluirCadastroAtendimentos() {
     title: "Confirmar exclusão?",
     centerVertical: true,
     message:
-      "Você tem <b>certeza</b> que deseja excluir esse registro? Esta ação poderá ser desfeita.",
+      "Você tem <b>certeza</b> que deseja excluir esse registro? Esta acarretará também na exclusão das <b>imagens anexadas</b>.",
     buttons: {
       cancel: {
         label: '<i class="bi bi-arrow-left"></i> Cancelar',
@@ -348,9 +327,9 @@ function excluirCadastroAtendimentos() {
           },
           error: function (xhr, status, error) {
             Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
+            Loading.off();
           },
           complete: function () {
-            Loading.off();
           },
         });
       }

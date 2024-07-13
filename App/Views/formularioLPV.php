@@ -26,6 +26,7 @@ class FormularioLPV
         $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('FICHA_LPV', 'FL_INSERIR');;
         $exibeExcluir = true;
         $exibeSalvarGaleria = false;
+        $exibeImprimir = true;
 
         if (!empty($idAnimal)) {
             $exibeExcluir = false;
@@ -48,14 +49,13 @@ class FormularioLPV
                     </select>';
 
             $formulario = $this->twig->fetch('formularioLPV.twig', [
+                "inserirFicha" => 'S',
                 "DataFicha" => date('Y-m-d'),
                 "cdAnimal" => $AnimalFicha->getCodigo(),
                 "animal" => $AnimalFicha->getNome(),
                 "selectEspecieAnimal" => $selectEspecie,
                 "selectRacaAnimal" => $selectRaca,
                 "selectSexoAnimal" => $selectSexoAnimal,
-                // "idadeAnimal" => $AnimalFicha->getIdadeAproximada(),
-                // "anoNascimentoAnimal" => $AnimalFicha->getAnoNascimento(),
 
                 "nmDonoAnimal" => $AnimalFicha->getDono1()->getNome(),
                 "nrTelefoneDono" => $AnimalFicha->getDono1()->getTelefone(),
@@ -103,6 +103,7 @@ class FormularioLPV
 
 
             $formulario = $this->twig->fetch('formularioLPV.twig', [
+                "inserirFicha" => 'N',
                 "cdFichaLPV" => $Ficha->getCodigo(),
                 "DataFicha" => $Ficha->getData(),
                 "cdAnimal" => $AnimalFicha->getCodigo(),
@@ -110,8 +111,9 @@ class FormularioLPV
                 "selectEspecieAnimal" => $selectEspecie,
                 "selectRacaAnimal" => $selectRaca,
                 "selectSexoAnimal" => $selectSexoAnimal,
-                // "idadeAnimal" => $AnimalFicha->getIdadeAproximada(),
-                // "anoNascimentoAnimal" => $AnimalFicha->getAnoNascimento(),
+                "idadeAnos" => $Ficha->getIdadeAno(),
+                "idadeMeses" => $Ficha->getIdadeMes(),
+                "idadeDias" => $Ficha->getIdadeDia(),
 
                 "nmDonoAnimal" => $AnimalFicha->getDono1()->getNome(),
                 "nrTelefoneDono" => $AnimalFicha->getDono1()->getTelefone(),
