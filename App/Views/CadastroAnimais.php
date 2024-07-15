@@ -58,6 +58,11 @@ class CadastroAnimais
                                     <option value="F" ' . ($Animal->getSexo() == 'F' ? 'selected' : ' ') . '>Fêmea</option>
                                 </select>';
 
+        $selectFlCastrado = '<select class="form-select" id="flCastrado" name="flCastrado" aria-label="Animal Castrado?">
+                                    <option value="N" ' . ($Animal->getFlCastrado() == 'N' ? 'selected' : ' ') . '>Não</option>
+                                    <option value="S" ' . ($Animal->getFlCastrado() == 'S' ? 'selected' : ' ') . '>Sim</option>
+                                </select>';
+
         $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('ESPECIE', 'FL_EDITAR');
         $exibeSalvar = $permissaoSalvar == true ? true : false;
 
@@ -74,6 +79,7 @@ class CadastroAnimais
             "selectEspecieAnimal" => $selectEspecie,
             "selectRacaAnimal" => $selectRaca,
             "selectSexoAnimal" => $selectSexoAnimal,
+            "selectFlCastrado" => $selectFlCastrado,
             // "idadeAnimal" => $Animal->getIdadeAproximada(),
             // "anoNascimentoAnimal" => $Animal->getAnoNascimento(),
 

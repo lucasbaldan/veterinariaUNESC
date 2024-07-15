@@ -114,7 +114,7 @@ $(document).ready(function () {
 
 $("#alterarAnimalFicha").on("click", function () {
   $(
-    "#select2racaAnimal, #animal, #select2especieAnimal, #select2racaAnimal, #dsSexo, #idade, #anoNascimento"
+    "#select2racaAnimal, #animal, #select2especieAnimal, #select2racaAnimal, #dsSexo, #flCastrado, #idade, #anoNascimento"
   ).prop("disabled", false);
   $("#alterouAnimal").val("S");
 

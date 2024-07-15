@@ -97,6 +97,7 @@ class Animais
             $cdEspecie = isset($dadosForm['select2especieAnimal']) ? $dadosForm['select2especieAnimal'] : '';
             $cdRaca = isset($dadosForm['select2racaAnimal']) ? $dadosForm['select2racaAnimal'] : '';
             $dsSexo = !empty($dadosForm['dsSexo']) ? $dadosForm['dsSexo'] : '';
+            $flCastrado = !empty($dadosForm['flCastrado']) ? $dadosForm['flCastrado'] : '';
             
             // INPUTS DA PESSOA TUTORA DO ANIMAL
             $tutorNaoDeclarado = isset($dadosForm['tutorNaoDeclarado']) ? 'S' : 'N';
@@ -154,7 +155,7 @@ class Animais
             }
 
 
-            $cad = new \App\Models\Animais($nome, $tutorNaoDeclarado, $cdEspecie, $cdRaca, $dsSexo, $cdPessoa, $codigo);
+            $cad = new \App\Models\Animais($nome, $tutorNaoDeclarado, $cdEspecie, $cdRaca, $dsSexo, $flCastrado, $cdPessoa, $codigo);
             if (empty($codigo)) {
                 $cad->Inserir();
             } else {

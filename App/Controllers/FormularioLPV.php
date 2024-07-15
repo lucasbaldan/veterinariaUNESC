@@ -30,6 +30,7 @@ class FormularioLPV
             $dsEspecie = !empty($Formulario['dsEspecie']) ? $Formulario['dsEspecie'] : '';
             $dsRaca = !empty($Formulario['dsRaca']) ? $Formulario['dsRaca'] : '';
             $dsSexo = !empty($Formulario['dsSexo']) ? $Formulario['dsSexo'] : '';
+            $flCastrado = !empty($Formulario['flCastrado']) ? $Formulario['flCastrado'] : '';
             $idade = !empty($Formulario['idade']) ? $Formulario['idade'] : '';
             $totalAnimais = !empty($Formulario['totalAnimais']) ? $Formulario['totalAnimais'] : '';
             $qtdAnimaisDoentes = !empty($Formulario['qtdAnimaisDoentes']) ? $Formulario['qtdAnimaisDoentes'] : '';

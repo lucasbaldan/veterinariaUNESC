@@ -17,15 +17,17 @@
             </form>
 
             <form id="formFichaLPV" name="formFichaLPV" method="post" enctype="multipart/form-data">
-            <div class="mb-3 row">
+                <div class="mb-3 row">
                     <div class="col-md-3">
-                            <input type="hidden" readonly name="inserirFicha" value="{{inserirFicha}}">
-                            <label for="cdFichaLPV" class="form-label">Código: </label>
-                            <input type="number" class="form-control" id="cdFichaLPV" name="cdFichaLPV" value="{{cdFichaLPV}}" {% if exibeGaleria %} readonly {% endif %}>
+                        <input type="hidden" readonly name="inserirFicha" value="{{inserirFicha}}">
+                        <label for="cdFichaLPV" class="form-label">Código: </label>
+                        <input type="number" class="form-control" id="cdFichaLPV" name="cdFichaLPV"
+                            value="{{cdFichaLPV}}" {% if exibeGaleria %} readonly {% endif %}>
                     </div>
                     <div class="col-md-4">
                         <label for="dtFicha" class="form-label">Data</label>
-                        <input type="date" class="form-control" id="dtFicha" name="dtFicha" placeholder="" value="{{DataFicha}}">
+                        <input type="date" class="form-control" id="dtFicha" name="dtFicha" placeholder=""
+                            value="{{DataFicha}}">
                     </div>
 
                     <div class="col-md-4 d-flex align-items-end justify-content-end">
@@ -38,9 +40,9 @@
                         <button class="btn btn-dark rounded-pill mt-4" id="printFichaLPV" type="button">
                             <i class="bi bi-printer-fill"></i>
                         </button>
-                    
-                </div>
-                {% endif %}
+
+                    </div>
+                    {% endif %}
 
                 </div>
 
@@ -59,8 +61,9 @@
 
                                 <div class="row">
                                     <div class="col col-md-12 col-sm-2 d-flex justify-content-end">
-                                          <button class="btn btn-secondary" id="alterarAnimalFicha" type="button"><i class="bi bi-pencil-fill"></i> <i class="bi bi-gitlab"></i></i></button>
-                                          </button>
+                                        <button class="btn btn-secondary" id="alterarAnimalFicha" type="button"><i
+                                                class="bi bi-pencil-fill"></i> <i class="bi bi-gitlab"></i></i></button>
+                                        </button>
                                     </div>
                                 </div>
 
@@ -69,55 +72,61 @@
                                     <input type="hidden" name="alterouAnimal" id="alterouAnimal" value="N" readonly>
                                     <div class="col-md-6">
                                         <label for="animal" class="form-label">Nome do Animal</label>
-                                            <input type="text" class="form-control" id="animal" name="animal" value="{{animal}}"
-                                                placeholder="" disabled>
+                                        <input type="text" class="form-control" id="animal" name="animal"
+                                            value="{{animal}}" placeholder="" disabled>
                                     </div>
                                     <div class="col">
                                         <label for="dsSexo" class="form-label">Sexo do Animal</label>
-                                            {{selectSexoAnimal|raw}}
+                                        {{selectSexoAnimal|raw}}
                                     </div>
-                                </div>      
-                                    <div class="row mb-4">
-                                        <div class="col">
-                                            <label for="especieAnimal" class="form-label">Espécie </label>
-                                            <select class="form-select" id="select2especieAnimal" name="select2especieAnimal"aria-label="" disabled>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <label for="especieAnimal" class="form-label">Espécie </label>
+                                        <select class="form-select" id="select2especieAnimal"
+                                            name="select2especieAnimal" aria-label="" disabled>
                                             {{selectEspecieAnimal|raw}}
                                         </select>
                                     </div>
                                     <div class="col">
                                         <label for="racaAnimal" class="form-label">Raça </label>
-                                        <select class="form-select" id="select2racaAnimal" name="select2racaAnimal"aria-label="" disabled>
-                                        {{selectRacaAnimal|raw}}
-                                    </select>
+                                        <select class="form-select" id="select2racaAnimal" name="select2racaAnimal"
+                                            aria-label="" disabled>
+                                            {{selectRacaAnimal|raw}}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="flCastrado" class="form-label">Castrado </label>
+                                            {{selectFlCastrado|raw}}
+                                    </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" maxlength="4" class="form-control" id="idadeAnos"
+                                                name="idadeAnos" placeholder="" value="{{idadeAnos}}">
+                                            <label for="idade">Idade - <b>Anos</b></label>
+                                        </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="form-floating mb-3">
-                                                <input type="number" maxlength="4" class="form-control" id="idadeAnos"
-                                                    name="idadeAnos" placeholder="" value="{{idadeAnos}}">
-                                                <label for="idade">Idade - <b>Anos</b></label>
-                                            </div>
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="idadeMeses" name="idadeMeses"
+                                                placeholder="" value="{{idadeMeses}}">
+                                            <label for="idadeMeses">Idade - <b>Meses</b></label>
                                         </div>
-                
-                                        <div class="col">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="idadeMeses" 
-                                                    name="idadeMeses" placeholder="" value="{{idadeMeses}}">
-                                                <label for="idadeMeses">Idade - <b>Meses</b></label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="IdadeDias" 
-                                                    name="idadeDias" placeholder="" value="{{idadeDias}}">
-                                                <label for="idadeDias">Idade - <b>Dias</b></label>
-                                            </div>
-                                        </div>
-                
                                     </div>
+
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="IdadeDias" name="idadeDias"
+                                                placeholder="" value="{{idadeDias}}">
+                                            <label for="idadeDias">Idade - <b>Dias</b></label>
+                                        </div>
+                                    </div>
+
+                                </div>
 
                             </div>
                         </div>
@@ -135,16 +144,20 @@
 
                                 <div class="row">
                                     <div class="col col-md-12 col-sm-2 d-flex justify-content-end">
-                                        <button class="btn btn-secondary" id="alterarDonoFicha" type="button"><i class="bi bi-pencil-fill"></i> <i class="bi bi-person-arms-up"></i></button>
+                                        <button class="btn btn-secondary" id="alterarDonoFicha" type="button"><i
+                                                class="bi bi-pencil-fill"></i> <i
+                                                class="bi bi-person-arms-up"></i></button>
                                         </button>
-                                  </div>
+                                    </div>
                                     <div class="col-md-12 mb-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="donoNaoDeclarado" name="donoNaoDeclarado" {% if donoNaoDeclarado %}checked{% endif %} disabled>
-                                        <label class="form-check-label" for="donoNaoDeclarado">
-                                          Dono do Animal Não Declarado / Não informado / Ignorado
-                                        </label>
-                                      </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="donoNaoDeclarado"
+                                                name="donoNaoDeclarado" {% if donoNaoDeclarado %}checked{% endif %}
+                                                disabled>
+                                            <label class="form-check-label" for="donoNaoDeclarado">
+                                                Dono do Animal Não Declarado / Não informado / Ignorado
+                                            </label>
+                                        </div>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-floating mb-3">
@@ -183,22 +196,32 @@
                                 <div class="row">
                                     <div class="col col-md-12 col-sm-2 mb-4 d-flex justify-content-end">
                                         <div class="btn-group" role="group">
-                                          <button class="btn btn-success" id="buscaRapidaVeterinario" type="button"><i class="bi bi-search"></i> <i class="bi bi-person-arms-up"></i></button>
-                                          </button>
-                                          <button class="btn btn-secondary" id="alterarVeterinario" type="button"><i class="bi bi-pencil-fill"></i> <i class="bi bi-person-arms-up"></i></button>
-                                          </button>
-                                        <button class="btn btn-danger" id="desvincularVeterinario" type="button"><i class="bi bi-x-lg"></i> <i class="bi bi-person-arms-up"></i></button>
-                                          </button>
+                                            <button class="btn btn-success" id="buscaRapidaVeterinario" type="button"><i
+                                                    class="bi bi-search"></i> <i
+                                                    class="bi bi-person-arms-up"></i></button>
+                                            </button>
+                                            <button class="btn btn-secondary" id="alterarVeterinario" type="button"><i
+                                                    class="bi bi-pencil-fill"></i> <i
+                                                    class="bi bi-person-arms-up"></i></button>
+                                            </button>
+                                            <button class="btn btn-danger" id="desvincularVeterinario" type="button"><i
+                                                    class="bi bi-x-lg"></i> <i
+                                                    class="bi bi-person-arms-up"></i></button>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-9">
                                         <div class="form-floating mb-3">
-                                            <input type="hidden" class="form-control" id="cdVeterinarioRemetente" name="cdVeterinarioRemetente" value="{{cdVeterinarioRemetente}}" readonly>
-                                            <input type="hidden" class="form-control" id="alterouVeterinario" name="alterouVeterinario" value="N" readonly>
+                                            <input type="hidden" class="form-control" id="cdVeterinarioRemetente"
+                                                name="cdVeterinarioRemetente" value="{{cdVeterinarioRemetente}}"
+                                                readonly>
+                                            <input type="hidden" class="form-control" id="alterouVeterinario"
+                                                name="alterouVeterinario" value="N" readonly>
                                             <input type="text" class="form-control" id="nmVeterinarioRemetente"
-                                                name="nmVeterinarioRemetente" value="{{nmVeterinarioRemetente}}" disabled>
+                                                name="nmVeterinarioRemetente" value="{{nmVeterinarioRemetente}}"
+                                                disabled>
                                             <label for="nmVeterinarioRemetente">Nome Completo</label>
                                         </div>
                                     </div>
@@ -206,7 +229,8 @@
                                     <div class="col-md-3">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="crmvVeterinarioRemetente"
-                                                name="crmvVeterinarioRemetente" placeholder="" value="{{crmvVeterinario}}" disabled>
+                                                name="crmvVeterinarioRemetente" placeholder=""
+                                                value="{{crmvVeterinario}}" disabled>
                                             <label for="crmvVeterinarioRemetente">CRMV</label>
                                         </div>
                                     </div>
@@ -216,22 +240,26 @@
                                     <div class="col">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="nrTelVeterinarioRemetente"
-                                                name="nrTelVeterinarioRemetente" placeholder="" value="{{telefoneVeterinario}}" disabled>
+                                                name="nrTelVeterinarioRemetente" placeholder=""
+                                                value="{{telefoneVeterinario}}" disabled>
                                             <label for="nrTelVeterinarioRemetente">Telefone / Celular</label>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="dsEmailVeterinarioRemetente"
-                                                name="dsEmailVeterinarioRemetente" value="{{emailVeterinario}}" disabled>
+                                                name="dsEmailVeterinarioRemetente" value="{{emailVeterinario}}"
+                                                disabled>
                                             <label for="dsEmailVeterinarioRemetente">Email</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <label for="select2cdCidadeVeterinario" class="form-label">Município de Residência</label>
-                                        <select class="form-select" id="select2cdCidadeVeterinario" name="select2cdCidadeVeterinario" disabled>
+                                        <label for="select2cdCidadeVeterinario" class="form-label">Município de
+                                            Residência</label>
+                                        <select class="form-select" id="select2cdCidadeVeterinario"
+                                            name="select2cdCidadeVeterinario" disabled>
                                             {{selectCidadeVeterinario|raw}}
                                         </select>
                                     </div>
@@ -251,11 +279,13 @@
                             <div class="accordion-body">
                                 <div class="row mb-4">
                                     <div class="col">
-                                        <label for="select2cidadePropriedade" class="form-label">Município de Origem </label>
-                                        <select class="form-select" id="select2cidadePropriedade" name="select2cidadePropriedade" aria-label="">
-                                        {{selectMunicipioFicha|raw}}
-                                    </select>
-                                </div>
+                                        <label for="select2cidadePropriedade" class="form-label">Município de Origem
+                                        </label>
+                                        <select class="form-select" id="select2cidadePropriedade"
+                                            name="select2cidadePropriedade" aria-label="">
+                                            {{selectMunicipioFicha|raw}}
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
@@ -333,7 +363,8 @@
                 </div>
                 <div class="mb-3 col-md-12">
                     <label for="dsDiagnostico" class="form-label">Diagnóstico</label>
-                    <input type="text" class="form-control" id="dsDiagnostico" name="dsDiagnostico" value="{{diagnostico}}">
+                    <input type="text" class="form-control" id="dsDiagnostico" name="dsDiagnostico"
+                        value="{{diagnostico}}">
                 </div>
 
                 <div class="mb-3 col-md-12">
@@ -343,42 +374,45 @@
                         <label for="dsRelatorio">Relatório</label>
                     </div>
                 </div>
-                 
+
             </form>
 
             {% if exibeGaleria %}
-                 <div class="accordion mb-3" id="accordionAnexos">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#panelAnexos" aria-expanded="true"
-                                aria-controls="panelsStayOpen-collapseOne">
-                                Galeria
-                            </button>
-                        </h2>
-                        <div id="panelAnexos" class="accordion-collapse collapse show">
-                            <div class="accordion-body">
-                                <input type="file" class="my-pond" name="imageAtendimento"/>
-                                <br>
-                                <hr>
-                                        <div id="galeriaDIV" class="row">
-                                            {% for imagem in urlGaleria %}
-                                            <div class="col-md-4 mb-3">
-                                                <div class="gallery-item border rounded position-relative">
-                                                    <a href="/veterinariaUNESC/server/midia/atendimento/{{ imagem }}" data-fancybox="gallery-a" data-caption="Anexo/imagem - {{ animal }}">
-                                                        <img src="/veterinariaUNESC/server/midia/atendimento/{{ imagem }}" class="img-fluid" alt="Imagem">
-                                                    </a>
-                                                    <button class="btn btn-danger btn-sm btn-excluir-galeria w-100" id="{{ imagem }}">
-                                                        <i class="bi bi-trash"></i></button>
-                                                </div>
-                                            </div>
-                                            {% endfor %}
-                                        </div>
+            <div class="accordion mb-3" id="accordionAnexos">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelAnexos" aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseOne">
+                            Galeria
+                        </button>
+                    </h2>
+                    <div id="panelAnexos" class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+                            <input type="file" class="my-pond" name="imageAtendimento" />
+                            <br>
+                            <hr>
+                            <div id="galeriaDIV" class="row">
+                                {% for imagem in urlGaleria %}
+                                <div class="col-md-4 mb-3">
+                                    <div class="gallery-item border rounded position-relative">
+                                        <a href="/veterinariaUNESC/server/midia/atendimento/{{ imagem }}"
+                                            data-fancybox="gallery-a" data-caption="Anexo/imagem - {{ animal }}">
+                                            <img src="/veterinariaUNESC/server/midia/atendimento/{{ imagem }}"
+                                                class="img-fluid" alt="Imagem">
+                                        </a>
+                                        <button class="btn btn-danger btn-sm btn-excluir-galeria w-100"
+                                            id="{{ imagem }}">
+                                            <i class="bi bi-trash"></i></button>
+                                    </div>
+                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                 </div>
-                {% endif %}
+            </div>
+            {% endif %}
 
         </div>
     </div>
@@ -389,13 +423,14 @@
         <div class="card-body border border-1S rounded-2">
             <div class="row">
                 <div class="col">
-                    <a class="btn btn-warning w-100 call-screen" type="button" href="/veterinariaUNESC/paginas/listAtendimentos"><i class="bi bi-sign-turn-left-fill"></i>
+                    <a class="btn btn-warning w-100 call-screen" type="button"
+                        href="/veterinariaUNESC/paginas/listAtendimentos"><i class="bi bi-sign-turn-left-fill"></i>
                         <b>Voltar</b></a>
                 </div>
                 {% if exibeExcluir %}
                 <div class="col">
-                    <button class="btn btn-danger w-100" type="button" onclick="excluirCadastroAtendimentos()" id="bntExcluirAtendimentos"><b><i
-                                class="bi bi-trash3-fill"></i>
+                    <button class="btn btn-danger w-100" type="button" onclick="excluirCadastroAtendimentos()"
+                        id="bntExcluirAtendimentos"><b><i class="bi bi-trash3-fill"></i>
                             Excluir</b></button>
                 </div>
                 {% endif %}
@@ -407,7 +442,8 @@
                 {% endif %}
                 {% if exibeSalvar %}
                 <div class="col">
-                    <button class="btn btn-primary w-100" type="button" onclick="salvarCadastroAtendimentos()"><i class="bi bi-floppy2-fill"></i>
+                    <button class="btn btn-primary w-100" type="button" onclick="salvarCadastroAtendimentos()"><i
+                            class="bi bi-floppy2-fill"></i>
                         <b>{{nomeSalvar}}</b></button>
                 </div>
                 {% endif %}

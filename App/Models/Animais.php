@@ -14,18 +14,20 @@ class Animais
     private \App\Models\Raças $raca;
     private \App\Models\Especies $especie;
     private $sexo;
+    private $flCastrado;
 
     private $Result;
     private $Message;
     private $Return;
 
-    public function __construct($nome, $tutorDeclarado, $cdEspecie, $cdRaca, $sexo, $cdTutor1, $codigo = null)
+    public function __construct($nome, $tutorDeclarado, $cdEspecie, $cdRaca, $sexo, $flCastrado, $cdTutor1, $codigo = null)
     {
         $this->nome = $nome;
         $this->fl_tutor_nao_declarado = $tutorDeclarado;
         $this->especie = \App\Models\Especies::findById($cdEspecie);
         $this->raca = \App\Models\Raças::findById($cdRaca);
         $this->sexo = $sexo;
+        $this->flCastrado = $flCastrado;
         $this->tutor1 = \App\Models\Pessoas::findById($cdTutor1);
         $this->codigo = $codigo;
     }
@@ -51,11 +53,12 @@ class Animais
                 $read->getResult()[0]['CD_ESPECIE'],
                 $read->getResult()[0]['CD_RACA'],
                 $read->getResult()[0]['SEXO'],
+                $read->getResult()[0]['FL_CASTRADO'],
                 $read->getResult()[0]['CD_PESSOA_TUTOR1'],
                 $read->getResult()[0]['CD_ANIMAL']
             );
         } catch (Exception $e) {
-            return new self('', '', '', '', '', '', '');
+            return new self('', '', '', '', '', '', '', '');
         }
     }
 
@@ -146,6 +149,7 @@ class Animais
                 "CD_ESPECIE" => $this->especie->getCodigo(),
                 "CD_RACA" => $this->raca->getCodigo(),
                 "SEXO" => $this->sexo,
+                "FL_CASTRADO" => $this->flCastrado,
             ];
 
             $insert->ExeInsert("ANIMAIS", $dadosInsert);
@@ -181,6 +185,7 @@ class Animais
                     "CD_ESPECIE" => $this->especie->getCodigo(),
                     "CD_RACA" => $this->raca->getCodigo(),
                     "SEXO" => $this->sexo,
+                    "FL_CASTRADO" => $this->flCastrado,
                 ];
 
                 $update->ExeUpdate("ANIMAIS", $dadosUpdate, "WHERE CD_ANIMAL = :D", "D=$this->codigo");
@@ -316,6 +321,11 @@ class Animais
         return $this->sexo;
     }
 
+    public function getFlCastrado()
+    {
+        return $this->flCastrado;
+    }
+
     public function getResult()
     {
         return $this->Result;
@@ -357,5 +367,10 @@ class Animais
     public function setSexo($sexo)
     {
         $this->sexo = $sexo;
+    }
+
+    public function setFlCastrado($flCastrado)
+    {
+        $this->flCastrado = $flCastrado;
     }
 }

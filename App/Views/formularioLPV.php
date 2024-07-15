@@ -37,6 +37,11 @@ class FormularioLPV
             $selectEspecie = '<option value="' . $AnimalFicha->getEspecie()->getCodigo() . '" selected>' . $AnimalFicha->getEspecie()->getDescricao() . '</option>';
             $selectRaca = '<option value="' . $AnimalFicha->getRaca()->getCodigo() . '" selected>' . $AnimalFicha->getRaca()->getDescricao() . '</option>';
 
+            $selectFlCastrado = '<select class="form-select" id="flCastrado" name="flCastrado" aria-label="Animal Castrado?" disabled>
+                                    <option value="N" ' . ($AnimalFicha->getFlCastrado() == 'N' ? 'selected' : ' ') . '>Não</option>
+                                    <option value="S" ' . ($AnimalFicha->getFlCastrado() == 'S' ? 'selected' : ' ') . '>Sim</option>
+                                </select>';
+
             $selectSexoAnimal = '<select class="form-select" id="dsSexo" name="dsSexo" aria-label="Sexo Animal" disabled>
                                     <option value="">Selecione...</option>
                                     <option value="M" ' . ($AnimalFicha->getSexo() == 'M' ? 'selected' : ' ') . '>Macho</option>
@@ -56,6 +61,7 @@ class FormularioLPV
                 "selectEspecieAnimal" => $selectEspecie,
                 "selectRacaAnimal" => $selectRaca,
                 "selectSexoAnimal" => $selectSexoAnimal,
+                "selectFlCastrado" => $selectFlCastrado,
 
                 "nmDonoAnimal" => $AnimalFicha->getDono1()->getNome(),
                 "nrTelefoneDono" => $AnimalFicha->getDono1()->getTelefone(),
@@ -79,6 +85,10 @@ class FormularioLPV
 
             $selectEspecie = '<option value="' . $AnimalFicha->getEspecie()->getCodigo() . '" selected>' . $AnimalFicha->getEspecie()->getDescricao() . '</option>';
             $selectRaca = '<option value="' . $AnimalFicha->getRaca()->getCodigo() . '" selected>' . $AnimalFicha->getRaca()->getDescricao() . '</option>';
+            $selectFlCastrado = '<select class="form-select" id="flCastrado" name="flCastrado" aria-label="Animal Castrado?" disabled>
+                                    <option value="N" ' . ($AnimalFicha->getFlCastrado() == 'N' ? 'selected' : ' ') . '>Não</option>
+                                    <option value="S" ' . ($AnimalFicha->getFlCastrado() == 'S' ? 'selected' : ' ') . '>Sim</option>
+                                </select>';
 
             $selectSexoAnimal = '<select class="form-select" id="dsSexo" name="dsSexo" aria-label="Sexo Animal" disabled>
                                     <option value="">Selecione...</option>
@@ -111,6 +121,7 @@ class FormularioLPV
                 "selectEspecieAnimal" => $selectEspecie,
                 "selectRacaAnimal" => $selectRaca,
                 "selectSexoAnimal" => $selectSexoAnimal,
+                "selectFlCastrado" => $selectFlCastrado,
                 "idadeAnos" => $Ficha->getIdadeAno(),
                 "idadeMeses" => $Ficha->getIdadeMes(),
                 "idadeDias" => $Ficha->getIdadeDia(),
@@ -144,7 +155,7 @@ class FormularioLPV
                 "exibeExcluir" => $exibeExcluir,
                 "exibeSalvarGaleria" => false,
                 "exibeSalvar" => $exibeSalvar,
-                "nomeSalvar" => "Salvar" 
+                "nomeSalvar" => "Salvar"
             ]);
         } else {
             $formulario = '<div class="alert alert-danger" role="alert">

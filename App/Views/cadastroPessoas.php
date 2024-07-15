@@ -18,7 +18,7 @@ class CadastroPessoas
     }
 
     public function exibir(Request $request, Response $response, $args)
-    {
+    { 
         $ajaxTela = $request->getParsedBody();
 
         $idAlteracao = !empty($ajaxTela['id']) ? $ajaxTela['id'] : '';
