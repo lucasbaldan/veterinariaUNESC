@@ -54,11 +54,18 @@ class Logradouros
         $read = new \App\Conn\Read();
 
         $query = "SELECT LOGRADOUROS.CD_LOGRADOURO,
-                  LOGRADOUROS.NOME,
-                  COUNT(LOGRADOUROS.CD_LOGRADOURO) OVER() AS TOTAL_FILTERED,  
-                  (SELECT COUNT(LOGRADOUROS.CD_LOGRADOURO) FROM LOGRADOUROS) AS TOTAL_TABLE 
-                  FROM LOGRADOUROS
-                  WHERE 1=1";
+       LOGRADOUROS.NOME,
+       (SELECT COUNT(*) FROM LOGRADOUROS WHERE 1=1) AS TOTAL_FILTERED,  
+       (SELECT COUNT(*) FROM LOGRADOUROS) AS TOTAL_TABLE 
+        FROM LOGRADOUROS
+        WHERE 1=1";
+
+        // $query = "SELECT LOGRADOUROS.CD_LOGRADOURO,
+        //           LOGRADOUROS.NOME,
+        //           COUNT(LOGRADOUROS.CD_LOGRADOURO) OVER() AS TOTAL_FILTERED,  
+        //           (SELECT COUNT(LOGRADOUROS.CD_LOGRADOURO) FROM LOGRADOUROS) AS TOTAL_TABLE 
+        //           FROM LOGRADOUROS
+        //           WHERE 1=1";
 
         if (!empty($pesquisaCodigo)) {
             $query .= " AND LOGRADOUROS.CD_LOGRADOURO LIKE '%$pesquisaCodigo%'";

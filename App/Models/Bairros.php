@@ -54,11 +54,18 @@ class Bairros
         $read = new \App\Conn\Read();
 
         $query = "SELECT BAIRROS.CD_BAIRRO,
-                  BAIRROS.NOME,
-                  COUNT(BAIRROS.CD_BAIRRO) OVER() AS TOTAL_FILTERED,  
-                  (SELECT COUNT(BAIRROS.CD_BAIRRO) FROM BAIRROS) AS TOTAL_TABLE 
-                  FROM BAIRROS
-                  WHERE 1=1";
+       BAIRROS.NOME,
+       (SELECT COUNT(*) FROM BAIRROS WHERE 1=1) AS TOTAL_FILTERED,  
+       (SELECT COUNT(*) FROM BAIRROS) AS TOTAL_TABLE 
+        FROM BAIRROS
+        WHERE 1=1";
+
+        // $query = "SELECT BAIRROS.CD_BAIRRO,
+        //           BAIRROS.NOME,
+        //           COUNT(BAIRROS.CD_BAIRRO) OVER() AS TOTAL_FILTERED,  
+        //           (SELECT COUNT(BAIRROS.CD_BAIRRO) FROM BAIRROS) AS TOTAL_TABLE 
+        //           FROM BAIRROS
+        //           WHERE 1=1";
 
         if (!empty($pesquisaCodigo)) {
             $query .= " AND BAIRROS.CD_BAIRRO LIKE '%$pesquisaCodigo%'";

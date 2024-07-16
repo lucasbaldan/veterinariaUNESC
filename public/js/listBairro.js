@@ -22,15 +22,15 @@ $(document).ready(function () {
       },
     },
     columns: [
-      { data: "cd_bairro" },
-      { data: "nome" },
+      { data: "CD_BAIRRO" },
+      { data: "NOME" },
     ],
     processing: true,
     serverSide: true,
     createdRow: function (row, data, dataIndex) {
       $("td", row).each(function (index) {
         var cell = $(this);
-        var recordId = data.cd_bairro;
+        var recordId = data.CD_BAIRRO;
         var cellText = cell.text();
         cell.html(
           '<span class="dataTable-item" onclick="openCadastro(' +

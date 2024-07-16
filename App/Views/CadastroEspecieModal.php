@@ -30,12 +30,10 @@ class CadastroEspecieModal
 
             if (empty($Especie->getCodigo())) {
                 $exibirExcluir = false;
-                $selectTipoAnimal = " ";
 
                 $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_INSERIR');
                 $exibirSalvar = $permissaoSalvar == true ? true : false;
             } else {
-                $selectTipoAnimal = '<option value="' . $Especie->getTipoAnimal()->getCodigo() . '" selected>' . $Especie->getTipoAnimal()->getDescricao() . '</option>';
 
                 $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_EDITAR');
                 $exibirSalvar = $permissaoSalvar == true ? true : false;
@@ -61,7 +59,6 @@ class CadastroEspecieModal
             $response,
             'modalCadastroEspecie.twig',
             [
-                "selectTipoAnimal" => $selectTipoAnimal,
                 "selectAtivo" => $selectAtivo,
                 "codigo" => $Especie->getCodigo(),
                 "descricao" => $Especie->getDescricao(),

@@ -24,17 +24,17 @@ $(document).ready(function () {
       },
     },
     columns: [
-      { data: "cd_raca" },
-      { data: "descricao" },
-      { data: "especie_descricao" },
-      { data: "fl_ativo" },
+      { data: "CD_RACA" },
+      { data: "DESCRICAO" },
+      { data: "ESPECIE_DESCRICAO" },
+      { data: "FL_ATIVO" },
     ],
     processing: true,
     serverSide: true,
     createdRow: function (row, data, dataIndex) {
       $("td", row).each(function (index) {
         var cell = $(this);
-        var recordId = data.cd_raca;
+        var recordId = data.CD_RACA;
         var cellText = cell.text();
         cell.html(
           '<span class="dataTable-item" onclick="openCadastro(' +

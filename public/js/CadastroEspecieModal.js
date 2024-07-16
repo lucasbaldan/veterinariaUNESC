@@ -62,6 +62,7 @@ function excluirCadastroEspecie() {
         $("#bootbox-delete").modal("hide");
         Loading.on();
         var formData = $("#formCadastroEspecie").serialize();
+
         $.ajax({
           url: "/veterinariaUNESC/server/especie/excluir",
           method: "POST",

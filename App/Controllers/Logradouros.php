@@ -17,8 +17,8 @@ class Logradouros
             $grid = $request->getParsedBody();
 
             $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
-            if ($orderBy == 0) $orderBy = "logradouros.cd_logradouro";
-            if ($orderBy == 1) $orderBy = "logradouros.nome";
+            if ($orderBy == 0) $orderBy = "LOGRADOUROS.CD_LOGRADOURo";
+            if ($orderBy == 1) $orderBy = "LOGRADOUROS.NOME";
 
             $parametrosBusca = [
                 "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',
@@ -123,7 +123,7 @@ class Logradouros
                 $busca = new \App\Models\Logradouros('', '');
 
                 $parametrosPesquisa = [
-                    "colunas" => "cd_logradouro AS id, nome AS text",
+                    "colunas" => "CD_LOGRADOURO AS id, NOME AS text",
                     "descricaoPesquisa" => empty($descricao) ? '' : $descricao,
                 ];
 

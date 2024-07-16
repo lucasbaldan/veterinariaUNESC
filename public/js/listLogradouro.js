@@ -22,15 +22,15 @@ $(document).ready(function () {
       },
     },
     columns: [
-      { data: "cd_logradouro" },
-      { data: "nome" },
+      { data: "CD_LOGRADOURO" },
+      { data: "NOME" },
     ],
     processing: true,
     serverSide: true,
     createdRow: function (row, data, dataIndex) {
       $("td", row).each(function (index) {
         var cell = $(this);
-        var recordId = data.cd_logradouro;
+        var recordId = data.CD_LOGRADOURO;
         var cellText = cell.text();
         cell.html(
           '<span class="dataTable-item" onclick="openCadastro(' +

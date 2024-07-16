@@ -23,16 +23,16 @@ $(document).ready(function () {
       },
     },
     columns: [
-      { data: "cd_grupo_usuarios" },
-      { data: "nm_grupo_usuarios" },
-      { data: "fl_ativo" },
+      { data: "CD_GRUPO_USUARIOS" },
+      { data: "NM_GRUPO_USUARIOS" },
+      { data: "FL_ATIVO" },
     ],
     processing: true,
     serverSide: true,
     createdRow: function (row, data, dataIndex) {
       $("td", row).each(function (index) {
         var cell = $(this);
-        var recordId = data.cd_grupo_usuarios;
+        var recordId = data.CD_GRUPO_USUARIOS;
         var cellText = cell.text();
         cell.html(
           '<span class="dataTable-item" onclick="openCadastro(' +

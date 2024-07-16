@@ -34,9 +34,7 @@ class RelatorioFichaLPV
 
         $veterinarioRemetente = \App\Models\Pessoas::findById($cdVetRemetente);
         $cidade = \App\Models\Municipios::findById($cdCidade);
-        $animal = \App\Models\TipoAnimais::findById($cdAnimal);
         
-        $selectAnimal = '<option value="' . ($animal->getCodigo()) . '">' . ($animal->getDescricao()) . '</option>';
         $selectCidade = '<option value="' . ($cidade->getCodigo()) . '">' . ($cidade->getDescricao()) . '</option>';
         $selectVeterinarioRemetente = '<option value="' . ($veterinarioRemetente->getCodigo()) . '">' . ($veterinarioRemetente->getNome()) . '</option>';
 
@@ -55,7 +53,6 @@ class RelatorioFichaLPV
                                         <th>Veterinário Remetente</th>
                                         <th>Data</th>
                                         <th>Cidade Propriedades</th>
-                                        <th>Tipo Animal</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -68,7 +65,6 @@ class RelatorioFichaLPV
                                 <td>" . $ficha['NM_VETERINARIO_REMETENTE'] . "</td>
                                 <td>" . $dataFormatada . "</td>
                                 <td>" . $ficha['NM_CIDADE'] . "</td>
-                                <td>" . $ficha['NM_TIPO_ANIMAL'] . "</td>
                                 <td>
                                 <form id='pdfForm' action='/veterinariaUNESC/server/relatorios/fichaLPV' method='post'>
                                     <input type='hidden' name='cdFichaLPV' id='cdFichaLPV' value=" . $ficha['CD_FICHA_LPV'] . ">
@@ -91,7 +87,6 @@ class RelatorioFichaLPV
         $telaRelatorioFichas = $this->twig->fetch('relatorioFichaLPV.twig', [
             "dtInicialFicha" => $dtInicialFicha,
             "dtFinalFicha" => $dtFinalFicha,
-            "selectAnimal" => $selectAnimal,
             "selectCidade" => $selectCidade,
             "selectVeterinarioRemetente" => $selectVeterinarioRemetente,
             "exibeFichas" => $exibeFichas,

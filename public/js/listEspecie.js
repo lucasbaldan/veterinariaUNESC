@@ -13,8 +13,7 @@ $(document).ready(function () {
       data: function (d) {
         d.columns[0].search.value = $('#pesquisaCodigoEspecie').val();
         d.columns[1].search.value = $('#pesquisaDescricaoEspecie').val();
-        d.columns[2].search.value = $('#pesquisaTipoAnimal').val();
-        d.columns[3].search.value = $('#pesquisaAtivoEspecie').val();
+        d.columns[2].search.value = $('#pesquisaAtivoEspecie').val();
       },
       dataSrc: function (json) {
         json.draw = json.RETURN.draw;
@@ -24,17 +23,16 @@ $(document).ready(function () {
       },
     },
     columns: [
-      { data: "cd_especie" },
-      { data: "descricao" },
-      { data: "tipo_animal_descricao" },
-      { data: "fl_ativo" },
+      { data: "CD_ESPECIE" },
+      { data: "DESCRICAO" },
+      { data: "FL_ATIVO" },
     ],
     processing: true,
     serverSide: true,
     createdRow: function (row, data, dataIndex) {
       $("td", row).each(function (index) {
         var cell = $(this);
-        var recordId = data.cd_especie;
+        var recordId = data.CD_ESPECIE;
         var cellText = cell.text();
         cell.html(
           '<span class="dataTable-item" onclick="openCadastro(' +

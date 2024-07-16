@@ -17,10 +17,10 @@ class Raças
             $grid = $request->getParsedBody();
 
             $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
-            if ($orderBy == 0) $orderBy = "racas.cd_raca";
-            if ($orderBy == 1) $orderBy = "racas.descricao";
-            if ($orderBy == 2) $orderBy = "especie.descricao";
-            if ($orderBy == 3) $orderBy = "racas.fl_ativo";
+            if ($orderBy == 0) $orderBy = "RACAS.CD_RACA";
+            if ($orderBy == 1) $orderBy = "RACAS.DESCRICAO";
+            if ($orderBy == 2) $orderBy = "ESPECIE.DESCRICAO";
+            if ($orderBy == 3) $orderBy = "RACAS.FL_ATIVO";
 
             $parametrosBusca = [
                 "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',

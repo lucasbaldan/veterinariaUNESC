@@ -89,7 +89,6 @@ class RelFichaLPV
 
             <h3>Detalhes do Animal Diagnosticado</h3>
             <p>Nome do Animal: ' . (!empty($ficha["NM_ANIMAL"]) ? $ficha["NM_ANIMAL"] : "-") . '</p>
-            <p>Tipo de Animal: ' . (!empty($ficha["NM_TIPO_ANIMAL"]) ? $ficha["NM_TIPO_ANIMAL"] : "-") . '</p>
 
             <h3>Veterinário Remetente</h3>
             <p>Nome do Veterinário: ' . (!empty($ficha["NM_VETERINARIO"]) ? $ficha["NM_VETERINARIO"] : "-") . '</p>

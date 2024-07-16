@@ -205,12 +205,11 @@ class FormularioLPV
   public static function RetornarDadosRelatorioFichaLPV($cdFichaLPV)
   {
     $read = new \App\Conn\Read();
-    $read->FullRead("SELECT F.*, P.NM_PESSOA AS NM_VETERINARIO, A.NM_ANIMAL, TP.descricao AS NM_TIPO_ANIMAL, C.nome AS NM_CIDADE
+    $read->FullRead("SELECT F.*, P.NM_PESSOA AS NM_VETERINARIO, A.NM_ANIMAL, C.NOME AS NM_CIDADE
     FROM FICHA_LPV F  
-    LEFT JOIN pessoas P ON P.CD_PESSOA = F.CD_PESSOA_VETERINARIO_REMETENTE
-    INNER JOIN animais A ON A.CD_ANIMAL = F.CD_ANIMAL
-    INNER JOIN tipo_animal TP ON TP.CD_TIPO_ANIMAL = A.CD_TIPO_ANIMAL
-    INNER JOIN cidades C ON C.CD_CIDADE = CD_CIDADE_PROPRIEDADE
+    LEFT JOIN PESSOAS P ON P.CD_PESSOA = F.CD_PESSOA_VETERINARIO_REMETENTE
+    INNER JOIN ANIMAIS A ON A.CD_ANIMAL = F.CD_ANIMAL
+    INNER JOIN CIDADES C ON C.CD_CIDADE = CD_CIDADE_PROPRIEDADE
     WHERE F.CD_FICHA_LPV = :C", "C=$cdFichaLPV");
 
     return $read->getResult()[0];
@@ -220,7 +219,7 @@ class FormularioLPV
   {
     $delete = new \App\Conn\delete();
 
-    $delete->ExeDelete("ficha_lpv", "WHERE CD_FICHA_LPV =:C", "C=$cdFichaLPV");
+    $delete->ExeDelete("FICHA_LPV", "WHERE CD_FICHA_LPV =:C", "C=$cdFichaLPV");
     $deletado = !empty($delete->getResult());
 
     if ($deletado) {
@@ -234,10 +233,9 @@ class FormularioLPV
   {
     $read = new \App\Conn\Read();
 
-    $sql = "SELECT F.*, C.NOME AS NM_CIDADE, TA.DESCRICAO AS NM_TIPO_ANIMAL, P.NM_PESSOA AS NM_VETERINARIO_REMETENTE 
+    $sql = "SELECT F.*, C.NOME AS NM_CIDADE, P.NM_PESSOA AS NM_VETERINARIO_REMETENTE 
             FROM FICHA_LPV F
             INNER JOIN CIDADES C ON C.CD_CIDADE = F.CD_CIDADE_PROPRIEDADE
-            INNER JOIN TIPO_ANIMAL TA ON TA.CD_TIPO_ANIMAL = F.CD_ANIMAL
             INNER JOIN PESSOAS P ON P.CD_PESSOA = F.CD_PESSOA_VETERINARIO_REMETENTE
             WHERE 1=1";
 
