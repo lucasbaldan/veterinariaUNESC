@@ -19,11 +19,6 @@ foreach ($config as $key => $value) {
 }
 date_default_timezone_set('America/Sao_Paulo');
 
-//  $containerBuilder = new ContainerBuilder();
-//  $container = $containerBuilder->build();
-//  $container->set('uploadAtendimento', __DIR__ . '/App/Assets/imagens/imagens_atendimento');
-//  AppFactory::setContainer($container);
-
 
 $app = AppFactory::create();
 $app->setBasePath('/veterinariaUNESC');
@@ -261,6 +256,11 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
+    $group->post('/resetarSenha', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\resetarSenha($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
@@ -273,6 +273,7 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
         '/veterinariaUNESC/modais/buscaRapidaPessoa',
         '/veterinariaUNESC/modais/cadastroGruposUsuarios',
         '/veterinariaUNESC/modais/recarregarGaleria',
+        '/veterinariaUNESC/modais/resetarSenha',
     ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
@@ -372,6 +373,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $usuariosGroup->post('/retornaUsuarios',  App\Controllers\Usuarios::class . ':RetornarUsuarios');
         $usuariosGroup->post('/retornaDadosUsuario',  App\Controllers\Usuarios::class . ':RetornarDadosUsuario');
         $usuariosGroup->post('/grid',  App\Controllers\Usuarios::class . ':montarGrid');
+        $usuariosGroup->post('/alterarSenha',  App\Controllers\Usuarios::class . ':alterarSenha');
     });
 
     $group->group('/pdf', function (RouteCollectorProxy $pdf) {
@@ -452,6 +454,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinariaUNESC/server/usuarios/retornaUsuarios',
         '/veterinariaUNESC/server/usuarios/retornaDadosUsuario',
         '/veterinariaUNESC/server/usuarios/grid',
+        '/veterinariaUNESC/server/usuarios/alterarSenha',
 
         '/veterinariaUNESC/server/fichaLPV/salvafichaLPV',
         '/veterinariaUNESC/server/fichaLPV/retornaFichasLPV',

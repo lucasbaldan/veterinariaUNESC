@@ -35,9 +35,9 @@ class Usuarios
             $usuarios = new \App\Models\Usuarios($cdPessoa, $usuario, $senha, $cdGrupoUsuarios, $flAtivo, $cdUsuario);
 
             if (empty($cdUsuario)) {
-                $retorno = $usuarios->Insert();
+                $usuarios->Insert();
             } else {
-                $retorno = $usuarios->Update();
+                $usuarios->Update();
             }
 
             if (!$usuarios->GetResult()) {
@@ -144,6 +144,35 @@ class Usuarios
             } else {
                 throw new Exception("Dados de acesso inválidos <br><br>Verifique seu usuário e senha");
             }
+
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
+            $codigoHTTP = 200;
+        } catch (Exception $e) {
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $codigoHTTP = 500;
+        }
+        $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
+        return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
+    }
+
+    public static function alterarSenha(Request $request, Response $response)
+    {
+
+        try {
+            $Formulario = $request->getParsedBody();
+
+            $senhaAtual = !empty($Formulario['senhaAtual']) ? $Formulario['senhaAtual'] : '';
+            $novaSenha = !empty($Formulario['novaSenha']) ? $Formulario['novaSenha'] : '';
+            $repitaSenha = !empty($Formulario['repitaSenha']) ? $Formulario['repitaSenha'] : '';
+            $usuarioConfirma = !empty($Formulario['usuarioConfirma']) ? $Formulario['usuarioConfirma'] : '';
+
+            if($novaSenha !== $repitaSenha) throw new Exception('Repita a senha corretamente para continuar a operação');
+            $usuario = \App\Models\Usuarios::efetuarLogin($usuarioConfirma, $senhaAtual);
+
+            if(empty($usuario->getCodigo())) throw new Exception('Senha atual informado não corresponde aos dados de acesso válidos do usuário.');
+
+            $usuario->setSenha($novaSenha);
+            $usuario->Update();
 
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];
             $codigoHTTP = 200;

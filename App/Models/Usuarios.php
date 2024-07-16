@@ -20,8 +20,7 @@ class Usuarios
   {
     $this->CdPessoa = \App\Models\Pessoas::findById($cdpessoa);
     $this->Usuario = $usuario;
-    // $this->Senha = md5($senha);
-    $this->Senha = $senha;
+    $this->Senha = empty($senha) ? null : password_hash($senha, PASSWORD_DEFAULT);
     $this->CdGrupoUsuarios = \App\Models\GruposUsuarios::findById($cdgrupousuarios);
     $this->FlAtivo = $flativo;
     $this->CdUsuario = $cdusuario;
@@ -86,23 +85,15 @@ class Usuarios
       $read->ExeRead("USUARIOS", "WHERE CD_USUARIO = :C", "C=$this->CdUsuario");
       $dadosFicha = $read->getResult()[0] ?? [];
       if ($dadosFicha) {
-        if (empty($this->Senha)) {
+
           $dadosUpdate = [
             "CD_PESSOA" => $this->CdPessoa->getCodigo(),
             "USUARIO" => $this->Usuario,
-            // "SENHA" => $this->Senha,
             "FL_ATIVO" => $this->FlAtivo,
             "CD_GRUPO_USUARIOS" => $this->CdGrupoUsuarios->getCodigo(),
           ];
-        } else {
-          $dadosUpdate = [
-            "CD_PESSOA" => $this->CdPessoa->getCodigo(),
-            "USUARIO" => $this->Usuario,
-            "SENHA" => $this->Senha,
-            "FL_ATIVO" => $this->FlAtivo,
-            "CD_GRUPO_USUARIOS" => $this->CdGrupoUsuarios->getCodigo(),
-          ];
-        }
+
+          if(!empty($this->Senha)) $dadosUpdate["SENHA"] = $this->Senha;
 
         $update = new \App\Conn\Update();
 
@@ -126,9 +117,9 @@ class Usuarios
   {
     $read = new \App\Conn\Read();
     $read->FullRead("SELECT U.CD_USUARIO, U.CD_PESSOA, P.NM_PESSOA, U.USUARIO, FL_ATIVO, U.CD_GRUPO_USUARIOS, G.NM_GRUPO_USUARIOS
-                    FROM usuarios U
-                    INNER JOIN pessoas P ON P.CD_PESSOA = U.CD_PESSOA
-                    INNER JOIN grupos_usuarios G ON G.CD_GRUPO_USUARIOS = U.CD_GRUPO_USUARIOS 
+                    FROM USUARIOS U
+                    INNER JOIN PESSOAS P ON P.CD_PESSOA = U.CD_PESSOA
+                    INNER JOIN GRUPOS_USUARIOS G ON G.CD_GRUPO_USUARIOS = U.CD_GRUPO_USUARIOS 
                     ORDER BY U.USUARIO ASC");
 
     return $read->getResult();
@@ -150,7 +141,7 @@ class Usuarios
   {
     $delete = new \App\Conn\delete();
 
-    $delete->ExeDelete("usuarios", "WHERE CD_USUARIO =:C", "C=$cdUsuario");
+    $delete->ExeDelete("USUARIOS", "WHERE CD_USUARIO =:C", "C=$cdUsuario");
     $deletado = !empty($delete->getResult());
 
     if ($deletado) {
@@ -164,9 +155,10 @@ class Usuarios
   {
     $read = new \App\Conn\Read();
 
-    $read->ExeRead("USUARIOS", "WHERE USUARIO = :U AND SENHA = :S LIMIT 1", "U=$Usuario&S=$senha");
+    $read->ExeRead("USUARIOS", "WHERE USUARIO = :U LIMIT 1", "U=$Usuario");
 
     if ($read->getResult()) {
+      if(password_verify($senha, $read->getResult()[0]['SENHA'])){
       return new self(
         $read->getResult()[0]['CD_PESSOA'],
         $read->getResult()[0]['USUARIO'],
@@ -175,6 +167,7 @@ class Usuarios
         $read->getResult()[0]['FL_ATIVO'],
         $read->getResult()[0]['CD_USUARIO']
       );
+    } else  return new self('', '', '', '', '');
     } else {
       return new self('', '', '', '', '');
     }
@@ -271,6 +264,11 @@ class Usuarios
     return $this->CdPessoa;
   }
 
+  public function getUsuarioSistema()
+  {
+    return $this->Usuario;
+  }
+
   public function getGrupoUsuario()
   {
     return $this->CdGrupoUsuarios;
@@ -279,6 +277,11 @@ class Usuarios
   public function getLogin()
   {
     return $this->Usuario;
+  }
+
+  public function setSenha($senha)
+  {
+    $this->Senha = password_hash($senha, PASSWORD_DEFAULT);
   }
 
   public function getFlAtivo()
