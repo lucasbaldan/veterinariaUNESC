@@ -61,9 +61,16 @@ $('#btnCadastroGruposUsuarios').on('click', function () {
   );
 });
 
+// $('#btnControleAcessos').on('click', function () {
+//   toggleCheckboxes(
+//     ['flAcessarControleAcessos', 'flEditarControleAcessos', 'flInserirControleAcessos', 'flExcluirControleAcessos'],
+//     'iconControleAcessos'
+//   );
+// });
+
 $('#btnControleAcessos').on('click', function () {
   toggleCheckboxes(
-    ['flAcessarControleAcessos', 'flEditarControleAcessos', 'flInserirControleAcessos', 'flExcluirControleAcessos'],
+    ['flAcessarControleAcessos', 'flEditarControleAcessos'],
     'iconControleAcessos'
   );
 });
@@ -117,9 +124,16 @@ $('#btnLogradouro').on('click', function () {
   );
 });
 
+// $('#btnRelatorios').on('click', function () {
+//   toggleCheckboxes(
+//     ['flAcessarRelatorios', 'flEditarRelatorios', 'flInserirRelatorios', 'flExcluirRelatorios'],
+//     'iconRelatorios'
+//   );
+// });
+
 $('#btnRelatorios').on('click', function () {
   toggleCheckboxes(
-    ['flAcessarRelatorios', 'flEditarRelatorios', 'flInserirRelatorios', 'flExcluirRelatorios'],
+    ['flAcessarRelatorios'],
     'iconRelatorios'
   );
 });
