@@ -158,6 +158,16 @@ class Atendimentos
         $pesquisaEspecieAnimal = $arrayParam['pesquisaEspecieAnimal'];
         $pesquisaRacaAnimal = $arrayParam['pesquisaRacaAnimal'];
         $pesquisaSexoAnimal = $arrayParam['pesquisaSexoAnimal'];
+
+        $pesquisaCastrado = $arrayParam['pesquisaCastrado'];
+        $pesquisaIdadeAnoInicio = $arrayParam['pesquisaIdadeAnoInicio'];
+        $pesquisaIdadeAnoFim = $arrayParam['pesquisaIdadeAnoFim'];
+        $pesquisaIdadeMesInicio = $arrayParam['pesquisaIdadeMesInicio'];
+        $pesquisaIdadeMesFim = $arrayParam['pesquisaIdadeMesFim'];
+        $pesquisaIdadeDiaInicio = $arrayParam['pesquisaIdadeDiaInicio'];
+        $pesquisaIdadeDiaFim = $arrayParam['pesquisaIdadeDiaFim'];
+
+
         $pesquisaTutor = $arrayParam['pesquisaTutor'];
         $pesquisaVeterinario = $arrayParam['pesquisaVeterinario'];
         $pesquisaMunicipio = $arrayParam['pesquisaMunicipio'];
@@ -174,10 +184,14 @@ class Atendimentos
 
         $query = " SELECT 
                     FICHA_LPV.CD_FICHA_LPV,
+                    FICHA_LPV.IDADE_ANIMAL_ANO,
+                    FICHA_LPV.IDADE_ANIMAL_MES,
+                    FICHA_LPV.IDADE_ANIMAL_DIA,
                     DATE_FORMAT(FICHA_LPV.DT_FICHA, '%d/%m/%Y') as DT_FICHA,
                     ANIMAIS.NM_ANIMAL,
                     ESPECIES.DESCRICAO as NM_ESPECIE,
                     RACAS.DESCRICAO as NM_RACA,
+                    (CASE WHEN ANIMAIS.FL_CASTRADO = 'S' THEN  'Sim' ELSE 'Não' END) AS CASTRADO,
                     (CASE WHEN ANIMAIS.SEXO = 'F' THEN 'Fêmea' WHEN ANIMAIS.SEXO = 'M' THEN 'Macho' ELSE '-' END) AS SEXO,
                     TUTOR.NM_PESSOA as NM_TUTOR,
                     VETERINARIO.NM_PESSOA as NM_VETERINARIO,
@@ -208,7 +222,7 @@ class Atendimentos
                 LEFT JOIN 
                     CIDADES ON FICHA_LPV.CD_CIDADE_PROPRIEDADE = CIDADES.CD_CIDADE
                 WHERE 
-                    1=1;";
+                    1=1 ";
 
         // $query = "  SELECT FICHA_LPV.CD_FICHA_LPV,
         // DATE_FORMAT(FICHA_LPV.DT_FICHA, '%d/%m/%Y') as DT_FICHA,
@@ -243,24 +257,31 @@ class Atendimentos
 
         // WHERE 1=1 ";
 
-        if (!empty($pesquisaCodigo)) $query .= " AND FICHA_LPV.CD_FICHA_LPV LIKE '%$pesquisaCodigo%'";
-        if (!empty($pesquisaDataInicio)) $query .= " AND FICHA_LPV.DT_FICHA >= '$pesquisaDataInicio'";
-        if (!empty($pesquisaDataFim)) $query .= " AND FICHA_LPV.DT_FICHA <= '$pesquisaDataFim'";
-        if (!empty($pesquisaNomeAnimal)) $query .= " AND ANIMAIS.NM_ANIMAL LIKE '%$pesquisaNomeAnimal%'";
-        if (!empty($pesquisaEspecieAnimal)) $query .= " AND ESPECIES.DESCRICAO LIKE '%$pesquisaEspecieAnimal%'";
-        if (!empty($pesquisaRacaAnimal)) $query .= " AND RACAS.DESCRICAO LIKE '%$pesquisaRacaAnimal%'";
-        if (!empty($pesquisaSexoAnimal)) $query .= " AND ANIMAIS.SEXO = '$pesquisaSexoAnimal'";
-        if (!empty($pesquisaTutor)) $query .= " AND TUTOR.NM_PESSOA LIKE '%$pesquisaTutor%'";
-        if (!empty($pesquisaVeterinario)) $query .= " AND VETERINARIO.NM_PESSOA LIKE '%$pesquisaVeterinario%'";
-        if (!empty($pesquisaMunicipio)) $query .= " AND CIDADES.NOME LIKE '%$pesquisaMunicipio%'";
-        if (!empty($pesquisaMaterial)) $query .= " AND FICHA_LPV.DS_MATERIAL_RECEBIDO LIKE '%$pesquisaMaterial%'";
-        if (!empty($pesquisaDiagnosticoPresuntivo)) $query .= " AND FICHA_LPV.DS_DIAGNOSTICO_PRESUNTIVO LIKE '%$pesquisaDiagnosticoPresuntivo%'";
-        if (!empty($pesquisaAvaliacaoTumor)) $query .= " AND FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM = '$pesquisaAvaliacaoTumor'";
-        if (!empty($pesquisaEpidemiologia)) $query .= " AND FICHA_LPV.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA LIKE '%$pesquisaEpidemiologia%'";
-        if (!empty($pesquisaLessaoMacro)) $query .= " AND FICHA_LPV.DS_LESOES_MACROSCOPICAS LIKE '%$pesquisaLessaoMacro%'";
-        if (!empty($pesquisaLessaoHisto)) $query .= " AND FICHA_LPV.DS_LESOES_HISTOLOGICAS LIKE '%$pesquisaLessaoHisto%'";
-        if (!empty($pesquisaDiagnostico)) $query .= " AND FICHA_LPV.DS_DIAGNOSTICO LIKE '%$pesquisaDiagnostico%'";
-        if (!empty($pesquisaRelatorio)) $query .= " AND FICHA_LPV.DS_RELATORIO LIKE '%$pesquisaRelatorio%'";
+         if (!empty($pesquisaCodigo)) $query .= " AND FICHA_LPV.CD_FICHA_LPV LIKE '%$pesquisaCodigo%'";
+         if (!empty($pesquisaDataInicio)) $query .= " AND FICHA_LPV.DT_FICHA >= '$pesquisaDataInicio'";
+         if (!empty($pesquisaDataFim)) $query .= " AND FICHA_LPV.DT_FICHA <= '$pesquisaDataFim'";
+         if (!empty($pesquisaNomeAnimal)) $query .= " AND ANIMAIS.NM_ANIMAL LIKE '%$pesquisaNomeAnimal%'";
+         if (!empty($pesquisaEspecieAnimal)) $query .= " AND ESPECIES.DESCRICAO LIKE '%$pesquisaEspecieAnimal%'";
+         if (!empty($pesquisaRacaAnimal)) $query .= " AND RACAS.DESCRICAO LIKE '%$pesquisaRacaAnimal%'";
+         if (!empty($pesquisaSexoAnimal)) $query .= " AND ANIMAIS.SEXO = '$pesquisaSexoAnimal'";
+         if (!empty($pesquisaCastrado)) $query .= " AND ANIMAIS.FL_CASTRADO = '$pesquisaCastrado'";
+         if (!empty($pesquisaIdadeAnoInicio)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_ANO >= $pesquisaIdadeAnoInicio";
+         if (!empty($pesquisaIdadeAnoFim)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_ANO <= $pesquisaIdadeAnoFim";
+         if (!empty($pesquisaIdadeMesInicio)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_MES >= $pesquisaIdadeMesInicio";
+         if (!empty($pesquisaIdadeMesFim)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_MES <= $pesquisaIdadeMesFim";
+         if (!empty($pesquisaIdadeDiaInicio)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_DIA >= $pesquisaIdadeDiaInicio";
+         if (!empty($pesquisaIdadeDiaFim)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_DIA <= $pesquisaIdadeDiaFim";
+         if (!empty($pesquisaTutor)) $query .= " AND TUTOR.NM_PESSOA LIKE '%$pesquisaTutor%'";
+         if (!empty($pesquisaVeterinario)) $query .= " AND VETERINARIO.NM_PESSOA LIKE '%$pesquisaVeterinario%'";
+         if (!empty($pesquisaMunicipio)) $query .= " AND CIDADES.NOME LIKE '%$pesquisaMunicipio%'";
+         if (!empty($pesquisaMaterial)) $query .= " AND FICHA_LPV.DS_MATERIAL_RECEBIDO LIKE '%$pesquisaMaterial%'";
+         if (!empty($pesquisaDiagnosticoPresuntivo)) $query .= " AND FICHA_LPV.DS_DIAGNOSTICO_PRESUNTIVO LIKE '%$pesquisaDiagnosticoPresuntivo%'";
+         if (!empty($pesquisaAvaliacaoTumor)) $query .= " AND FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM = '$pesquisaAvaliacaoTumor'";
+         if (!empty($pesquisaEpidemiologia)) $query .= " AND FICHA_LPV.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA LIKE '%$pesquisaEpidemiologia%'";
+         if (!empty($pesquisaLessaoMacro)) $query .= " AND FICHA_LPV.DS_LESOES_MACROSCOPICAS LIKE '%$pesquisaLessaoMacro%'";
+         if (!empty($pesquisaLessaoHisto)) $query .= " AND FICHA_LPV.DS_LESOES_HISTOLOGICAS LIKE '%$pesquisaLessaoHisto%'";
+         if (!empty($pesquisaDiagnostico)) $query .= " AND FICHA_LPV.DS_DIAGNOSTICO LIKE '%$pesquisaDiagnostico%'";
+         if (!empty($pesquisaRelatorio)) $query .= " AND FICHA_LPV.DS_RELATORIO LIKE '%$pesquisaRelatorio%'";
 
 
         if (!empty($orderBy)) {

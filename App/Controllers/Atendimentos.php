@@ -19,31 +19,58 @@ class Atendimentos
             $grid = $request->getParsedBody();
 
             $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
-            if ($orderBy == 0) $orderBy = " FICHA_LPV.CD_FICHA_LPV";
+            if ($orderBy == 0) $orderBy = "FICHA_LPV.CD_FICHA_LPV";
             if ($orderBy == 1) $orderBy = "FICHA_LPV.DT_FICHA";
             if ($orderBy == 2) $orderBy = "ANIMAIS.NM_ANIMAL";
             if ($orderBy == 3) $orderBy = "ESPECIES.DESCRICAO";
             if ($orderBy == 4) $orderBy = "RACAS.DESCRICAO";
             if ($orderBy == 5) $orderBy = "ANIMAIS.SEXO";
-            if ($orderBy == 6) $orderBy = "DONO.NM_PESSOA";
-            if ($orderBy == 7) $orderBy = "VETERINARIO.NM_PESSOA";
-            if ($orderBy == 8) $orderBy = "CIDADES.NOME";
-            if ($orderBy == 9) $orderBy = "FICHA_LPV.DS_MATERIAL_RECEBIDO";
-            if ($orderBy == 10) $orderBy = "FICHA_LPV.DS_DIAGNOSTICO_PRESUNTIVO";
-            if ($orderBy == 11) $orderBy = "FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM";
-            if ($orderBy == 12) $orderBy = "FICHA_LPV.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA";
-            if ($orderBy == 13) $orderBy = "FICHA_LPV.DS_LESOES_MACROSCOPICAS";
-            if ($orderBy == 14) $orderBy = "FICHA_LPV.DS_LESOES_HISTOLOGICAS";
-            if ($orderBy == 15) $orderBy = "FICHA_LPV.DS_DIAGNOSTICO";
-            if ($orderBy == 16) $orderBy = "FICHA_LPV.DS_RELATORIO";
+            if ($orderBy == 6) $orderBy = "ANIMAIS.FL_CASTRADO";
+            if ($orderBy == 7) $orderBy = "FICHA_LPV.IDADE_ANIMAL_ANO";
+            if ($orderBy == 8) $orderBy = "FICHA_LPV.IDADE_ANIMAL_MES";
+            if ($orderBy == 9) $orderBy = "FICHA_LPV.IDADE_ANIMAL_DIA";
+            if ($orderBy == 10) $orderBy = "DONO.NM_PESSOA";
+            if ($orderBy == 11) $orderBy = "VETERINARIO.NM_PESSOA";
+            if ($orderBy == 12) $orderBy = "CIDADES.NOME";
+            if ($orderBy == 13) $orderBy = "FICHA_LPV.DS_MATERIAL_RECEBIDO";
+            if ($orderBy == 14) $orderBy = "FICHA_LPV.DS_DIAGNOSTICO_PRESUNTIVO";
+            if ($orderBy == 15) $orderBy = "FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM";
+            if ($orderBy == 16) $orderBy = "FICHA_LPV.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA";
+            if ($orderBy == 17) $orderBy = "FICHA_LPV.DS_LESOES_MACROSCOPICAS";
+            if ($orderBy == 18) $orderBy = "FICHA_LPV.DS_LESOES_HISTOLOGICAS";
+            if ($orderBy == 19) $orderBy = "FICHA_LPV.DS_DIAGNOSTICO";
+            if ($orderBy == 20) $orderBy = "FICHA_LPV.DS_RELATORIO";
 
             $datas = explode('|', !empty($grid['columns'][1]['search']['value']) ? $grid['columns'][1]['search']['value'] : '');
             $dataInicio = '';
             $dataFim = '';
-
             if (isset($datas[0]) && !empty($datas[0])) $dataInicio = $datas[0];
-
             if (isset($datas[1]) && !empty($datas[1])) $dataFim = $datas[1];
+
+
+            $pesquisasAno = explode('|', !empty($grid['columns'][7]['search']['value']) ? $grid['columns'][7]['search']['value'] : '');
+            $anoInicio = '';
+            $anoFim = '';
+            if (isset($pesquisasAno[0]) && !empty($pesquisasAno[0])) $anoInicio = $pesquisasAno[0];
+            if (isset($pesquisasAno[1]) && !empty($pesquisasAno[1])) $anoFim = $pesquisasAno[1];
+
+
+            $pesquisasMes = explode('|', !empty($grid['columns'][8]['search']['value']) ? $grid['columns'][8]['search']['value'] : '');
+            $mesInicio = '';
+            $mesFim = '';
+
+            if (isset($pesquisasMes[0]) && !empty($pesquisasMes[0])) $mesInicio = $pesquisasMes[0];
+
+            if (isset($pesquisasMes[1]) && !empty($pesquisasMes[1])) $mesFim = $pesquisasMes[1];
+
+
+            $pesquisasDia = explode('|', !empty($grid['columns'][9]['search']['value']) ? $grid['columns'][9]['search']['value'] : '');
+            $diaInicio = '';
+            $diaFim = '';
+
+            if (isset($pesquisasDia[0]) && !empty($pesquisasDia[0])) $diaInicio = $pesquisasDia[0];
+
+            if (isset($pesquisasDia[1]) && !empty($pesquisasDia[1])) $diaFim = $pesquisasDia[1];
 
             $parametrosBusca = [
                 "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',
@@ -53,17 +80,25 @@ class Atendimentos
                 "pesquisaEspecieAnimal" => !empty($grid['columns'][3]['search']['value']) ? $grid['columns'][3]['search']['value'] : '',
                 "pesquisaRacaAnimal" => !empty($grid['columns'][4]['search']['value']) ? $grid['columns'][4]['search']['value'] : '',
                 "pesquisaSexoAnimal" => !empty($grid['columns'][5]['search']['value']) ? $grid['columns'][5]['search']['value'] : '',
-                "pesquisaTutor" => !empty($grid['columns'][6]['search']['value']) ? $grid['columns'][6]['search']['value'] : '',
-                "pesquisaVeterinario" => !empty($grid['columns'][7]['search']['value']) ? $grid['columns'][7]['search']['value'] : '',
-                "pesquisaMunicipio" => !empty($grid['columns'][8]['search']['value']) ? $grid['columns'][8]['search']['value'] : '',
-                "pesquisaMaterial" => !empty($grid['columns'][9]['search']['value']) ? $grid['columns'][9]['search']['value'] : '',
-                "pesquisaDiagnosticoPresuntivo" => !empty($grid['columns'][10]['search']['value']) ? $grid['columns'][10]['search']['value'] : '',
-                "pesquisaAvaliacaoTumor" => !empty($grid['columns'][11]['search']['value']) ? $grid['columns'][11]['search']['value'] : '',
-                "pesquisaEpidemiologia" => !empty($grid['columns'][12]['search']['value']) ? $grid['columns'][12]['search']['value'] : '',
-                "pesquisaLessaoMacro" => !empty($grid['columns'][13]['search']['value']) ? $grid['columns'][13]['search']['value'] : '',
-                "pesquisaLessaoHisto" => !empty($grid['columns'][14]['search']['value']) ? $grid['columns'][14]['search']['value'] : '',
-                "pesquisaDiagnostico" => !empty($grid['columns'][15]['search']['value']) ? $grid['columns'][15]['search']['value'] : '',
-                "pesquisaRelatorio" => !empty($grid['columns'][16]['search']['value']) ? $grid['columns'][16]['search']['value'] : '',
+                "pesquisaCastrado" => !empty($grid['columns'][6]['search']['value']) ? $grid['columns'][6]['search']['value'] : '',
+                "pesquisaIdadeAnoInicio" => $anoInicio,
+                "pesquisaIdadeAnoFim" => $anoFim,
+                "pesquisaIdadeMesInicio" => $mesInicio,
+                "pesquisaIdadeMesFim" => $mesFim,
+                "pesquisaIdadeDiaInicio" => $diaInicio,
+                "pesquisaIdadeDiaFim" => $diaFim,
+                "pesquisaTutor" => !empty($grid['columns'][10]['search']['value']) ? $grid['columns'][10]['search']['value'] : '',
+                "pesquisaVeterinario" => !empty($grid['columns'][11]['search']['value']) ? $grid['columns'][11]['search']['value'] : '',
+                "pesquisaMunicipio" => !empty($grid['columns'][12]['search']['value']) ? $grid['columns'][12]['search']['value'] : '',
+                "pesquisaMaterial" => !empty($grid['columns'][13]['search']['value']) ? $grid['columns'][13]['search']['value'] : '',
+                "pesquisaDiagnosticoPresuntivo" => !empty($grid['columns'][14]['search']['value']) ? $grid['columns'][14]['search']['value'] : '',
+                "pesquisaAvaliacaoTumor" => !empty($grid['columns'][15]['search']['value']) ? $grid['columns'][15]['search']['value'] : '',
+                "pesquisaEpidemiologia" => !empty($grid['columns'][16]['search']['value']) ? $grid['columns'][16]['search']['value'] : '',
+                "pesquisaLessaoMacro" => !empty($grid['columns'][17]['search']['value']) ? $grid['columns'][17]['search']['value'] : '',
+                "pesquisaLessaoHisto" => !empty($grid['columns'][18]['search']['value']) ? $grid['columns'][18]['search']['value'] : '',
+                "pesquisaDiagnostico" => !empty($grid['columns'][19]['search']['value']) ? $grid['columns'][19]['search']['value'] : '',
+                "pesquisaRelatorio" => !empty($grid['columns'][20]['search']['value']) ? $grid['columns'][20]['search']['value'] : '',
+
                 "inicio" => $grid['start'],
                 "limit" => $grid['length'],
                 "orderBy" =>  $orderBy,

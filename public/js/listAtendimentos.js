@@ -24,17 +24,21 @@ $(document).ready(function () {
         d.columns[3].search.value = $("#pesquisaEspecieAnimalAtendimento").val();
         d.columns[4].search.value = $("#pesquisaRacaAnimalAtendimento").val();
         d.columns[5].search.value = $("#pesquisaSexoAnimalAtendimento").val();
-        d.columns[6].search.value = $("#pesquisaDonoAnimalAtendimento").val();
-        d.columns[7].search.value = $("#pesquisaVeterinarioAtendimento").val();
-        d.columns[8].search.value = $("#pesquisaMunicipioOrigemAtendimento").val();
-        d.columns[9].search.value = $("#pesquisaMaterialAtendimento").val();
-        d.columns[10].search.value = $("#pesquisaDiagnosticoPresuntivoAtendimento").val();
-        d.columns[11].search.value = $("#pesquisaAvalicaoTumoralAtendimento").val();
-        d.columns[12].search.value = $("#pesquisaEpidemiologiaAtendimento").val();
-        d.columns[13].search.value = $("#pesquisaLesoesMacrocospiasAtendimento").val();
-        d.columns[14].search.value = $("#pesquisaLesoesHistologicasAtendimento").val();
-        d.columns[15].search.value = $("#pesquisaDiagnosticoAtendimento").val();
-        d.columns[16].search.value = $("#pesquisaRelatorioAtendimento").val();
+        d.columns[6].search.value = $("#pesquisaCastrado").val();
+        d.columns[7].search.value = $("#pesquisaIdadeAnoInicio").val()+'|'+$("#pesquisaIdadeAnoFim").val();
+        d.columns[8].search.value = $("#pesquisaIdadeMesInicio").val()+'|'+$("#pesquisaIdadeMesFim").val();
+        d.columns[9].search.value = $("#pesquisaIdadeDiaInicio").val()+'|'+$("#pesquisaIdadeDiaFim").val();
+        d.columns[10].search.value = $("#pesquisaDonoAnimalAtendimento").val();
+        d.columns[11].search.value = $("#pesquisaVeterinarioAtendimento").val();
+        d.columns[12].search.value = $("#pesquisaMunicipioOrigemAtendimento").val();
+        d.columns[13].search.value = $("#pesquisaMaterialAtendimento").val();
+        d.columns[14].search.value = $("#pesquisaDiagnosticoPresuntivoAtendimento").val();
+        d.columns[15].search.value = $("#pesquisaAvalicaoTumoralAtendimento").val();
+        d.columns[16].search.value = $("#pesquisaEpidemiologiaAtendimento").val();
+        d.columns[17].search.value = $("#pesquisaLesoesMacrocospiasAtendimento").val();
+        d.columns[18].search.value = $("#pesquisaLesoesHistologicasAtendimento").val();
+        d.columns[19].search.value = $("#pesquisaDiagnosticoAtendimento").val();
+        d.columns[20].search.value = $("#pesquisaRelatorioAtendimento").val();
       },
       dataSrc: function (json) {
         json.draw = json.RETURN.draw;
@@ -50,6 +54,10 @@ $(document).ready(function () {
       { data: "NM_ESPECIE" },
       { data: "NM_RACA" },
       { data: "SEXO" },
+      { data: "CASTRADO" },
+      { data: "IDADE_ANIMAL_ANO" },
+      { data: "IDADE_ANIMAL_MES" },
+      { data: "IDADE_ANIMAL_DIA" },
       { data: "NM_TUTOR" },
       { data: "NM_VETERINARIO" },
       { data: "CIDADE_PROPRIEDADE" },
@@ -80,7 +88,7 @@ $(document).ready(function () {
     },
   });
 
-  $("#pesquisaCodigoAtendimento, #pesquisaDataAtendimentoInicio, #pesquisaDataAtendimentoFim, #pesquisaNomeAnimalAtendimento, #pesquisaEspecieAnimalAtendimento, #pesquisaRacaAnimalAtendimento, #pesquisaSexoAnimalAtendimento, #pesquisaDonoAnimalAtendimento, #pesquisaVeterinarioAtendimento, #pesquisaMunicipioOrigemAtendimento, #pesquisaMaterialAtendimento, #pesquisaDiagnosticoPresuntivoAtendimento, #pesquisaAvalicaoTumoralAtendimento, #pesquisaEpidemiologiaAtendimento, #pesquisaLesoesMacrocospiasAtendimento, #pesquisaLesoesHistologicasAtendimento, #pesquisaDiagnosticoAtendimento, #pesquisaRelatorioAtendimento"
+  $("#pesquisaCodigoAtendimento, #pesquisaDataAtendimentoInicio, #pesquisaDataAtendimentoFim, #pesquisaNomeAnimalAtendimento, #pesquisaEspecieAnimalAtendimento, #pesquisaRacaAnimalAtendimento, #pesquisaSexoAnimalAtendimento, #pesquisaDonoAnimalAtendimento, #pesquisaVeterinarioAtendimento, #pesquisaMunicipioOrigemAtendimento, #pesquisaMaterialAtendimento, #pesquisaDiagnosticoPresuntivoAtendimento, #pesquisaAvalicaoTumoralAtendimento, #pesquisaEpidemiologiaAtendimento, #pesquisaLesoesMacrocospiasAtendimento, #pesquisaLesoesHistologicasAtendimento, #pesquisaDiagnosticoAtendimento, #pesquisaRelatorioAtendimento, #pesquisaCastrado, #pesquisaIdadeAnoInicio, #pesquisaIdadeAnoFim, #pesquisaIdadeMesInicio, #pesquisaIdadeMesFim, #pesquisaIdadeDiaInicio, #pesquisaIdadeDiaFim"
 ).on("keyup clear input", function () {
     if (this.timer) clearTimeout(this.timer);
     this.timer = setTimeout(function () {

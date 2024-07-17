@@ -31,6 +31,10 @@
                         <th style="text-align: center; min-width: 200px">Espécie do Animal</th>
                         <th style="text-align: center; min-width: 200px">Raça do Animal</th>
                         <th style="text-align: center; min-width: 170px">Sexo do Animal</th>
+                        <th style="text-align: center; min-width: 170px">Castrado</th>
+                        <th style="text-align: center; min-width: 170px">Idade - Anos</th>
+                        <th style="text-align: center; min-width: 170px">Idade - Meses</th>
+                        <th style="text-align: center; min-width: 170px">Idade - Dias</th>
                         <th style="text-align: center; min-width: 200px">Proprietário do animal</th>
                         <th style="text-align: center; min-width: 200px">Veterinário Remetente</th>
                         <th style="text-align: center; min-width: 200px">Município do Origem</th>
@@ -43,9 +47,12 @@
                         <th style="text-align: center; min-width: 200px">Diagnóstico</th>
                         <th style="text-align: center; min-width: 200px">Relatório</th>
                     </tr>
-                    <tr>
+                    <tr style="vertical-align: middle">
                         <th><input id="pesquisaCodigoAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
-                        <th><label for="pesquisaDataAtendimentoInicio">De: </label><input id="pesquisaDataAtendimentoInicio" type="date" class="form-control form-control-sm" /> <label for="pesquisaDataAtendimentoFim">Até: </label><input id="pesquisaDataAtendimentoFim" type="date" class="form-control form-control-sm" /></th>
+
+
+                        <th><div class="form-floating"><input type="date" class="form-control form-control-sm" id="pesquisaDataAtendimentoInicio"><label for="floatingInputValue">De:</label> <div class="form-floating"><input type="date" class="form-control form-control-sm" id="pesquisaDataAtendimentoFim"><label for="floatingInputValue">Até:</label></th>
+                        
                         <th><input id="pesquisaNomeAnimalAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
                         <th><input id="pesquisaEspecieAnimalAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
                         <th><input id="pesquisaRacaAnimalAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
@@ -56,6 +63,19 @@
                                 <option value="F">Fêmea</option>
                               </select>
                         </th>
+
+                        <th>
+                            <select class="form-select form-select-sm" id="pesquisaCastrado">
+                                <option value="">Todos...</option>
+                                <option value="S">Sim</option>
+                                <option value="N">Não</option>
+                              </select>
+                        </th>
+
+                        <th><div class="form-floating"><input type="number" class="form-control form-control-sm" id="pesquisaIdadeAnoInicio"><label for="floatingInputValue">De:</label> <div class="form-floating"><input type="number" class="form-control form-control-sm" id="pesquisaIdadeAnoFim"><label for="floatingInputValue">Até:</label></th>
+                        <th><div class="form-floating"><input type="number" class="form-control form-control-sm" id="pesquisaIdadeMesInicio"><label for="floatingInputValue">De:</label> <div class="form-floating"><input type="number" class="form-control form-control-sm" id="pesquisaIdadeMesFim"><label for="floatingInputValue">Até:</label></th>
+                        <th><div class="form-floating"><input type="number" class="form-control form-control-sm" id="pesquisaIdadeDiaInicio"><label for="floatingInputValue">De:</label> <div class="form-floating"><input type="number" class="form-control form-control-sm" id="pesquisaIdadeDiaFim"><label for="floatingInputValue">Até:</label></th>
+
                         <th><input id="pesquisaDonoAnimalAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
                         <th><input id="pesquisaVeterinarioAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
                         <th><input id="pesquisaMunicipioOrigemAtendimento" placeholder="Pesquisar..." class="form-control form-control-sm" /></th>
