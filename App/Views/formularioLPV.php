@@ -53,6 +53,9 @@ class FormularioLPV
                         <option value="S">Sim</option>
                     </select>';
 
+            $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('FICHA_LPV', 'FL_INSERIR');
+            $exibeSalvarGaleria = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('FICHA_LPV', 'FL_INSERIR');
+
             $formulario = $this->twig->fetch('formularioLPV.twig', [
                 "inserirFicha" => 'S',
                 "DataFicha" => date('Y-m-d'),

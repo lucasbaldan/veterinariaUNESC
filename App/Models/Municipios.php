@@ -56,14 +56,26 @@ class Municipios
 
         $read = new \App\Conn\Read();
 
-        $query = "SELECT CIDADES.CD_CIDADE,
-                  CIDADES.NOME,
-                  ESTADOS.NOME AS NOME_ESTADO,
-                  COUNT(CIDADES.CD_CIDADE) OVER() AS TOTAL_FILTERED,  
-                  (SELECT COUNT(CIDADES.CD_CIDADE) FROM CIDADES) AS TOTAL_TABLE 
-                  FROM CIDADES
-                  LEFT JOIN ESTADOS ON (CIDADES.ID_IBGE_ESTADO = ESTADOS.CD_IBGE)
-                  WHERE 1=1";
+        $query= " SELECT CIDADES.CD_CIDADE,
+       CIDADES.NOME,
+       ESTADOS.NOME AS NOME_ESTADO,
+       (SELECT COUNT(*) 
+        FROM CIDADES 
+        LEFT JOIN ESTADOS ON (CIDADES.ID_IBGE_ESTADO = ESTADOS.CD_IBGE) 
+        WHERE 1=1) AS TOTAL_FILTERED,  
+       (SELECT COUNT(*) FROM CIDADES) AS TOTAL_TABLE 
+        FROM CIDADES
+        LEFT JOIN ESTADOS ON (CIDADES.ID_IBGE_ESTADO = ESTADOS.CD_IBGE)
+        WHERE 1=1";
+
+        // $query = "SELECT CIDADES.CD_CIDADE,
+        //           CIDADES.NOME,
+        //           ESTADOS.NOME AS NOME_ESTADO,
+        //           COUNT(CIDADES.CD_CIDADE) OVER() AS TOTAL_FILTERED,  
+        //           (SELECT COUNT(CIDADES.CD_CIDADE) FROM CIDADES) AS TOTAL_TABLE 
+        //           FROM CIDADES
+        //           LEFT JOIN ESTADOS ON (CIDADES.ID_IBGE_ESTADO = ESTADOS.CD_IBGE)
+        //           WHERE 1=1";
 
         if (!empty($pesquisaCodigo)) {
             $query .= " AND CIDADES.CD_CIDADE LIKE '%$pesquisaCodigo%'";

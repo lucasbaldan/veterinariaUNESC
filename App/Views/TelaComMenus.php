@@ -35,7 +35,7 @@ class TelaComMenus
         $itemRaca = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('RACA', 'FL_ACESSAR');
         $itemLogradouro = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('LOGRADOURO', 'FL_ACESSAR');
         $itemBairro = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('BAIRRO', 'FL_ACESSAR');
-        $itemCidade = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CIDADE', 'FL_ACESSAR');
+        $itemCidade = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('MUNICIPIO', 'FL_ACESSAR');
         $itemAcessoGrupo = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CONTROLE_ACESSOS', 'FL_ACESSAR');
         $itemGrupoUsuario = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_GRUPOS_USUARIOS', 'FL_ACESSAR');
         $itemUsuario = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_ACESSAR');

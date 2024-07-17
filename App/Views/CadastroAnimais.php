@@ -29,7 +29,9 @@ class CadastroAnimais
         $Animal = \App\Models\Animais::findById($idAlteracao);
 
         if (!empty($Animal->getCodigo())) {
-            // $selectTipoAnimal = '<option value="' . $Animal->getTipoAnimal()->getCodigo() . '" selected>' . $Animal->getTipoAnimal()->getDescricao() . '</option>';
+            $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('ANIMAL', 'FL_EDITAR');
+            $exibeExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('ANIMAL', 'FL_EXCLUIR');
+
             $selectEspecie = '<option value="' . $Animal->getEspecie()->getCodigo() . '" selected>' . $Animal->getEspecie()->getDescricao() . '</option>';
             $selectRaca = '<option value="' . $Animal->getRaca()->getCodigo() . '" selected>' . $Animal->getRaca()->getDescricao() . '</option>';
 
@@ -43,8 +45,9 @@ class CadastroAnimais
                 $selectLogradouroPessoa = '';
             }
         } else {
+            $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('ANIMAL', 'FL_INSERIR');
+            
             $exibeExcluir = false;
-            // $selectTipoAnimal = '';
             $selectEspecie = '';
             $selectRaca = '';
             $selectBairroPessoa = '';
@@ -63,25 +66,14 @@ class CadastroAnimais
                                     <option value="S" ' . ($Animal->getFlCastrado() == 'S' ? 'selected' : ' ') . '>Sim</option>
                                 </select>';
 
-        $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('ESPECIE', 'FL_EDITAR');
-        $exibeSalvar = $permissaoSalvar == true ? true : false;
-
-        $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('ESPECIE', 'FL_EXCLUIR');
-        $exibeExcluir = $permissaoExcluir == true ? true : false;
-
-
-
 
         $Cadastro = $this->twig->fetch('cadastroAnimais.twig', [
             "cdAnimal" => $Animal->getCodigo(),
             "animal" => $Animal->getNome(),
-            // "selectTipoAnimal" => $selectTipoAnimal,
             "selectEspecieAnimal" => $selectEspecie,
             "selectRacaAnimal" => $selectRaca,
             "selectSexoAnimal" => $selectSexoAnimal,
             "selectFlCastrado" => $selectFlCastrado,
-            // "idadeAnimal" => $Animal->getIdadeAproximada(),
-            // "anoNascimentoAnimal" => $Animal->getAnoNascimento(),
 
             "cdPessoa" => $Animal->getDono1()->getCodigo(),
             "nmPessoa" => $Animal->getDono1()->getNome(),

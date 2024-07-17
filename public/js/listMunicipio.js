@@ -23,16 +23,16 @@ $(document).ready(function () {
       },
     },
     columns: [
-      { data: "cd_cidade" },
-      { data: "nome" },
-      { data: "nome_estado" },
+      { data: "CD_CIDADE" },
+      { data: "NOME" },
+      { data: "NOME_ESTADO" },
     ],
     processing: true,
     serverSide: true,
     createdRow: function (row, data, dataIndex) {
       $("td", row).each(function (index) {
         var cell = $(this);
-        var recordId = data.cd_cidade;
+        var recordId = data.CD_CIDADE;
         var cellText = cell.text();
         cell.html(
           '<span class="dataTable-item" onclick="openCadastro(' +

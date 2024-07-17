@@ -164,11 +164,6 @@ class GruposUsuarios
             $flInserirAnimal = !empty($Formulario['flInserirAnimal']) ? $Formulario['flInserirAnimal'] : '';
             $flExcluirAnimal = !empty($Formulario['flExcluirAnimal']) ? $Formulario['flExcluirAnimal'] : '';
 
-            $flAcessarTipoAnimal = !empty($Formulario['flAcessarTipoAnimal']) ? $Formulario['flAcessarTipoAnimal'] : '';
-            $flEditarTipoAnimal = !empty($Formulario['flEditarTipoAnimal']) ? $Formulario['flEditarTipoAnimal'] : '';
-            $flInserirTipoAnimal = !empty($Formulario['flInserirTipoAnimal']) ? $Formulario['flInserirTipoAnimal'] : '';
-            $flExcluirTipoAnimal = !empty($Formulario['flExcluirTipoAnimal']) ? $Formulario['flExcluirTipoAnimal'] : '';
-
             $flAcessarEspecie = !empty($Formulario['flAcessarEspecie']) ? $Formulario['flAcessarEspecie'] : '';
             $flEditarEspecie = !empty($Formulario['flEditarEspecie']) ? $Formulario['flEditarEspecie'] : '';
             $flInserirEspecie = !empty($Formulario['flInserirEspecie']) ? $Formulario['flInserirEspecie'] : '';
@@ -235,12 +230,6 @@ class GruposUsuarios
                     "FL_EDITAR" => $flEditarAnimal ? "S" : "N",
                     "FL_INSERIR" => $flInserirAnimal ? "S" : "N",
                     "FL_EXCLUIR" => $flExcluirAnimal ? "S" : "N"
-                ],
-                "TIPO_ANIMAL" => [
-                    "FL_ACESSAR" => $flAcessarTipoAnimal ? "S" : "N",
-                    "FL_EDITAR" => $flEditarTipoAnimal ? "S" : "N",
-                    "FL_INSERIR" => $flInserirTipoAnimal ? "S" : "N",
-                    "FL_EXCLUIR" => $flExcluirTipoAnimal ? "S" : "N"
                 ],
                 "ESPECIE" => [
                     "FL_ACESSAR" => $flAcessarEspecie ? "S" : "N",

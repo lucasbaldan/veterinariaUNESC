@@ -27,19 +27,25 @@ class CadastroUsuarios
         $exibeSalvar = true;
 
         if (!empty($cdUsuario)) {
+
+            $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_EDITAR');
+            $exibeExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_EXCLUIR');
+
             $cdPessoa = '<option value="' . ($usuario->getPessoa()->getCodigo()) . '">' . ($usuario->getPessoa()->getNome()) . '</option>';
             $cdGrupoUsuarios = '<option value="' . ($usuario->getGrupoUsuario()->getCodigo()) . '">' . ($usuario->getGrupoUsuario()->getNome()) . '</option>';
         } else {
+            $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_INSERIR');
+
             $cdPessoa = '';
             $cdGrupoUsuarios = '';
             $exibeExcluir = false;
         }
 
-        $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_EDITAR');
-        $exibeSalvar = $permissaoSalvar == true ? true : false;
+        // $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_EDITAR');
+        // $exibeSalvar = $permissaoSalvar == true ? true : false;
 
-        $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_EXCLUIR');
-        $exibeExcluir = $permissaoExcluir == true ? true : false;
+        // $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_EXCLUIR');
+        // $exibeExcluir = $permissaoExcluir == true ? true : false;
 
         $selectAtivoUsuario =  '<select name="flAtivo" id="flAtivo" class="form-select">
                                 <option value="S" ' . ($usuario->getFlAtivo() == 'S' ? 'selected' : '') . '>Sim</option>

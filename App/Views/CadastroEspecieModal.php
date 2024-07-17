@@ -30,16 +30,10 @@ class CadastroEspecieModal
 
             if (empty($Especie->getCodigo())) {
                 $exibirExcluir = false;
-
-                $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_INSERIR');
-                $exibirSalvar = $permissaoSalvar == true ? true : false;
+                $exibirSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('ESPECIE', 'FL_INSERIR');
             } else {
-
-                $permissaoSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_EDITAR');
-                $exibirSalvar = $permissaoSalvar == true ? true : false;
-
-                $permissaoExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_EXCLUIR');
-                $exibirExcluir = $permissaoExcluir == true ? true : false;
+                $exibirSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('ESPECIE', 'FL_EDITAR');
+                $exibirExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('ESPECIE', 'FL_EXCLUIR');
             }
 
             $selectAtivo = '
