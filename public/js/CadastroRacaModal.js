@@ -6,10 +6,6 @@ function selectTipoAnimal(){
 }
 
 function salvarCadastroRaca() {
-  botaoAnimado = new AnimarBotaoLoading("btnSalvar");
-  botaoAnimadoExcluir = new AnimarBotaoLoading("btnExcluir");
-  botaoAnimado.animar();
-  botaoAnimadoExcluir.animar();
   Loading.on();
   var formData = $("#formCadastroRaca").serialize();
 
@@ -31,8 +27,6 @@ function salvarCadastroRaca() {
     },
     complete: function () {
       Loading.off();
-      botaoAnimado.restaurar();
-      botaoAnimadoExcluir.restaurar();
     },
   });
 }
@@ -54,13 +48,8 @@ function excluirCadastroRaca() {
     },
     callback: function (result) {
       if (result) {
-        botaoAnimaSalvar = new AnimarBotaoLoading("btnSalvar");
-        botaoAnimaExcluir = new AnimarBotaoLoading("btnExcluir");
-        botaoAnimaSalvar.animar();
-        botaoAnimaExcluir.animar();
-
-        $("#bootbox-delete").modal("hide");
         Loading.on();
+        $("#bootbox-delete").modal("hide");
         var formData = $("#formCadastroRaca").serialize();
         $.ajax({
           url: "/veterinariaUNESC/server/raca/excluir",
@@ -80,8 +69,6 @@ function excluirCadastroRaca() {
           },
           complete: function () {
             Loading.off();
-            botaoAnimaSalvar.restaurar();
-            botaoAnimaExcluir.restaurar();
           },
         });
       }

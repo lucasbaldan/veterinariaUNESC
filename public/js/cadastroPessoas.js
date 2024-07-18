@@ -34,10 +34,8 @@ function salvarCadastroPessoas() {
       }
     },
     error: function (xhr, status, error) {
-      Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
-    },
-    complete: function () {
       Loading.off();
+      Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
     },
   });
 }
@@ -60,8 +58,8 @@ function excluirCadastroPessoas() {
     },
     callback: function (result) {
       if (result) {
-        $("#bootbox-delete").modal("hide");
         Loading.on();
+        $("#bootbox-delete").modal("hide");
         var formData = $("#formCadastroPessoas").serialize();
         $.ajax({
           url: "/veterinariaUNESC/server/pessoas/excluiPessoa",
@@ -75,8 +73,6 @@ function excluirCadastroPessoas() {
           },
           error: function (xhr, status, error) {
             Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
-          },
-          complete: function () {
             Loading.off();
           },
         });

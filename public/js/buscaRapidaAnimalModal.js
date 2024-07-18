@@ -54,11 +54,10 @@ function BuscarRapidaAnimal() {
         }
         tableBuscaRapida.draw();
       }
+      Loading.off();
     },
     error: function (xhr, status, error) {
       Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
-    },
-    complete: function () {
       Loading.off();
     },
   });

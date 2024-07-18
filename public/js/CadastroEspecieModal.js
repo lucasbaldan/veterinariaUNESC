@@ -6,10 +6,6 @@ function selectTipoAnimal(){
 }
 
 function salvarCadastroEspecie() {
-  botaoAnimado = new AnimarBotaoLoading("btnSalvar");
-  botaoAnimadoExcluir = new AnimarBotaoLoading("btnExcluir");
-  botaoAnimado.animar();
-  botaoAnimadoExcluir.animar();
   Loading.on();
   var formData = $("#formCadastroEspecie").serialize();
 
@@ -31,8 +27,6 @@ function salvarCadastroEspecie() {
     },
     complete: function () {
       Loading.off();
-      botaoAnimado.restaurar();
-      botaoAnimadoExcluir.restaurar();
     },
   });
 }
@@ -54,13 +48,9 @@ function excluirCadastroEspecie() {
     },
     callback: function (result) {
       if (result) {
-        botaoAnimaSalvar = new AnimarBotaoLoading("btnSalvar");
-        botaoAnimaExcluir = new AnimarBotaoLoading("btnExcluir");
-        botaoAnimaSalvar.animar();
-        botaoAnimaExcluir.animar();
-
-        $("#bootbox-delete").modal("hide");
         Loading.on();
+        
+        $("#bootbox-delete").modal("hide");
         var formData = $("#formCadastroEspecie").serialize();
 
         $.ajax({
@@ -81,8 +71,6 @@ function excluirCadastroEspecie() {
           },
           complete: function () {
             Loading.off();
-            botaoAnimaSalvar.restaurar();
-            botaoAnimaExcluir.restaurar();
           },
         });
       }

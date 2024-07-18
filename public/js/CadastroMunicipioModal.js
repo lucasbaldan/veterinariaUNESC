@@ -6,10 +6,6 @@ function selectEstado(){
 }
 
 function salvarCadastroMunicipio() {
-  botaoAnimado = new AnimarBotaoLoading("btnSalvar");
-  botaoAnimadoExcluir = new AnimarBotaoLoading("btnExcluir");
-  botaoAnimado.animar();
-  botaoAnimadoExcluir.animar();
   Loading.on();
   var formData = $("#formCadastroMunicipio").serialize();
 
@@ -31,8 +27,6 @@ function salvarCadastroMunicipio() {
     },
     complete: function () {
       Loading.off();
-      botaoAnimado.restaurar();
-      botaoAnimadoExcluir.restaurar();
     },
   });
 }
@@ -54,13 +48,8 @@ function excluirCadastroMunicipio() {
     },
     callback: function (result) {
       if (result) {
-        botaoAnimaSalvar = new AnimarBotaoLoading("btnSalvar");
-        botaoAnimaExcluir = new AnimarBotaoLoading("btnExcluir");
-        botaoAnimaSalvar.animar();
-        botaoAnimaExcluir.animar();
-
-        $("#bootbox-delete").modal("hide");
         Loading.on();
+        $("#bootbox-delete").modal("hide");
         var formData = $("#formCadastroMunicipio").serialize();
         $.ajax({
           url: "/veterinariaUNESC/server/municipio/excluir",
@@ -80,8 +69,6 @@ function excluirCadastroMunicipio() {
           },
           complete: function () {
             Loading.off();
-            botaoAnimaSalvar.restaurar();
-            botaoAnimaExcluir.restaurar();
           },
         });
       }

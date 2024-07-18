@@ -7,26 +7,22 @@ const notificacao = new Notificacao({
 });
 
 function salvarCadastroAcessosGruposUsuarios() {
-  // Loading.on();
+   Loading.on();
   var formData = $("#formCadastroAcessosGruposUsuarios").serialize();
   $.ajax({
     url: "/veterinariaUNESC/server/gruposUsuarios/salvaAcessos",
     method: "POST",
     data: formData,
-    beforeSend: function () {
-      Loading.on();
-    },
     success: function (response) {
       if (response.RESULT) {
         // sessionStorage.setItem('notificarSucesso', 'true');
         notificacao.push('Permissões salvas com Sucesso!', 'success');
         // window.location.href = '/veterinariaUNESC/paginas/listPessoas';
       }
+      Loading.off();
     },
     error: function (xhr, status, error) {
       Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
-    },
-    complete: function () {
       Loading.off();
     },
   });

@@ -1,8 +1,4 @@
 function salvarCadastroBairro() {
-  botaoAnimado = new AnimarBotaoLoading("btnSalvar");
-  botaoAnimadoExcluir = new AnimarBotaoLoading("btnExcluir");
-  botaoAnimado.animar();
-  botaoAnimadoExcluir.animar();
   Loading.on();
   var formData = $("#formCadastroBairro").serialize();
 
@@ -24,8 +20,6 @@ function salvarCadastroBairro() {
     },
     complete: function () {
       Loading.off();
-      botaoAnimado.restaurar();
-      botaoAnimadoExcluir.restaurar();
     },
   });
 }
@@ -47,13 +41,9 @@ function excluirCadastroBairro() {
     },
     callback: function (result) {
       if (result) {
-        botaoAnimaSalvar = new AnimarBotaoLoading("btnSalvar");
-        botaoAnimaExcluir = new AnimarBotaoLoading("btnExcluir");
-        botaoAnimaSalvar.animar();
-        botaoAnimaExcluir.animar();
+        Loading.on();
 
         $("#bootbox-delete").modal("hide");
-        Loading.on();
         var formData = $("#formCadastroBairro").serialize();
         $.ajax({
           url: "/veterinariaUNESC/server/bairro/excluir",
@@ -73,8 +63,6 @@ function excluirCadastroBairro() {
           },
           complete: function () {
             Loading.off();
-            botaoAnimaSalvar.restaurar();
-            botaoAnimaExcluir.restaurar();
           },
         });
       }

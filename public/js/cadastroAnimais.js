@@ -142,8 +142,6 @@ function salvarCadastroAnimais() {
     },
     error: function (xhr, status, error) {
       Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
-    },
-    complete: function () {
       Loading.off();
     },
   });
@@ -182,8 +180,6 @@ function excluirCadastroAnimais() {
           },
           error: function (xhr, status, error) {
             Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
-          },
-          complete: function () {
             Loading.off();
           },
         });
@@ -247,18 +243,6 @@ function selecionarPessoa(id) {
       Loading.off();
     },
   });
-}
-
-function calcularAnoNascimento(idade) {
-  var dataAtual = new Date().getFullYear();
-  var anoNascimento = dataAtual - idade;
-  return anoNascimento;
-}
-
-function calcularIdade(anoNascimento) {
-  var anoAtual = new Date().getFullYear();
-  var idade = anoAtual - anoNascimento;
-  return idade;
 }
 
 function desvincularPessoa() {

@@ -22,7 +22,6 @@ $('#sairSistema').on('click', function(){
         },
         complete: function(){
             window.location.href = '/veterinariaUNESC/paginas/login';
-            Loading.off();
         }
     });
 });
