@@ -175,7 +175,7 @@ class Especies
 
             $read = new \App\Conn\Read();
 
-            $query = "SELECT $colunas FROM ESPECIES WHERE 1=1";
+            $query = "SELECT $colunas FROM ESPECIES WHERE FL_ATIVO = 1 ";
 
             if (!empty($descricao)) {
                 $query .= " AND DESCRICAO LIKE '%$descricao%'";
