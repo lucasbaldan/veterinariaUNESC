@@ -23,6 +23,14 @@ $(document).ready(function () {
       beforeSend: function () {
         Loading.on();
       },
+      complete: function(xhr, textStatus) {
+        if (xhr.status === 302) {
+            var redirectUrl = xhr.getResponseHeader('Location');
+            if (redirectUrl) {
+                window.location.href = redirectUrl;
+            }
+        }
+    },
       success: function (response) {
        Notificacao.NotificacaoSucesso();
 
@@ -69,6 +77,14 @@ function excluirCadastroUsuario() {
           url: "/veterinariaUNESC/server/usuarios/excluiUsuario",
           method: "POST",
           data: formData,
+          complete: function(xhr, textStatus) {
+            if (xhr.status === 302) {
+                var redirectUrl = xhr.getResponseHeader('Location');
+                if (redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+            }
+        },
           success: function (response) {
             if (response.RESULT) {
               Notificacao.NotificacaoSucesso();

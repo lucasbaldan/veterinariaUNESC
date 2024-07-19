@@ -6,6 +6,14 @@ function salvarCadastroBairro() {
     url: "/veterinariaUNESC/server/bairro/controlar",
     method: "POST",
     data: formData,
+    complete: function(xhr, textStatus) {
+      if (xhr.status === 302) {
+          var redirectUrl = xhr.getResponseHeader('Location');
+          if (redirectUrl) {
+              window.location.href = redirectUrl;
+          }
+      }
+  },
     success: function (response) {
       if (response.RESULT) {
         Notificacao.NotificacaoSucesso();
@@ -49,6 +57,14 @@ function excluirCadastroBairro() {
           url: "/veterinariaUNESC/server/bairro/excluir",
           method: "POST",
           data: formData,
+          complete: function(xhr, textStatus) {
+            if (xhr.status === 302) {
+                var redirectUrl = xhr.getResponseHeader('Location');
+                if (redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+            }
+        },
           success: function (response) {
             if (response.RESULT) {
               Notificacao.NotificacaoSucesso();

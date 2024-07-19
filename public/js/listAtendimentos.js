@@ -46,6 +46,14 @@ $(document).ready(function () {
         json.recordsFiltered = json.RETURN.recordsFiltered;
         return json.RETURN.data;
       },
+      complete: function(xhr, textStatus) {
+        if (xhr.status === 302) {
+            var redirectUrl = xhr.getResponseHeader('Location');
+            if (redirectUrl) {
+                window.location.href = redirectUrl;
+            }
+        }
+    },
     },
     columns: [
       { data: "CD_FICHA_LPV"},
@@ -182,6 +190,14 @@ function gerarCSVAtendimentos() {
     xhrFields: {
         responseType: 'blob'
     },
+    complete: function(xhr, textStatus) {
+      if (xhr.status === 302) {
+          var redirectUrl = xhr.getResponseHeader('Location');
+          if (redirectUrl) {
+              window.location.href = redirectUrl;
+          }
+      }
+  },
     success: function (response) {
         var blob = new Blob([response], { type: 'text/csv;charset=utf-8;' });
         var link = document.createElement('a');

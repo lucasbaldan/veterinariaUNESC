@@ -25,6 +25,14 @@ function BuscarRapidoPessoa() {
     url: "/veterinariaUNESC/server/pessoas/retornaPesquisaModal",
     method: "POST",
     data: formData,
+    complete: function(xhr, textStatus) {
+      if (xhr.status === 302) {
+          var redirectUrl = xhr.getResponseHeader('Location');
+          if (redirectUrl) {
+              window.location.href = redirectUrl;
+          }
+      }
+  },
     success: function (response) {
       if (response.RESULT) {
         table.clear();

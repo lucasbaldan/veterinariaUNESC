@@ -26,6 +26,14 @@ function filtrarFichasLPV() {
     url: "/veterinariaUNESC/paginas/relatorioFichaLPV",
     method: "post",
     data: formData,
+    complete: function(xhr, textStatus) {
+      if (xhr.status === 302) {
+          var redirectUrl = xhr.getResponseHeader('Location');
+          if (redirectUrl) {
+              window.location.href = redirectUrl;
+          }
+      }
+  },
     success: function (response) {
       // if (response.RESULT) {
         // sessionStorage.setItem('notificarSucesso', 'true');
@@ -61,6 +69,14 @@ function gerarPDF() {
       nmArquivo: nmPdf,
       orientacao: 'portrait'
     },
+    complete: function(xhr, textStatus) {
+      if (xhr.status === 302) {
+          var redirectUrl = xhr.getResponseHeader('Location');
+          if (redirectUrl) {
+              window.location.href = redirectUrl;
+          }
+      }
+  },
     success: function (data) {
       var blob = new Blob([data], { type: 'application/pdf' });
       var url = window.URL.createObjectURL(blob);

@@ -134,6 +134,14 @@ function salvarCadastroAnimais() {
     url: "/veterinariaUNESC/server/animais/controlar",
     method: "POST",
     data: formData,
+    complete: function(xhr, textStatus) {
+      if (xhr.status === 302) {
+          var redirectUrl = xhr.getResponseHeader('Location');
+          if (redirectUrl) {
+              window.location.href = redirectUrl;
+          }
+      }
+  },
     success: function (response) {
       if (response.RESULT) {
         sessionStorage.setItem("notificarSucesso", "true");
@@ -172,6 +180,14 @@ function excluirCadastroAnimais() {
           url: "/veterinariaUNESC/server/animais/excluir",
           method: "POST",
           data: formData,
+          complete: function(xhr, textStatus) {
+            if (xhr.status === 302) {
+                var redirectUrl = xhr.getResponseHeader('Location');
+                if (redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+            }
+        },
           success: function (response) {
             if (response.RESULT) {
               sessionStorage.setItem("notificarSucesso", "true");
@@ -197,6 +213,14 @@ function selecionarPessoa(id) {
     data: {
       cdPessoa: id,
     },
+    complete: function(xhr, textStatus) {
+      if (xhr.status === 302) {
+          var redirectUrl = xhr.getResponseHeader('Location');
+          if (redirectUrl) {
+              window.location.href = redirectUrl;
+          }
+      }
+  },
     success: function (response) {
       if (response.RESULT) {
         var pessoa = response.RETURN;

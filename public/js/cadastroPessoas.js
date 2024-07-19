@@ -27,6 +27,14 @@ function salvarCadastroPessoas() {
     url: "/veterinariaUNESC/server/pessoas/controlar",
     method: "POST",
     data: formData,
+    complete: function(xhr, textStatus) {
+      if (xhr.status === 302) {
+          var redirectUrl = xhr.getResponseHeader('Location');
+          if (redirectUrl) {
+              window.location.href = redirectUrl;
+          }
+      }
+  },
     success: function (response) {
       if (response.RESULT) {
         sessionStorage.setItem('notificarSucesso', 'true');
@@ -65,6 +73,14 @@ function excluirCadastroPessoas() {
           url: "/veterinariaUNESC/server/pessoas/excluiPessoa",
           method: "POST",
           data: formData,
+          complete: function(xhr, textStatus) {
+            if (xhr.status === 302) {
+                var redirectUrl = xhr.getResponseHeader('Location');
+                if (redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+            }
+        },
           success: function (response) {
             if (response.RESULT) {
               sessionStorage.setItem('notificarSucesso', 'true');
@@ -96,6 +112,14 @@ function gerarPDF() {
       nmArquivo: nmPdf,
       orientacao: 'portrait'
     },
+    complete: function(xhr, textStatus) {
+      if (xhr.status === 302) {
+          var redirectUrl = xhr.getResponseHeader('Location');
+          if (redirectUrl) {
+              window.location.href = redirectUrl;
+          }
+      }
+  },
     success: function (data) {
     },
     error: function (xhr, status, error) {

@@ -13,6 +13,14 @@ function salvarCadastroEspecie() {
     url: "/veterinariaUNESC/server/especie/controlar",
     method: "POST",
     data: formData,
+    complete: function(xhr, textStatus) {
+      if (xhr.status === 302) {
+          var redirectUrl = xhr.getResponseHeader('Location');
+          if (redirectUrl) {
+              window.location.href = redirectUrl;
+          }
+      }
+  },
     success: function (response) {
       if (response.RESULT) {
         Notificacao.NotificacaoSucesso();
@@ -57,6 +65,14 @@ function excluirCadastroEspecie() {
           url: "/veterinariaUNESC/server/especie/excluir",
           method: "POST",
           data: formData,
+          complete: function(xhr, textStatus) {
+            if (xhr.status === 302) {
+                var redirectUrl = xhr.getResponseHeader('Location');
+                if (redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+            }
+        },
           success: function (response) {
             if (response.RESULT) {
               Notificacao.NotificacaoSucesso();

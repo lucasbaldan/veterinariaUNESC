@@ -27,6 +27,14 @@ $('#alterarSenha').on('click', function () {
                                 url: "/veterinariaUNESC/server/usuarios/alterarSenha",
                                 method: "POST",
                                 data: formData,
+                                complete: function(xhr, textStatus) {
+                                    if (xhr.status === 302) {
+                                        var redirectUrl = xhr.getResponseHeader('Location');
+                                        if (redirectUrl) {
+                                            window.location.href = redirectUrl;
+                                        }
+                                    }
+                                },
                                 success: function (response) {
                                     Notificacao.NotificacaoSucesso();
                                     bootbox.hideAll();

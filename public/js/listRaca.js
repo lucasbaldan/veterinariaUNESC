@@ -22,6 +22,14 @@ $(document).ready(function () {
         json.recordsFiltered = json.RETURN.recordsFiltered;
         return json.RETURN.data;
       },
+      complete: function(xhr, textStatus) {
+        if (xhr.status === 302) {
+            var redirectUrl = xhr.getResponseHeader('Location');
+            if (redirectUrl) {
+                window.location.href = redirectUrl;
+            }
+        }
+    },
     },
     columns: [
       { data: "CD_RACA" },

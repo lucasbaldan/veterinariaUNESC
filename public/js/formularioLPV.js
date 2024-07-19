@@ -204,6 +204,14 @@ function selecionarPessoa(id) {
     data: {
       cdPessoa: id,
     },
+    complete: function(xhr, textStatus) {
+      if (xhr.status === 302) {
+          var redirectUrl = xhr.getResponseHeader('Location');
+          if (redirectUrl) {
+              window.location.href = redirectUrl;
+          }
+      }
+  },
     success: function (response) {
       if (response.RESULT) {
         var pessoa = response.RETURN;
@@ -261,6 +269,14 @@ function salvarCadastroAtendimentos(atualizarPage = false) {
       url: "/veterinariaUNESC/server/atendimentos/controlar",
       method: "POST",
       data: formData,
+      complete: function(xhr, textStatus) {
+        if (xhr.status === 302) {
+            var redirectUrl = xhr.getResponseHeader('Location');
+            if (redirectUrl) {
+                window.location.href = redirectUrl;
+            }
+        }
+    },
       success: function (response) {
         if (response.RESULT) {
             if (atualizarPage) {
@@ -285,9 +301,6 @@ function salvarCadastroAtendimentos(atualizarPage = false) {
       error: function (xhr, status, error) {
           Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
           Loading.off();
-      },
-      complete: function () {
-          
       },
   });
 }
@@ -318,6 +331,14 @@ function excluirCadastroAtendimentos() {
           url: "/veterinariaUNESC/server/atendimentos/excluir",
           method: "POST",
           data: formData,
+          complete: function(xhr, textStatus) {
+            if (xhr.status === 302) {
+                var redirectUrl = xhr.getResponseHeader('Location');
+                if (redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+            }
+        },
           success: function (response) {
             if (response.RESULT) {
               sessionStorage.setItem("notificarSucesso", "true");
@@ -380,6 +401,14 @@ $('#galeriaDIV').on('click', '.btn-excluir-galeria', function(e) {
           url: "/veterinariaUNESC/server/atendimentos/excluirImagem",
           method: "POST",
           data: {idImagem : idImagem},
+          complete: function(xhr, textStatus) {
+            if (xhr.status === 302) {
+                var redirectUrl = xhr.getResponseHeader('Location');
+                if (redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+            }
+        },
           success: function (response) {
             if (response.RESULT) {
               Notificacao.NotificacaoSucesso();
