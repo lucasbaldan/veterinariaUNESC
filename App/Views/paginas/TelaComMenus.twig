@@ -47,11 +47,11 @@
                     {% if itemEspecie %}
                     <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
                         href="/veterinariaUNESC/paginas/listEspecie"> <i class="bi bi-diagram-2"></i> Espécie </a>
-                        {% endif %}
+                    {% endif %}
                     {% if itemRaca %}
                     <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
                         href="/veterinariaUNESC/paginas/listRaca"><i class="bi bi-diagram-3"></i> Raça </a>
-                        {% endif %}
+                    {% endif %}
 
                 </div>
                 {% endif %}
@@ -65,15 +65,15 @@
                     {% if itemCidade %}
                     <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
                         href="/veterinariaUNESC/paginas/listMunicipio"> <i class="bi bi-building"></i> Município </a>
-                        {% endif %}
+                    {% endif %}
                     {% if itemBairro %}
                     <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
                         href="/veterinariaUNESC/paginas/listBairro"><i class="bi bi-pin-map"></i> Bairro </a>
-                        {% endif %}
+                    {% endif %}
                     {% if itemLogradouro %}
                     <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
                         href="/veterinariaUNESC/paginas/listLogradouro"><i class="bi bi-houses"></i> Logradouro </a>
-                        {% endif %}
+                    {% endif %}
 
                 </div>
                 {% endif %}
@@ -89,18 +89,29 @@
             <div class="collapse" id="collapseGrupoUsuarios">
                 {% if itemAcessoGrupo %}
                 <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
-                    href="/veterinariaUNESC/paginas/listAcessosGruposUsuarios"><i class="bi bi-key"></i> Acessos Grupos
+                    href="/veterinariaUNESC/paginas/listAcessosGruposUsuarios"><i class="bi bi-key"></i> Grupos
                     Usuarios</a>
-                    {% endif %}
-                    {% if itemGrupoUsuario %}
-                    <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
-                        href="/veterinariaUNESC/paginas/listUsuarios"><i class="bi bi-person"></i></i> Usuários </a>
-                        {% endif %}
-                        {% if itemUsuario %}
-                    <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
-                        href="/veterinariaUNESC/paginas/gruposUsuarios"><i class="bi bi-people"></i></i> Grupo de
-                        Usuários </a>
-                        {% endif %}
+                <!-- <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
+                    href="/veterinariaUNESC/paginas/cadastroGruposUsuariosNovo"><i class="bi bi-key"></i> Acessos Grupos
+                    Usuarios Novo</a> -->
+                <!-- <form id="telaCadastroGruposUsuariosNovo" action="/veterinariaUNESC/paginas/cadastroGruposUsuariosNovo" method="POST"
+                    style="display: inline;">
+                    <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#"
+                        onclick="document.getElementById('telaCadastroGruposUsuariosNovo').submit(); return false;">
+                        <i class="bi bi-clipboard-data-fill"></i> Acessos Grupos
+                        Usuarios Novo
+                    </a>
+                </form> -->
+                {% endif %}
+                {% if itemGrupoUsuario %}
+                <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
+                    href="/veterinariaUNESC/paginas/listUsuarios"><i class="bi bi-person"></i></i> Usuários </a>
+                {% endif %}
+                <!-- {% if itemUsuario %}
+                <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
+                    href="/veterinariaUNESC/paginas/gruposUsuarios"><i class="bi bi-people"></i></i> Grupo de
+                    Usuários </a>
+                {% endif %} -->
             </div>
             {% endif %}
 
@@ -148,16 +159,19 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="width: 250px;">
                         <!-- <a class="dropdown-item" href="#!">Action</a>-->
-                        <a class="dropdown-item" id="alterarSenha" href="#"><i class="bi bi-shield-lock"></i> Alterar Senha </a>
+                        <a class="dropdown-item" id="alterarSenha" href="#"><i class="bi bi-shield-lock"></i> Alterar
+                            Senha </a>
                         <a class="dropdown-item" id="sairSistema" href="#"><i class="bi bi-door-open"></i> Sair </a>
                         <div class="dropdown-divider"></div>
                         <div class="form-floating">
-                            <textarea readonly class="form-control-plaintext" id="inputUsuario" style="white-space: normal; overflow: hidden; resize: none; height: auto;">{{nomeUsuario}}</textarea>
+                            <textarea readonly class="form-control-plaintext" id="inputUsuario"
+                                style="white-space: normal; overflow: hidden; resize: none; height: auto;">{{nomeUsuario}}</textarea>
                             <label for="inputUsuario">Usuário:</label>
                         </div>
 
                         <div class="form-floating">
-                            <textarea readonly class="form-control-plaintext" id="inputtempoSessao" style="overflow: hidden; resize: none;">{{tempoSessao}}</textarea>
+                            <textarea readonly class="form-control-plaintext" id="inputtempoSessao"
+                                style="overflow: hidden; resize: none;">{{tempoSessao}}</textarea>
                             <label for="inputtempoSessao">Desconexão por inatividade ás:</label>
                         </div>
                     </div>

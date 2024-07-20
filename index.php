@@ -175,6 +175,11 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
+    $group->post('/cadastroGruposUsuariosNovo', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\CadastroGruposUsuariosNovo($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
@@ -198,6 +203,7 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         '/veterinariaUNESC/paginas/listAtendimentos',
         '/veterinariaUNESC/paginas/listUsuarios',
         '/veterinariaUNESC/paginas/relatorioFichaLPV',
+        '/veterinariaUNESC/paginas/cadastroGruposUsuariosNovo',
     ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));

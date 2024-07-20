@@ -65,7 +65,9 @@ $(document).ready(function () {
 
 function openCadastro(id = '') {
   Loading.on();
-  var form = $('<form action="/veterinariaUNESC/paginas/cadastroAcessosGruposUsuarios" method="POST"><input type="hidden" name="id" value="' + id + '"></form>');
+  // var form = $('<form action="/veterinariaUNESC/paginas/cadastroAcessosGruposUsuarios" method="POST"><input type="hidden" name="id" value="' + id + '"></form>');
+  var form = $('<form action="/veterinariaUNESC/paginas/cadastroGruposUsuariosNovo" method="POST"><input type="hidden" name="id" value="' + id + '"></form>');
   $('body').append(form);
   form.submit();
 }
+

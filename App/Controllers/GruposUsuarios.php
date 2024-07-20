@@ -33,7 +33,7 @@ class GruposUsuarios
                 throw new Exception("<b>Erro ao salvar o grupo de usuários</b><br><br> Por favor, tente novamente.", 400);
             }
 
-            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $dadosGrupoUsuarios->GetResult()];
+            $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $dadosGrupoUsuarios->GetReturn()];
             $codigoHTTP = 200;
         } catch (Exception $e) {
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];

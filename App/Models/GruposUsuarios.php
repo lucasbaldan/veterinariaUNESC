@@ -65,7 +65,8 @@ class GruposUsuarios
         throw new Exception($insert->getMessage());
       }
       $this->Result = true;
-      $this->Return = $insert->getResult();
+      // $this->Return = $insert->getResult();
+      $this->Return = $insert->getLastInsert();
     } catch (Exception $e) {
       $this->Result = false;
       $this->Message = $e->getMessage();
@@ -83,7 +84,7 @@ class GruposUsuarios
       if ($dadosFicha) {
         $dadosUpdate = [
           "NM_GRUPO_USUARIOS" => $this->NmGrupoUsuarios,
-          "PERMISSOES" => $this->Permissoes,
+          // "PERMISSOES" => $this->Permissoes,
           "FL_ATIVO" => $this->FlAtivo,
         ];
 

@@ -1,0 +1,527 @@
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;); background-color: #F8F9FA ;"
+    aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/veterinariaUNESC/paginas/inicial"><i
+                    class="bi bi-house-door-fill"></i></a></li>
+        <li class="breadcrumb-item" aria-current="page">Controle de Acessos</li>
+        <li class="breadcrumb-item" aria-current="page">Grupos de Usuários</li>
+        <li class="breadcrumb-item" aria-current="page">Cadastro Grupos de Usuários</li>
+    </ol>
+</nav>
+
+<div class="container-fluid d-flex justify-content-center align-items-center mt-2">
+    <div class="card rounded" style="min-width: 100%;">
+        <div class="card-body border border-1S rounded-2">
+            <div class="text-center mt-2">
+                <h4>Cadastro Grupo de Usuarios</h4>
+                <hr>
+            </div>
+            <!-- <div class="text-end">
+                    <button type="button" onclick="gerarPDF()"><i class="bi bi-printer"></i></button>
+                </div> -->
+
+            <section class="wrapper">
+                <ul class="tabs">
+                    <li id="tab1-btn" class="active">Cadastro do Grupo</li>
+                    <li id="tab2-btn">Cadastro de Acessos</li>
+                </ul>
+                <!-- <input type="hidden" id="cdGrupoUsuariosGeral" name="cdGrupoUsuariosGeral" value="{{cdGrupoUsuarios}}"> -->
+
+                <ul class="tab__content tab-content">
+                    <li class="active">
+                        <div class="content__wrapper">
+
+                            <form id="formCadastroGruposUsuarios">
+                                <div class="row">
+                                    <div class="col-3 mb-4">
+                                        <label for="cdGrupoUsuarios" class="form-label">Código: </label>
+                                        <input type="text" readonly class="form-control" id="cdGrupoUsuarios"
+                                            name="cdGrupoUsuarios" value="{{cdGrupoUsuarios}}">
+                                    </div>
+
+                                    <div class="col-6"></div>
+
+                                    <div class="col-3 mb-4">
+                                        <label for="flAtivo" class="form-label">Ativo </label>
+                                        {{selectAtivoGrupoUsuarios|raw}}
+                                    </div>
+                                    <div class="mb-4 col-md-12">
+                                        <label for="nmGrupoUsuarios" class="form-label">Nome</label>
+                                        <input type="text" class="form-control" id="nmGrupoUsuarios"
+                                            name="nmGrupoUsuarios" placeholder=" " value="{{nmGrupoUsuarios}}" required>
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <a class="btn btn-warning w-100 call-screen" type="button"
+                                            href="/veterinariaUNESC/paginas/listAcessosGruposUsuarios"><i
+                                                class="bi bi-sign-turn-left-fill"></i>
+                                            <b>Voltar</b></a>
+                                    </div>
+
+                                    {% if exibirExcluirCadastroGrupoUsuarios %}
+                                    <div class="col mb-2"><button id="btnExcluir"
+                                            onclick="excluirCadastroGrupoUsuarios()" class="btn btn-danger w-100"
+                                            type="button"><b><i class="bi bi-trash3-fill"></i> Excluir</b></button>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if exibirSalvarCadastroGrupoUsuarios %}
+                                    <div class="col">
+                                        <button id="btnSalvar" onclick="salvarCadastroGrupoUsuarios()"
+                                            class="btn btn-primary w-100" type="button"> <i
+                                                class="bi bi-floppy2-fill"></i> <b>Salvar</b>
+                                        </button>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </form>
+                        </div>
+
+                    </li>
+                    <li>
+                        <div class="content__wrapper">
+
+                            <form id="formCadastroAcessosGruposUsuarios" name="formCadastroAcessosGruposUsuarios">
+                                <input type="hidden" id="cdGrupoUsuarios2" name="cdGrupoUsuarios"
+                                    value="{{cdGrupoUsuarios}}">
+                                <div class="row">
+
+                                    <!-- <i class="bi bi-check-square"></i> -->
+                                    <!-- <i class="bi bi-square"></i> -->
+
+                                    <div class="row">
+                                        <div class="mb-2 col-md-4"></div>
+                                        <div class="mb-2 col-md-1"></div>
+                                        <div class="mb-2 col-md-1 text-center">Acessar</div>
+                                        <div class="mb-2 col-md-1 text-center">Editar</div>
+                                        <div class="mb-2 col-md-1 text-center">Inserir</div>
+                                        <div class="mb-2 col-md-1 text-center">Excluir</div>
+                                    </div>
+
+
+
+                                    <!-- Ficha LPV -->
+                                    <div class="row">
+                                        <div class="mb-2 col-md-4">
+                                            <input type="text" readonly class="form-control" id="fichaLPV"
+                                                name="fichaLPV" value="Ficha LPV">
+                                        </div>
+
+                                        <div class="mb-2 col-md-1" style="background-color: blu;">
+                                            <button type="button" class="btn btn-sm btn-primary" id="btnFichaLPV"><i
+                                                    class="bi bi-square" id="iconFichaLPV"></i></button>
+                                        </div>
+
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flAcessarFichaLPV" name="flAcessarFichaLPV"
+                                                {{flAcessarFichaLPV}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flEditarFichaLPV" name="flEditarFichaLPV"
+                                                {{flEditarFichaLPV}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flInserirFichaLPV" name="flInserirFichaLPV"
+                                                {{flInserirFichaLPV}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flExcluirFichaLPV" name="flExcluirFichaLPV"
+                                                {{flExcluirFichaLPV}}>
+                                        </div>
+                                    </div>
+
+                                    <!-- Cadastro de Pessoas -->
+                                    <div class="row">
+                                        <div class="mb-2 col-md-4">
+                                            <input type="text" readonly class="form-control" id="cadastroPessoas"
+                                                name="cadastroPessoas" value="Cadastro Pessoas">
+                                        </div>
+
+                                        <div class="mb-2 col-md-1" style="background-color: blu;">
+                                            <button type="button" class="btn btn-sm btn-primary"
+                                                id="btnCadastroPessoas"><i class="bi bi-square"
+                                                    id="iconCadastroPessoas"></i></button>
+                                        </div>
+
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flAcessarCadastroPessoas"
+                                                name="flAcessarCadastroPessoas" {{flAcessarCadastroPessoas}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flEditarCadastroPessoas"
+                                                name="flEditarCadastroPessoas" {{flEditarCadastroPessoas}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flInserirCadastroPessoas"
+                                                name="flInserirCadastroPessoas" {{flInserirCadastroPessoas}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flExcluirCadastroPessoas"
+                                                name="flExcluirCadastroPessoas" {{flExcluirCadastroPessoas}}>
+                                        </div>
+                                    </div>
+
+                                    <!-- Cadastro Grupos Usuários -->
+                                    <div class="row">
+                                        <div class="mb-2 col-md-4">
+                                            <input type="text" readonly class="form-control" id="cadastroGruposUsuarios"
+                                                name="cadastroGruposUsuarios" value="Cadastro Grupos Usuários">
+                                        </div>
+
+                                        <div class="mb-2 col-md-1" style="background-color: blu;">
+                                            <button type="button" class="btn btn-sm btn-primary"
+                                                id="btnCadastroGruposUsuarios"><i class="bi bi-square"
+                                                    id="iconCadastroGruposUsuarios"></i></button>
+                                        </div>
+
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flAcessarCadastroGruposUsuarios"
+                                                name="flAcessarCadastroGruposUsuarios"
+                                                {{flAcessarCadastroGruposUsuarios}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flEditarCadastroGruposUsuarios"
+                                                name="flEditarCadastroGruposUsuarios"
+                                                {{flEditarCadastroGruposUsuarios}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flInserirCadastroGruposUsuarios"
+                                                name="flInserirCadastroGruposUsuarios"
+                                                {{flInserirCadastroGruposUsuarios}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flExcluirCadastroGruposUsuarios"
+                                                name="flExcluirCadastroGruposUsuarios"
+                                                {{flExcluirCadastroGruposUsuarios}}>
+                                        </div>
+                                    </div>
+
+                                    <!-- Cadastro de Usuários -->
+                                    <div class="row">
+                                        <div class="mb-2 col-md-4">
+                                            <input type="text" readonly class="form-control" id="cadastroUsuarios"
+                                                name="cadastroUsuarios" value="Cadastro Usuários">
+                                        </div>
+
+                                        <div class="mb-2 col-md-1" style="background-color: blu;">
+                                            <button type="button" class="btn btn-sm btn-primary"
+                                                id="btnCadastroUsuarios"><i class="bi bi-square"
+                                                    id="iconCadastroUsuarios"></i></button>
+                                        </div>
+
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flAcessarCadastroUsuarios"
+                                                name="flAcessarCadastroUsuarios" {{flAcessarCadastroUsuarios}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flEditarCadastroUsuarios"
+                                                name="flEditarCadastroUsuarios" {{flEditarCadastroUsuarios}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flInserirCadastroUsuarios"
+                                                name="flInserirCadastroUsuarios" {{flInserirCadastroUsuarios}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flExcluirCadastroUsuarios"
+                                                name="flExcluirCadastroUsuarios" {{flExcluirCadastroUsuarios}}>
+                                        </div>
+                                    </div>
+
+                                    <!-- Controle de Acessos -->
+                                    <div class="row">
+                                        <div class="mb-2 col-md-4">
+                                            <input type="text" readonly class="form-control" id="controleAcessos"
+                                                name="controleAcessos" value="Controle de Acessos">
+                                        </div>
+
+                                        <div class="mb-2 col-md-1" style="background-color: blu;">
+                                            <button type="button" class="btn btn-sm btn-primary"
+                                                id="btnControleAcessos"><i class="bi bi-square"
+                                                    id="iconControleAcessos"></i></button>
+                                        </div>
+
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flAcessarControleAcessos"
+                                                name="flAcessarControleAcessos" {{flAcessarControleAcessos}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flEditarControleAcessos"
+                                                name="flEditarControleAcessos" {{flEditarControleAcessos}}>
+                                        </div>
+                                        <!-- <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                                <input type="checkbox" id="flInserirControleAcessos" name="flInserirControleAcessos"
+                                                    {{flInserirControleAcessos}}>
+                                            </div>
+                                            <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                                <input type="checkbox" id="flExcluirControleAcessos" name="flExcluirControleAcessos"
+                                                    {{flExcluirControleAcessos}}>
+                                            </div> -->
+                                    </div>
+
+                                    <!-- ANIMAL -->
+                                    <div class="row">
+                                        <div class="mb-2 col-md-4">
+                                            <input type="text" readonly class="form-control" id="animal" name="animal"
+                                                value="Animal">
+                                        </div>
+
+                                        <div class="mb-2 col-md-1" style="background-color: blu;">
+                                            <button type="button" class="btn btn-sm btn-primary" id="btnAnimal"><i
+                                                    class="bi bi-square" id="iconAnimal"></i></button>
+                                        </div>
+
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flAcessarAnimal" name="flAcessarAnimal"
+                                                {{flAcessarAnimal}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flEditarAnimal" name="flEditarAnimal"
+                                                {{flEditarAnimal}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flInserirAnimal" name="flInserirAnimal"
+                                                {{flInserirAnimal}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flExcluirAnimal" name="flExcluirAnimal"
+                                                {{flExcluirAnimal}}>
+                                        </div>
+                                    </div>
+
+                                    <!-- ESPECIE -->
+                                    <div class="row">
+                                        <div class="mb-2 col-md-4">
+                                            <input type="text" readonly class="form-control" id="especie" name="especie"
+                                                value="Espécie">
+                                        </div>
+
+                                        <div class="mb-2 col-md-1" style="background-color: blu;">
+                                            <button type="button" class="btn btn-sm btn-primary" id="btnEspecie"><i
+                                                    class="bi bi-square" id="iconEspecie"></i></button>
+                                        </div>
+
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flAcessarEspecie" name="flAcessarEspecie"
+                                                {{flAcessarEspecie}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flEditarEspecie" name="flEditarEspecie"
+                                                {{flEditarEspecie}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flInserirEspecie" name="flInserirEspecie"
+                                                {{flInserirEspecie}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flExcluirEspecie" name="flExcluirEspecie"
+                                                {{flExcluirEspecie}}>
+                                        </div>
+                                    </div>
+
+                                    <!-- RACA -->
+                                    <div class="row">
+                                        <div class="mb-2 col-md-4">
+                                            <input type="text" readonly class="form-control" id="raca" name="raca"
+                                                value="Raça">
+                                        </div>
+
+                                        <div class="mb-2 col-md-1" style="background-color: blu;">
+                                            <button type="button" class="btn btn-sm btn-primary" id="btnRaca"><i
+                                                    class="bi bi-square" id="iconRaca"></i></button>
+                                        </div>
+
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flAcessarRaca" name="flAcessarRaca"
+                                                {{flAcessarRaca}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flEditarRaca" name="flEditarRaca"
+                                                {{flEditarRaca}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flInserirRaca" name="flInserirRaca"
+                                                {{flInserirRaca}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flExcluirRaca" name="flExcluirRaca"
+                                                {{flExcluirRaca}}>
+                                        </div>
+                                    </div>
+
+                                    <!-- MUNICIPIO -->
+                                    <div class="row">
+                                        <div class="mb-2 col-md-4">
+                                            <input type="text" readonly class="form-control" id="municipio"
+                                                name="municipio" value="Município">
+                                        </div>
+
+                                        <div class="mb-2 col-md-1" style="background-color: blu;">
+                                            <button type="button" class="btn btn-sm btn-primary" id="btnMunicipio"><i
+                                                    class="bi bi-square" id="iconMunicipio"></i></button>
+                                        </div>
+
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flAcessarMunicipio" name="flAcessarMunicipio"
+                                                {{flAcessarMunicipio}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flEditarMunicipio" name="flEditarMunicipio"
+                                                {{flEditarMunicipio}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flInserirMunicipio" name="flInserirMunicipio"
+                                                {{flInserirMunicipio}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flExcluirMunicipio" name="flExcluirMunicipio"
+                                                {{flExcluirMunicipio}}>
+                                        </div>
+                                    </div>
+
+                                    <!-- BAIRRO -->
+                                    <div class="row">
+                                        <div class="mb-2 col-md-4">
+                                            <input type="text" readonly class="form-control" id="bairro" name="bairro"
+                                                value="Bairro">
+                                        </div>
+
+                                        <div class="mb-2 col-md-1" style="background-color: blu;">
+                                            <button type="button" class="btn btn-sm btn-primary" id="btnBairro"><i
+                                                    class="bi bi-square" id="iconBairro"></i></button>
+                                        </div>
+
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flAcessarBairro" name="flAcessarBairro"
+                                                {{flAcessarBairro}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flEditarBairro" name="flEditarBairro"
+                                                {{flEditarBairro}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flInserirBairro" name="flInserirBairro"
+                                                {{flInserirBairro}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flExcluirBairro" name="flExcluirBairro"
+                                                {{flExcluirBairro}}>
+                                        </div>
+                                    </div>
+
+                                    <!-- LOGRADOURO -->
+                                    <div class="row">
+                                        <div class="mb-2 col-md-4">
+                                            <input type="text" readonly class="form-control" id="logradouro"
+                                                name="logradouro" value="Logradouro">
+                                        </div>
+
+                                        <div class="mb-2 col-md-1" style="background-color: blu;">
+                                            <button type="button" class="btn btn-sm btn-primary" id="btnLogradouro"><i
+                                                    class="bi bi-square" id="iconLogradouro"></i></button>
+                                        </div>
+
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flAcessarLogradouro" name="flAcessarLogradouro"
+                                                {{flAcessarLogradouro}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flEditarLogradouro" name="flEditarLogradouro"
+                                                {{flEditarLogradouro}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flInserirLogradouro" name="flInserirLogradouro"
+                                                {{flInserirLogradouro}}>
+                                        </div>
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flExcluirLogradouro" name="flExcluirLogradouro"
+                                                {{flExcluirLogradouro}}>
+                                        </div>
+                                    </div>
+
+                                    <!-- RELATORIOS -->
+                                    <div class="row">
+                                        <div class="mb-2 col-md-4">
+                                            <input type="text" readonly class="form-control" id="relatorios"
+                                                name="relatorios" value="Relatórios">
+                                        </div>
+
+                                        <div class="mb-2 col-md-1" style="background-color: blu;">
+                                            <button type="button" class="btn btn-sm btn-primary" id="btnRelatorios"><i
+                                                    class="bi bi-square" id="iconRelatorios"></i></button>
+                                        </div>
+
+                                        <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                            <input type="checkbox" id="flAcessarRelatorios" name="flAcessarRelatorios"
+                                                {{flAcessarRelatorios}}>
+                                        </div>
+                                        <!-- <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                                <input type="checkbox" id="flEditarRelatorios" name="flEditarRelatorios"
+                                                    {{flEditarRelatorios}}>
+                                            </div>
+                                            <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                                <input type="checkbox" id="flInserirRelatorios" name="flInserirRelatorios"
+                                                    {{flInserirRelatorios}}>
+                                            </div>
+                                            <div class="mb-2 col-md-1 d-flex justify-content-center">
+                                                <input type="checkbox" id="flExcluirRelatorios" name="flExcluirRelatorios"
+                                                    {{flExcluirRelatorios}}>
+                                            </div> -->
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="row">
+                                <div class="col">
+                                    <a class="btn btn-warning w-100 call-screen" type="button"
+                                        href="/veterinariaUNESC/paginas/listAcessosGruposUsuarios"><i
+                                            class="bi bi-sign-turn-left-fill"></i>
+                                        <b>Voltar</b></a>
+                                </div>
+                                {% if exibeSalvarPermissoes %}
+                                <div class="col">
+                                    <button class="btn btn-primary w-100"
+                                        onclick="salvarCadastroAcessosGruposUsuarios()"><i
+                                            class="bi bi-floppy2-fill"></i>
+                                        <b>Salvar</b></button>
+                                </div>
+                                {% endif %}
+                            </div>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="container-fluid d-flex justify-content-center align-items-center mt-2 mb-3">
+    <div class="card rounded" style="min-width: 100%;">
+        <div class="card-body border border-1S rounded-2">
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-warning w-100 call-screen" type="button"
+                        href="/veterinariaUNESC/paginas/listPessoas"><i class="bi bi-sign-turn-left-fill"></i>
+                        <b>Voltar</b></a>
+                </div>
+
+                {% if exibeExcluir %}
+                <div class="col">
+                    <button class="btn btn-danger w-100" type="button" onclick="excluirCadastroPessoas()"><b><i
+                                class="bi bi-trash3-fill"></i>
+                            Excluir</b></button>
+                </div>
+                {% endif %}
+
+                {% if exibeSalvar %}
+                <div class="col">
+                    <button class="btn btn-primary w-100" onclick="salvarCadastroPessoas()"><i
+                            class="bi bi-floppy2-fill"></i>
+                        <b>Salvar</b></button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div> -->
