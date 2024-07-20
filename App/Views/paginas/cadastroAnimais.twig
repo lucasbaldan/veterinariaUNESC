@@ -29,36 +29,18 @@
                 </div>
                 <hr>
 
-                <div class="container-fluid">
-                    <ul class="nav nav-pills mb-2 justify-content-center" id="pills-tab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active rounded-pill border" id="pills-home-tab"
-                                data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab"
-                                aria-controls="pills-home" aria-selected="true">Dados do Animal</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link rounded-pill border" id="pills-profile-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
-                                aria-selected="false">Tutor do Animal</button>
-                        </li>
+                <section class="wrapper">
+                    <ul class="tabs">
+                        <li class="active">Geral</li>
+                        <li>Tutor / Proprietário</li>
                     </ul>
-                </div>
 
+                    <ul class="tab__content tab-content">
+                        <li class="active">
+                            <div class="content__wrapper">
 
-                <div class="tab-content" id="pills-tabContent">
-
-                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
-                        aria-labelledby="pills-home-tab" tabindex="0">
-                        <h5>Informações Gerais do Animal</h5>
+                                <h5>Informações Gerais do Animal</h5>
                         <hr>
-                        <!-- <div class="row mb-4">
-                        <div class="col">
-                                <label for="tipoAnimal" class="form-label">Tipo de Animal </label>
-                                <select class="form-select" id="select2tipoAnimal" name="select2tipoAnimal"aria-label="">
-                                {{selectTipoAnimal|raw}}
-                            </select>
-                        </div>
-                    </div> -->
 
                         <div class="row mb-4">
                             <div class="col">
@@ -90,33 +72,11 @@
                                 <!-- </div> -->
                             </div>
                         </div>
-
-                        <!-- <div class="row">
-
-                            <div class="col">
-                            <div class="form-floating mb-3">
-                                <input type="number" maxlength="2" class="form-control" id="idade" value="{{idadeAnimal}}"
-                                    name="idade" placeholder="">
-                                <label for="idade">Idade Aproximada</label>
                             </div>
-                        </div>
-
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="anoNascimento" value="{{anoNascimentoAnimal}}"
-                                    name="anoNascimento" placeholder="">
-                                <label for="anoNascimento">Ano de nascimento</label>
-                            </div>
-                        </div>
-
-                        </div> -->
-                    </div>
-
-
-
-                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
-                        tabindex="0">
-                        <h5>Dados da Pessoa (Responsável pelo Animal)</h5>
+                        </li>
+                        <li>
+                            <div class="content__wrapper">
+                                <h5>Dados da Pessoa (Responsável pelo Animal)</h5>
                         <hr>
 
                         <div class="row">
@@ -202,12 +162,11 @@
                             </div>
 
                         </div>
-                    </div>
-
-                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
             </form>
-
-
         </div>
     </div>
 </div>

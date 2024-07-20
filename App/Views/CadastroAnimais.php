@@ -95,8 +95,8 @@ class CadastroAnimais
 
         return $this->twig->render($response, 'TelaBase.twig', [
             'versao' => $GLOBALS['versao'],
-            'cssLinks' => 'TelaMenus.css',
-            'jsLinks' => 'cadastroAnimais.js',
+            'cssLinks' => 'TelaMenus.css;tabs.css',
+            'jsLinks' => 'cadastroAnimais.js;tabs.js',
             'conteudo_tela' => $conteudoTela,
         ]);
     }
