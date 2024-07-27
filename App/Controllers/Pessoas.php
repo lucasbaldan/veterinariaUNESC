@@ -135,7 +135,7 @@ class Pessoas
             $pessoa->Delete();
 
             if (!$pessoa->getResult()) {
-                throw new Exception("<b>Erro ao tentar processar requisição</b><br><br> Por favor, tente novamente.", 500);
+                throw new Exception("<b>Erro ao tentar processar requisição</b><br><br> " . $pessoa->getMessage(), 500);
             }
 
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => ''];

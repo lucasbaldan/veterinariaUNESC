@@ -215,16 +215,14 @@ class Pessoas
     public function Delete()
     {
         try {
-            $delete = new \App\Conn\delete();
+            $delete = new \App\Conn\Delete();
 
             $delete->ExeDelete("PESSOAS", "WHERE CD_PESSOA =:C", "C=$this->CdPessoa");
 
             if (!$delete->getResult()[0]) throw new Exception($delete->getResult()[1]);
 
-            $delete->Commit();
             $this->Result = true;
         } catch (Exception $e) {
-            $delete->Rollback();
             $this->Result = false;
             $this->Message = $e->getMessage();
         }

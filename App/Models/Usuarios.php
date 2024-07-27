@@ -139,7 +139,7 @@ class Usuarios
 
   public static function Delete($cdUsuario)
   {
-    $delete = new \App\Conn\delete();
+    $delete = new \App\Conn\Delete();
 
     $delete->ExeDelete("USUARIOS", "WHERE CD_USUARIO =:C", "C=$cdUsuario");
     $deletado = !empty($delete->getResult());

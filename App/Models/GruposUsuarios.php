@@ -166,7 +166,7 @@ class GruposUsuarios
 
   public static function Delete($cdGrupoUsuarios)
   {
-    $delete = new \App\Conn\delete();
+    $delete = new \App\Conn\Delete();
 
     $delete->ExeDelete("GRUPOS_USUARIOS", "WHERE CD_GRUPO_USUARIOS =:C", "C=$cdGrupoUsuarios");
     $deletado = !empty($delete->getResult());

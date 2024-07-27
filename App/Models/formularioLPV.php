@@ -217,7 +217,7 @@ class FormularioLPV
 
   public static function Delete($cdFichaLPV)
   {
-    $delete = new \App\Conn\delete();
+    $delete = new \App\Conn\Delete();
 
     $delete->ExeDelete("FICHA_LPV", "WHERE CD_FICHA_LPV =:C", "C=$cdFichaLPV");
     $deletado = !empty($delete->getResult());
