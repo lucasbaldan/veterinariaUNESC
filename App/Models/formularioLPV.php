@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Exception;
 
-class FormularioLPV
+class FormularioLPV 
 {
   private $cdFichaLPV;
   private $dtFicha;
