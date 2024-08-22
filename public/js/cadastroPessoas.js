@@ -1,15 +1,15 @@
 $(document).ready(function () {
 
   new Select2('#select2cdCidade', {
-    url: '/veterinariaUNESC/server/municipio/general',
+    url: '/veterinaria/server/municipio/general',
   })
 
   new Select2('#select2cdBairro', {
-    url: '/veterinariaUNESC/server/bairro/general',
+    url: '/veterinaria/server/bairro/general',
   })
 
   new Select2('#select2cdLogradouro', {
-    url: '/veterinariaUNESC/server/logradouro/general',
+    url: '/veterinaria/server/logradouro/general',
   })
 
   $('#nrTelefone').inputmask("(99) 99999-9999", { autoUnmask: true });
@@ -24,7 +24,7 @@ function salvarCadastroPessoas() {
   var formData = $("#formCadastroPessoas").serialize();
 
   $.ajax({
-    url: "/veterinariaUNESC/server/pessoas/controlar",
+    url: "/veterinaria/server/pessoas/controlar",
     method: "POST",
     data: formData,
     complete: function(xhr, textStatus) {
@@ -38,7 +38,7 @@ function salvarCadastroPessoas() {
     success: function (response) {
       if (response.RESULT) {
         sessionStorage.setItem('notificarSucesso', 'true');
-        window.location.href = '/veterinariaUNESC/paginas/listPessoas';
+        window.location.href = '/veterinaria/paginas/listPessoas';
       }
     },
     error: function (xhr, status, error) {
@@ -70,7 +70,7 @@ function excluirCadastroPessoas() {
         $("#bootbox-delete").modal("hide");
         var formData = $("#formCadastroPessoas").serialize();
         $.ajax({
-          url: "/veterinariaUNESC/server/pessoas/excluiPessoa",
+          url: "/veterinaria/server/pessoas/excluiPessoa",
           method: "POST",
           data: formData,
           complete: function(xhr, textStatus) {
@@ -84,7 +84,7 @@ function excluirCadastroPessoas() {
           success: function (response) {
             if (response.RESULT) {
               sessionStorage.setItem('notificarSucesso', 'true');
-              window.location.href = '/veterinariaUNESC/paginas/listPessoas';
+              window.location.href = '/veterinaria/paginas/listPessoas';
             }
           },
           error: function (xhr, status, error) {
@@ -105,7 +105,7 @@ function gerarPDF() {
   // return;
 
   $.ajax({
-    url: "/veterinariaUNESC/server/relatorios/fichaLPV",
+    url: "/veterinaria/server/relatorios/fichaLPV",
     method: "POST",
     data: {
       html: html,

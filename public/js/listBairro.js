@@ -5,10 +5,10 @@ $(document).ready(function () {
     orderCellsTop: true,
     fixedHeader: true, 
     language: {
-      url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
+      url: "/veterinaria/public/languages/datatablePt-BR.json",
     },
     ajax: {
-      url: "/veterinariaUNESC/server/bairro/grid",
+      url: "/veterinaria/server/bairro/grid",
       type: "POST",
       data: function (d) {
         d.columns[0].search.value = $('#pesquisaCodigoBairro').val();
@@ -65,12 +65,12 @@ function openCadastro($id = null) {
     Loading.on();
 
     var ajaxModal = $.ajax({
-      url: "/veterinariaUNESC/modais/cadastroBairro",
+      url: "/veterinaria/modais/cadastroBairro",
       method: "POST",
       data: { id: $id },
     });
 
-    var script = $.getScript("/veterinariaUNESC/public/js/CadastroBairroModal.js?v=" + window.scriptVersao);
+    var script = $.getScript("/veterinaria/public/js/CadastroBairroModal.js?v=" + window.scriptVersao);
 
     $.when(ajaxModal, script).done(function (respostaAjaxModal) {
         bootbox.dialog({

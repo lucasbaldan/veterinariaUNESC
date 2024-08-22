@@ -1,6 +1,6 @@
 function selectTipoAnimal(){
   new Select2('#select2cdTipoAnimal', {
-    url: '/veterinariaUNESC/server/tipoAnimal/general',
+    url: '/veterinaria/server/tipoAnimal/general',
     dropdownParent: '.cad-tipo-animal'
   })
 }
@@ -10,7 +10,7 @@ function salvarCadastroEspecie() {
   var formData = $("#formCadastroEspecie").serialize();
 
   $.ajax({
-    url: "/veterinariaUNESC/server/especie/controlar",
+    url: "/veterinaria/server/especie/controlar",
     method: "POST",
     data: formData,
     complete: function(xhr, textStatus) {
@@ -62,7 +62,7 @@ function excluirCadastroEspecie() {
         var formData = $("#formCadastroEspecie").serialize();
 
         $.ajax({
-          url: "/veterinariaUNESC/server/especie/excluir",
+          url: "/veterinaria/server/especie/excluir",
           method: "POST",
           data: formData,
           complete: function(xhr, textStatus) {

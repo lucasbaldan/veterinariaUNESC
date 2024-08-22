@@ -21,7 +21,7 @@ date_default_timezone_set('America/Sao_Paulo');
 
 
 $app = AppFactory::create();
-$app->setBasePath('/veterinariaUNESC');
+$app->setBasePath('/veterinaria');
 $app->addRoutingMiddleware();
 $app->addErrorMiddleware($GLOBALS['desenvolvimento'], true, true);
 
@@ -42,7 +42,7 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
-        '/veterinariaUNESC/paginas/login',
+        '/veterinaria/paginas/login',
     ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
@@ -61,8 +61,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
-        '/veterinariaUNESC/server/usuarios/efetuarLogin',
-        '/veterinariaUNESC/server/usuarios/deslogar'
+        '/veterinaria/server/usuarios/efetuarLogin',
+        '/veterinaria/server/usuarios/deslogar'
     ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisição foi efetuada de maneira incorreta.']));
@@ -76,7 +76,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
 /////////////////////// ROTAS DE REQUISIÇÕES PARA PROCESSAMENTO DE TELAS COM SESSÃO
 
 $app->get('/', function ($request, $response, array $args) {
-    return $response->withHeader('Location', '/veterinariaUNESC/paginas/inicial')->withStatus(302);
+    return $response->withHeader('Location', '/veterinaria/paginas/inicial')->withStatus(302);
 });
 $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
 
@@ -183,27 +183,27 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
-        '/veterinariaUNESC/paginas',
-        '/veterinariaUNESC/paginas/fichaLPV',
-        '/veterinariaUNESC/paginas/inicial',
-        '/veterinariaUNESC/paginas/listEspecie',
-        '/veterinariaUNESC/paginas/listRaca',
-        '/veterinariaUNESC/paginas/listMunicipio',
-        '/veterinariaUNESC/paginas/listBairro',
-        '/veterinariaUNESC/paginas/listLogradouro',
-        '/veterinariaUNESC/paginas/cadastroPessoas',
-        '/veterinariaUNESC/paginas/cadastroUsuarios',
-        '/veterinariaUNESC/paginas/cadastroAnimais',
-        '/veterinariaUNESC/paginas/gruposUsuarios',
-        '/veterinariaUNESC/paginas/listAcessosGruposUsuarios',
-        '/veterinariaUNESC/paginas/cadastroAcessosGruposUsuarios',
-        '/veterinariaUNESC/paginas/cadastroGruposUsuarios',
-        '/veterinariaUNESC/paginas/listPessoas',
-        '/veterinariaUNESC/paginas/listAnimais',
-        '/veterinariaUNESC/paginas/listAtendimentos',
-        '/veterinariaUNESC/paginas/listUsuarios',
-        '/veterinariaUNESC/paginas/relatorioFichaLPV',
-        '/veterinariaUNESC/paginas/cadastroGruposUsuariosNovo',
+        '/veterinaria/paginas',
+        '/veterinaria/paginas/fichaLPV',
+        '/veterinaria/paginas/inicial',
+        '/veterinaria/paginas/listEspecie',
+        '/veterinaria/paginas/listRaca',
+        '/veterinaria/paginas/listMunicipio',
+        '/veterinaria/paginas/listBairro',
+        '/veterinaria/paginas/listLogradouro',
+        '/veterinaria/paginas/cadastroPessoas',
+        '/veterinaria/paginas/cadastroUsuarios',
+        '/veterinaria/paginas/cadastroAnimais',
+        '/veterinaria/paginas/gruposUsuarios',
+        '/veterinaria/paginas/listAcessosGruposUsuarios',
+        '/veterinaria/paginas/cadastroAcessosGruposUsuarios',
+        '/veterinaria/paginas/cadastroGruposUsuarios',
+        '/veterinaria/paginas/listPessoas',
+        '/veterinaria/paginas/listAnimais',
+        '/veterinaria/paginas/listAtendimentos',
+        '/veterinaria/paginas/listUsuarios',
+        '/veterinaria/paginas/relatorioFichaLPV',
+        '/veterinaria/paginas/cadastroGruposUsuariosNovo',
     ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
@@ -270,16 +270,16 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
-        '/veterinariaUNESC/modais/cadastroRaca',
-        '/veterinariaUNESC/modais/cadastroEspecie',
-        '/veterinariaUNESC/modais/cadastroMunicipio',
-        '/veterinariaUNESC/modais/cadastroLogradouro',
-        '/veterinariaUNESC/modais/cadastroBairro',
-        '/veterinariaUNESC/modais/buscaRapidaAnimal',
-        '/veterinariaUNESC/modais/buscaRapidaPessoa',
-        '/veterinariaUNESC/modais/cadastroGruposUsuarios',
-        '/veterinariaUNESC/modais/recarregarGaleria',
-        '/veterinariaUNESC/modais/resetarSenha',
+        '/veterinaria/modais/cadastroRaca',
+        '/veterinaria/modais/cadastroEspecie',
+        '/veterinaria/modais/cadastroMunicipio',
+        '/veterinaria/modais/cadastroLogradouro',
+        '/veterinaria/modais/cadastroBairro',
+        '/veterinaria/modais/buscaRapidaAnimal',
+        '/veterinaria/modais/buscaRapidaPessoa',
+        '/veterinaria/modais/cadastroGruposUsuarios',
+        '/veterinaria/modais/recarregarGaleria',
+        '/veterinaria/modais/resetarSenha',
     ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
@@ -397,78 +397,78 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
         
-        '/veterinariaUNESC/server/relatorios/fichaLPV',
+        '/veterinaria/server/relatorios/fichaLPV',
 
-        '/veterinariaUNESC/server/pessoas/controlar',
-        '/veterinariaUNESC/server/pessoas/retornaPesquisaModal',
-        '/veterinariaUNESC/server/pessoas/selecionarPessoa',
-        '/veterinariaUNESC/server/pessoas/atualizaExclusaoPessoa',
-        '/veterinariaUNESC/server/pessoas/excluiPessoa',
-        '/veterinariaUNESC/server/pessoas/grid',
-        '/veterinariaUNESC/server/pessoas/general',
+        '/veterinaria/server/pessoas/controlar',
+        '/veterinaria/server/pessoas/retornaPesquisaModal',
+        '/veterinaria/server/pessoas/selecionarPessoa',
+        '/veterinaria/server/pessoas/atualizaExclusaoPessoa',
+        '/veterinaria/server/pessoas/excluiPessoa',
+        '/veterinaria/server/pessoas/grid',
+        '/veterinaria/server/pessoas/general',
 
-        '/veterinariaUNESC/server/especie/grid',
-        '/veterinariaUNESC/server/especie/controlar',
-        '/veterinariaUNESC/server/especie/excluir',
-        '/veterinariaUNESC/server/especie/general',
+        '/veterinaria/server/especie/grid',
+        '/veterinaria/server/especie/controlar',
+        '/veterinaria/server/especie/excluir',
+        '/veterinaria/server/especie/general',
 
-        '/veterinariaUNESC/server/raca/grid',
-        '/veterinariaUNESC/server/raca/controlar',
-        '/veterinariaUNESC/server/raca/excluir',
-        '/veterinariaUNESC/server/raca/general',
+        '/veterinaria/server/raca/grid',
+        '/veterinaria/server/raca/controlar',
+        '/veterinaria/server/raca/excluir',
+        '/veterinaria/server/raca/general',
 
-        '/veterinariaUNESC/server/municipio/grid',
-        '/veterinariaUNESC/server/municipio/controlar',
-        '/veterinariaUNESC/server/municipio/excluir',
-        '/veterinariaUNESC/server/municipio/general',
+        '/veterinaria/server/municipio/grid',
+        '/veterinaria/server/municipio/controlar',
+        '/veterinaria/server/municipio/excluir',
+        '/veterinaria/server/municipio/general',
 
-        '/veterinariaUNESC/server/bairro/grid',
-        '/veterinariaUNESC/server/bairro/controlar',
-        '/veterinariaUNESC/server/bairro/excluir',
-        '/veterinariaUNESC/server/bairro/general',
+        '/veterinaria/server/bairro/grid',
+        '/veterinaria/server/bairro/controlar',
+        '/veterinaria/server/bairro/excluir',
+        '/veterinaria/server/bairro/general',
 
-        '/veterinariaUNESC/server/logradouro/grid',
-        '/veterinariaUNESC/server/logradouro/controlar',
-        '/veterinariaUNESC/server/logradouro/excluir',
-        '/veterinariaUNESC/server/logradouro/general',
+        '/veterinaria/server/logradouro/grid',
+        '/veterinaria/server/logradouro/controlar',
+        '/veterinaria/server/logradouro/excluir',
+        '/veterinaria/server/logradouro/general',
 
-        '/veterinariaUNESC/server/estado/general',
+        '/veterinaria/server/estado/general',
 
-        '/veterinariaUNESC/server/animais/grid',
-        '/veterinariaUNESC/server/animais/controlar',
-        '/veterinariaUNESC/server/animais/excluir',
-        '/veterinariaUNESC/server/animais/retornaPesquisaModal',
+        '/veterinaria/server/animais/grid',
+        '/veterinaria/server/animais/controlar',
+        '/veterinaria/server/animais/excluir',
+        '/veterinaria/server/animais/retornaPesquisaModal',
 
-        '/veterinariaUNESC/server/atendimentos/grid',
-        '/veterinariaUNESC/server/atendimentos/controlar',
-        '/veterinariaUNESC/server/atendimentos/excluir',
-        '/veterinariaUNESC/server/atendimentos/gerarCSV',
-        '/veterinariaUNESC/server/atendimentos/uploadGaleria',
-        '/veterinariaUNESC/server/atendimentos/excluirImagem',
+        '/veterinaria/server/atendimentos/grid',
+        '/veterinaria/server/atendimentos/controlar',
+        '/veterinaria/server/atendimentos/excluir',
+        '/veterinaria/server/atendimentos/gerarCSV',
+        '/veterinaria/server/atendimentos/uploadGaleria',
+        '/veterinaria/server/atendimentos/excluirImagem',
 
-        '/veterinariaUNESC/server/gruposUsuarios/salvaGrupoUsuarios',
-        '/veterinariaUNESC/server/gruposUsuarios/excluiGruposUsuarios',
-        '/veterinariaUNESC/server/gruposUsuarios/retornaGruposUsuarios',
-        '/veterinariaUNESC/server/gruposUsuarios/retornaDadosGrupoUsuarios',
-        '/veterinariaUNESC/server/gruposUsuarios/general',
-        '/veterinariaUNESC/server/gruposUsuarios/grid',
-        '/veterinariaUNESC/server/gruposUsuarios/salvaAcessos',
-        '/veterinariaUNESC/server/gruposUsuarios/verificaAcessos',
+        '/veterinaria/server/gruposUsuarios/salvaGrupoUsuarios',
+        '/veterinaria/server/gruposUsuarios/excluiGruposUsuarios',
+        '/veterinaria/server/gruposUsuarios/retornaGruposUsuarios',
+        '/veterinaria/server/gruposUsuarios/retornaDadosGrupoUsuarios',
+        '/veterinaria/server/gruposUsuarios/general',
+        '/veterinaria/server/gruposUsuarios/grid',
+        '/veterinaria/server/gruposUsuarios/salvaAcessos',
+        '/veterinaria/server/gruposUsuarios/verificaAcessos',
 
-        '/veterinariaUNESC/server/usuarios/salvaUsuario',
-        '/veterinariaUNESC/server/usuarios/excluiUsuario',
-        '/veterinariaUNESC/server/usuarios/retornaUsuarios',
-        '/veterinariaUNESC/server/usuarios/retornaDadosUsuario',
-        '/veterinariaUNESC/server/usuarios/grid',
-        '/veterinariaUNESC/server/usuarios/alterarSenha',
+        '/veterinaria/server/usuarios/salvaUsuario',
+        '/veterinaria/server/usuarios/excluiUsuario',
+        '/veterinaria/server/usuarios/retornaUsuarios',
+        '/veterinaria/server/usuarios/retornaDadosUsuario',
+        '/veterinaria/server/usuarios/grid',
+        '/veterinaria/server/usuarios/alterarSenha',
 
-        '/veterinariaUNESC/server/fichaLPV/salvafichaLPV',
-        '/veterinariaUNESC/server/fichaLPV/retornaFichasLPV',
-        '/veterinariaUNESC/server/fichaLPV/retornaDadosFichaLPV',
-        '/veterinariaUNESC/server/fichaLPV/apagaFichaLPV',
-        '/veterinariaUNESC/server/fichaLPV/relatorioFichaLPV',
+        '/veterinaria/server/fichaLPV/salvafichaLPV',
+        '/veterinaria/server/fichaLPV/retornaFichasLPV',
+        '/veterinaria/server/fichaLPV/retornaDadosFichaLPV',
+        '/veterinaria/server/fichaLPV/apagaFichaLPV',
+        '/veterinaria/server/fichaLPV/relatorioFichaLPV',
 
-        '/veterinariaUNESC/server/pdf/geraPdf',
+        '/veterinaria/server/pdf/geraPdf',
     ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisição foi efetuada de maneira incorreta.']));
@@ -507,7 +507,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
 
 // })->add(function (Request $request, RequestHandlerInterface $handler) {
 //     $uri = $request->getUri()->getPath();
-//     if (!in_array($uri, ['/veterinariaUNESC/gruposUsuarios/salvaGrupoUsuarios', '/veterinariaUNESC/gruposUsuarios/excluiGruposUsuarios', '/veterinariaUNESC/gruposUsuarios/retornaGruposUsuarios', '/veterinariaUNESC/gruposUsuarios/retornaDadosGrupoUsuarios'])) {
+//     if (!in_array($uri, ['/veterinaria/gruposUsuarios/salvaGrupoUsuarios', '/veterinaria/gruposUsuarios/excluiGruposUsuarios', '/veterinaria/gruposUsuarios/retornaGruposUsuarios', '/veterinaria/gruposUsuarios/retornaDadosGrupoUsuarios'])) {
 //         $response = new \Slim\Psr7\Response();
 //         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisição foi efetuada de maneira incorreta.']));
 //         return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
@@ -530,7 +530,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
 
 // })->add(function (Request $request, RequestHandlerInterface $handler) {
 //     $uri = $request->getUri()->getPath();
-//     if (!in_array($uri, ['/veterinariaUNESC/usuarios/salvaUsuario', '/veterinariaUNESC/usuarios/excluiUsuario', '/veterinariaUNESC/usuarios/retornaUsuarios', '/veterinariaUNESC/usuarios/retornaDadosUsuario', '/veterinariaUNESC/usuarios/ativaDesativaUsuario'])) {
+//     if (!in_array($uri, ['/veterinaria/usuarios/salvaUsuario', '/veterinaria/usuarios/excluiUsuario', '/veterinaria/usuarios/retornaUsuarios', '/veterinaria/usuarios/retornaDadosUsuario', '/veterinaria/usuarios/ativaDesativaUsuario'])) {
 //         $response = new \Slim\Psr7\Response();
 //         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisição foi efetuada de maneira incorreta.']));
 //         return $response->withStatus(400)->withHeader('Content-Type', 'application/json');

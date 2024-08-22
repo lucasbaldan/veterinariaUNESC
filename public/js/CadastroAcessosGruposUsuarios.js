@@ -10,14 +10,14 @@ function salvarCadastroAcessosGruposUsuarios() {
    Loading.on();
   var formData = $("#formCadastroAcessosGruposUsuarios").serialize();
   $.ajax({
-    url: "/veterinariaUNESC/server/gruposUsuarios/salvaAcessos",
+    url: "/veterinaria/server/gruposUsuarios/salvaAcessos",
     method: "POST",
     data: formData,
     success: function (response) {
       if (response.RESULT) {
         // sessionStorage.setItem('notificarSucesso', 'true');
         notificacao.push('Permissões salvas com Sucesso!', 'success');
-        // window.location.href = '/veterinariaUNESC/paginas/listPessoas';
+        // window.location.href = '/veterinaria/paginas/listPessoas';
       }
       Loading.off();
     },

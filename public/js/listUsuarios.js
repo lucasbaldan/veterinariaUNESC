@@ -5,10 +5,10 @@ $(document).ready(function () {
     orderCellsTop: true,
     fixedHeader: true,
     language: {
-      url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
+      url: "/veterinaria/public/languages/datatablePt-BR.json",
     },
     ajax: {
-      url: "/veterinariaUNESC/server/usuarios/grid",
+      url: "/veterinaria/server/usuarios/grid",
       type: "POST",
       data: function (d) {
         d.columns[0].search.value = $('#pesquisaCodigoUsuario').val();
@@ -66,7 +66,7 @@ $(document).ready(function () {
 
 function openCadastro(id = '') {
   Loading.on();
-  var form = $('<form action="/veterinariaUNESC/paginas/cadastroUsuarios" method="POST"><input type="hidden" name="id" value="' + id + '"></form>');
+  var form = $('<form action="/veterinaria/paginas/cadastroUsuarios" method="POST"><input type="hidden" name="id" value="' + id + '"></form>');
   $('body').append(form);
   form.submit();
 }

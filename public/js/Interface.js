@@ -8,20 +8,20 @@ window.onload = function() {
 
 $('#sairSistema').on('click', function(){
     $.ajax({
-        url: '/veterinariaUNESC/server/usuarios/deslogar',
+        url: '/veterinaria/server/usuarios/deslogar',
         type: 'POST',
         dataType: 'json',
         beforeSend: function(){
         Loading.on();
         },
         success: function(response) {
-            window.location.href = '/veterinariaUNESC/paginas/login';
+            window.location.href = '/veterinaria/paginas/login';
         },
         error: function(xhr, status, error) {
-            window.location.href = '/veterinariaUNESC/paginas/login';
+            window.location.href = '/veterinaria/paginas/login';
         },
         complete: function(){
-            window.location.href = '/veterinariaUNESC/paginas/login';
+            window.location.href = '/veterinaria/paginas/login';
         }
     });
 });

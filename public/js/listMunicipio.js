@@ -5,10 +5,10 @@ $(document).ready(function () {
     orderCellsTop: true,
     fixedHeader: true, 
     language: {
-      url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
+      url: "/veterinaria/public/languages/datatablePt-BR.json",
     },
     ajax: {
-      url: "/veterinariaUNESC/server/municipio/grid",
+      url: "/veterinaria/server/municipio/grid",
       type: "POST",
       data: function (d) {
         d.columns[0].search.value = $('#pesquisaCodigoMunic').val();
@@ -67,12 +67,12 @@ function openCadastro($id = null) {
     Loading.on();
 
     var ajaxModal = $.ajax({
-      url: "/veterinariaUNESC/modais/cadastroMunicipio",
+      url: "/veterinaria/modais/cadastroMunicipio",
       method: "POST",
       data: { id: $id },
     });
 
-    var script = $.getScript("/veterinariaUNESC/public/js/CadastroMunicipioModal.js?v=" + window.scriptVersao);
+    var script = $.getScript("/veterinaria/public/js/CadastroMunicipioModal.js?v=" + window.scriptVersao);
 
     $.when(ajaxModal, script).done(function (respostaAjaxModal) {
         bootbox.dialog({

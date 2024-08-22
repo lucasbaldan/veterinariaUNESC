@@ -9,7 +9,7 @@ function salvarCadastroGrupoUsuarios() {
   // console.log("FORM: ", formData);
 
   $.ajax({
-    url: "/veterinariaUNESC/server/gruposUsuarios/salvaGrupoUsuarios",
+    url: "/veterinaria/server/gruposUsuarios/salvaGrupoUsuarios",
     method: "POST",
     data: formData,
     success: function (response) {
@@ -58,7 +58,7 @@ function excluirCadastroGrupoUsuarios() {
         Loading.on();
         var formData = $("#formCadastroGruposUsuarios").serialize();
         $.ajax({
-          url: "/veterinariaUNESC/server/gruposUsuarios/excluiGruposUsuarios",
+          url: "/veterinaria/server/gruposUsuarios/excluiGruposUsuarios",
           method: "POST",
           data: formData,
           success: function (response) {

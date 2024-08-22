@@ -5,10 +5,10 @@ $(document).ready(function () {
     orderCellsTop: true,
     fixedHeader: true, 
     language: {
-      url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
+      url: "/veterinaria/public/languages/datatablePt-BR.json",
     },
     ajax: {
-      url: "/veterinariaUNESC/server/logradouro/grid",
+      url: "/veterinaria/server/logradouro/grid",
       type: "POST",
       data: function (d) {
         d.columns[0].search.value = $('#pesquisaCodigoLogradouro').val();
@@ -65,12 +65,12 @@ function openCadastro($id = null) {
     Loading.on();
 
     var ajaxModal = $.ajax({
-      url: "/veterinariaUNESC/modais/cadastroLogradouro",
+      url: "/veterinaria/modais/cadastroLogradouro",
       method: "POST",
       data: { id: $id },
     });
 
-    var script = $.getScript("/veterinariaUNESC/public/js/CadastroLogradouroModal.js?v=" + window.scriptVersao);
+    var script = $.getScript("/veterinaria/public/js/CadastroLogradouroModal.js?v=" + window.scriptVersao);
 
     $.when(ajaxModal, script).done(function (respostaAjaxModal) {
         bootbox.dialog({

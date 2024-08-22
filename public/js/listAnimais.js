@@ -11,10 +11,10 @@ $(document).ready(function () {
     orderCellsTop: true,
     fixedHeader: true, 
     language: {
-      url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
+      url: "/veterinaria/public/languages/datatablePt-BR.json",
     },
     ajax: {
-      url: "/veterinariaUNESC/server/animais/grid",
+      url: "/veterinaria/server/animais/grid",
       type: "POST",
       data: function (d) {
         d.columns[0].search.value = $('#pesquisaCodigoAnimal').val();
@@ -76,7 +76,7 @@ $(document).ready(function () {
 
 function openCadastro(id = '') {
   Loading.on();
-  var form = $('<form action="/veterinariaUNESC/paginas/cadastroAnimais" method="post"><input type="hidden" name="id" value="' + id + '"></form>');
+  var form = $('<form action="/veterinaria/paginas/cadastroAnimais" method="post"><input type="hidden" name="id" value="' + id + '"></form>');
   $('body').append(form);
   form.submit();
 }

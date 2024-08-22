@@ -14,7 +14,7 @@ class SessionMiddleware
         // Verifique a sessão usando a classe UserSessao
         if (!\App\Helpers\Sessao::verificaSessao()) {
             $response = new SlimResponse();
-            return $response->withHeader('Location', '/veterinariaUNESC/paginas/login')->withStatus(302);
+            return $response->withHeader('Location', '/veterinaria/paginas/login')->withStatus(302);
         }
 
         return $handler->handle($request);

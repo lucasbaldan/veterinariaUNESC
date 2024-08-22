@@ -5,10 +5,10 @@ $(document).ready(function () {
     orderCellsTop: true,
     fixedHeader: true, 
     language: {
-      url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
+      url: "/veterinaria/public/languages/datatablePt-BR.json",
     },
     ajax: {
-      url: "/veterinariaUNESC/server/gruposUsuarios/grid",
+      url: "/veterinaria/server/gruposUsuarios/grid",
       type: "POST",
       data: function (d) {
         d.columns[0].search.value = $('#pesquisaCodigoGrupoUsuarios').val();
@@ -68,12 +68,12 @@ function openCadastro($id = null) {
     Loading.on();
 
     var ajaxModal = $.ajax({
-      url: "/veterinariaUNESC/modais/cadastroGruposUsuarios",
+      url: "/veterinaria/modais/cadastroGruposUsuarios",
       method: "POST",
       data: { id: $id },
     });
 
-    var script = $.getScript("/veterinariaUNESC/public/js/CadastroGrupoUsuariosModal.js?v=" + window.scriptVersao);
+    var script = $.getScript("/veterinaria/public/js/CadastroGrupoUsuariosModal.js?v=" + window.scriptVersao);
 
     $.when(ajaxModal, script).done(function (respostaAjaxModal) {
         bootbox.dialog({

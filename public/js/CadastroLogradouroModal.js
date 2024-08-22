@@ -3,7 +3,7 @@ function salvarCadastroLogradouro() {
   var formData = $("#formCadastroLogradouro").serialize();
 
   $.ajax({
-    url: "/veterinariaUNESC/server/logradouro/controlar",
+    url: "/veterinaria/server/logradouro/controlar",
     method: "POST",
     data: formData,
     complete: function(xhr, textStatus) {
@@ -53,7 +53,7 @@ function excluirCadastroLogradouro() {
         $("#bootbox-delete").modal("hide");
         var formData = $("#formCadastroLogradouro").serialize();
         $.ajax({
-          url: "/veterinariaUNESC/server/logradouro/excluir",
+          url: "/veterinaria/server/logradouro/excluir",
           method: "POST",
           data: formData,
           complete: function(xhr, textStatus) {

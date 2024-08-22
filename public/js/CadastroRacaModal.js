@@ -1,6 +1,6 @@
 function selectTipoAnimal(){
   new Select2('#select2cdEspecie', {
-    url: '/veterinariaUNESC/server/especie/general',
+    url: '/veterinaria/server/especie/general',
     dropdownParent: '.cad-raca'
   })
 }
@@ -10,7 +10,7 @@ function salvarCadastroRaca() {
   var formData = $("#formCadastroRaca").serialize();
 
   $.ajax({
-    url: "/veterinariaUNESC/server/raca/controlar",
+    url: "/veterinaria/server/raca/controlar",
     method: "POST",
     data: formData,
     complete: function(xhr, textStatus) {
@@ -60,7 +60,7 @@ function excluirCadastroRaca() {
         $("#bootbox-delete").modal("hide");
         var formData = $("#formCadastroRaca").serialize();
         $.ajax({
-          url: "/veterinariaUNESC/server/raca/excluir",
+          url: "/veterinaria/server/raca/excluir",
           method: "POST",
           data: formData,
           complete: function(xhr, textStatus) {

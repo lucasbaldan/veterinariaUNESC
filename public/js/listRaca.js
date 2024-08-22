@@ -5,10 +5,10 @@ $(document).ready(function () {
     orderCellsTop: true,
     fixedHeader: true, 
     language: {
-      url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
+      url: "/veterinaria/public/languages/datatablePt-BR.json",
     },
     ajax: {
-      url: "/veterinariaUNESC/server/raca/grid",
+      url: "/veterinaria/server/raca/grid",
       type: "POST",
       data: function (d) {
         d.columns[0].search.value = $('#pesquisaCodigoRaca').val();
@@ -69,12 +69,12 @@ function openCadastro($id = null) {
     Loading.on();
 
     var ajaxModal = $.ajax({
-      url: "/veterinariaUNESC/modais/cadastroRaca",
+      url: "/veterinaria/modais/cadastroRaca",
       method: "POST",
       data: { id: $id },
     });
 
-    var script = $.getScript("/veterinariaUNESC/public/js/CadastroRacaModal.js?v=" + window.scriptVersao);
+    var script = $.getScript("/veterinaria/public/js/CadastroRacaModal.js?v=" + window.scriptVersao);
 
     $.when(ajaxModal, script).done(function (respostaAjaxModal) {
         bootbox.dialog({

@@ -3,28 +3,28 @@
     <!-- Sidebar-->
     <div class="border-end bg-light" id="sidebar-wrapper">
         <div class="sidebar-heading border-bottom bg-light text-center">
-            <img src="/veterinariaUNESC/public/img/logoLabPato.png" alt="" style="max-width: 90px;">
+            <img src="/veterinaria/public/img/logoLabPato.png" alt="" style="max-width: 90px;">
         </div>
         <div class="list-group list-group-flush">
             <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen"
-                href="/veterinariaUNESC/paginas/inicial">
+                href="/veterinaria/paginas/inicial">
                 <i class="bi bi-house-door-fill"></i> <b>Início</b>
             </a>
             {% if itemAnimal %}
             <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen"
-                href="/veterinariaUNESC/paginas/listAnimais">
+                href="/veterinaria/paginas/listAnimais">
                 <i class="bi bi-gitlab"></i> <b>Animal</b>
             </a>
             {% endif %}
             {% if itemPessoa %}
             <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen"
-                href="/veterinariaUNESC/paginas/listPessoas">
+                href="/veterinaria/paginas/listPessoas">
                 <i class="bi bi-file-earmark-person-fill"></i> <b>Pessoa</b>
             </a>
             {% endif %}
             {% if itemAtendimento %}
             <a class="list-group-item list-group-item-action list-group-item-light p-3 call-screen"
-                href="/veterinariaUNESC/paginas/listAtendimentos">
+                href="/veterinaria/paginas/listAtendimentos">
                 <i class="bi bi-heart-pulse-fill"></i><b> Atendimentos (LPV)</b>
             </a>
             {% endif %}
@@ -46,11 +46,11 @@
                 <div class="collapse" id="collapseAnimal">
                     {% if itemEspecie %}
                     <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
-                        href="/veterinariaUNESC/paginas/listEspecie"> <i class="bi bi-diagram-2"></i> Espécie </a>
+                        href="/veterinaria/paginas/listEspecie"> <i class="bi bi-diagram-2"></i> Espécie </a>
                     {% endif %}
                     {% if itemRaca %}
                     <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
-                        href="/veterinariaUNESC/paginas/listRaca"><i class="bi bi-diagram-3"></i> Raça </a>
+                        href="/veterinaria/paginas/listRaca"><i class="bi bi-diagram-3"></i> Raça </a>
                     {% endif %}
 
                 </div>
@@ -64,15 +64,15 @@
                 <div class="collapse" id="collapseEndereco">
                     {% if itemCidade %}
                     <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
-                        href="/veterinariaUNESC/paginas/listMunicipio"> <i class="bi bi-building"></i> Município </a>
+                        href="/veterinaria/paginas/listMunicipio"> <i class="bi bi-building"></i> Município </a>
                     {% endif %}
                     {% if itemBairro %}
                     <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
-                        href="/veterinariaUNESC/paginas/listBairro"><i class="bi bi-pin-map"></i> Bairro </a>
+                        href="/veterinaria/paginas/listBairro"><i class="bi bi-pin-map"></i> Bairro </a>
                     {% endif %}
                     {% if itemLogradouro %}
                     <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
-                        href="/veterinariaUNESC/paginas/listLogradouro"><i class="bi bi-houses"></i> Logradouro </a>
+                        href="/veterinaria/paginas/listLogradouro"><i class="bi bi-houses"></i> Logradouro </a>
                     {% endif %}
 
                 </div>
@@ -89,12 +89,12 @@
             <div class="collapse" id="collapseGrupoUsuarios">
                 {% if itemAcessoGrupo %}
                 <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
-                    href="/veterinariaUNESC/paginas/listAcessosGruposUsuarios"><i class="bi bi-key"></i> Grupos
+                    href="/veterinaria/paginas/listAcessosGruposUsuarios"><i class="bi bi-key"></i> Grupos
                     Usuarios</a>
                 <!-- <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
-                    href="/veterinariaUNESC/paginas/cadastroGruposUsuariosNovo"><i class="bi bi-key"></i> Acessos Grupos
+                    href="/veterinaria/paginas/cadastroGruposUsuariosNovo"><i class="bi bi-key"></i> Acessos Grupos
                     Usuarios Novo</a> -->
-                <!-- <form id="telaCadastroGruposUsuariosNovo" action="/veterinariaUNESC/paginas/cadastroGruposUsuariosNovo" method="POST"
+                <!-- <form id="telaCadastroGruposUsuariosNovo" action="/veterinaria/paginas/cadastroGruposUsuariosNovo" method="POST"
                     style="display: inline;">
                     <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#"
                         onclick="document.getElementById('telaCadastroGruposUsuariosNovo').submit(); return false;">
@@ -105,11 +105,11 @@
                 {% endif %}
                 {% if itemGrupoUsuario %}
                 <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
-                    href="/veterinariaUNESC/paginas/listUsuarios"><i class="bi bi-person"></i></i> Usuários </a>
+                    href="/veterinaria/paginas/listUsuarios"><i class="bi bi-person"></i></i> Usuários </a>
                 {% endif %}
                 <!-- {% if itemUsuario %}
                 <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
-                    href="/veterinariaUNESC/paginas/gruposUsuarios"><i class="bi bi-people"></i></i> Grupo de
+                    href="/veterinaria/paginas/gruposUsuarios"><i class="bi bi-people"></i></i> Grupo de
                     Usuários </a>
                 {% endif %} -->
             </div>
@@ -122,7 +122,7 @@
             </a>
             <div class="collapse" id="collapseRelatorios">
                 {% if itemRelFichaLPV %}
-                <form id="fichaLPVForm" action="/veterinariaUNESC/paginas/relatorioFichaLPV" method="POST"
+                <form id="fichaLPVForm" action="/veterinaria/paginas/relatorioFichaLPV" method="POST"
                     style="display: inline;">
                     <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#"
                         onclick="document.getElementById('fichaLPVForm').submit(); return false;">
@@ -130,7 +130,7 @@
                     </a>
                 </form>
                 {% endif %}
-                <!-- <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinariaUNESC/paginas/relatorioFichaLPV"><i class="bi bi-clipboard-data-fill"></i> Fichas LPV</a> -->
+                <!-- <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="/veterinaria/paginas/relatorioFichaLPV"><i class="bi bi-clipboard-data-fill"></i> Fichas LPV</a> -->
                 <!-- <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#!">Submenu 2</a> -->
             </div>
             {% endif %}

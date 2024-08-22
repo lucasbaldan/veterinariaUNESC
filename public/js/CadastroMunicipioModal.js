@@ -1,6 +1,6 @@
 function selectEstado(){
   new Select2('#select2cdEstado', {
-    url: '/veterinariaUNESC/server/estado/general',
+    url: '/veterinaria/server/estado/general',
     dropdownParent: '.cad-municipio'
   })
 }
@@ -10,7 +10,7 @@ function salvarCadastroMunicipio() {
   var formData = $("#formCadastroMunicipio").serialize();
 
   $.ajax({
-    url: "/veterinariaUNESC/server/municipio/controlar",
+    url: "/veterinaria/server/municipio/controlar",
     method: "POST",
     data: formData,
     complete: function(xhr, textStatus) {
@@ -60,7 +60,7 @@ function excluirCadastroMunicipio() {
         $("#bootbox-delete").modal("hide");
         var formData = $("#formCadastroMunicipio").serialize();
         $.ajax({
-          url: "/veterinariaUNESC/server/municipio/excluir",
+          url: "/veterinaria/server/municipio/excluir",
           method: "POST",
           data: formData,
           complete: function(xhr, textStatus) {

@@ -3,7 +3,7 @@ $('#alterarSenha').on('click', function () {
         Loading.on();
 
         var ajaxModal = $.ajax({
-            url: "/veterinariaUNESC/modais/resetarSenha",
+            url: "/veterinaria/modais/resetarSenha",
             method: "POST",
         });
 

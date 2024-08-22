@@ -3,7 +3,7 @@ function salvarCadastroBairro() {
   var formData = $("#formCadastroBairro").serialize();
 
   $.ajax({
-    url: "/veterinariaUNESC/server/bairro/controlar",
+    url: "/veterinaria/server/bairro/controlar",
     method: "POST",
     data: formData,
     complete: function(xhr, textStatus) {
@@ -54,7 +54,7 @@ function excluirCadastroBairro() {
         $("#bootbox-delete").modal("hide");
         var formData = $("#formCadastroBairro").serialize();
         $.ajax({
-          url: "/veterinariaUNESC/server/bairro/excluir",
+          url: "/veterinaria/server/bairro/excluir",
           method: "POST",
           data: formData,
           complete: function(xhr, textStatus) {

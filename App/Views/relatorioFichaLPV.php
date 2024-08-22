@@ -66,7 +66,7 @@ class RelatorioFichaLPV
                                 <td>" . $dataFormatada . "</td>
                                 <td>" . $ficha['NM_CIDADE'] . "</td>
                                 <td>
-                                <form id='pdfForm' action='/veterinariaUNESC/server/relatorios/fichaLPV' method='post'>
+                                <form id='pdfForm' action='/veterinaria/server/relatorios/fichaLPV' method='post'>
                                     <input type='hidden' name='cdFichaLPV' id='cdFichaLPV' value=" . $ficha['CD_FICHA_LPV'] . ">
                                     <button class='btn btn-dark rounded-pill' id='printFichaLPV' type='submit'>
                                     <i class='bi bi-printer-fill'></i>

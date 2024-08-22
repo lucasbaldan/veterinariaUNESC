@@ -4,13 +4,13 @@ function constructModalBuscaPessoa() {
   $("#telefoneCelularModal").inputmask("(99) 99999-9999", { autoUnmask: true });
 
   new Select2('#cdCidadeModal', {
-    url: '/veterinariaUNESC/server/municipio/general',
+    url: '/veterinaria/server/municipio/general',
     dropdownParent: '.search-pessoa'
   })
 
   table = $("#gridDataTable").DataTable({
     language: {
-      url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
+      url: "/veterinaria/public/languages/datatablePt-BR.json",
     },
     pageLength: 10,
     lengthChange: false
@@ -22,7 +22,7 @@ function BuscarRapidoPessoa() {
   var formData = $("#formBuscaRapidaPessoa").serialize();
 
   $.ajax({
-    url: "/veterinariaUNESC/server/pessoas/retornaPesquisaModal",
+    url: "/veterinaria/server/pessoas/retornaPesquisaModal",
     method: "POST",
     data: formData,
     complete: function(xhr, textStatus) {

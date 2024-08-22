@@ -1,15 +1,15 @@
 $(document).ready(function () {
 
   new Select2('#cdCidade', {
-    url: '/veterinariaUNESC/server/municipio/general',
+    url: '/veterinaria/server/municipio/general',
   })
 
   new Select2('#cdVetRemetente', {
-    url: '/veterinariaUNESC/server/pessoas/general',
+    url: '/veterinaria/server/pessoas/general',
   })
 
   new Select2('#cdAnimal', {
-    url: '/veterinariaUNESC/server/tipoAnimal/general',
+    url: '/veterinaria/server/tipoAnimal/general',
   })
 
 });
@@ -23,7 +23,7 @@ function filtrarFichasLPV() {
   console.log(formData);
 
   $.ajax({
-    url: "/veterinariaUNESC/paginas/relatorioFichaLPV",
+    url: "/veterinaria/paginas/relatorioFichaLPV",
     method: "post",
     data: formData,
     complete: function(xhr, textStatus) {
@@ -37,7 +37,7 @@ function filtrarFichasLPV() {
     success: function (response) {
       // if (response.RESULT) {
         // sessionStorage.setItem('notificarSucesso', 'true');
-        // window.location.href = '/veterinariaUNESC/paginas/relatorioFichaLPV';
+        // window.location.href = '/veterinaria/paginas/relatorioFichaLPV';
       // }
     },
     error: function (xhr, status, error) {
@@ -62,7 +62,7 @@ function gerarPDF() {
   // return;
 
   $.ajax({
-    url: "/veterinariaUNESC/server/pdf/geraPdf",
+    url: "/veterinaria/server/pdf/geraPdf",
     method: "POST",
     data: {
       html: html,

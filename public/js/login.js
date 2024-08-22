@@ -25,7 +25,7 @@
             }
 
             $.ajax({
-            url: '/veterinariaUNESC/server/usuarios/efetuarLogin',
+            url: '/veterinaria/server/usuarios/efetuarLogin',
             type: 'POST',
             dataType: 'json',
             data: dadosForm,
@@ -33,7 +33,7 @@
             Loading.on();
             },
             success: function(response) {
-                window.location.href = '/veterinariaUNESC/paginas/inicial';
+                window.location.href = '/veterinaria/paginas/inicial';
             },
             error: function(xhr, status, error) {
                 Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);

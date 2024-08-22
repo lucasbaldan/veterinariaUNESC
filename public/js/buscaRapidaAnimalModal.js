@@ -3,18 +3,18 @@ var tableBuscaRapida;
 function constructModalBuscaAnimal() {
 
   new Select2('#especieModal', {
-    url: '/veterinariaUNESC/server/especie/general',
+    url: '/veterinaria/server/especie/general',
     dropdownParent: '.search-animal'
   })
 
   new Select2('#racaModal', {
-    url: '/veterinariaUNESC/server/raca/general',
+    url: '/veterinaria/server/raca/general',
     dropdownParent: '.search-animal'
   })
 
   tableBuscaRapida = $("#gridDataTableBuscaRapidaAnimal").DataTable({
     language: {
-      url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
+      url: "/veterinaria/public/languages/datatablePt-BR.json",
     },
     pageLength: 10,
     lengthChange: false,
@@ -29,7 +29,7 @@ function BuscarRapidaAnimal() {
   var formData = $("#formBuscaRapidaAnimal").serialize();
 
   $.ajax({
-    url: "/veterinariaUNESC/server/animais/retornaPesquisaModal",
+    url: "/veterinaria/server/animais/retornaPesquisaModal",
     method: "POST",
     data: formData,
     complete: function(xhr, textStatus) {

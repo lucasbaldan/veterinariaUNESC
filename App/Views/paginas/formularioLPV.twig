@@ -1,7 +1,7 @@
 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;); background-color: #F8F9FA ;"
     aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/veterinariaUNESC/paginas/inicial"><i
+        <li class="breadcrumb-item"><a href="/veterinaria/paginas/inicial"><i
                     class="bi bi-house-door-fill"></i></a></li>
         <li class="breadcrumb-item" aria-current="page">Atendimento (LPV)</li>
         <li class="breadcrumb-item" aria-current="page">Cadastro</li>
@@ -12,7 +12,7 @@
     <div class="card rounded" style="min-width: 100%;">
         <div class="card-body border border-1S rounded-2">
 
-            <form id="pdfForm" action="/veterinariaUNESC/server/relatorios/fichaLPV" method="post">
+            <form id="pdfForm" action="/veterinaria/server/relatorios/fichaLPV" method="post">
                 <input type="hidden" name="cdFichaLPV" id="cdFichaLPV" value="{{cdFichaLPV}}">
             </form>
 
@@ -396,9 +396,9 @@
                                 {% for imagem in urlGaleria %}
                                 <div class="col-md-4 mb-3">
                                     <div class="gallery-item border rounded position-relative">
-                                        <a href="/veterinariaUNESC/server/midia/atendimento/{{ imagem }}"
+                                        <a href="/veterinaria/server/midia/atendimento/{{ imagem }}"
                                             data-fancybox="gallery-a" data-caption="Anexo/imagem - {{ animal }}">
-                                            <img src="/veterinariaUNESC/server/midia/atendimento/{{ imagem }}"
+                                            <img src="/veterinaria/server/midia/atendimento/{{ imagem }}"
                                                 class="img-fluid" alt="Imagem">
                                         </a>
                                         <button class="btn btn-danger btn-sm btn-excluir-galeria w-100"
@@ -424,7 +424,7 @@
             <div class="row">
                 <div class="col">
                     <a class="btn btn-warning w-100 call-screen" type="button"
-                        href="/veterinariaUNESC/paginas/listAtendimentos"><i class="bi bi-sign-turn-left-fill"></i>
+                        href="/veterinaria/paginas/listAtendimentos"><i class="bi bi-sign-turn-left-fill"></i>
                         <b>Voltar</b></a>
                 </div>
                 {% if exibeExcluir %}

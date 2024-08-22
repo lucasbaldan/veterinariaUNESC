@@ -6,7 +6,7 @@
     {% include 'importadoresLink.twig' %}
     {% set cssArray = cssLinks | split(';') %}
   {% for link in cssArray %}
-    <link href="/veterinariaUNESC/public/css/{{ link }}" rel="stylesheet">
+    <link href="/veterinaria/public/css/{{ link }}" rel="stylesheet">
   {% endfor %}
 </head>
 
@@ -26,6 +26,6 @@
 {% include 'importadoresScript.twig' with {'versao': versao} %}
 {% set jsArray = jsLinks | split(';') %}
   {% for link in jsArray %}
- <script src="/veterinariaUNESC/public/js/{{ link }}?v={{versao}}"></script>    
+ <script src="/veterinaria/public/js/{{ link }}?v={{versao}}"></script>    
   {% endfor %}
 </html>

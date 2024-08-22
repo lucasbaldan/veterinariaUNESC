@@ -12,10 +12,10 @@ $(document).ready(function () {
     fixedHeader: true,
     autoWidth: true,
     language: {
-      url: "/veterinariaUNESC/public/languages/datatablePt-BR.json",
+      url: "/veterinaria/public/languages/datatablePt-BR.json",
     },
     ajax: {
-      url: "/veterinariaUNESC/server/atendimentos/grid",
+      url: "/veterinaria/server/atendimentos/grid",
       type: "POST",
       data: function (d) {
         d.columns[0].search.value = $("#pesquisaCodigoAtendimento").val();
@@ -110,12 +110,12 @@ function openCadastro() {
     Loading.on();
 
     var ajaxModal = $.ajax({
-      url: "/veterinariaUNESC/modais/buscaRapidaAnimal",
+      url: "/veterinaria/modais/buscaRapidaAnimal",
       method: "POST",
     });
 
     var script = $.getScript(
-      "/veterinariaUNESC/public/js/buscaRapidaAnimalModal.js?v=" + window.scriptVersao
+      "/veterinaria/public/js/buscaRapidaAnimalModal.js?v=" + window.scriptVersao
     );
 
     $.when(ajaxModal, script)
@@ -143,7 +143,7 @@ function iniciarAtendimento(id) {
     Notificacao.NotificacaoErro('Houve um erro ao processar o pedido <br><br> Tente novamente mais tarde!');
     return
   }
-  var form = $('<form action="/veterinariaUNESC/paginas/fichaLPV" method="post"><input type="hidden" name="idAnimal" value="' + id + '"></form>');
+  var form = $('<form action="/veterinaria/paginas/fichaLPV" method="post"><input type="hidden" name="idAnimal" value="' + id + '"></form>');
   $('body').append(form);
   form.submit();
 }
@@ -154,7 +154,7 @@ function editarAtendimento(id) {
     Notificacao.NotificacaoErro('Houve um erro ao processar o pedido <br><br> Tente novamente mais tarde!');
     return
   }
-  var form = $('<form action="/veterinariaUNESC/paginas/fichaLPV" method="post"><input type="hidden" name="idFicha" value="' + id + '"></form>');
+  var form = $('<form action="/veterinaria/paginas/fichaLPV" method="post"><input type="hidden" name="idFicha" value="' + id + '"></form>');
   $('body').append(form);
   form.submit();
 }
@@ -184,7 +184,7 @@ function gerarCSVAtendimentos() {
   };
 
   $.ajax({
-    url: "/veterinariaUNESC/server/atendimentos/gerarCSV",
+    url: "/veterinaria/server/atendimentos/gerarCSV",
     method: "POST",
     data: formData,
     xhrFields: {
