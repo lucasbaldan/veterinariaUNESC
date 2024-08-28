@@ -388,6 +388,11 @@ class Pessoas
         $this->NmPessoa = $nome;
     }
 
+    public function setAtivo($ativo)
+    {
+        $this->ativo = $ativo;
+    }
+
     public function setTelefone($telefone)
     {
         $this->NrTelefone = $telefone;

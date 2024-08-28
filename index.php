@@ -12,7 +12,7 @@ use App\Middleware\SessionMiddleware;
 
 require __DIR__ . '/vendor/autoload.php';
 
-$config = json_decode(file_get_contents(__DIR__ . '/Configurations.json'), true);
+$config = json_decode(file_get_contents(__DIR__ . '/App/Configurations.json'), true);
 
 foreach ($config as $key => $value) {
     $GLOBALS[$key] = $value;

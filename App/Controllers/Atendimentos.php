@@ -131,7 +131,7 @@ class Atendimentos
             //$diretorioImagens = $this->get('upload_directory');
 
             //INPUTUS DADOS FICHA
-            $inserirFicha = !empty($dadosForm['inserirFicha']) ? ($dadosForm['inserirFicha'] === 'S' || $dadosForm['inserirFicha'] === 'N' ? ($dadosForm['inserirFicha'] === 'S' ? true : false): throw new Exception("Erro crítico na requisição")) : '';
+            $inserirFicha = !empty($dadosForm['inserirFicha']) ? ($dadosForm['inserirFicha'] === 'S' || $dadosForm['inserirFicha'] === 'N' ? ($dadosForm['inserirFicha'] === 'S' ? true : false) : throw new Exception("Erro crítico na requisição")) : '';
             $codigo = !empty($dadosForm['cdFichaLPV']) ? $dadosForm['cdFichaLPV'] : '';
             $data = !empty($dadosForm['dtFicha']) ? $dadosForm['dtFicha'] : '';
             $materialRecebido = !empty($dadosForm['dsMaterialRecebido']) ? $dadosForm['dsMaterialRecebido'] : '';
@@ -174,7 +174,7 @@ class Atendimentos
             $cdCidadeVeterinario = isset($dadosForm['select2cdCidadeVeterinario']) ? $dadosForm['select2cdCidadeVeterinario'] : '';
 
             if (empty($codigoAnimal)) throw new Exception("Houve um erro ao tentar processar a requisição <br><br> tente novamente mais tarde!");
-            if (empty($codigoVeterinario)) throw new Exception("Selecione pelo menos um veterinário ao Atendimento para concluir o cadastro");
+            if (empty($codigoVeterinario) && empty($nomeVeterinario)) throw new Exception("Selecione pelo menos um veterinário ao Atendimento para concluir o cadastro");
 
             $Conn = \App\Conn\Conn::getConn(true);
 
@@ -272,35 +272,35 @@ class Atendimentos
             }
 
             $cad = \App\Models\Atendimentos::findById($codigo);
-            if(empty($cad->getCodigo())) throw new Exception("Ops, parece que esse registro não existe mais na base de dados!");
+            if (empty($cad->getCodigo())) throw new Exception("Ops, parece que esse registro não existe mais na base de dados!");
 
             $Conn = \App\Conn\Conn::getConn(true);
 
             $imagensFicha = $cad->getImagesIds($Conn);
 
-if (!empty($imagensFicha)) {
-    $uploadDirectory = __DIR__ . '/../Assets/imagens/imagens_atendimento';
-    
-    foreach ($imagensFicha as $imagem) {
-        $filePath = $uploadDirectory . DIRECTORY_SEPARATOR . $imagem;
-        
-        if (file_exists($filePath)) {
-            if (unlink($filePath)) {
-            } else {
-                throw new Exception("Erro ao excluir arquivo servidor ");
+            if (!empty($imagensFicha)) {
+                $uploadDirectory = __DIR__ . '/../Assets/imagens/imagens_atendimento';
+
+                foreach ($imagensFicha as $imagem) {
+                    $filePath = $uploadDirectory . DIRECTORY_SEPARATOR . $imagem;
+
+                    if (file_exists($filePath)) {
+                        if (unlink($filePath)) {
+                        } else {
+                            throw new Exception("Erro ao excluir arquivo servidor ");
+                        }
+                    } else {
+                        throw new Exception("Arquivo não encontrado ");
+                    }
+
+                    // Exclua a entrada no banco de dados
+                    $result = \App\Models\Atendimentos::deleteImageById($imagem, $Conn);
+
+                    if (!$result) {
+                        throw new Exception("Erro ao excluir imagem banco");
+                    }
+                }
             }
-        } else {
-            throw new Exception("Arquivo não encontrado ");
-        }
-        
-        // Exclua a entrada no banco de dados
-        $result = \App\Models\Atendimentos::deleteImageById($imagem, $Conn);
-        
-        if (!$result) {
-            throw new Exception("Erro ao excluir imagem banco");
-        }
-    }
-}
 
             $cad->Excluir($Conn);
 
@@ -361,7 +361,7 @@ if (!empty($imagensFicha)) {
             ];
 
             $dadosSelect = \App\Models\Atendimentos::SelectGrid($parametrosBusca);
-            if($dadosSelect == []) throw new Exception("Não é possível Exportar para CSV quando a pesquisa apresenta nenhum resultado");
+            if ($dadosSelect == []) throw new Exception("Não é possível Exportar para CSV quando a pesquisa apresenta nenhum resultado");
 
             $response = $response
                 ->withHeader('Content-Type', 'text/csv; charset=UTF-8')
@@ -400,7 +400,8 @@ if (!empty($imagensFicha)) {
         }
     }
 
-    public static function uploadGaleria(Request $request, Response $response) {
+    public static function uploadGaleria(Request $request, Response $response)
+    {
         try {
             $dadosForm = $request->getParsedBody();
             // Captura os arquivos enviados
@@ -418,13 +419,13 @@ if (!empty($imagensFicha)) {
             // Gera um nome de arquivo único
             $filename = self::moveUploadedFile($uploadDirectory, $imagem);
 
-            if(!file_exists($uploadDirectory . DIRECTORY_SEPARATOR . $filename)) throw new Exception("Erro ao fazer upload da imagem");
+            if (!file_exists($uploadDirectory . DIRECTORY_SEPARATOR . $filename)) throw new Exception("Erro ao fazer upload da imagem");
 
             $Atendimento = \App\Models\Atendimentos::findById($cdAtendimento);
             $Atendimento->setImagem($filename);
             $Atendimento->InserirImagem();
 
-            if(!$Atendimento->getResult()){
+            if (!$Atendimento->getResult()) {
                 throw new Exception($Atendimento->getMessage());
             }
 
@@ -440,7 +441,8 @@ if (!empty($imagensFicha)) {
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
 
-    private static function moveUploadedFile($directory, $uploadedFile) {
+    private static function moveUploadedFile($directory, $uploadedFile)
+    {
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
         $basename = bin2hex(random_bytes(8)); // Gera um nome de arquivo único
         $filename = sprintf('%s.%0.8s', $basename, $extension);
@@ -450,25 +452,26 @@ if (!empty($imagensFicha)) {
         return $filename;
     }
 
-    public static function excluirGaleria(Request $request, Response $response) {
+    public static function excluirGaleria(Request $request, Response $response)
+    {
         try {
             $dadosForm = $request->getParsedBody();
             $filename = !empty($dadosForm['idImagem']) ? $dadosForm['idImagem'] : '';
 
-            if ( empty($filename)) {
+            if (empty($filename)) {
                 throw new \Exception("Houve um erro ao processar a requisição. Tente novamente mais tarde.");
             }
 
             // Diretório de upload
             $uploadDirectory = __DIR__ . '/../Assets/imagens/imagens_atendimento';
 
-            if(!file_exists($uploadDirectory . DIRECTORY_SEPARATOR . $filename)) throw new Exception("Erro ao fazer exclusão da imagem");
+            if (!file_exists($uploadDirectory . DIRECTORY_SEPARATOR . $filename)) throw new Exception("Erro ao fazer exclusão da imagem");
 
             unlink($uploadDirectory . DIRECTORY_SEPARATOR . $filename);
 
             $Imagem = \App\Models\Atendimentos::deleteImageById($filename);
 
-            if(!$filename){
+            if (!$filename) {
                 throw new Exception("Erro ao excluir Imagem");
             }
 
@@ -483,4 +486,3 @@ if (!empty($imagensFicha)) {
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
 }
-

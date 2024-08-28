@@ -207,7 +207,7 @@ class Animais
     {
 
         try {
-            $conn = \App\Conn\Conn::getConn();
+            $conn = \App\Conn\Conn::getConn(true);
             $delete = new \App\Conn\Delete($conn);
 
             $delete->ExeDelete("ANIMAIS", "WHERE CD_ANIMAL = :C", "C=$this->codigo");

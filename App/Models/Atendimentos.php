@@ -191,7 +191,7 @@ class Atendimentos
                     ANIMAIS.NM_ANIMAL,
                     ESPECIES.DESCRICAO as NM_ESPECIE,
                     RACAS.DESCRICAO as NM_RACA,
-                    (CASE WHEN ANIMAIS.FL_CASTRADO = 'S' THEN  'Sim' ELSE 'Não' END) AS CASTRADO,
+                    (CASE WHEN ANIMAIS.FL_CASTRADO = 'S' THEN 'Sim' WHEN 'N' THEN 'Não' ELSE 'Não Informado' END) AS CASTRADO,
                     (CASE WHEN ANIMAIS.SEXO = 'F' THEN 'Fêmea' WHEN ANIMAIS.SEXO = 'M' THEN 'Macho' ELSE '-' END) AS SEXO,
                     TUTOR.NM_PESSOA as NM_TUTOR,
                     VETERINARIO.NM_PESSOA as NM_VETERINARIO,
