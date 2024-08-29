@@ -11,7 +11,7 @@ $(document).ready(function () {
       true
     );
   }
-  
+
   $.fn.filepond.registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
   $('.my-pond').filepond({
     allowMultiple: true,
@@ -20,7 +20,7 @@ $(document).ready(function () {
     imagePreviewHeight: 150,
     imagePreviewWidth: 200,
     acceptedFileTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'], // Tipos de arquivo aceitos
-  
+
     instantUpload: true,
     server: {
       process: {
@@ -28,10 +28,10 @@ $(document).ready(function () {
         method: 'POST',
         withCredentials: false,
         headers: {},
-        onerror: function(response) {
+        onerror: function (response) {
           console.log('Erro no envio:', response);
         },
-        ondata: function(formData) {
+        ondata: function (formData) {
           formData.append('cdAtendimento', $('#cdFichaLPV').val());
           return formData;
         }
@@ -39,14 +39,14 @@ $(document).ready(function () {
     },
   });
 
-  $('.my-pond').on('FilePond:processfile', function(e, file) {
+  $('.my-pond').on('FilePond:processfile', function (e, file) {
     console.log('Arquivo enviado com sucesso:');
     atualizarGaleria();
   });
 
   Fancybox.bind('[data-fancybox]', {
     // Custom options for all galleries
-  });  
+  });
 
   $("#ExpandFicha").click(function () {
     $(".accordion-collapse").each(function () {
@@ -175,7 +175,7 @@ $("#buscaRapidaVeterinario").on("click", function () {
           },
         });
       })
-      .fail(function (xhr, status, error) {})
+      .fail(function (xhr, status, error) { })
       .always(function () {
         Loading.off();
       });
@@ -204,14 +204,14 @@ function selecionarPessoa(id) {
     data: {
       cdPessoa: id,
     },
-    complete: function(xhr, textStatus) {
+    complete: function (xhr, textStatus) {
       if (xhr.status === 302) {
-          var redirectUrl = xhr.getResponseHeader('Location');
-          if (redirectUrl) {
-              window.location.href = redirectUrl;
-          }
+        var redirectUrl = xhr.getResponseHeader('Location');
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
+        }
       }
-  },
+    },
     success: function (response) {
       if (response.RESULT) {
         var pessoa = response.RETURN;
@@ -262,46 +262,46 @@ $("#desvincularVeterinario").on("click", function () {
 
 function salvarCadastroAtendimentos(atualizarPage = false) {
   Loading.on();
-  
+
   var formData = $('#formFichaLPV').serialize();
 
   $.ajax({
-      url: "/veterinaria/server/atendimentos/controlar",
-      method: "POST",
-      data: formData,
-      complete: function(xhr, textStatus) {
-        if (xhr.status === 302) {
-            var redirectUrl = xhr.getResponseHeader('Location');
-            if (redirectUrl) {
-                window.location.href = redirectUrl;
-            }
+    url: "/veterinaria/server/atendimentos/controlar",
+    method: "POST",
+    data: formData,
+    complete: function (xhr, textStatus) {
+      if (xhr.status === 302) {
+        var redirectUrl = xhr.getResponseHeader('Location');
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
         }
+      }
     },
-      success: function (response) {
-        if (response.RESULT) {
-            if (atualizarPage) {
-                var idFicha = response.RETURN;
-                var form = $('<form>', {
-                    action: '/veterinaria/paginas/fichaLPV',
-                    method: 'POST'
-                });
-                $('<input>').attr({
-                    type: 'hidden',
-                    name: 'idFicha',
-                    value: idFicha
-                }).appendTo(form);
-                form.appendTo('body').submit();
-                sessionStorage.setItem("notificarSucesso", "true");
-            } else {
-                sessionStorage.setItem("notificarSucesso", "true");
-                window.location.href = "/veterinaria/paginas/listAtendimentos";
-            }
+    success: function (response) {
+      if (response.RESULT) {
+        if (atualizarPage) {
+          var idFicha = response.RETURN;
+          var form = $('<form>', {
+            action: '/veterinaria/paginas/fichaLPV',
+            method: 'POST'
+          });
+          $('<input>').attr({
+            type: 'hidden',
+            name: 'idFicha',
+            value: idFicha
+          }).appendTo(form);
+          form.appendTo('body').submit();
+          sessionStorage.setItem("notificarSucesso", "true");
+        } else {
+          sessionStorage.setItem("notificarSucesso", "true");
+          window.location.href = "/veterinaria/paginas/listAtendimentos";
         }
+      }
     },
-      error: function (xhr, status, error) {
-          Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
-          Loading.off();
-      },
+    error: function (xhr, status, error) {
+      Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
+      Loading.off();
+    },
   });
 }
 
@@ -331,14 +331,14 @@ function excluirCadastroAtendimentos() {
           url: "/veterinaria/server/atendimentos/excluir",
           method: "POST",
           data: formData,
-          complete: function(xhr, textStatus) {
+          complete: function (xhr, textStatus) {
             if (xhr.status === 302) {
-                var redirectUrl = xhr.getResponseHeader('Location');
-                if (redirectUrl) {
-                    window.location.href = redirectUrl;
-                }
+              var redirectUrl = xhr.getResponseHeader('Location');
+              if (redirectUrl) {
+                window.location.href = redirectUrl;
+              }
             }
-        },
+          },
           success: function (response) {
             if (response.RESULT) {
               sessionStorage.setItem("notificarSucesso", "true");
@@ -360,21 +360,17 @@ function excluirCadastroAtendimentos() {
 
 function atualizarGaleria() {
   var dados = {
-      cdAtendimento: $('#cdFichaLPV').val()
+    cdAtendimento: $('#cdFichaLPV').val()
   };
 
-  $.post('/veterinaria/modais/recarregarGaleria', dados, function(response) {
-      $('#galeriaDIV').html(response);
-
-      // $('[data-fancybox="gallery-a"]').fancybox({
-      //     // Configurações do Fancybox, se houver
-      // });
+  $.post('/veterinaria/modais/recarregarGaleria', dados, function (response) {
+    $('#galeriaDIV').html(response);
   });
 }
 
-$('#galeriaDIV').on('click', '.btn-excluir-galeria', function(e) {
+$('#galeriaDIV').on('click', '.btn-excluir-galeria', function (e) {
   e.preventDefault();
-  
+
   // Obtém o nome ou identificador da imagem a ser excluída do atributo data-imagem
   var idImagem = $(this).attr('id');
 
@@ -400,15 +396,15 @@ $('#galeriaDIV').on('click', '.btn-excluir-galeria', function(e) {
         $.ajax({
           url: "/veterinaria/server/atendimentos/excluirImagem",
           method: "POST",
-          data: {idImagem : idImagem},
-          complete: function(xhr, textStatus) {
+          data: { idImagem: idImagem },
+          complete: function (xhr, textStatus) {
             if (xhr.status === 302) {
-                var redirectUrl = xhr.getResponseHeader('Location');
-                if (redirectUrl) {
-                    window.location.href = redirectUrl;
-                }
+              var redirectUrl = xhr.getResponseHeader('Location');
+              if (redirectUrl) {
+                window.location.href = redirectUrl;
+              }
             }
-        },
+          },
           success: function (response) {
             if (response.RESULT) {
               Notificacao.NotificacaoSucesso();
@@ -425,4 +421,71 @@ $('#galeriaDIV').on('click', '.btn-excluir-galeria', function(e) {
       }
     },
   });
+});
+
+
+$("#printFichaLPV").on("click", function () {
+  fetch('/veterinaria/server/relatorios/fichaLPV', {
+    method: 'POST',
+    body: {
+      cdFichaLPV: 11
+    }
+  })
+  .then(response => response.blob()) // Recebe o conteúdo como Blob
+  .then(blob => {
+    // Mostra o Bootbox para o usuário escolher o formato
+    bootbox.prompt({
+      title: "Selecione o formato do relatório para download:",
+      inputType: 'select',
+      inputOptions: [
+        {
+          text: 'Selecione...',
+          value: '',
+        },
+        {
+          text: 'PDF',
+          value: 'pdf',
+        },
+        {
+          text: 'Word (DOCX)',
+          value: 'docx',
+        }
+      ],
+      callback: function (format) {
+        if (format === 'pdf') {
+          // Manipula o arquivo para PDF
+          const pdfUrl = URL.createObjectURL(blob);
+          const downloadLink = document.createElement('a');
+          downloadLink.href = pdfUrl;
+          downloadLink.download = 'relatorio.pdf';
+          downloadLink.click();
+        } else if (format === 'docx') {
+          // Converte o Blob para um ArrayBuffer
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            const arrayBuffer = event.target.result;
+            
+            // Usa mammoth.js para converter o arquivo para DOCX
+            mammoth.convertToHtml({arrayBuffer: arrayBuffer})
+              .then(function(result) {
+                const html = result.value; // HTML convertido do DOCX
+                
+                // Cria um Blob a partir do HTML convertido
+                const docxBlob = new Blob([html], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+                
+                // Usa FileSaver.js para salvar o arquivo DOCX
+                saveAs(docxBlob, 'relatorio.docx');
+              })
+              .catch(function(err) {
+                console.error('Erro ao converter para DOCX:', err);
+              });
+          };
+          reader.readAsArrayBuffer(blob);
+        } else {
+          console.log('Nenhum formato selecionado.');
+        }
+      }
+    });
+  })
+  .catch(err => console.error('Erro ao gerar o relatório:', err));
 });

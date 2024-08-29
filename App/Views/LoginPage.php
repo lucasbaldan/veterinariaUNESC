@@ -18,7 +18,7 @@ class LoginPage
     public function exibir(Request $request, Response $response, $args)
     {
 
-        $tela = $this->twig->fetch('login.twig');
+        $tela = $this->twig->fetch('login.twig', ['versao' => $GLOBALS['versao']]);
 
         return $this->twig->render($response, 'TelaBase.twig', [
             'versao' => $GLOBALS['versao'],
