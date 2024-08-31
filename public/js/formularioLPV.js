@@ -425,67 +425,85 @@ $('#galeriaDIV').on('click', '.btn-excluir-galeria', function (e) {
 
 
 $("#printFichaLPV").on("click", function () {
-  fetch('/veterinaria/server/relatorios/fichaLPV', {
-    method: 'POST',
-    body: {
-      cdFichaLPV: 11
-    }
-  })
-  .then(response => response.blob()) // Recebe o conteúdo como Blob
-  .then(blob => {
-    // Mostra o Bootbox para o usuário escolher o formato
-    bootbox.prompt({
-      title: "Selecione o formato do relatório para download:",
-      inputType: 'select',
-      inputOptions: [
-        {
-          text: 'Selecione...',
-          value: '',
-        },
-        {
-          text: 'PDF',
-          value: 'pdf',
-        },
-        {
-          text: 'Word (DOCX)',
-          value: 'docx',
-        }
-      ],
-      callback: function (format) {
-        if (format === 'pdf') {
-          // Manipula o arquivo para PDF
-          const pdfUrl = URL.createObjectURL(blob);
-          const downloadLink = document.createElement('a');
-          downloadLink.href = pdfUrl;
-          downloadLink.download = 'relatorio.pdf';
-          downloadLink.click();
-        } else if (format === 'docx') {
-          // Converte o Blob para um ArrayBuffer
-          const reader = new FileReader();
-          reader.onload = function(event) {
-            const arrayBuffer = event.target.result;
-            
-            // Usa mammoth.js para converter o arquivo para DOCX
-            mammoth.convertToHtml({arrayBuffer: arrayBuffer})
-              .then(function(result) {
-                const html = result.value; // HTML convertido do DOCX
-                
-                // Cria um Blob a partir do HTML convertido
-                const docxBlob = new Blob([html], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
-                
-                // Usa FileSaver.js para salvar o arquivo DOCX
-                saveAs(docxBlob, 'relatorio.docx');
-              })
-              .catch(function(err) {
-                console.error('Erro ao converter para DOCX:', err);
-              });
-          };
-          reader.readAsArrayBuffer(blob);
-        } else {
-          console.log('Nenhum formato selecionado.');
-        }
-      }
-    });
-  })
-  .catch(err => console.error('Erro ao gerar o relatório:', err));
+  // Mostra o Bootbox para o usuário escolher o formato
+  bootbox.dialog({
+    title: "Emitir Relatório LPV",
+    message: '<button type="button" class="btn btn-primary" onclick="gerarRelPDF()">PDF</button> <button type="button" class="btn btn-primary" onclick="gerarRelWord()">Word</button>',
+  });
 });
+
+function gerarRelWord() {
+  Loading.on();
+  
+  $.ajax({
+    url: "/veterinaria/server/relatorios/fichaLPV", // URL correta para gerar o DOCX
+    method: "POST",
+    data: {
+      cdFichaLPV: $('#cdFichaLPV').val(),
+    },
+    xhrFields: {
+      responseType: 'blob' // Define o tipo de resposta como blob (binário)
+    },
+    success: function (blob) {
+      Loading.off();
+
+      // Cria um URL para o blob
+      const url = window.URL.createObjectURL(blob);
+
+      // Cria um link temporário
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "relatorio.docx"; // Nome do arquivo
+
+      // Adiciona o link ao documento e clica nele
+      document.body.appendChild(a);
+      a.click();
+
+      // Remove o link temporário
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url); // Libera a memória associada ao blob
+    },
+    error: function (xhr, status, error) {
+      Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
+      Loading.off();
+    }
+  });
+}
+
+function gerarRelPDF() {
+  Loading.on();
+  
+  $.ajax({
+    url: "/veterinaria/server/relatorios/fichaLPV", // URL correta para gerar o DOCX
+    method: "POST",
+    data: {
+      cdFichaLPV: $('#cdFichaLPV').val(),
+    },
+    xhrFields: {
+      responseType: 'blob' // Define o tipo de resposta como blob (binário)
+    },
+    success: function (blob) {
+      Loading.off();
+
+      // Cria um URL para o blob
+      const url = window.URL.createObjectURL(blob);
+
+      // Cria um link temporário
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "relatorio.pdf"; // Nome do arquivo
+
+      // Adiciona o link ao documento e clica nele
+      document.body.appendChild(a);
+      a.click();
+
+      // Remove o link temporário
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url); // Libera a memória associada ao blob
+    },
+    error: function (xhr, status, error) {
+      Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
+      Loading.off();
+    }
+  });
+}

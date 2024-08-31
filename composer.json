@@ -20,7 +20,8 @@
         "slim/slim": "4.*",
         "slim/psr7": "^1.6",
         "slim/twig-view": "^3.4",
-        "dompdf/dompdf": "^3.0"
+        "dompdf/dompdf": "^3.0",
+        "phpoffice/phpword": "^1.2"
     }
     
 }

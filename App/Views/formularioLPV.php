@@ -40,6 +40,7 @@ class FormularioLPV
             $selectFlCastrado = '<select class="form-select" id="flCastrado" name="flCastrado" aria-label="Animal Castrado?" disabled>
                                     <option value="N" ' . ($AnimalFicha->getFlCastrado() == 'N' ? 'selected' : ' ') . '>Não</option>
                                     <option value="S" ' . ($AnimalFicha->getFlCastrado() == 'S' ? 'selected' : ' ') . '>Sim</option>
+                                    <option value="NI" ' . ($AnimalFicha->getFlCastrado() == 'NI' ? 'selected' : ' ') . '>NI - Não Informado</option>
                                 </select>';
 
             $selectSexoAnimal = '<select class="form-select" id="dsSexo" name="dsSexo" aria-label="Sexo Animal" disabled>
@@ -91,6 +92,7 @@ class FormularioLPV
             $selectFlCastrado = '<select class="form-select" id="flCastrado" name="flCastrado" aria-label="Animal Castrado?" disabled>
                                     <option value="N" ' . ($AnimalFicha->getFlCastrado() == 'N' ? 'selected' : ' ') . '>Não</option>
                                     <option value="S" ' . ($AnimalFicha->getFlCastrado() == 'S' ? 'selected' : ' ') . '>Sim</option>
+                                    <option value="NI" ' . ($AnimalFicha->getFlCastrado() == 'NI' ? 'selected' : ' ') . '>NI - Não Informado</option>
                                 </select>';
 
             $selectSexoAnimal = '<select class="form-select" id="dsSexo" name="dsSexo" aria-label="Sexo Animal" disabled>

@@ -294,7 +294,7 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
 $app->group('/server', function (RouteCollectorProxy $group) {
 
     $group->group('/relatorios', function (RouteCollectorProxy $Group) {
-        $Group->post('/fichaLPV', App\Reports\RelFichaLPV::class . ':gerar');
+        $Group->post('/fichaLPV', App\Reports\RelFichaLPVPDF::class . ':gerar');
     });
 
     $group->group('/pessoas', function (RouteCollectorProxy $pessoasGroup) {
