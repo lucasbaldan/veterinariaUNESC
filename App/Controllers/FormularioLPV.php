@@ -61,13 +61,21 @@ class FormularioLPV
                 throw new Exception($flpv->GetMessage());
             }
 
+            if (empty($cdFichaLPV)) {
+                $log = new \App\Models\LogsFichaLPV($_SESSION['username'], 'INSERIU', $flpv->GetReturn(), $dtFicha, $animal, $nmVeterinarioRemetente, $crmvVeterinarioRemetente, $nrTelVeterinarioRemetente, $dsEmailVeterinarioRemetente, $nmCidadeVeterinarioRemetente, $cdUsuarioPlantonista, $nmProprietario, $nrTelefoneProprietario, $cidadePropriedade, $dsEspecie, $dsRaca, $dsSexo, $idade, $totalAnimais, $qtdAnimaisDoentes, $qtdAnimaisMortos, $dsMaterialRecebido, $dsDiagnosticoPresuntivo, $flAvaliacaoTumoralComMargem, $tpAnimal, $dsEpidemiologiaHistoriaClinica, $dsLesoesMacroscopicas, $dsLesoesHistologicas, $dsDiagnostico, $dsRelatorio);
+                $log->Insert();
+            } else {
+                $log = new \App\Models\LogsFichaLPV($_SESSION['username'], 'ALTEROU', $cdFichaLPV, $dtFicha, $animal, $nmVeterinarioRemetente, $crmvVeterinarioRemetente, $nrTelVeterinarioRemetente, $dsEmailVeterinarioRemetente, $nmCidadeVeterinarioRemetente, $cdUsuarioPlantonista, $nmProprietario, $nrTelefoneProprietario, $cidadePropriedade, $dsEspecie, $dsRaca, $dsSexo, $idade, $totalAnimais, $qtdAnimaisDoentes, $qtdAnimaisMortos, $dsMaterialRecebido, $dsDiagnosticoPresuntivo, $flAvaliacaoTumoralComMargem, $tpAnimal, $dsEpidemiologiaHistoriaClinica, $dsLesoesMacroscopicas, $dsLesoesHistologicas, $dsDiagnostico, $dsRelatorio);
+                $log->Insert();
+            }
+
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $flpv->GetReturn()];
             $codigoHTTP = 200;
         } catch (Exception $e) {
             $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => 'OCORREU UM ERRO AO EFETUAR OPERACAO', "RETURN" => $e->getMessage()];
             $codigoHTTP = $e->getCode();
         }
-        
+
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
@@ -126,7 +134,7 @@ class FormularioLPV
 
     public static function RetornarDadosFichaLPV(Request $request, Response $response)
     {
-        
+
         try {
             $Formulario = $request->getParsedBody();
 
@@ -150,17 +158,53 @@ class FormularioLPV
 
     public static function ApagarFichaLPV(Request $request, Response $response)
     {
-        
+
         try {
 
             $Formulario = $request->getParsedBody();
             $cdFichaLPV = !empty($Formulario['cdFichaLPV']) ? $Formulario['cdFichaLPV'] : '';
+
+            $ficha = \App\Models\FormularioLPV::findById($cdFichaLPV);
+
+            // Supondo que $ficha seja uma instância da classe FichaLPV
+            $cdFichaLPV = !empty($ficha->getCdFichaLPV()) ? $ficha->getCdFichaLPV() : '';
+            $dtFicha = !empty($ficha->getDtFicha()) ? $ficha->getDtFicha() : '';
+            $animal = !empty($ficha->getAnimal()) ? $ficha->getAnimal() : '';
+            $nmVeterinarioRemetente = !empty($ficha->getNmVeterinarioRemetente()) ? $ficha->getNmVeterinarioRemetente() : '';
+            $crmvVeterinarioRemetente = !empty($ficha->getCrmvVeterinarioRemetente()) ? $ficha->getCrmvVeterinarioRemetente() : '';
+            $nrTelVeterinarioRemetente = !empty($ficha->getNrTelVeterinarioRemetente()) ? $ficha->getNrTelVeterinarioRemetente() : '';
+            $dsEmailVeterinarioRemetente = !empty($ficha->getDsEmailVeterinarioRemetente()) ? $ficha->getDsEmailVeterinarioRemetente() : '';
+            $nmCidadeVeterinarioRemetente = !empty($ficha->getNmCidadeVeterinarioRemetente()) ? $ficha->getNmCidadeVeterinarioRemetente() : '';
+            $cdUsuarioPlantonista = !empty($ficha->getCdUsuarioPlantonista()) ? $ficha->getCdUsuarioPlantonista() : '';
+            $nmProprietario = !empty($ficha->getNmProprietario()) ? $ficha->getNmProprietario() : '';
+            $nrTelefoneProprietario = !empty($ficha->getNrTelefoneProprietario()) ? $ficha->getNrTelefoneProprietario() : '';
+            $cidadePropriedade = !empty($ficha->getCidadePropriedade()) ? $ficha->getCidadePropriedade() : '';
+            $dsEspecie = !empty($ficha->getDsEspecie()) ? $ficha->getDsEspecie() : '';
+            $dsRaca = !empty($ficha->getDsRaca()) ? $ficha->getDsRaca() : '';
+            $dsSexo = !empty($ficha->getDsSexo()) ? $ficha->getDsSexo() : '';
+            $idade = !empty($ficha->getIdade()) ? $ficha->getIdade() : '';
+            $totalAnimais = !empty($ficha->getTotalAnimais()) ? $ficha->getTotalAnimais() : '';
+            $qtdAnimaisDoentes = !empty($ficha->getQtdAnimaisDoentes()) ? $ficha->getQtdAnimaisDoentes() : '';
+            $qtdAnimaisMortos = !empty($ficha->getQtdAnimaisMortos()) ? $ficha->getQtdAnimaisMortos() : '';
+            $dsMaterialRecebido = !empty($ficha->getDsMaterialRecebido()) ? $ficha->getDsMaterialRecebido() : '';
+            $dsDiagnosticoPresuntivo = !empty($ficha->getDsDiagnosticoPresuntivo()) ? $ficha->getDsDiagnosticoPresuntivo() : '';
+            $flAvaliacaoTumoralComMargem = !empty($ficha->getFlAvaliacaoTumoralComMargem()) ? $ficha->getFlAvaliacaoTumoralComMargem() : '';
+            $dsEpidemiologiaHistoriaClinica = !empty($ficha->getDsEpidemiologiaHistoriaClinica()) ? $ficha->getDsEpidemiologiaHistoriaClinica() : '';
+            $dsLesoesMacroscopicas = !empty($ficha->getDsLesoesMacroscopicas()) ? $ficha->getDsLesoesMacroscopicas() : '';
+            $dsLesoesHistologicas = !empty($ficha->getDsLesoesHistologicas()) ? $ficha->getDsLesoesHistologicas() : '';
+            $dsDiagnostico = !empty($ficha->getDsDiagnostico()) ? $ficha->getDsDiagnostico() : '';
+            $dsRelatorio = !empty($ficha->getDsRelatorio()) ? $ficha->getDsRelatorio() : '';
+            $dsNomeAnimal = !empty($ficha->getDsNomeAnimal()) ? $ficha->getDsNomeAnimal() : '';
+
 
             $retorno = \App\Models\FormularioLPV::Delete($cdFichaLPV);
 
             if (!$retorno) {
                 throw new Exception("<b>Erro ao tentar acessar os grupos de usuários</b><br><br> Por favor, tente novamente.", 400);
             }
+
+            $log = new \App\Models\LogsFichaLPV($_SESSION['username'], 'EXCLUIU', $cdFichaLPV, $dtFicha, $animal, $nmVeterinarioRemetente, $crmvVeterinarioRemetente, $nrTelVeterinarioRemetente, $dsEmailVeterinarioRemetente, $nmCidadeVeterinarioRemetente, $cdUsuarioPlantonista, $nmProprietario, $nrTelefoneProprietario, $cidadePropriedade, $dsEspecie, $dsRaca, $dsSexo, $idade, $totalAnimais, $qtdAnimaisDoentes, $qtdAnimaisMortos, $dsMaterialRecebido, $dsDiagnosticoPresuntivo, $flAvaliacaoTumoralComMargem, $dsNomeAnimal, $dsEpidemiologiaHistoriaClinica, $dsLesoesMacroscopicas, $dsLesoesHistologicas, $dsDiagnostico, $dsRelatorio);
+            $log->Insert();
 
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $retorno];
             $codigoHTTP = 200;
