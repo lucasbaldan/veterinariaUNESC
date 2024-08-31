@@ -1,9 +1,9 @@
 {
     "database": {
-        "host": "localhost",
-        "username": "root",
-        "password": "",
-        "database": "lpvunesc",
+        "host": "vetapp_unesc.mysql.dbaas.com.br",
+        "username": "vetapp_unesc",
+        "password": "vetappUnesc@24",
+        "database": "vetapp_unesc",
         "driver": "mysql"
     },
     "database__f": {
