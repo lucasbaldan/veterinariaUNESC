@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Exception;
 
-class FormularioLPV 
+class FormularioLPV
 {
   private $cdFichaLPV;
   private $dtFicha;
@@ -76,6 +76,55 @@ class FormularioLPV
     // $this->senha = md5($senha_pessoa);
   }
 
+  public static function findById($id)
+  {
+      try {
+          if (empty($id)) {
+              throw new Exception("Objeto vazio");
+          }
+          $read = new \App\Conn\Read();
+          $read->ExeRead("FICHA_LPV", "WHERE CD_FICHA_LPV = :C LIMIT 1", "C=$id");
+  
+          if ($read->getRowCount() == 0) {
+              throw new Exception("Não foi possível Localizar o Registro na Base de Dados.");
+          }
+  
+          $result = $read->getResult()[0];
+          return new self(
+              $result['DT_FICHA'],
+              $result['ANIMAL'],
+              $result['NM_VET_REMETENTE'],
+              $result['CRMV_VET_REMETENTE'],
+              $result['NR_TEL_VET_REMETENTE'],
+              $result['DS_EMAIL_VET_REMETENTE'],
+              $result['NM_CIDADE_VET_REMETENTE'],
+              $result['CD_USUARIO_PLANTONISTA'],
+              $result['NM_PROPRIETARIO'],
+              $result['NR_TELEFONE_PROPRIETARIO'],
+              $result['CIDADE_PROPRIEDADE'],
+              $result['DS_ESPECIE'],
+              $result['DS_RACA'],
+              $result['DS_SEXO'],
+              $result['IDADE'],
+              $result['TOTAL_ANIMAIS'],
+              $result['QTD_ANIMAIS_DOENTES'],
+              $result['QTD_ANIMAIS_MORTOS'],
+              $result['DS_MATERIAL_RECEBIDO'],
+              $result['DS_DIAGNOSTICO_PRESUNTIVO'],
+              $result['FL_AVALIACAO_TUMORAL_COM_MARGEM'],
+              $result['DS_NOME_ANIMAL'],
+              $result['DS_EPIDEMIOLOGIA_HISTORIA_CLINICA'],
+              $result['DS_LESOES_MACROSCOPICAS'],
+              $result['DS_LESOES_HISTOLOGICAS'],
+              $result['DS_DIAGNOSTICO'],
+              $result['DS_RELATORIO'],
+              $result['CD_FICHA_LPV']
+          );
+      } catch (Exception $e) {
+          return new self('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+      }
+  }
+  
 
 
   public function Insert()
@@ -115,7 +164,7 @@ class FormularioLPV
       ]);
 
       if (!$insert->getResult()) {
-        throw new Exception($insert->getError());
+        throw new Exception($insert->getMessage());
       }
       $this->Result = true;
       $this->Return = $insert->getLastInsert();
@@ -170,7 +219,7 @@ class FormularioLPV
         $atualizado = !empty($update->getResult());
 
         if (!$atualizado) {
-          throw new Exception($update->getError());
+          throw new Exception($update->getMessage());
         }
         $this->Result = true;
       } else {
@@ -239,22 +288,302 @@ class FormularioLPV
             INNER JOIN PESSOAS P ON P.CD_PESSOA = F.CD_PESSOA_VETERINARIO_REMETENTE
             WHERE 1=1";
 
-    if(!empty($cdAnimal)) $sql .= " AND F.CD_ANIMAL = $cdAnimal";
-    if(!empty($cdCidade)) $sql .= " AND F.CD_CIDADE_PROPRIEDADE = $cdCidade";
-    if(!empty($cdVetRemetente)) $sql .= " AND F.CD_PESSOA_VETERINARIO_REMETENTE = $cdVetRemetente";
-    if(!empty($flAvaliacaoTumoral)) $sql .= " AND F.FL_AVALIACAO_TUMORAL_COM_MARGEM = '$flAvaliacaoTumoral'";
-    
-    if(!empty($dtInicialFicha) && empty($dtFinalFicha)) {
+    if (!empty($cdAnimal)) $sql .= " AND F.CD_ANIMAL = $cdAnimal";
+    if (!empty($cdCidade)) $sql .= " AND F.CD_CIDADE_PROPRIEDADE = $cdCidade";
+    if (!empty($cdVetRemetente)) $sql .= " AND F.CD_PESSOA_VETERINARIO_REMETENTE = $cdVetRemetente";
+    if (!empty($flAvaliacaoTumoral)) $sql .= " AND F.FL_AVALIACAO_TUMORAL_COM_MARGEM = '$flAvaliacaoTumoral'";
+
+    if (!empty($dtInicialFicha) && empty($dtFinalFicha)) {
       $sql .= " AND F.DT_FICHA > '$dtInicialFicha'";
-    } else if(empty($dtInicialFicha) && !empty($dtFinalFicha)) {
+    } else if (empty($dtInicialFicha) && !empty($dtFinalFicha)) {
       $sql .= " AND F.DT_FICHA < '$dtFinalFicha'";
-    } else if(!empty($dtInicialFicha) && !empty($dtFinalFicha)){
+    } else if (!empty($dtInicialFicha) && !empty($dtFinalFicha)) {
       $sql .= " AND F.DT_FICHA BETWEEN '$dtInicialFicha' AND '$dtFinalFicha'";
     }
 
     $read->FullRead($sql);
 
     return $read->getResult();
+  }
+
+  public function getCdFichaLPV()
+  {
+    return $this->cdFichaLPV;
+  }
+
+  public function setCdFichaLPV($cdFichaLPV)
+  {
+    $this->cdFichaLPV = $cdFichaLPV;
+  }
+
+  public function getDtFicha()
+  {
+    return $this->dtFicha;
+  }
+
+  public function setDtFicha($dtFicha)
+  {
+    $this->dtFicha = $dtFicha;
+  }
+
+  public function getAnimal()
+  {
+    return $this->animal;
+  }
+
+  public function setAnimal($animal)
+  {
+    $this->animal = $animal;
+  }
+
+  public function getNmVeterinarioRemetente()
+  {
+    return $this->nmVeterinarioRemetente;
+  }
+
+  public function setNmVeterinarioRemetente($nmVeterinarioRemetente)
+  {
+    $this->nmVeterinarioRemetente = $nmVeterinarioRemetente;
+  }
+
+  public function getCrmvVeterinarioRemetente()
+  {
+    return $this->crmvVeterinarioRemetente;
+  }
+
+  public function setCrmvVeterinarioRemetente($crmvVeterinarioRemetente)
+  {
+    $this->crmvVeterinarioRemetente = $crmvVeterinarioRemetente;
+  }
+
+  public function getNrTelVeterinarioRemetente()
+  {
+    return $this->nrTelVeterinarioRemetente;
+  }
+
+  public function setNrTelVeterinarioRemetente($nrTelVeterinarioRemetente)
+  {
+    $this->nrTelVeterinarioRemetente = $nrTelVeterinarioRemetente;
+  }
+
+  public function getDsEmailVeterinarioRemetente()
+  {
+    return $this->dsEmailVeterinarioRemetente;
+  }
+
+  public function setDsEmailVeterinarioRemetente($dsEmailVeterinarioRemetente)
+  {
+    $this->dsEmailVeterinarioRemetente = $dsEmailVeterinarioRemetente;
+  }
+
+  public function getNmCidadeVeterinarioRemetente()
+  {
+    return $this->nmCidadeVeterinarioRemetente;
+  }
+
+  public function setNmCidadeVeterinarioRemetente($nmCidadeVeterinarioRemetente)
+  {
+    $this->nmCidadeVeterinarioRemetente = $nmCidadeVeterinarioRemetente;
+  }
+
+  public function getCdUsuarioPlantonista()
+  {
+    return $this->cdUsuarioPlantonista;
+  }
+
+  public function setCdUsuarioPlantonista($cdUsuarioPlantonista)
+  {
+    $this->cdUsuarioPlantonista = $cdUsuarioPlantonista;
+  }
+
+  public function getNmProprietario()
+  {
+    return $this->nmProprietario;
+  }
+
+  public function setNmProprietario($nmProprietario)
+  {
+    $this->nmProprietario = $nmProprietario;
+  }
+
+  public function getNrTelefoneProprietario()
+  {
+    return $this->nrTelefoneProprietario;
+  }
+
+  public function setNrTelefoneProprietario($nrTelefoneProprietario)
+  {
+    $this->nrTelefoneProprietario = $nrTelefoneProprietario;
+  }
+
+  public function getCidadePropriedade()
+  {
+    return $this->cidadePropriedade;
+  }
+
+  public function setCidadePropriedade($cidadePropriedade)
+  {
+    $this->cidadePropriedade = $cidadePropriedade;
+  }
+
+  public function getDsEspecie()
+  {
+    return $this->dsEspecie;
+  }
+
+  public function setDsEspecie($dsEspecie)
+  {
+    $this->dsEspecie = $dsEspecie;
+  }
+
+  public function getDsRaca()
+  {
+    return $this->dsRaca;
+  }
+
+  public function setDsRaca($dsRaca)
+  {
+    $this->dsRaca = $dsRaca;
+  }
+
+  public function getDsSexo()
+  {
+    return $this->dsSexo;
+  }
+
+  public function setDsSexo($dsSexo)
+  {
+    $this->dsSexo = $dsSexo;
+  }
+
+  public function getIdade()
+  {
+    return $this->idade;
+  }
+
+  public function setIdade($idade)
+  {
+    $this->idade = $idade;
+  }
+
+  public function getTotalAnimais()
+  {
+    return $this->totalAnimais;
+  }
+
+  public function setTotalAnimais($totalAnimais)
+  {
+    $this->totalAnimais = $totalAnimais;
+  }
+
+  public function getQtdAnimaisDoentes()
+  {
+    return $this->qtdAnimaisDoentes;
+  }
+
+  public function setQtdAnimaisDoentes($qtdAnimaisDoentes)
+  {
+    $this->qtdAnimaisDoentes = $qtdAnimaisDoentes;
+  }
+
+  public function getQtdAnimaisMortos()
+  {
+    return $this->qtdAnimaisMortos;
+  }
+
+  public function setQtdAnimaisMortos($qtdAnimaisMortos)
+  {
+    $this->qtdAnimaisMortos = $qtdAnimaisMortos;
+  }
+
+  public function getDsMaterialRecebido()
+  {
+    return $this->dsMaterialRecebido;
+  }
+
+  public function setDsMaterialRecebido($dsMaterialRecebido)
+  {
+    $this->dsMaterialRecebido = $dsMaterialRecebido;
+  }
+
+  public function getDsDiagnosticoPresuntivo()
+  {
+    return $this->dsDiagnosticoPresuntivo;
+  }
+
+  public function setDsDiagnosticoPresuntivo($dsDiagnosticoPresuntivo)
+  {
+    $this->dsDiagnosticoPresuntivo = $dsDiagnosticoPresuntivo;
+  }
+
+  public function getFlAvaliacaoTumoralComMargem()
+  {
+    return $this->flAvaliacaoTumoralComMargem;
+  }
+
+  public function setFlAvaliacaoTumoralComMargem($flAvaliacaoTumoralComMargem)
+  {
+    $this->flAvaliacaoTumoralComMargem = $flAvaliacaoTumoralComMargem;
+  }
+
+  public function getDsNomeAnimal()
+  {
+    return $this->dsNomeAnimal;
+  }
+
+  public function setDsNomeAnimal($dsNomeAnimal)
+  {
+    $this->dsNomeAnimal = $dsNomeAnimal;
+  }
+
+  public function getDsEpidemiologiaHistoriaClinica()
+  {
+    return $this->dsEpidemiologiaHistoriaClinica;
+  }
+
+  public function setDsEpidemiologiaHistoriaClinica($dsEpidemiologiaHistoriaClinica)
+  {
+    $this->dsEpidemiologiaHistoriaClinica = $dsEpidemiologiaHistoriaClinica;
+  }
+
+  public function getDsLesoesMacroscopicas()
+  {
+    return $this->dsLesoesMacroscopicas;
+  }
+
+  public function setDsLesoesMacroscopicas($dsLesoesMacroscopicas)
+  {
+    $this->dsLesoesMacroscopicas = $dsLesoesMacroscopicas;
+  }
+
+  public function getDsLesoesHistologicas()
+  {
+    return $this->dsLesoesHistologicas;
+  }
+
+  public function setDsLesoesHistologicas($dsLesoesHistologicas)
+  {
+    $this->dsLesoesHistologicas = $dsLesoesHistologicas;
+  }
+
+  public function getDsDiagnostico()
+  {
+    return $this->dsDiagnostico;
+  }
+
+  public function setDsDiagnostico($dsDiagnostico)
+  {
+    $this->dsDiagnostico = $dsDiagnostico;
+  }
+
+  public function getDsRelatorio()
+  {
+    return $this->dsRelatorio;
+  }
+
+  public function setDsRelatorio($dsRelatorio)
+  {
+    $this->dsRelatorio = $dsRelatorio;
   }
 
   public function GetMessage()
