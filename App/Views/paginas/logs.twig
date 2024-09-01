@@ -1,0 +1,68 @@
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;); background-color: #F8F9FA ;"
+    aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/veterinaria/paginas/inicial"><i class="bi bi-house-door-fill"></i></a>
+        </li>
+        <li class="breadcrumb-item" aria-current="page">Controle de Acessos</li>
+        <li class="breadcrumb-item" aria-current="page">Logs</li>
+    </ol>
+</nav>
+
+<div class="container-fluid d-flex justify-content-center align-items-center mt-2">
+    <div class="card rounded" style="min-width: 100%;">
+        <div class="card-body border border-1S rounded-2">
+            <form id="formLogs" name="formLogs" action="/veterinaria/paginas/logs" method="post"
+                ajax="true">
+                <div class="text-center">
+                    <h5>Logs do sistema</h5>
+                    <hr>
+                </div>
+                <input type="hidden" value="S" name="filtrar" id="filtrar">
+
+                <div class="row mb-2">
+                    <div class="col-md-6 mb-1">
+                        <label for="tabela" class="form-label">Tela</label>
+                        <select class="form-select" id="tabela" name="tabela">
+                            {{selectTabela|raw}}
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="codigo" class="form-label">Código</label>
+                        <input type="text" class="form-control" id="codigo" name="codigo" value="{{codigo}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dtInicial" class="form-label">Data Inicial</label>
+                        <input type="date" class="form-control" id="dtInicial" name="dtInicial" value="{{dtInicial}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dtFinal" class="form-label">Data Final</label>
+                        <input type="date" class="form-control" id="dtFinal" name="dtFinal" value="{{dtFinal}}">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary w-100" type="submit"><b><i class="bi bi-search"></i>
+                                Filtrar</b></button>
+                    </div>
+
+                    <div class="col">
+                        <button class="btn btn-danger w-100" type="button" onclick="LimparCamposFiltroFichaLPV()"><i
+                                class="bi bi-trash3-fill"></i>
+                            <b>Limpar</b></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if exibeDados %}
+<div class="container-fluid d-flex justify-content-center align-items-center mt-2 mb-3">
+    <div class="card rounded" style="min-width: 100%;">
+        <div class="card-body border border-1S rounded-2">
+            {{ table | raw }}
+        </div>
+    </div>
+</div>
+{% endif %}

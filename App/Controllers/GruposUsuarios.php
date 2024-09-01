@@ -194,6 +194,11 @@ class GruposUsuarios
             $flInserirRelatorios = !empty($Formulario['flInserirRelatorios']) ? $Formulario['flInserirRelatorios'] : '';
             $flExcluirRelatorios = !empty($Formulario['flExcluirRelatorios']) ? $Formulario['flExcluirRelatorios'] : '';
 
+            $flAcessarLogs = !empty($Formulario['flAcessarLogs']) ? $Formulario['flAcessarLogs'] : '';
+            $flEditarLogs = !empty($Formulario['flEditarLogs']) ? $Formulario['flEditarLogs'] : '';
+            $flInserirLogs = !empty($Formulario['flInserirLogs']) ? $Formulario['flInserirLogs'] : '';
+            $flExcluirLogs = !empty($Formulario['flExcluirLogs']) ? $Formulario['flExcluirLogs'] : '';
+
             $data = [
                 "FICHA_LPV" => [
                     "FL_ACESSAR" => $flAcessarFichaLPV ? "S" : "N",
@@ -266,6 +271,12 @@ class GruposUsuarios
                     "FL_EDITAR" => $flEditarRelatorios ? "S" : "N",
                     "FL_INSERIR" => $flInserirRelatorios ? "S" : "N",
                     "FL_EXCLUIR" => $flExcluirRelatorios ? "S" : "N"
+                ],
+                "LOGS" => [
+                    "FL_ACESSAR" => $flAcessarLogs ? "S" : "N",
+                    "FL_EDITAR" => $flEditarLogs ? "S" : "N",
+                    "FL_INSERIR" => $flInserirLogs ? "S" : "N",
+                    "FL_EXCLUIR" => $flExcluirLogs ? "S" : "N"
                 ]
             ];
 

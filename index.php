@@ -180,6 +180,11 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
+    $group->post('/logs', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\Logs($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
@@ -204,6 +209,7 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         '/veterinaria/paginas/listUsuarios',
         '/veterinaria/paginas/relatorioFichaLPV',
         '/veterinaria/paginas/cadastroGruposUsuariosNovo',
+        '/veterinaria/paginas/logs',
     ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));

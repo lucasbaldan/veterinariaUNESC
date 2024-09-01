@@ -252,6 +252,13 @@ $('#btnRelatorios').on('click', function () {
   );
 });
 
+$('#btnLogs').on('click', function () {
+  toggleCheckboxes(
+    ['flAcessarLogs'],
+    'iconLogs'
+  );
+});
+
 function toggleCheckboxes(checkboxIds, iconId) {
   let checkboxes = checkboxIds.map(id => document.getElementById(id));
   let allChecked = checkboxes.every(checkbox => checkbox.checked);

@@ -40,6 +40,7 @@ class TelaComMenus
         $itemGrupoUsuario = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_GRUPOS_USUARIOS', 'FL_ACESSAR');
         $itemUsuario = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_ACESSAR');
         $itemRelFichaLPV = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('RELATORIOS', 'FL_ACESSAR');
+        $itemLogs = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('LOGS', 'FL_ACESSAR');
 
         // $itemAnimal = true;
         // $itemPessoa = true;
@@ -63,7 +64,7 @@ class TelaComMenus
         if ($abaAnimal || $abaEndereco) $abaCadastrosGerais = true;
         else $abaCadastrosGerais = false;
 
-        if ($itemAcessoGrupo || $itemGrupoUsuario || $itemUsuario) $abaControleAcesso = true;
+        if ($itemAcessoGrupo || $itemGrupoUsuario || $itemUsuario || $itemLogs) $abaControleAcesso = true;
         else $abaControleAcesso = false;
 
         if ($itemRelFichaLPV) $abaRelatorios = true;
@@ -86,6 +87,7 @@ class TelaComMenus
             'itemAcessoGrupo' => $itemAcessoGrupo,
             'itemGrupoUsuario' => $itemGrupoUsuario,
             'itemUsuario' => $itemUsuario,
+            'itemLogs' => $itemLogs,
 
             'abaCadastrosGerais' => $abaCadastrosGerais,
             'abaAnimal' => $abaAnimal,

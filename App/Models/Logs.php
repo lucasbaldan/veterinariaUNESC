@@ -58,6 +58,24 @@ class Logs
     return $read->getResult();
   }
 
+  public static function PesquisaFiltrada($tabela, $codigo, $dtInicial, $dtFinal)
+  {
+    $read = new \App\Conn\Read();
+    $sql = "SELECT L.* FROM LOGS L WHERE 1=1";
+
+    if(!empty($tabela)) $sql .= " AND L.TABELA = '$tabela'";
+    if(!empty($codigo)) $sql .= " AND L.CODIGO = $codigo";
+
+    if(!empty($dtInicial) && empty($dtFinal)) $sql .= " AND DATE(L.DT_HORA) > '$dtInicial'";
+    if(empty($dtInicial) && !empty($dtFinal)) $sql .= " AND DATE(L.DT_HORA) < '$dtFinal'";
+    if(!empty($dtInicial) && !empty($dtFinal)) $sql .= " AND DATE(L.DT_HORA) BETWEEN '$dtInicial' AND '$dtFinal'";
+
+    $sql .= " ORDER BY L.CD_LOG LIMIT 30";
+    $read->FullRead($sql);
+
+    return $read->getResult();
+  }
+
   public function GetMessage()
   {
     return $this->Message;

@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
-class CadastroAcessosGruposUsuarios 
+class CadastroAcessosGruposUsuarios
 {
     private $twig;
     private $TelaComMenus;
@@ -28,7 +28,7 @@ class CadastroAcessosGruposUsuarios
 
         if (!empty($cdGrupoUsuarios)) {
             $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CONTROLE_ACESSOS', 'FL_EDITAR');
-        // $exibeSalvar = $permissaoSalvar == true ? true : false;
+            // $exibeSalvar = $permissaoSalvar == true ? true : false;
 
             $cdGrupoUsuarios = $grupoUsuarios->GetCodigo();
             $nmGrupoUsuarios = $grupoUsuarios->GetNome();
@@ -114,6 +114,12 @@ class CadastroAcessosGruposUsuarios
             $flEditarRelatorios = !empty($permissoesArray['RELATORIOS']['FL_EDITAR']) ? $permissoesArray['RELATORIOS']['FL_EDITAR'] : 'N';
             $flInserirRelatorios = !empty($permissoesArray['RELATORIOS']['FL_INSERIR']) ? $permissoesArray['RELATORIOS']['FL_INSERIR'] : 'N';
             $flExcluirRelatorios = !empty($permissoesArray['RELATORIOS']['FL_EXCLUIR']) ? $permissoesArray['RELATORIOS']['FL_EXCLUIR'] : 'N';
+
+            // LOGS
+            $flAcessarLogs = !empty($permissoesArray['LOGS']['FL_ACESSAR']) ? $permissoesArray['LOGS']['FL_ACESSAR'] : 'N';
+            $flEditarLogs = !empty($permissoesArray['LOGS']['FL_EDITAR']) ? $permissoesArray['LOGS']['FL_EDITAR'] : 'N';
+            $flInserirLogs = !empty($permissoesArray['LOGS']['FL_INSERIR']) ? $permissoesArray['LOGS']['FL_INSERIR'] : 'N';
+            $flExcluirLogs = !empty($permissoesArray['LOGS']['FL_EXCLUIR']) ? $permissoesArray['LOGS']['FL_EXCLUIR'] : 'N';
         } else {
             $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CONTROLE_ACESSOS', 'FL_INSERIR');
             $cdGrupoUsuarios = '';
@@ -197,6 +203,12 @@ class CadastroAcessosGruposUsuarios
             $flEditarRelatorios = 'N';
             $flInserirRelatorios = 'N';
             $flExcluirRelatorios = 'N';
+
+            // LOGS
+            $flAcessarLogs = 'N';
+            $flEditarLogs = 'N';
+            $flInserirLogs = 'N';
+            $flExcluirLogs = 'N';
         }
 
 
@@ -286,6 +298,11 @@ class CadastroAcessosGruposUsuarios
             'flInserirRelatorios' => $flInserirRelatorios == 'S' ? 'checked' : '',
             'flExcluirRelatorios' => $flExcluirRelatorios == 'S' ? 'checked' : '',
 
+            // LOGS
+            'flAcessarLogs' => $flAcessarLogs == 'S' ? 'checked' : '',
+            'flEditarLogs' => $flEditarLogs == 'S' ? 'checked' : '',
+            'flInserirLogs' => $flInserirLogs == 'S' ? 'checked' : '',
+            'flExcluirLogs' => $flExcluirLogs == 'S' ? 'checked' : '',
         ]);
 
         $conteudoTela = $this->TelaComMenus->renderTelaComMenus($telaCadastroUsuarios);

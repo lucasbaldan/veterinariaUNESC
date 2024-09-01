@@ -107,6 +107,17 @@
                 <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
                     href="/veterinaria/paginas/listUsuarios"><i class="bi bi-person"></i></i> Usuários </a>
                 {% endif %}
+
+                {% if itemLogs %}
+                <form id="logsForm" action="/veterinaria/paginas/logs" method="POST"
+                    style="display: inline;">
+                    <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen" href="#"
+                        onclick="document.getElementById('logsForm').submit(); return false;">
+                        <i class="bi bi-substack"></i> Logs
+                    </a>
+                </form>
+                {% endif %}
+
                 <!-- {% if itemUsuario %}
                 <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
                     href="/veterinaria/paginas/gruposUsuarios"><i class="bi bi-people"></i></i> Grupo de
