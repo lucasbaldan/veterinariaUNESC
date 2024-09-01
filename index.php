@@ -294,7 +294,8 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
 $app->group('/server', function (RouteCollectorProxy $group) {
 
     $group->group('/relatorios', function (RouteCollectorProxy $Group) {
-        $Group->post('/fichaLPV', App\Reports\RelFichaLPVPDF::class . ':gerar');
+        $Group->post('/exameCitopatologicoWORD', App\Reports\RelExameCitopatologicoWORD::class . ':gerar');
+        $Group->post('/exameCitopatologicoPDF', App\Reports\RelExameCitopatologicoPDF::class . ':gerar');
     });
 
     $group->group('/pessoas', function (RouteCollectorProxy $pessoasGroup) {
@@ -382,10 +383,6 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $usuariosGroup->post('/alterarSenha',  App\Controllers\Usuarios::class . ':alterarSenha');
     });
 
-    $group->group('/pdf', function (RouteCollectorProxy $pdf) {
-        $pdf->post('/geraPdf',  App\Reports\RelFichaLPV::class . ':GerarPdf');
-    });
-
     $group->group('/fichaLPV', function (RouteCollectorProxy $fichaLPVGroup) {
         // $fichaLPVGroup->post('/salvafichaLPV',  App\Controllers\FormularioLPV::class . ':Salvar');
         // $fichaLPVGroup->post('/retornaFichasLPV',  App\Controllers\FormularioLPV::class . ':RetornarFichasLPV');
@@ -397,7 +394,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
         
-        '/veterinaria/server/relatorios/fichaLPV',
+        '/veterinaria/server/relatorios/exameCitopatologicoWORD',
+        '/veterinaria/server/relatorios/exameCitopatologicoPDF',
 
         '/veterinaria/server/pessoas/controlar',
         '/veterinaria/server/pessoas/retornaPesquisaModal',

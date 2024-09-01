@@ -428,15 +428,23 @@ $("#printFichaLPV").on("click", function () {
   // Mostra o Bootbox para o usuário escolher o formato
   bootbox.dialog({
     title: "Emitir Relatório LPV",
-    message: '<button type="button" class="btn btn-primary" onclick="gerarRelPDF()">PDF</button> <button type="button" class="btn btn-primary" onclick="gerarRelWord()">Word</button>',
+    message: '<form id="printRelFichaLPV"> <select id="modeloRelatorio" class="form-select form-select-lg mb-3"> <option value="exameCitopatologico">Exame Citopatológico</option> <option value="exameCitopatologico">Exame Histopatológico</option> <option value="3">Resultado de Exames</option></select> <div class="row"> <div class="col"> <button type="button" onclick="gerarRel(\'PDF\')" class="btn btn-outline-secondary w-100"> <i class="bi bi-file-earmark-pdf-fill" style="font-size: 3rem;"></i> <br> PDF</button> </div> <div class="col"><button type="button" onclick="gerarRel(\'WORD\')" class="btn btn-outline-secondary w-100"> <i class="bi bi-filetype-docx" style="font-size: 3rem;"></i> <br> DOCX (MS Word)</button> </div> </div> </form>',
   });
 });
 
-function gerarRelWord() {
+function gerarRel(tpArquivo) {
   Loading.on();
-  
+
+  const tipoArquivo = tpArquivo;
+  const modeloRelatorio = $('#modeloRelatorio').val();
+
+  if((tipoArquivo != 'PDF' && tipoArquivo != 'WORD' ) || modeloRelatorio != 'exameCitopatologico'){
+    Notificacao.NotificacaoErro('Erro ao gerar relatório, tente novamente mais tarde');
+    Loading.off();
+  }
+
   $.ajax({
-    url: "/veterinaria/server/relatorios/fichaLPV", // URL correta para gerar o DOCX
+    url: "/veterinaria/server/relatorios/"+modeloRelatorio+tipoArquivo,
     method: "POST",
     data: {
       cdFichaLPV: $('#cdFichaLPV').val(),
@@ -447,53 +455,16 @@ function gerarRelWord() {
     success: function (blob) {
       Loading.off();
 
-      // Cria um URL para o blob
       const url = window.URL.createObjectURL(blob);
 
-      // Cria um link temporário
       const a = document.createElement('a');
       a.href = url;
-      a.download = "relatorio.docx"; // Nome do arquivo
+      if(tipoArquivo === 'PDF'){
+        a.download = modeloRelatorio+".pdf";
+      } else if(tipoArquivo === 'WORD'){
+        a.download = modeloRelatorio+".docx"; 
+      }
 
-      // Adiciona o link ao documento e clica nele
-      document.body.appendChild(a);
-      a.click();
-
-      // Remove o link temporário
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url); // Libera a memória associada ao blob
-    },
-    error: function (xhr, status, error) {
-      Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
-      Loading.off();
-    }
-  });
-}
-
-function gerarRelPDF() {
-  Loading.on();
-  
-  $.ajax({
-    url: "/veterinaria/server/relatorios/fichaLPV", // URL correta para gerar o DOCX
-    method: "POST",
-    data: {
-      cdFichaLPV: $('#cdFichaLPV').val(),
-    },
-    xhrFields: {
-      responseType: 'blob' // Define o tipo de resposta como blob (binário)
-    },
-    success: function (blob) {
-      Loading.off();
-
-      // Cria um URL para o blob
-      const url = window.URL.createObjectURL(blob);
-
-      // Cria um link temporário
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = "relatorio.pdf"; // Nome do arquivo
-
-      // Adiciona o link ao documento e clica nele
       document.body.appendChild(a);
       a.click();
 
