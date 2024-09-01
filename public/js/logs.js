@@ -32,9 +32,8 @@ function filtrarFichasLPV() {
   });
 }
 
-function LimparCamposFiltroFichaLPV() {
-  $('.select2-selection__clear').trigger('click');
-  $('#formRelatorioFichaLPV').trigger('reset');
+function LimparCamposFiltroLogs() {
+  $('#formLogs').trigger('reset');
 }
 
 function gerarPDF() {
