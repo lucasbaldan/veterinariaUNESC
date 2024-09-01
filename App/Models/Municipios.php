@@ -56,7 +56,7 @@ class Municipios
 
         $read = new \App\Conn\Read();
 
-        $query= " SELECT CIDADES.CD_CIDADE,
+        $query = " SELECT CIDADES.CD_CIDADE,
        CIDADES.NOME,
        ESTADOS.NOME AS NOME_ESTADO,
        (SELECT COUNT(*) 
@@ -114,6 +114,11 @@ class Municipios
             }
 
             $insert->Commit();
+            $this->codigo = $insert->getLastInsert();
+
+            $logs = new \App\Models\Logs($_SESSION['username'], 'INSERT', 'CIDADES', $this->codigo, $dadosInsert);
+            $logs->Insert();
+
             $this->Result = true;
         } catch (Exception $e) {
             $this->Result = false;
@@ -134,7 +139,7 @@ class Municipios
                 $conn = \App\Conn\Conn::getConn();
                 $update = new \App\Conn\Update($conn);
 
-                $dadosUpdate = ["CD_CIDADE" => $this->codigo, "NOME" => $this->descricao, "CD_IBGE_ESTADO" => $this->estado->getCodigoIbge()];
+                $dadosUpdate = ["CD_CIDADE" => $this->codigo, "NOME" => $this->descricao, "ID_IBGE_ESTADO" => $this->estado->getCodigoIbge()];
 
                 $update->ExeUpdate("CIDADES", $dadosUpdate, "WHERE CD_CIDADE = :D", "D=$this->codigo");
 
@@ -142,6 +147,10 @@ class Municipios
                     throw new Exception($update->getMessage());
                 }
                 $update->Commit();
+
+                $logs = new \App\Models\Logs($_SESSION['username'], 'UPDATE', 'CIDADES', $this->codigo, $dadosUpdate);
+                $logs->Insert();
+
                 $this->Result = true;
             } else {
                 throw new Exception("Ops, Parece que esse registro não existe mais na base de dados!");
@@ -159,10 +168,17 @@ class Municipios
         try {
             $conn = \App\Conn\Conn::getConn();
             $delete = new \App\Conn\Delete($conn);
+            $read = new \App\Conn\Read($conn);
+            
+            $read->FullRead("SELECT * FROM CIDADES WHERE CD_CIDADE = :C", "C=$this->codigo");
+            $dadosCidade = $read->getResult()[0];
 
             $delete->ExeDelete("CIDADES", "WHERE CD_CIDADE = :C", "C=$this->codigo");
-
             $delete->Commit();
+
+            $logs = new \App\Models\Logs($_SESSION['username'], 'DELETE', 'CIDADES', $this->codigo, $dadosCidade);
+            $logs->Insert();
+
             $this->Result = true;
         } catch (Exception $e) {
             $this->Message = $e->getMessage();

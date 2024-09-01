@@ -70,6 +70,18 @@ class Usuarios
       if (!$insert->getResult()) {
         throw new Exception($insert->getMessage());
       }
+
+      $this->CdUsuario = $insert->getLastInsert();
+
+      $logs = new \App\Models\Logs($_SESSION['username'], 'INSERT', 'USUARIOS', $this->CdUsuario, [
+        "CD_PESSOA" => $this->CdPessoa->getCodigo(),
+        "USUARIO" => $this->Usuario,
+        "SENHA" => $this->Senha,
+        "FL_ATIVO" => $this->FlAtivo,
+        "CD_GRUPO_USUARIOS" => $this->CdGrupoUsuarios->getCodigo(),
+      ]);
+      $logs->Insert();
+
       $this->Result = true;
       $this->Return = $insert->getLastInsert();
     } catch (Exception $e) {
@@ -86,14 +98,14 @@ class Usuarios
       $dadosFicha = $read->getResult()[0] ?? [];
       if ($dadosFicha) {
 
-          $dadosUpdate = [
-            "CD_PESSOA" => $this->CdPessoa->getCodigo(),
-            "USUARIO" => $this->Usuario,
-            "FL_ATIVO" => $this->FlAtivo,
-            "CD_GRUPO_USUARIOS" => $this->CdGrupoUsuarios->getCodigo(),
-          ];
+        $dadosUpdate = [
+          "CD_PESSOA" => $this->CdPessoa->getCodigo(),
+          "USUARIO" => $this->Usuario,
+          "FL_ATIVO" => $this->FlAtivo,
+          "CD_GRUPO_USUARIOS" => $this->CdGrupoUsuarios->getCodigo(),
+        ];
 
-          if(!empty($this->Senha)) $dadosUpdate["SENHA"] = $this->Senha;
+        if (!empty($this->Senha)) $dadosUpdate["SENHA"] = $this->Senha;
 
         $update = new \App\Conn\Update();
 
@@ -103,6 +115,10 @@ class Usuarios
         if (!$atualizado) {
           throw new Exception($update->getMessage());
         }
+
+        $logs = new \App\Models\Logs($_SESSION['username'], 'UPDATE', 'USUARIOS', $this->CdUsuario, $dadosUpdate);
+        $logs->Insert();
+
         $this->Result = true;
       } else {
         throw new Exception("Ops! PARECE QUE ESSE REGISTRO NÃO EXISTE NA BASE DE DADOS!");
@@ -140,9 +156,16 @@ class Usuarios
   public static function Delete($cdUsuario)
   {
     $delete = new \App\Conn\Delete();
+    $read = new \App\Conn\Read();
+
+    $read->FullRead("SELECT * FROM USUARIOS WHERE CD_USUARIO = :C", "C=$cdUsuario");
+    $dadosUsuario = $read->getResult()[0];
 
     $delete->ExeDelete("USUARIOS", "WHERE CD_USUARIO =:C", "C=$cdUsuario");
     $deletado = !empty($delete->getResult());
+
+    $logs = new \App\Models\Logs($_SESSION['username'], 'DELETE', 'USUARIOS', $cdUsuario, $dadosUsuario);
+    $logs->Insert();
 
     if ($deletado) {
       return true;
@@ -158,16 +181,16 @@ class Usuarios
     $read->ExeRead("USUARIOS", "WHERE USUARIO = :U LIMIT 1", "U=$Usuario");
 
     if ($read->getResult()) {
-      if(password_verify($senha, $read->getResult()[0]['SENHA'])){
-      return new self(
-        $read->getResult()[0]['CD_PESSOA'],
-        $read->getResult()[0]['USUARIO'],
-        '',
-        $read->getResult()[0]['CD_GRUPO_USUARIOS'],
-        $read->getResult()[0]['FL_ATIVO'],
-        $read->getResult()[0]['CD_USUARIO']
-      );
-    } else  return new self('', '', '', '', '');
+      if (password_verify($senha, $read->getResult()[0]['SENHA'])) {
+        return new self(
+          $read->getResult()[0]['CD_PESSOA'],
+          $read->getResult()[0]['USUARIO'],
+          '',
+          $read->getResult()[0]['CD_GRUPO_USUARIOS'],
+          $read->getResult()[0]['FL_ATIVO'],
+          $read->getResult()[0]['CD_USUARIO']
+        );
+      } else  return new self('', '', '', '', '');
     } else {
       return new self('', '', '', '', '');
     }

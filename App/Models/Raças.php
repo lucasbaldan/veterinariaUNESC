@@ -119,6 +119,11 @@ class Raças
             }
 
             $insert->Commit();
+            $this->codigo = $insert->getLastInsert();
+
+            $logs = new \App\Models\Logs($_SESSION['username'], 'INSERT', 'RACAS', $this->codigo, $dadosInsert);
+            $logs->Insert();
+
             $this->Result = true;
         } catch (Exception $e) {
             $this->Result = false;
@@ -147,6 +152,10 @@ class Raças
                     throw new Exception($update->getMessage());
                 }
                 $update->Commit();
+
+                $logs = new \App\Models\Logs($_SESSION['username'], 'UPDATE', 'RACAS', $this->codigo, $dadosUpdate);
+                $logs->Insert();
+
                 $this->Result = true;
             } else {
                 throw new Exception("Ops, Parece que esse registro não existe mais na base de dados!");
@@ -164,10 +173,17 @@ class Raças
         try {
             $conn = \App\Conn\Conn::getConn();
             $delete = new \App\Conn\Delete($conn);
+            $read = new \App\Conn\Read($conn);
+            
+            $read->FullRead("SELECT * FROM RACAS WHERE CD_RACA = :C", "C=$this->codigo");
+            $dadosRaca = $read->getResult()[0];
 
             $delete->ExeDelete("RACAS", "WHERE CD_RACA = :C", "C=$this->codigo");
-
             $delete->Commit();
+
+            $logs = new \App\Models\Logs($_SESSION['username'], 'DELETE', 'RACAS', $this->codigo, $dadosRaca);
+            $logs->Insert();
+
             $this->Result = true;
         } catch (Exception $e) {
             $this->Message = $e->getMessage();

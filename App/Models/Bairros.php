@@ -100,6 +100,11 @@ class Bairros
             }
 
             $insert->Commit();
+            $this->codigo = $insert->getLastInsert();
+
+            $logs = new \App\Models\Logs($_SESSION['username'], 'INSERT', 'BAIRROS', $this->codigo, $dadosInsert);
+            $logs->Insert();
+
             $this->Result = true;
         } catch (Exception $e) {
             $this->Result = false;
@@ -128,6 +133,10 @@ class Bairros
                     throw new Exception($update->getMessage());
                 }
                 $update->Commit();
+
+                $logs = new \App\Models\Logs($_SESSION['username'], 'UPDATE', 'BAIRROS', $this->codigo, $dadosUpdate);
+                $logs->Insert();
+
                 $this->Result = true;
             } else {
                 throw new Exception("Ops, Parece que esse registro não existe mais na base de dados!");
@@ -145,10 +154,17 @@ class Bairros
         try {
             $conn = \App\Conn\Conn::getConn();
             $delete = new \App\Conn\Delete($conn);
+            $read = new \App\Conn\Read($conn);
+            
+            $read->FullRead("SELECT * FROM BAIRROS WHERE CD_BAIRRO = :C", "C=$this->codigo");
+            $dadosBairro = $read->getResult()[0];
 
             $delete->ExeDelete("BAIRROS", "WHERE CD_BAIRRO = :C", "C=$this->codigo");
-
             $delete->Commit();
+
+            $logs = new \App\Models\Logs($_SESSION['username'], 'DELETE', 'BAIRROS', $this->codigo, $dadosBairro);
+            $logs->Insert();
+
             $this->Result = true;
         } catch (Exception $e) {
             $this->Message = $e->getMessage();

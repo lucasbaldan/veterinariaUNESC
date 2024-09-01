@@ -115,6 +115,22 @@ class Pessoas
                 throw new Exception($insert->getMessage());
             }
             $this->CdPessoa = $insert->getLastInsert();
+
+            $logs = new \App\Models\Logs($_SESSION['username'], 'INSERT', 'PESSOAS', $this->CdPessoa, [
+                "NM_PESSOA" => $this->NmPessoa,
+                "CPF" => $this->cpf,
+                "DATA_NASCIMENTO" => $this->dataNascimento,
+                "CD_CIDADE" => $this->cidade->getCodigo(),
+                "CD_BAIRRO" => $this->bairro->getCodigo(),
+                "CD_LOGRADOURO" => $this->logradouro->getCodigo(),
+                "NR_TELEFONE" => $this->NrTelefone,
+                "NR_CELULAR" => $this->NrCelular,
+                "DS_EMAIL" => $this->DsEmail,
+                "NR_CRMV" => $this->NrCRMV,
+                "FL_ATIVO" => $this->ativo
+            ]);
+            $logs->Insert();
+
             $this->Result = true;
         } catch (Exception $e) {
             $this->Result = false;
@@ -150,6 +166,10 @@ class Pessoas
                 if (!$update->getResult()) {
                     throw new Exception($update->getMessage());
                 }
+
+                $logs = new \App\Models\Logs($_SESSION['username'], 'UPDATE', 'PESSOAS', $this->CdPessoa, $dadosUpdate);
+                $logs->Insert();
+
                 $this->Result = true;
             } else {
                 throw new Exception("Ops Parece que esse registro não existe mais na base de dados");
@@ -216,10 +236,17 @@ class Pessoas
     {
         try {
             $delete = new \App\Conn\Delete();
+            $read = new \App\Conn\Read();
+
+            $read->FullRead("SELECT * FROM PESSOAS WHERE CD_PESSOA = :C", "C=$this->CdPessoa");
+            $dadosPessoa = $read->getResult()[0];
 
             $delete->ExeDelete("PESSOAS", "WHERE CD_PESSOA =:C", "C=$this->CdPessoa");
 
             if (!$delete->getResult()[0]) throw new Exception($delete->getResult()[1]);
+
+            $logs = new \App\Models\Logs($_SESSION['username'], 'DELETE', 'PESSOAS', $this->CdPessoa, $dadosPessoa);
+            $logs->Insert();
 
             $this->Result = true;
         } catch (Exception $e) {

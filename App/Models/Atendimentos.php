@@ -136,10 +136,18 @@ class Atendimentos
             return null;
         }
 
+        $read = new \App\Conn\Read();
+
+        $read->FullRead("SELECT * FROM IMAGENS_ATENDIMENTOS WHERE ID_IMAGEM = :C", "C=$imageID");
+        $dadosImagem = $read->getResult()[0];
+
         $delete = new \App\Conn\Delete($Conn = false);
         $delete->ExeDelete("IMAGENS_ATENDIMENTOS", "WHERE ID_IMAGEM = :C", "C=$imageID");
 
         if (!$delete->getResult()[0]) return false;
+
+        $logs = new \App\Models\Logs($_SESSION['username'], 'DELETE', 'IMAGENS_ATENDIMENTOS', $dadosImagem['CD_IMAGEM_ATM'], $dadosImagem);
+        $logs->Insert();
 
         return true;
     }
@@ -257,31 +265,31 @@ class Atendimentos
 
         // WHERE 1=1 ";
 
-         if (!empty($pesquisaCodigo)) $query .= " AND FICHA_LPV.CD_FICHA_LPV LIKE '%$pesquisaCodigo%'";
-         if (!empty($pesquisaDataInicio)) $query .= " AND FICHA_LPV.DT_FICHA >= '$pesquisaDataInicio'";
-         if (!empty($pesquisaDataFim)) $query .= " AND FICHA_LPV.DT_FICHA <= '$pesquisaDataFim'";
-         if (!empty($pesquisaNomeAnimal)) $query .= " AND ANIMAIS.NM_ANIMAL LIKE '%$pesquisaNomeAnimal%'";
-         if (!empty($pesquisaEspecieAnimal)) $query .= " AND ESPECIES.DESCRICAO LIKE '%$pesquisaEspecieAnimal%'";
-         if (!empty($pesquisaRacaAnimal)) $query .= " AND RACAS.DESCRICAO LIKE '%$pesquisaRacaAnimal%'";
-         if (!empty($pesquisaSexoAnimal)) $query .= " AND ANIMAIS.SEXO = '$pesquisaSexoAnimal'";
-         if (!empty($pesquisaCastrado)) $query .= " AND ANIMAIS.FL_CASTRADO = '$pesquisaCastrado'";
-         if (!empty($pesquisaIdadeAnoInicio)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_ANO >= $pesquisaIdadeAnoInicio";
-         if (!empty($pesquisaIdadeAnoFim)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_ANO <= $pesquisaIdadeAnoFim";
-         if (!empty($pesquisaIdadeMesInicio)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_MES >= $pesquisaIdadeMesInicio";
-         if (!empty($pesquisaIdadeMesFim)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_MES <= $pesquisaIdadeMesFim";
-         if (!empty($pesquisaIdadeDiaInicio)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_DIA >= $pesquisaIdadeDiaInicio";
-         if (!empty($pesquisaIdadeDiaFim)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_DIA <= $pesquisaIdadeDiaFim";
-         if (!empty($pesquisaTutor)) $query .= " AND TUTOR.NM_PESSOA LIKE '%$pesquisaTutor%'";
-         if (!empty($pesquisaVeterinario)) $query .= " AND VETERINARIO.NM_PESSOA LIKE '%$pesquisaVeterinario%'";
-         if (!empty($pesquisaMunicipio)) $query .= " AND CIDADES.NOME LIKE '%$pesquisaMunicipio%'";
-         if (!empty($pesquisaMaterial)) $query .= " AND FICHA_LPV.DS_MATERIAL_RECEBIDO LIKE '%$pesquisaMaterial%'";
-         if (!empty($pesquisaDiagnosticoPresuntivo)) $query .= " AND FICHA_LPV.DS_DIAGNOSTICO_PRESUNTIVO LIKE '%$pesquisaDiagnosticoPresuntivo%'";
-         if (!empty($pesquisaAvaliacaoTumor)) $query .= " AND FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM = '$pesquisaAvaliacaoTumor'";
-         if (!empty($pesquisaEpidemiologia)) $query .= " AND FICHA_LPV.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA LIKE '%$pesquisaEpidemiologia%'";
-         if (!empty($pesquisaLessaoMacro)) $query .= " AND FICHA_LPV.DS_LESOES_MACROSCOPICAS LIKE '%$pesquisaLessaoMacro%'";
-         if (!empty($pesquisaLessaoHisto)) $query .= " AND FICHA_LPV.DS_LESOES_HISTOLOGICAS LIKE '%$pesquisaLessaoHisto%'";
-         if (!empty($pesquisaDiagnostico)) $query .= " AND FICHA_LPV.DS_DIAGNOSTICO LIKE '%$pesquisaDiagnostico%'";
-         if (!empty($pesquisaRelatorio)) $query .= " AND FICHA_LPV.DS_RELATORIO LIKE '%$pesquisaRelatorio%'";
+        if (!empty($pesquisaCodigo)) $query .= " AND FICHA_LPV.CD_FICHA_LPV LIKE '%$pesquisaCodigo%'";
+        if (!empty($pesquisaDataInicio)) $query .= " AND FICHA_LPV.DT_FICHA >= '$pesquisaDataInicio'";
+        if (!empty($pesquisaDataFim)) $query .= " AND FICHA_LPV.DT_FICHA <= '$pesquisaDataFim'";
+        if (!empty($pesquisaNomeAnimal)) $query .= " AND ANIMAIS.NM_ANIMAL LIKE '%$pesquisaNomeAnimal%'";
+        if (!empty($pesquisaEspecieAnimal)) $query .= " AND ESPECIES.DESCRICAO LIKE '%$pesquisaEspecieAnimal%'";
+        if (!empty($pesquisaRacaAnimal)) $query .= " AND RACAS.DESCRICAO LIKE '%$pesquisaRacaAnimal%'";
+        if (!empty($pesquisaSexoAnimal)) $query .= " AND ANIMAIS.SEXO = '$pesquisaSexoAnimal'";
+        if (!empty($pesquisaCastrado)) $query .= " AND ANIMAIS.FL_CASTRADO = '$pesquisaCastrado'";
+        if (!empty($pesquisaIdadeAnoInicio)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_ANO >= $pesquisaIdadeAnoInicio";
+        if (!empty($pesquisaIdadeAnoFim)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_ANO <= $pesquisaIdadeAnoFim";
+        if (!empty($pesquisaIdadeMesInicio)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_MES >= $pesquisaIdadeMesInicio";
+        if (!empty($pesquisaIdadeMesFim)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_MES <= $pesquisaIdadeMesFim";
+        if (!empty($pesquisaIdadeDiaInicio)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_DIA >= $pesquisaIdadeDiaInicio";
+        if (!empty($pesquisaIdadeDiaFim)) $query .= " AND FICHA_LPV.IDADE_ANIMAL_DIA <= $pesquisaIdadeDiaFim";
+        if (!empty($pesquisaTutor)) $query .= " AND TUTOR.NM_PESSOA LIKE '%$pesquisaTutor%'";
+        if (!empty($pesquisaVeterinario)) $query .= " AND VETERINARIO.NM_PESSOA LIKE '%$pesquisaVeterinario%'";
+        if (!empty($pesquisaMunicipio)) $query .= " AND CIDADES.NOME LIKE '%$pesquisaMunicipio%'";
+        if (!empty($pesquisaMaterial)) $query .= " AND FICHA_LPV.DS_MATERIAL_RECEBIDO LIKE '%$pesquisaMaterial%'";
+        if (!empty($pesquisaDiagnosticoPresuntivo)) $query .= " AND FICHA_LPV.DS_DIAGNOSTICO_PRESUNTIVO LIKE '%$pesquisaDiagnosticoPresuntivo%'";
+        if (!empty($pesquisaAvaliacaoTumor)) $query .= " AND FICHA_LPV.FL_AVALIACAO_TUMORAL_COM_MARGEM = '$pesquisaAvaliacaoTumor'";
+        if (!empty($pesquisaEpidemiologia)) $query .= " AND FICHA_LPV.DS_EPIDEMIOLOGIA_HISTORIA_CLINICA LIKE '%$pesquisaEpidemiologia%'";
+        if (!empty($pesquisaLessaoMacro)) $query .= " AND FICHA_LPV.DS_LESOES_MACROSCOPICAS LIKE '%$pesquisaLessaoMacro%'";
+        if (!empty($pesquisaLessaoHisto)) $query .= " AND FICHA_LPV.DS_LESOES_HISTOLOGICAS LIKE '%$pesquisaLessaoHisto%'";
+        if (!empty($pesquisaDiagnostico)) $query .= " AND FICHA_LPV.DS_DIAGNOSTICO LIKE '%$pesquisaDiagnostico%'";
+        if (!empty($pesquisaRelatorio)) $query .= " AND FICHA_LPV.DS_RELATORIO LIKE '%$pesquisaRelatorio%'";
 
 
         if (!empty($orderBy)) {
@@ -330,6 +338,9 @@ class Atendimentos
             }
             $this->codigo = $insert->getLastInsert();
 
+            $logs = new \App\Models\Logs($_SESSION['username'], 'INSERT', 'FICHA_LPV', $this->codigo, $dadosInsert);
+            $logs->Insert();
+
             $this->Result = true;
         } catch (Exception $e) {
             $this->Result = false;
@@ -356,6 +367,11 @@ class Atendimentos
 
             $this->Result = true;
             $insert->Commit();
+            $imageID = $insert->getLastInsert();
+
+            $logs = new \App\Models\Logs($_SESSION['username'], 'INSERT', 'IMAGENS_ATENDIMENTOS', $imageID, $dadosInsert);
+            $logs->Insert();
+
         } catch (Exception $e) {
             $insert->Rollback();
             $this->Result = false;
@@ -400,6 +416,10 @@ class Atendimentos
                 if (!$update->getResult()) {
                     throw new Exception($update->getMessage());
                 }
+
+                $logs = new \App\Models\Logs($_SESSION['username'], 'UPDATE', 'FICHA_LPV', $this->codigo, $dadosUpdate);
+                $logs->Insert();
+
                 $this->Result = true;
             } else {
                 throw new Exception("Ops, Parece que esse registro não existe mais na base de dados!");
@@ -415,10 +435,17 @@ class Atendimentos
 
         try {
             $delete = new \App\Conn\Delete($Conn);
+            $read = new \App\Conn\Read($Conn);
+
+            $read->FullRead("SELECT * FROM FICHA_LPV WHERE CD_FICHA_LPV = :C", "C=$this->codigo");
+            $dadosFicha = $read->getResult()[0];
 
             $delete->ExeDelete("FICHA_LPV", "WHERE CD_FICHA_LPV = :C", "C=$this->codigo");
-
             $delete->Commit();
+
+            $logs = new \App\Models\Logs($_SESSION['username'], 'DELETE', 'FICHA_LPV', $this->codigo, $dadosFicha);
+            $logs->Insert();
+
             $this->Result = true;
         } catch (Exception $e) {
             $this->Message = $e->getMessage();

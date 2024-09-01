@@ -100,6 +100,11 @@ class Logradouros
             }
 
             $insert->Commit();
+            $this->codigo = $insert->getLastInsert();
+
+            $logs = new \App\Models\Logs($_SESSION['username'], 'INSERT', 'LOGRADOUROS', $this->codigo, $dadosInsert);
+            $logs->Insert();
+
             $this->Result = true;
         } catch (Exception $e) {
             $this->Result = false;
@@ -128,6 +133,10 @@ class Logradouros
                     throw new Exception($update->getMessage());
                 }
                 $update->Commit();
+
+                $logs = new \App\Models\Logs($_SESSION['username'], 'UPDATE', 'LOGRADOUROS', $this->codigo, $dadosUpdate);
+                $logs->Insert();
+
                 $this->Result = true;
             } else {
                 throw new Exception("Ops, Parece que esse registro não existe mais na base de dados!");
@@ -145,10 +154,17 @@ class Logradouros
         try {
             $conn = \App\Conn\Conn::getConn();
             $delete = new \App\Conn\Delete($conn);
+            $read = new \App\Conn\Read($conn);
+            
+            $read->FullRead("SELECT * FROM LOGRADOUROS WHERE CD_LOGRADOURO = :C", "C=$this->codigo");
+            $dadosLogradouro = $read->getResult()[0];
 
             $delete->ExeDelete("LOGRADOUROS", "WHERE CD_LOGRADOURO = :C", "C=$this->codigo");
-
             $delete->Commit();
+
+            $logs = new \App\Models\Logs($_SESSION['username'], 'DELETE', 'LOGRADOUROS', $this->codigo, $dadosLogradouro);
+            $logs->Insert();
+
             $this->Result = true;
         } catch (Exception $e) {
             $this->Message = $e->getMessage();

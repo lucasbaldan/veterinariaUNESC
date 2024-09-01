@@ -65,7 +65,15 @@ class GruposUsuarios
         throw new Exception($insert->getMessage());
       }
       $this->Result = true;
-      // $this->Return = $insert->getResult();
+      $this->CdGrupoUsuarios = $insert->getLastInsert();
+
+      $logs = new \App\Models\Logs($_SESSION['username'], 'INSERT', 'GRUPOS_USUARIOS', $this->CdGrupoUsuarios, [
+        "NM_GRUPO_USUARIOS" => $this->NmGrupoUsuarios,
+        "PERMISSOES" => $this->Permissoes,
+        "FL_ATIVO" => $this->FlAtivo,
+      ]);
+      $logs->Insert();
+
       $this->Return = $insert->getLastInsert();
     } catch (Exception $e) {
       $this->Result = false;
@@ -96,6 +104,10 @@ class GruposUsuarios
         if (!$atualizado) {
           throw new Exception($update->getMessage());
         }
+
+        $logs = new \App\Models\Logs($_SESSION['username'], 'UPDATE', 'GRUPOS_USUARIOS', $this->CdGrupoUsuarios, $dadosUpdate);
+        $logs->Insert();
+
         $this->Result = true;
       } else {
         throw new Exception("Ops! PARECE QUE ESSE REGISTRO NÃO EXISTE NA BASE DE DADOS!");
@@ -167,11 +179,17 @@ class GruposUsuarios
   public static function Delete($cdGrupoUsuarios)
   {
     $delete = new \App\Conn\Delete();
+    $read = new \App\Conn\Read();
+
+    $read->FullRead("SELECT * FROM GRUPOS_USUARIOS WHERE CD_GRUPO_USUARIOS = :C", "C=$cdGrupoUsuarios");
+    $dadosGrupoUsuarios = $read->getResult()[0];
 
     $delete->ExeDelete("GRUPOS_USUARIOS", "WHERE CD_GRUPO_USUARIOS =:C", "C=$cdGrupoUsuarios");
     $deletado = !empty($delete->getResult());
 
     if ($deletado) {
+      $logs = new \App\Models\Logs($_SESSION['username'], 'DELETE', 'GRUPOS_USUARIOS', $cdGrupoUsuarios, $dadosGrupoUsuarios);
+      $logs->Insert();
       return true;
     } else {
       return false;
@@ -191,7 +209,7 @@ class GruposUsuarios
 
     $read = new \App\Conn\Read();
 
-    $query= "SELECT 
+    $query = "SELECT 
               GRUPOS_USUARIOS.CD_GRUPO_USUARIOS,
               GRUPOS_USUARIOS.NM_GRUPO_USUARIOS,
               (CASE WHEN GRUPOS_USUARIOS.FL_ATIVO = 'S' THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO, 
