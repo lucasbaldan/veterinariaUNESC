@@ -27,69 +27,78 @@ class RelExameCitopatologicoWORD
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
-        $section->addImage('http://localhost/veterinaria/public/img/defaultCabecalhoFicha.png', [
-            'width' => 600, 'height' => 100, 'align' => 'center'
-        ]);
-        
+        $header = $section->addHeader();
+
+        // Adiciona a imagem ao cabeçalho
+        $header->addImage(
+            'http://localhost/veterinaria/public/img/defaultCabecalhoFicha.png',
+            [
+                'width' => 450,
+                'height' => 90,
+                'align' => 'center'  // Centraliza a imagem no cabeçalho
+            ]
+        );
         // Adiciona o título centralizado
-        $section->addTitle('EXAME CITOPATOLÓGICO', 2);
-        
+        $section->addText('EXAME CITOPATOLÓGICO', ['size' => 14, 'bold' => true], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER]);
+
         // Adiciona a tabela
         $table = $section->addTable();
-        $table->addRow();
-        $table->addCell(2000)->addText('Nome do Animal', ['bold' => true]);
+        $table->addRow(null, ['spaceAfter' => 0]);
+        $table->addCell(5000)->addText('Nome do Animal:', ['bold' => true, 'size' => 10]);
         $table->addCell(4000)->addText($DadosFicha->getAnimal()->getNome());
-        
-        $table->addCell(2000)->addText('Espécie', ['bold' => true]);
+
+        $table->addCell(3000)->addText('Espécie:', ['bold' => true, 'size' => 10]);
         $table->addCell(4000)->addText($DadosFicha->getAnimal()->getEspecie()->getDescricao());
-        
-        $table->addCell(2000)->addText('Raça', ['bold' => true]);
+
+        $table->addCell(2000)->addText('Raça:', ['bold' => true, 'size' => 10]);
         $table->addCell(4000)->addText($DadosFicha->getAnimal()->getRaca()->getDescricao());
-        
+
         $table->addRow();
-        $table->addCell(2000)->addText('Idade', ['bold' => true]);
-        $table->addCell(4000)->addText($DadosFicha->getIdadeAno());
-        
-        $table->addCell(2000)->addText('Sexo', ['bold' => true]);
-        $table->addCell(4000)->addText($DadosFicha->getAnimal()->getSexo());
-        
+        $table->addCell(2000)->addText('Idade:', ['bold' => true, 'size' => 10]);
+        $table->addCell(4000)->addText((empty($DadosFicha->getIdadeAno()) ? "" : $DadosFicha->getIdadeAno() . " Anos ") . (empty($DadosFicha->getIdadeMes()) ? "" : $DadosFicha->getIdadeMes() . " Meses ") . (empty($DadosFicha->getIdadeDia()) ? "" : $DadosFicha->getIdadeDia() . " Dias "));
+
+        $table->addCell(2000)->addText('Sexo:', ['bold' => true, 'size' => 10]);
+        $table->addCell(4000)->addText($DadosFicha->getAnimal()->getSexo() == 'M' ? "Macho" : "Fêmea");
+
         $table->addRow();
-        $table->addCell(2000)->addText('Proprietário', ['bold' => true]);
-        $table->addCell(8000)->addText($DadosFicha->getAnimal()->getDono1()->getNome());
-        
+        $table->addCell(2000)->addText('Proprietário:', ['bold' => true, 'size' => 10]);
+        $table->addCell(8500)->addText($DadosFicha->getAnimal()->getDono1()->getNome());
+
         $table->addRow();
-        $table->addCell(2000)->addText('Veterinário', ['bold' => true]);
-        $table->addCell(8000)->addText($DadosFicha->getVeterinarioRemetente()->getNome());
-        
+        $table->addCell(2000)->addText('Veterinário:', ['bold' => true, 'size' => 10]);
+        $table->addCell(8500)->addText($DadosFicha->getVeterinarioRemetente()->getNome());
+
         $section->addTextBreak(1);
-        
+
         // Adiciona as demais informações
-        $section->addText('Natureza do Material: ' . $DadosFicha->getMaterialRecebido(), ['bold' => true]);
-        
-        $section->addTextBreak(2);
-        
-        $section->addText('Descrição Microscópica:', ['bold' => true]);
-        $section->addTextBreak(2);
-        
-        $section->addText('Diagnóstico/Conclusão: ' . $DadosFicha->getDiagnostico(), ['bold' => true]);
-        
-        $section->addTextBreak(2);
-        
-        $section->addText('Notas:', ['bold' => true]);
-        
-        $section->addTextBreak(2);
-        
-        $section->addText('Referências:', ['bold' => true]);
-        
-        $section->addTextBreak(3);
-        
-        $section->addText('Observação: este laudo, como todo resultado de análise laboratorial, deve ser submetido à avaliação do médico veterinário responsável, junto aos demais exames e histórico do paciente.', ['size' => 8]);
-        
+        $section->addText('Natureza do Material: ', ['bold' => true, 'size' => 12]);
+        $section->addText($DadosFicha->getMaterialRecebido(), ['bold' => false, 'size' => 12]);
+
         $section->addTextBreak(1);
-        
+
+        $section->addText('Descrição Microscópica:', ['bold' => true, 'size' => 12]);
+        $section->addTextBreak(1);
+
+        $section->addText('Diagnóstico/Conclusão: ', ['bold' => true, 'size' => 12]);
+        $section->addText($DadosFicha->getDiagnostico(), ['bold' => false, 'size' => 12]);
+
+        $section->addTextBreak(1);
+
+        $section->addText('Notas:', ['bold' => true, 'size' => 12]);
+
+        $section->addTextBreak(1);
+
+        $section->addText('Referências:', ['bold' => true, 'size' => 12]);
+
+        $section->addTextBreak(1);
+
+        $section->addText('Observação: este laudo, como todo resultado de análise laboratorial, deve ser submetido à avaliação do médico veterinário responsável, junto aos demais exames e histórico do paciente.', ['size' => 10.5], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
+
         // Adiciona a assinatura
         $section->addImage('http://localhost/veterinaria/public/img/AssClairton.png', [
-            'width' => 150, 'height' => 50, 'align' => 'center'
+            'width' => 150,
+            'height' => 70,
+            'align' => 'center'
         ]);
 
         $writer = IOFactory::createWriter($phpWord, 'Word2007');

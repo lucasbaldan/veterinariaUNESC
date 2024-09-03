@@ -454,7 +454,7 @@ function gerarRel(tpArquivo) {
     },
     success: function (blob) {
       Loading.off();
-
+      
       const url = window.URL.createObjectURL(blob);
 
       const a = document.createElement('a');

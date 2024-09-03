@@ -30,76 +30,98 @@ class RelExameCitopatologicoPDF
         body {
             font-family: Arial, Helvetica, sans-serif;
         }
+        footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+    }
     </style>
     
     <body>
         <div style="text-align: center;">
-            <img src="http://localhost/veterinaria/public/img/defaultCabecalhoFicha.png">
+            <img src="http://localhost/veterinaria/public/img/defaultCabecalhoFicha.png" style="width: 600px;">
         </div>
         <h2 style="text-align: center;">EXAME CITOPATOLÓGICO</h2>
+        <br>
     
         <table>
             <tbody>
                 <tr>
-                    <td style="padding-right: 15px;"><b>Nome do Animal</b></td>
+                    <td style="padding-right: 15px;"><b>Nome do Animal:</b></td>
                     <td style="padding-right: 30px;">' . $DadosFicha->getAnimal()->getNome() . '</td>
     
-                    <td style="padding-right: 15px;"><b>Espécie</b></td>
+                    <td style="padding-right: 15px;"><b>Espécie:</b></td>
                     <td style="padding-right: 30px;">' . $DadosFicha->getAnimal()->getEspecie()->getDescricao() . '</td>
     
-                    <td style="padding-right: 15px;"><b>Raça</b></td>
+                    <td style="padding-right: 15px;"><b>Raça:</b></td>
                     <td style="padding-right: 30px;">' . $DadosFicha->getAnimal()->getRaca()->getDescricao() . '</td>
                 </tr>
                 <tr>
-                    <td><b>Idade </b></td>
-                    <td>' . $DadosFicha->getIdadeAno() . '</td>
+                    <td><b>Idade:</b></td>
+                    <td>' . (empty($DadosFicha->getIdadeAno()) ? "" : $DadosFicha->getIdadeAno() . " Anos ") . (empty($DadosFicha->getIdadeMes()) ? "" : $DadosFicha->getIdadeMes() . " Meses ") . (empty($DadosFicha->getIdadeDia()) ? "" : $DadosFicha->getIdadeDia() . " Dias ") . '</td>
     
-                    <td><b>Sexo </b></td>
-                    <td>' . $DadosFicha->getAnimal()->getSexo() . '</td>
+                    <td><b>Sexo:</b></td>
+                    <td>' . ($DadosFicha->getAnimal()->getSexo() == 'M' ? "Macho" : "Fêmea") . '</td>
                 </tr>
                 <tr>
-                    <td><b>Proprietário </b></td>
+                    <td><b>Proprietário:</b></td>
                     <td> ' . $DadosFicha->getAnimal()->getDono1()->getNome() . '</td>
                 </tr>
                 <tr>
-                    <td><b>Veterinário </b></td>
+                    <td><b>Veterinário:</b></td>
                     <td> ' . $DadosFicha->getVeterinarioRemetente()->getNome() . '</td>
                 </tr>
             </tbody>
         </table>
     
         <br>
-    
+        <br>
+
+        <div style="text-align: justify;">
         <span><b>Natureza do Material: </b></span> ' . $DadosFicha->getMaterialRecebido() . '
-    
+        </div>
+
         <br><br>
     
+        <div style="text-align: justify;">
         <p><b>Descricão Microscópica: </b></p>
-    
+        </div>
+
         <br><br>
-    
+
+        <div style="text-align: justify;">
         <p><b>Diagnóstico/Conclusão: </b></p> ' . $DadosFicha->getDiagnostico() . '
-    
+        </div>
+
         <br><br>
     
+        <div style="text-align: justify;">
         <p><b>Notas: </b></p> 
-    
+        </div>
+
         <br><br>
-    
+
+        <div style="text-align: justify;">
         <p><b>Referências: </b></p> 
+        </div>
     
         <br><br><br>
     
-        <span style="font-size: small;">Observação: este laudo, como todo resultado de análise laboratorial, deve ser
-            submetido à avaliação do médico veterinário responsável, junto aos demais exames e histórico do paciente.</span>
-    
-        <br>
-    
-        <div style="text-align: center;">
-            <img src="http://localhost/veterinaria/public/img/AssClairton.png" width="150px">
-        </div>
-    
     </body>
+
+    <footer>
+    <div style="text-align: justify;">
+    <span style="font-size: small;">Observação: este laudo, como todo resultado de análise laboratorial, deve ser
+        submetido à avaliação do médico veterinário responsável, junto aos demais exames e histórico do paciente.</span>
+        </div>
+
+    <br>
+
+    <div style="text-align: center;">
+        <img src="http://localhost/veterinaria/public/img/AssClairton.png" width="150px">
+    </div>
+</footer>
     
     </html> ';
         } else {
