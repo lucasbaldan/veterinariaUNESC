@@ -302,6 +302,10 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     $group->group('/relatorios', function (RouteCollectorProxy $Group) {
         $Group->post('/exameCitopatologicoWORD', App\Reports\RelExameCitopatologicoWORD::class . ':gerar');
         $Group->post('/exameCitopatologicoPDF', App\Reports\RelExameCitopatologicoPDF::class . ':gerar');
+        $Group->post('/exameHistopatologicoWORD', App\Reports\RelExameHistopatologicoWORD::class . ':gerar');
+        $Group->post('/exameHistopatologicoPDF', App\Reports\RelExameHistopatologicoPDF::class . ':gerar');
+        $Group->post('/resultadoExamesWORD', App\Reports\RelResultadoExamesWORD::class . ':gerar');
+        $Group->post('/resultadoExamesPDF', App\Reports\RelResultadoExamesPDF::class . ':gerar');
     });
 
     $group->group('/pessoas', function (RouteCollectorProxy $pessoasGroup) {
@@ -402,6 +406,11 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         
         '/veterinaria/server/relatorios/exameCitopatologicoWORD',
         '/veterinaria/server/relatorios/exameCitopatologicoPDF',
+        '/veterinaria/server/relatorios/exameHistopatologicoWORD',
+        '/veterinaria/server/relatorios/exameHistopatologicoPDF',
+        '/veterinaria/server/relatorios/resultadoExamesWORD',
+        '/veterinaria/server/relatorios/resultadoExamesPDF',
+
 
         '/veterinaria/server/pessoas/controlar',
         '/veterinaria/server/pessoas/retornaPesquisaModal',

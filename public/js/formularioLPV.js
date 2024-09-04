@@ -428,7 +428,7 @@ $("#printFichaLPV").on("click", function () {
   // Mostra o Bootbox para o usuário escolher o formato
   bootbox.dialog({
     title: "Emitir Relatório LPV",
-    message: '<form id="printRelFichaLPV"> <select id="modeloRelatorio" class="form-select form-select-lg mb-3"> <option value="exameCitopatologico">Exame Citopatológico</option> <option value="exameCitopatologico">Exame Histopatológico</option> <option value="3">Resultado de Exames</option></select> <div class="row"> <div class="col"> <button type="button" onclick="gerarRel(\'PDF\')" class="btn btn-outline-secondary w-100"> <i class="bi bi-file-earmark-pdf-fill" style="font-size: 3rem;"></i> <br> PDF</button> </div> <div class="col"><button type="button" onclick="gerarRel(\'WORD\')" class="btn btn-outline-secondary w-100"> <i class="bi bi-filetype-docx" style="font-size: 3rem;"></i> <br> DOCX (MS Word)</button> </div> </div> </form>',
+    message: '<form id="printRelFichaLPV"> <select id="modeloRelatorio" class="form-select form-select-lg mb-3"> <option value="exameCitopatologico">Exame Citopatológico</option> <option value="exameHistopatologico">Exame Histopatológico</option> <option value="resultadoExames">Resultado de Exames</option></select> <div class="row"> <div class="col"> <button type="button" onclick="gerarRel(\'PDF\')" class="btn btn-outline-secondary w-100"> <i class="bi bi-file-earmark-pdf-fill" style="font-size: 3rem;"></i> <br> PDF</button> </div> <div class="col"><button type="button" onclick="gerarRel(\'WORD\')" class="btn btn-outline-secondary w-100"> <i class="bi bi-filetype-docx" style="font-size: 3rem;"></i> <br> DOCX (MS Word)</button> </div> </div> </form>',
   });
 });
 
@@ -438,7 +438,7 @@ function gerarRel(tpArquivo) {
   const tipoArquivo = tpArquivo;
   const modeloRelatorio = $('#modeloRelatorio').val();
 
-  if((tipoArquivo != 'PDF' && tipoArquivo != 'WORD' ) || modeloRelatorio != 'exameCitopatologico'){
+  if((tipoArquivo != 'PDF' && tipoArquivo != 'WORD' ) || (modeloRelatorio != 'exameCitopatologico' && modeloRelatorio != 'exameHistopatologico' && modeloRelatorio != 'resultadoExames')){
     Notificacao.NotificacaoErro('Erro ao gerar relatório, tente novamente mais tarde');
     Loading.off();
   }
@@ -473,7 +473,7 @@ function gerarRel(tpArquivo) {
       window.URL.revokeObjectURL(url); // Libera a memória associada ao blob
     },
     error: function (xhr, status, error) {
-      Notificacao.NotificacaoErro(xhr.responseJSON.MESSAGE);
+      Notificacao.NotificacaoErro('Erro ao gerar Relatório, tente novamente mais tarde');
       Loading.off();
     }
   });

@@ -354,6 +354,13 @@ class Atendimentos
                 "pesquisaLessaoHisto" => !empty($grid['pesquisaLesoesHistologicasAtendimento']) ? $grid['pesquisaLesoesHistologicasAtendimento'] : '',
                 "pesquisaDiagnostico" => !empty($grid['pesquisaDiagnosticoAtendimento']) ? $grid['pesquisaDiagnosticoAtendimento'] : '',
                 "pesquisaRelatorio" => !empty($grid['pesquisaRelatorioAtendimento']) ? $grid['pesquisaRelatorioAtendimento'] : '',
+                "pesquisaCastrado" => !empty($grid['pesquisaRelatorioAtendimento']) ? $grid['pesquisaRelatorioAtendimento'] : '',
+                "pesquisaIdadeAnoInicio" => !empty($grid['pesquisaRelatorioAtendimento']) ? $grid['pesquisaRelatorioAtendimento'] : '',
+                "pesquisaIdadeAnoFim" => !empty($grid['pesquisaRelatorioAtendimento']) ? $grid['pesquisaRelatorioAtendimento'] : '',
+                "pesquisaIdadeMesInicio" => !empty($grid['pesquisaRelatorioAtendimento']) ? $grid['pesquisaRelatorioAtendimento'] : '',
+                "pesquisaIdadeMesFim" => !empty($grid['pesquisaRelatorioAtendimento']) ? $grid['pesquisaRelatorioAtendimento'] : '',
+                "pesquisaIdadeDiaInicio" => !empty($grid['pesquisaRelatorioAtendimento']) ? $grid['pesquisaRelatorioAtendimento'] : '',
+                "pesquisaIdadeDiaFim" => !empty($grid['pesquisaRelatorioAtendimento']) ? $grid['pesquisaRelatorioAtendimento'] : '',
                 "inicio" => '',
                 "limit" => '',
                 "orderBy" =>  '',
@@ -373,7 +380,7 @@ class Atendimentos
             // Escrever o cabeçalho com BOM para UTF-8
             fputs($arquivo, "\xEF\xBB\xBF");
 
-            $cabecalho = ['Código', 'Data', 'Nome do Animal', 'Tipo de Animal', 'Espécie', 'Raça', 'Sexo', 'Dono', 'Veterinário', 'Município Origem', 'Material Recebido', 'Diagnóstico Presuntivo', 'Avaliação Tumoral Margem', 'Epidemiologia e História Clínica', 'Lesões Macroscópias', 'Lesões Histológicas', 'Diagnóstico', 'Relatório'];
+            $cabecalho = ['Código', 'Anos de Vida', 'Meses de Vida', 'Dias de Vida', 'Data', 'Nome do Animal', 'Espécie', 'Raça', 'Sexo', 'Dono', 'Veterinário', 'Município Origem', 'Material Recebido', 'Diagnóstico Presuntivo', 'Avaliação Tumoral Margem', 'Epidemiologia e História Clínica', 'Lesões Macroscópias', 'Lesões Histológicas', 'Diagnóstico', 'Relatório'];
             fputcsv($arquivo, $cabecalho, ';');
 
             foreach ($dadosSelect as $dado) {

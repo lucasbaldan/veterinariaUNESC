@@ -180,7 +180,14 @@ function gerarCSVAtendimentos() {
     pesquisaLesoesMacrocospiasAtendimento: $("#pesquisaLesoesMacrocospiasAtendimento").val(),
     pesquisaLesoesHistologicasAtendimento: $("#pesquisaLesoesHistologicasAtendimento").val(),
     pesquisaDiagnosticoAtendimento: $("#pesquisaDiagnosticoAtendimento").val(),
-    pesquisaRelatorioAtendimento: $("#pesquisaRelatorioAtendimento").val()
+    pesquisaRelatorioAtendimento: $("#pesquisaRelatorioAtendimento").val(),
+    pesquisaCastrado: $("#pesquisaCastrado").val(),
+    pesquisaIdadeAnoInicio: $("#pesquisaIdadeAnoInicio").val(),
+    pesquisaIdadeAnoFim: $("#pesquisaIdadeAnoFim").val(),
+    pesquisaIdadeMesInicio: $("#pesquisaIdadeMesInicio").val(),
+    pesquisaIdadeMesFim: $("#pesquisaIdadeMesFim").val(),
+    pesquisaIdadeDiaInicio: $("#pesquisaIdadeDiaInicio").val(),
+    pesquisaIdadeDiaFim: $("#pesquisaIdadeDiaFim").val(),
   };
 
   $.ajax({
