@@ -31,7 +31,7 @@ class RelExameCitopatologicoWORD
 
         // Adiciona a imagem ao cabeçalho
         $header->addImage(
-            'http://localhost/veterinaria/public/img/defaultCabecalhoFicha.png',
+            'https://lpvunesc.com.br/veterinaria/public/img/defaultCabecalhoFicha.png',
             [
                 'width' => 450,
                 'height' => 90,
@@ -95,7 +95,7 @@ class RelExameCitopatologicoWORD
         $section->addText('Observação: este laudo, como todo resultado de análise laboratorial, deve ser submetido à avaliação do médico veterinário responsável, junto aos demais exames e histórico do paciente.', ['size' => 10.5], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
 
         // Adiciona a assinatura
-        $section->addImage('http://localhost/veterinaria/public/img/AssClairton.png', [
+        $section->addImage('https://lpvunesc.com.br/veterinaria/public/img/AssClairton.png', [
             'width' => 150,
             'height' => 70,
             'align' => 'center'

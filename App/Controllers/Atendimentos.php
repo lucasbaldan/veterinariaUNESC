@@ -154,6 +154,7 @@ class Atendimentos
             $especieAnimal = isset($dadosForm['select2especieAnimal']) ? $dadosForm['select2especieAnimal'] : '';
             $racaAnimal = isset($dadosForm['select2racaAnimal']) ? $dadosForm['select2racaAnimal'] : '';
             $sexoAnimal = isset($dadosForm['dsSexo']) ? $dadosForm['dsSexo'] : '';
+            $flCastrado = isset($dadosForm['flCastrado']) ? $dadosForm['flCastrado'] : '';
             $idadeAno = isset($dadosForm['idadeAnos']) ? $dadosForm['idadeAnos'] : '';
             $idadeMes = isset($dadosForm['idadeMeses']) ? $dadosForm['idadeMeses'] : '';
             $idadeDia = isset($dadosForm['idadeDias']) ? $dadosForm['idadeDias'] : '';
@@ -200,6 +201,7 @@ class Atendimentos
                     $AnimalFicha->setEspecie($especieAnimal);
                     $AnimalFicha->setRaca($racaAnimal);
                     $AnimalFicha->setSexo($sexoAnimal);
+                    $AnimalFicha->setFlCastrado($flCastrado);
                 }
 
                 if ($donoNaoDeclarado == 'S') {

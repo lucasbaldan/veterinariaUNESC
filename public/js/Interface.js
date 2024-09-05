@@ -1,26 +1,26 @@
-window.onload = function() {
+window.onload = function () {
     Loading.off();
 
-    $('.call-screen').on('click', function(event) {
+    $('.call-screen').on('click', function (event) {
         Loading.on();
     });
 };
 
-$('#sairSistema').on('click', function(){
+$('#sairSistema').on('click', function () {
     $.ajax({
         url: '/veterinaria/server/usuarios/deslogar',
         type: 'POST',
         dataType: 'json',
-        beforeSend: function(){
-        Loading.on();
+        beforeSend: function () {
+            Loading.on();
         },
-        success: function(response) {
+        success: function (response) {
             window.location.href = '/veterinaria/paginas/login';
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             window.location.href = '/veterinaria/paginas/login';
         },
-        complete: function(){
+        complete: function () {
             window.location.href = '/veterinaria/paginas/login';
         }
     });
@@ -84,12 +84,12 @@ class Notificacao {
 }
 window.Notificacao = Notificacao;
 
-class Loading{
-     static on() {
+class Loading {
+    static on() {
         $('#loading').removeClass('d-none');
     }
 
-    static off(){
+    static off() {
         $('#loading').addClass('d-none');
     }
 }
@@ -123,6 +123,15 @@ class Select2 {
 
     initialize() {
         const select2Instance = $(this.selector).select2({
+            language: {
+                noResults: function () {
+                    return "Nenhum resultado encontrado";
+                },
+                searching: function () {
+                    return "Procurando...";
+                },
+                // Adicione mais traduções conforme necessário
+            },
             dropdownParent: this.dropdownParent ? $(this.dropdownParent) : null,
             allowClear: true,
             placeholder: this.placeholder,
@@ -138,7 +147,7 @@ class Select2 {
                         buscaSelect2: params.term,
                         forSelect2: true,
                     };
-                    
+
                     if (this.idTipoAnimal) {
                         requestData.idTipoAnimal = this.idTipoAnimal;
                     }
@@ -160,14 +169,14 @@ class Select2 {
     }
 }
 
-function bloquearCamposPessoa(extras){
-    $(
-        "#nmPessoa, #nrTelefone, #dsEmail, #nrCRMV, #select2cdCidade, #select2cdBairro, #select2cdLogradouro, #cpfPessoa, #dataNascimento" + (extras != null ? (", " + extras) : ' ') 
-      ).prop("disabled", true);
-}
-
-function desbloquearCamposPessoa(extras){
+function bloquearCamposPessoa(extras) {
     $(
         "#nmPessoa, #nrTelefone, #dsEmail, #nrCRMV, #select2cdCidade, #select2cdBairro, #select2cdLogradouro, #cpfPessoa, #dataNascimento" + (extras != null ? (", " + extras) : ' ')
-      ).prop("disabled", false);
+    ).prop("disabled", true);
+}
+
+function desbloquearCamposPessoa(extras) {
+    $(
+        "#nmPessoa, #nrTelefone, #dsEmail, #nrCRMV, #select2cdCidade, #select2cdBairro, #select2cdLogradouro, #cpfPessoa, #dataNascimento" + (extras != null ? (", " + extras) : ' ')
+    ).prop("disabled", false);
 }

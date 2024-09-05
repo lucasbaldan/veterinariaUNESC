@@ -41,7 +41,7 @@ class RelResultadoExamesPDF
 
 <body>
      <div style="text-align: center;">
-            <img src="http://localhost/veterinaria/public/img/defaultCabecalhoFicha.png" style="width: 600px;">
+            <img src="https://lpvunesc.com.br/veterinaria/public/img/defaultCabecalhoFicha.png" style="width: 600px;">
         </div>
     <h2 style="text-align: center;">Resultado de Exames</h2>
     <br>
@@ -138,7 +138,7 @@ class RelResultadoExamesPDF
     <br>
 
     <div style="text-align: center;">
-        <img src="http://localhost/veterinaria/public/img/AssClairton.png" width="150px">
+        <img src="https://lpvunesc.com.br/veterinaria/public/img/AssClairton.png" width="150px">
     </div>
 </footer>
 

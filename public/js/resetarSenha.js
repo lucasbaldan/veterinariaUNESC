@@ -24,7 +24,7 @@ $('#alterarSenha').on('click', function () {
                             var formData = $('#resetarSenha').serialize();
 
                             $.ajax({
-                                url: "/veterinariaUNESC/server/usuarios/alterarSenha",
+                                url: "/veterinaria/server/usuarios/alterarSenha",
                                 method: "POST",
                                 data: formData,
                                 complete: function(xhr, textStatus) {

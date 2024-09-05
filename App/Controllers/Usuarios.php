@@ -25,10 +25,14 @@ class Usuarios
             $dsSenha = !empty($Formulario['dsSenha']) ? $Formulario['dsSenha'] : '';
             $dsConfirmaSenha = !empty($Formulario['dsConfirmaSenha']) ? $Formulario['dsConfirmaSenha'] : '';
 
-            if ($dsSenha === $dsConfirmaSenha){
+            if ($dsSenha === $dsConfirmaSenha) {
                 $senha = $dsSenha;
             } else {
                 throw new Exception("<b>Erro ao salvar o usuário</b><br><br> A senha e a confirmação da senha não são iguais.", 400);
+                return;
+            }
+            if (strlen(trim($senha)) < 6) {
+                throw new Exception("A senha precisa ter pelo menos 6 caracteres.", 400);
                 return;
             }
 
@@ -41,7 +45,7 @@ class Usuarios
             }
 
             if (!$usuarios->GetResult()) {
-                throw new Exception("<b>Erro ao salvar o usuário: ". $usuarios->GetMessage() ."</b><br><br> Por favor, tente novamente.", 400);
+                throw new Exception("<b>Erro ao salvar o usuário: " . $usuarios->GetMessage() . "</b><br><br> Por favor, tente novamente.", 400);
             }
 
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $usuarios->GetReturn()];
@@ -102,7 +106,7 @@ class Usuarios
 
     public static function RetornarDadosUsuario(Request $request, Response $response)
     {
-        
+
         try {
             $Formulario = $request->getParsedBody();
             $cdUsuario = !empty($Formulario['cdUsuario']) ? $Formulario['cdUsuario'] : '';
@@ -135,7 +139,7 @@ class Usuarios
 
             $usuario = \App\Models\Usuarios::efetuarLogin($usuario, $senha);
 
-            if(!empty($usuario->getCodigo())){
+            if (!empty($usuario->getCodigo())) {
                 $arrayUsuario = [
                     "CD_USUARIO" => $usuario->getCodigo(),
                     "USERNAME" => $usuario->getPessoa()->getNome()
@@ -166,10 +170,11 @@ class Usuarios
             $repitaSenha = !empty($Formulario['repitaSenha']) ? $Formulario['repitaSenha'] : '';
             $usuarioConfirma = !empty($Formulario['usuarioConfirma']) ? $Formulario['usuarioConfirma'] : '';
 
-            if($novaSenha !== $repitaSenha) throw new Exception('Repita a senha corretamente para continuar a operação');
+            if ($novaSenha !== $repitaSenha) throw new Exception('Repita a senha corretamente para continuar a operação');
             $usuario = \App\Models\Usuarios::efetuarLogin($usuarioConfirma, $senhaAtual);
 
-            if(empty($usuario->getCodigo())) throw new Exception('Senha atual informado não corresponde aos dados de acesso válidos do usuário.');
+            if (empty($usuario->getCodigo())) throw new Exception('Senha atual informado não corresponde aos dados de acesso válidos do usuário.');
+            if(strlen(trim($novaSenha)) < 6) throw new Exception('A nova senha precisa ter pelo menos 6 caracteres');
 
             $usuario->setSenha($novaSenha);
             $usuario->Update();
@@ -226,5 +231,4 @@ class Usuarios
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
         return $response->withStatus($codigoHTTP)->withHeader('Content-Type', 'application/json');
     }
-
 }
