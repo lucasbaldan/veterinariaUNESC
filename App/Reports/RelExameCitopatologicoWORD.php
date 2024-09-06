@@ -61,30 +61,32 @@ class RelExameCitopatologicoWORD
         $table->addCell(4000)->addText($DadosFicha->getAnimal()->getSexo() == 'M' ? "Macho" : "Fêmea");
 
         $table->addRow();
-        $table->addCell(2000)->addText('Proprietário:', ['bold' => true, 'size' => 10]);
+        $table->addCell(2000)->addText('Proprietário(a):', ['bold' => true, 'size' => 10]);
         $table->addCell(8500)->addText($DadosFicha->getAnimal()->getDono1()->getNome());
 
         $table->addRow();
-        $table->addCell(2000)->addText('Veterinário:', ['bold' => true, 'size' => 10]);
+        $table->addCell(2000)->addText('Veterinário(a):', ['bold' => true, 'size' => 10]);
         $table->addCell(8500)->addText($DadosFicha->getVeterinarioRemetente()->getNome());
 
         $section->addTextBreak(1);
 
         // Adiciona as demais informações
         $section->addText('Natureza do Material: ', ['bold' => true, 'size' => 12]);
-        $section->addText($DadosFicha->getMaterialRecebido(), ['bold' => false, 'size' => 12]);
+        $section->addText($DadosFicha->getMaterialRecebido(), ['bold' => false, 'size' => 12], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
 
         $section->addTextBreak(1);
 
         $section->addText('Descrição Microscópica:', ['bold' => true, 'size' => 12]);
+        $section->addText($DadosFicha->getLessoesHistologicas(), ['bold' => false, 'size' => 12], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
         $section->addTextBreak(1);
 
         $section->addText('Diagnóstico/Conclusão: ', ['bold' => true, 'size' => 12]);
-        $section->addText($DadosFicha->getDiagnostico(), ['bold' => false, 'size' => 12]);
+        $section->addText($DadosFicha->getDiagnostico(), ['bold' => false, 'size' => 12], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
 
         $section->addTextBreak(1);
 
         $section->addText('Notas:', ['bold' => true, 'size' => 12]);
+        $section->addText($DadosFicha->getRelatorio(), ['bold' => false, 'size' => 12], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
 
         $section->addTextBreak(1);
 
@@ -92,10 +94,13 @@ class RelExameCitopatologicoWORD
 
         $section->addTextBreak(1);
 
-        $section->addText('Observação: este laudo, como todo resultado de análise laboratorial, deve ser submetido à avaliação do médico veterinário responsável, junto aos demais exames e histórico do paciente.', ['size' => 10.5], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
+
+        $footer = $section->addFooter();
+
+        $footer->addText('Observação: este laudo, como todo resultado de análise laboratorial, deve ser submetido à avaliação do médico veterinário responsável, junto aos demais exames e histórico do paciente.', ['size' => 10.5], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
 
         // Adiciona a assinatura
-        $section->addImage('https://lpvunesc.com.br/veterinaria/public/img/AssClairton.png', [
+        $footer->addImage('https://lpvunesc.com.br/veterinaria/public/img/AssClairton.png', [
             'width' => 150,
             'height' => 70,
             'align' => 'center'

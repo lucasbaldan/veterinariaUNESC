@@ -45,68 +45,59 @@ class RelExameCitopatologicoPDF
         <h2 style="text-align: center;">EXAME CITOPATOLÓGICO</h2>
         <br>
     
-        <table>
-            <tbody>
-                <tr>
-                    <td style="padding-right: 15px;"><b>Nome do Animal:</b></td>
-                    <td style="padding-right: 30px;">' . $DadosFicha->getAnimal()->getNome() . '</td>
+        <table style="width: 100%; border-collapse: collapse;">
+    <tr>
+        <td style="width: 33.33%; text-align: left;"><b>Nome do Animal:</b> '.$DadosFicha->getAnimal()->getNome().'</td>
+        <td style="width: 33.33%; text-align: left;"><b>Espécie:</b> '. $DadosFicha->getAnimal()->getEspecie()->getDescricao().'</td>
+        <td style="width: 33.33%; text-align: left;"><b>Raça:</b> '. $DadosFicha->getAnimal()->getRaca()->getDescricao().'</td>
+    </tr>
+</table>
+
+<table style="width: 100%; border-collapse: collapse;">
+    <tr>
+        <td style="width: 50%; text-align: left;"><b>Idade:</b> '.(empty($DadosFicha->getIdadeAno()) ? "" : $DadosFicha->getIdadeAno() . " Anos ") .
+        (empty($DadosFicha->getIdadeMes()) ? "" : $DadosFicha->getIdadeMes() . " Meses ") .
+        (empty($DadosFicha->getIdadeDia()) ? "" : $DadosFicha->getIdadeDia() . " Dias ").'</td>
+        <td style="width: 50%; text-align: left;"><b>Sexo:</b> '. ($DadosFicha->getAnimal()->getSexo() == 'M' ? "Macho" : "Fêmea").'</td>
+    </tr>
+</table>
+           
+            <span><b>Tutor(a): </b>' . $DadosFicha->getAnimal()->getDono1()->getNome() . '</span>
+            
+            <br>
+
+            <span><b>Veterinário(a): </b>' . $DadosFicha->getVeterinarioRemetente()->getNome() . '</span>
+            <span><b>  CRMV: </b>' . $DadosFicha->getVeterinarioRemetente()->getNrCRMV() . '</span>
     
-                    <td style="padding-right: 15px;"><b>Espécie:</b></td>
-                    <td style="padding-right: 30px;">' . $DadosFicha->getAnimal()->getEspecie()->getDescricao() . '</td>
-    
-                    <td style="padding-right: 15px;"><b>Raça:</b></td>
-                    <td style="padding-right: 30px;">' . $DadosFicha->getAnimal()->getRaca()->getDescricao() . '</td>
-                </tr>
-                <tr>
-                    <td><b>Idade:</b></td>
-                    <td>' . (empty($DadosFicha->getIdadeAno()) ? "" : $DadosFicha->getIdadeAno() . " Anos ") . (empty($DadosFicha->getIdadeMes()) ? "" : $DadosFicha->getIdadeMes() . " Meses ") . (empty($DadosFicha->getIdadeDia()) ? "" : $DadosFicha->getIdadeDia() . " Dias ") . '</td>
-    
-                    <td><b>Sexo:</b></td>
-                    <td>' . ($DadosFicha->getAnimal()->getSexo() == 'M' ? "Macho" : "Fêmea") . '</td>
-                </tr>
-                <tr>
-                    <td><b>Proprietário:</b></td>
-                    <td> ' . $DadosFicha->getAnimal()->getDono1()->getNome() . '</td>
-                </tr>
-                <tr>
-                    <td><b>Veterinário:</b></td>
-                    <td> ' . $DadosFicha->getVeterinarioRemetente()->getNome() . '</td>
-                </tr>
-            </tbody>
-        </table>
-    
-        <br>
-        <br>
+        <br><br>
 
         <div style="text-align: justify;">
         <span><b>Natureza do Material: </b></span> ' . $DadosFicha->getMaterialRecebido() . '
         </div>
 
-        <br><br>
+        <br>
     
         <div style="text-align: justify;">
-        <p><b>Descricão Microscópica: </b></p>
+        <p><b>Descricão Microscópica: </b></p> ' .$DadosFicha->getLessoesHistologicas(). '
         </div>
 
-        <br><br>
+        <br>
 
         <div style="text-align: justify;">
         <p><b>Diagnóstico/Conclusão: </b></p> ' . $DadosFicha->getDiagnostico() . '
         </div>
 
-        <br><br>
+        <br>
     
         <div style="text-align: justify;">
-        <p><b>Notas: </b></p> 
+        <p><b>Notas: </b></p> ' .$DadosFicha->getRelatorio(). ' 
         </div>
 
-        <br><br>
+        <br>
 
         <div style="text-align: justify;">
         <p><b>Referências: </b></p> 
         </div>
-    
-        <br><br><br>
     
     </body>
 

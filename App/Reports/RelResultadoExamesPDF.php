@@ -44,56 +44,44 @@ class RelResultadoExamesPDF
             <img src="https://lpvunesc.com.br/veterinaria/public/img/defaultCabecalhoFicha.png" style="width: 600px;">
         </div>
     <h2 style="text-align: center;">Resultado de Exames</h2>
-    <br>
 
-    <table>
-        <tbody>
-            <tr>
-                <td style="padding-right: 15px;"><b>Nome do Animal:</b></td>
-                <td style="padding-right: 30px;">' . $DadosFicha->getAnimal()->getNome() . '</td>
+                <table style="width: 100%; border-collapse: collapse;">
+    <tr>
+        <td style="width: 33.33%; text-align: left;"><b>Nome do Animal:</b> '.$DadosFicha->getAnimal()->getNome().'</td>
+        <td style="width: 33.33%; text-align: left;"><b>Espécie:</b> '. $DadosFicha->getAnimal()->getEspecie()->getDescricao().'</td>
+        <td style="width: 33.33%; text-align: left;"><b>Raça:</b> '. $DadosFicha->getAnimal()->getRaca()->getDescricao().'</td>
+    </tr>
+</table>
 
-                <td style="padding-right: 15px;"><b>Espécie:</b></td>
-                <td style="padding-right: 30px;">' . $DadosFicha->getAnimal()->getEspecie()->getDescricao() . '</td>
+<table style="width: 100%; border-collapse: collapse;">
+    <tr>
+        <td style="width: 50%; text-align: left;"><b>Idade:</b> '.(empty($DadosFicha->getIdadeAno()) ? "" : $DadosFicha->getIdadeAno() . " Anos ") .
+        (empty($DadosFicha->getIdadeMes()) ? "" : $DadosFicha->getIdadeMes() . " Meses ") .
+        (empty($DadosFicha->getIdadeDia()) ? "" : $DadosFicha->getIdadeDia() . " Dias ").'</td>
+        <td style="width: 50%; text-align: left;"><b>Sexo:</b> '. ($DadosFicha->getAnimal()->getSexo() == 'M' ? "Macho" : "Fêmea").'</td>
+    </tr>
+</table>
+           
+            <span><b>Tutor(a):</b>' . $DadosFicha->getAnimal()->getDono1()->getNome() . '</span>
+            
+            <br>
 
-                <td style="padding-right: 15px;"><b>Raça:</b></td>
-                <td style="padding-right: 30px;">' . $DadosFicha->getAnimal()->getRaca()->getDescricao() . '</td>
-            </tr>
-            <tr>
-                <td><b>Idade:</b></td>
-                <td>' . (empty($DadosFicha->getIdadeAno()) ? "" : $DadosFicha->getIdadeAno() . " Anos ") .
-                (empty($DadosFicha->getIdadeMes()) ? "" : $DadosFicha->getIdadeMes() . " Meses ") .
-                (empty($DadosFicha->getIdadeDia()) ? "" : $DadosFicha->getIdadeDia() . " Dias ") . '</td>
+            <span><b>Clínica Veterinária:</b> Hospital Veterinário UNESC</span>
+            
+            <br>
 
-                <td><b>Sexo:</b></td>
-                <td>' . ($DadosFicha->getAnimal()->getSexo() == 'M' ? "Macho" : "Fêmea") . '</td>
-            </tr>
-            <tr>
-                <td><b>Tutor(a):</b></td>
-                <td> ' . $DadosFicha->getAnimal()->getDono1()->getNome() . '</td>
-            </tr>
-            <tr>
-                <td><b>Clínica Veterinária:</b></td>
-                <td> Hospital Veterinário UNESC</td>
-            </tr>
-            <tr>
-                <td><b>Veterinário(a):</b></td>
-                <td> ' . $DadosFicha->getVeterinarioRemetente()->getNome() . '</td>
-
-                <td><b>CRMV:</b></td>
-                <td> '.$DadosFicha->getVeterinarioRemetente()->getNrCRMV().'</td>
-            </tr>
-            <tr>
-                <td><b>Data:</b></td>
-                <td>'. date('d/m/Y', strtotime($DadosFicha->getData())) .'</td>
-            </tr>
-        </tbody>
-    </table>
+            <span><b>Veterinário(a): </b>' . $DadosFicha->getVeterinarioRemetente()->getNome() . '</span>
+            <span><b>  CRMV: </b>' . $DadosFicha->getVeterinarioRemetente()->getNrCRMV() . '</span>
+            
+            <br>
+            
+            <span><b>Data: </b>' . date('d/m/Y', strtotime($DadosFicha->getData())) . '<span>
 
     <br>
 
 
     <div style="text-align: center; font-size: 20px;">
-        <span>RESULTADO DE EXAME NECROSCÓPICO:</span>
+        <span>RESULTADO DE EXAME NECROSCÓPICO</span>
     </div>
 
     <br>
@@ -102,29 +90,29 @@ class RelResultadoExamesPDF
         <span><b>Natureza do Material: </b></span> ' . $DadosFicha->getMaterialRecebido() . '
     </div>
 
-    <br><br>
+    <br>
 
     <div style="text-align: justify;">
-        <p><b>Descricão Macroscópica: </b></p> '. $DadosFicha->getLessoesMacroscopias().'
+        <p><b>Descricão Macroscópica: </b></p> ' . $DadosFicha->getLessoesMacroscopias() . '
     </div>
 
     <div style="text-align: justify;">
         <p><b>Diagnóstico/Conclusão: </b></p> ' . $DadosFicha->getDiagnostico() . '
     </div>
 
-    <br><br>
+    <br>
 
     <div style="text-align: justify;">
-        <p><b>Notas: </b></p>
+        <p><b>Notas: </b></p> ' . $DadosFicha->getRelatorio() . '
     </div>
 
-    <br><br>
+    <br>
 
     <div style="text-align: justify;">
         <p><b>Referências: </b></p>
     </div>
 
-    <br><br><br>
+    <br><br>
 
 </body>
 

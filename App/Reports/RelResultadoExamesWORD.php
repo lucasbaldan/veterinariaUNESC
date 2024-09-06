@@ -84,20 +84,21 @@ class RelResultadoExamesWORD
 
         // Adiciona as demais informações
         $section->addText('Natureza do Material: ', ['bold' => true, 'size' => 12]);
-        $section->addText($DadosFicha->getMaterialRecebido(), ['bold' => false, 'size' => 12]);
+        $section->addText($DadosFicha->getMaterialRecebido(), ['bold' => false, 'size' => 12], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
 
         $section->addTextBreak(1);
 
         $section->addText('Descrição Macroscópica:', ['bold' => true, 'size' => 12]);
-        $section->addText($DadosFicha->getLessoesMacroscopias(), ['bold' => false, 'size' => 12]);
+        $section->addText($DadosFicha->getLessoesMacroscopias(), ['bold' => false, 'size' => 12], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
         $section->addTextBreak(1);
 
         $section->addText('Diagnóstico/Conclusão: ', ['bold' => true, 'size' => 12]);
-        $section->addText($DadosFicha->getDiagnostico(), ['bold' => false, 'size' => 12]);
+        $section->addText($DadosFicha->getDiagnostico(), ['bold' => false, 'size' => 12], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
 
         $section->addTextBreak(1);
 
         $section->addText('Notas:', ['bold' => true, 'size' => 12]);
+        $section->addText($DadosFicha->getRelatorio(), ['bold' => false, 'size' => 12], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
 
         $section->addTextBreak(1);
 
@@ -105,10 +106,12 @@ class RelResultadoExamesWORD
 
         $section->addTextBreak(1);
 
-        $section->addText('Observação: este laudo, como todo resultado de análise laboratorial, deve ser submetido à avaliação do médico veterinário responsável, junto aos demais exames e histórico do paciente.', ['size' => 10.5], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
+        $footer = $section->addFooter();
+
+        $footer->addText('Observação: este laudo, como todo resultado de análise laboratorial, deve ser submetido à avaliação do médico veterinário responsável, junto aos demais exames e histórico do paciente.', ['size' => 10.5], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
 
         // Adiciona a assinatura
-        $section->addImage('https://lpvunesc.com.br/veterinaria/public/img/AssClairton.png', [
+        $footer->addImage('https://lpvunesc.com.br/veterinaria/public/img/AssClairton.png', [
             'width' => 150,
             'height' => 70,
             'align' => 'center'
