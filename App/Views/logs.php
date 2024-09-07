@@ -59,7 +59,7 @@ class Logs
 
         $selectTabela =
             '<option value="">Selecione...</option>
-        <option value="value_LPV"' . ($tabela == 'value_LPV' ? ' selected' : '') . '>Ficha LPV</option>
+        <option value="FICHA_LPV"' . ($tabela == 'FICHA_LPV' ? ' selected' : '') . '>Ficha LPV</option>
         <option value="IMAGENS_ATENDIMENTOS"' . ($tabela == 'IMAGENS_ATENDIMENTOS' ? ' selected' : '') . '>Imagens Fichas LPV</option>
         <option value="PESSOAS"' . ($tabela == 'PESSOAS' ? ' selected' : '') . '>Pessoas</option>
         <option value="USUARIOS"' . ($tabela == 'USUARIOS' ? ' selected' : '') . '>Usuários</option>
@@ -124,7 +124,7 @@ class Logs
         return $this->twig->render($response, 'TelaBase.twig', [
             'versao' => $GLOBALS['versao'],
             'cssLinks' => "TelaMenus.css;",
-            'jsLinks' => "logs.js",
+            // 'jsLinks' => "logs.js",
             'conteudo_tela' => $conteudoTela,
         ]);
     }
