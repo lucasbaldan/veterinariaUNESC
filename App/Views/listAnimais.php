@@ -19,9 +19,17 @@ class listAnimais
 
     public function exibir(Request $request, Response $response, $args)
     {
+        $permissao = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('ANIMAL', 'FL_ACESSAR');
+        if (!$permissao) {
+            return $this->twig->render($response, 'TelaBase.twig', [
+                'versao' => $GLOBALS['versao'],
+                'cssLinks' => 'TelaMenus.css',
+                'conteudo_tela' => $this->TelaComMenus->renderTelaComMenus($this->twig->fetch('telaErro.twig')),
+            ]);
+        }
+        
         $formulario = $this->twig->fetch('listAnimais.twig');
         $conteudoTela = $this->TelaComMenus->renderTelaComMenus($formulario);
-
         return $this->twig->render($response, 'TelaBase.twig', [
             'versao' => $GLOBALS['versao'],
             'jsLinks' => 'listAnimais.js',

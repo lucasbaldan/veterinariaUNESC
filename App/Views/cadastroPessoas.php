@@ -19,6 +19,15 @@ class CadastroPessoas
 
     public function exibir(Request $request, Response $response, $args)
     { 
+        $permissao = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_PESSOAS', 'FL_ACESSAR');
+        if (!$permissao) {
+            return $this->twig->render($response, 'TelaBase.twig', [
+                'versao' => $GLOBALS['versao'],
+                'cssLinks' => 'TelaMenus.css',
+                'conteudo_tela' => $this->TelaComMenus->renderTelaComMenus($this->twig->fetch('telaErro.twig')),
+            ]);
+        }
+
         $ajaxTela = $request->getParsedBody();
 
         $idAlteracao = !empty($ajaxTela['id']) ? $ajaxTela['id'] : '';

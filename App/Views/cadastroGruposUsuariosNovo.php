@@ -19,6 +19,15 @@ class CadastroGruposUsuariosNovo
 
     public function exibir(Request $request, Response $response, $args)
     {
+        $permissao = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_GRUPOS_USUARIOS', 'FL_ACESSAR');
+        if (!$permissao) {
+            return $this->twig->render($response, 'TelaBase.twig', [
+                'versao' => $GLOBALS['versao'],
+                'cssLinks' => 'TelaMenus.css',
+                'conteudo_tela' => $this->TelaComMenus->renderTelaComMenus($this->twig->fetch('telaErro.twig')),
+            ]);
+        }
+        
         $ajaxTela = $request->getParsedBody();
 
         $cdGrupoUsuarios = !empty($ajaxTela['id']) ? $ajaxTela['id'] : '';
