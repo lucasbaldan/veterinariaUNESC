@@ -26,6 +26,7 @@ class Atendimentos
     private $lessoesHistologicas;
     private $diagnostico;
     private $relatorio;
+    private $usuarioAcao;
 
     private $idImagem;
 
@@ -73,6 +74,7 @@ class Atendimentos
         $this->idadeAnimalAno = $idadeAno;
         $this->idadeAnimalMeses = $idadeMes;
         $this->idadeAnimalDias = $idadeDia;
+        $this->usuarioAcao = \App\Helpers\Sessao::getInfoSessao()['username'];
     }
 
     public static function findById($id)
@@ -213,6 +215,8 @@ class Atendimentos
                     FICHA_LPV.DS_LESOES_HISTOLOGICAS,
                     FICHA_LPV.DS_DIAGNOSTICO,
                     FICHA_LPV.DS_RELATORIO,
+                    FICHA_LPV.USUARIO_CRIACAO,
+                    FICHA_LPV.USUARIO_ALTERACAO,
                     (SELECT COUNT(*) FROM FICHA_LPV) AS TOTAL_FILTERED,
                     (SELECT COUNT(*) FROM FICHA_LPV) AS TOTAL_TABLE 
                 FROM 
@@ -328,7 +332,8 @@ class Atendimentos
                 "DS_RELATORIO" => $this->relatorio,
                 "IDADE_ANIMAL_ANO" => $this->idadeAnimalAno,
                 "IDADE_ANIMAL_MES" => $this->idadeAnimalMeses,
-                "IDADE_ANIMAL_DIA" => $this->idadeAnimalDias
+                "IDADE_ANIMAL_DIA" => $this->idadeAnimalDias,
+                "USUARIO_CRIACAO" => $this->usuarioAcao
             ];
 
             $insert->ExeInsert("FICHA_LPV", $dadosInsert);
@@ -408,7 +413,8 @@ class Atendimentos
                     "DS_RELATORIO" => $this->relatorio,
                     "IDADE_ANIMAL_ANO" => $this->idadeAnimalAno,
                     "IDADE_ANIMAL_MES" => $this->idadeAnimalMeses,
-                    "IDADE_ANIMAL_DIA" => $this->idadeAnimalDias
+                    "IDADE_ANIMAL_DIA" => $this->idadeAnimalDias,
+                    "USUARIO_ALTERACAO" => $this->usuarioAcao
                 ];
 
                 $update->ExeUpdate("FICHA_LPV", $dadosUpdate, "WHERE CD_FICHA_LPV = :D", "D=$this->codigo");

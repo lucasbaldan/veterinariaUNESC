@@ -77,6 +77,8 @@ $(document).ready(function () {
       { data: "DS_LESOES_HISTOLOGICAS" },
       { data: "DS_DIAGNOSTICO" },
       { data: "DS_RELATORIO" },
+      { data: "USUARIO_CRIACAO" },
+      { data: "USUARIO_ALTERACAO" },
     ],
     processing: true,
     serverSide: true,

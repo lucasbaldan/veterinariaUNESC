@@ -70,7 +70,7 @@ class Logs
     if(empty($dtInicial) && !empty($dtFinal)) $sql .= " AND DATE(L.DT_HORA) < '$dtFinal'";
     if(!empty($dtInicial) && !empty($dtFinal)) $sql .= " AND DATE(L.DT_HORA) BETWEEN '$dtInicial' AND '$dtFinal'";
 
-    $sql .= " ORDER BY L.CD_LOG LIMIT 30";
+    $sql .= " ORDER BY L.CD_LOG LIMIT 250";
     $read->FullRead($sql);
 
     return $read->getResult();
