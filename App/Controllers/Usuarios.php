@@ -25,22 +25,35 @@ class Usuarios
             $dsSenha = !empty($Formulario['dsSenha']) ? $Formulario['dsSenha'] : '';
             $dsConfirmaSenha = !empty($Formulario['dsConfirmaSenha']) ? $Formulario['dsConfirmaSenha'] : '';
 
+            if(empty($cdPessoa)) throw new Exception("Preencha o campo pessoa.", 400);
+            if(empty($cdGrupoUsuarios)) throw new Exception("Preencha o campo Grupo de Usuário.", 400);
+
             if ($dsSenha === $dsConfirmaSenha) {
                 $senha = $dsSenha;
             } else {
                 throw new Exception("<b>Erro ao salvar o usuário</b><br><br> A senha e a confirmação da senha não são iguais.", 400);
                 return;
             }
-            if (strlen(trim($senha)) < 6) {
-                throw new Exception("A senha precisa ter pelo menos 6 caracteres.", 400);
-                return;
-            }
 
             $usuarios = new \App\Models\Usuarios($cdPessoa, $usuario, $senha, $cdGrupoUsuarios, $flAtivo, $cdUsuario);
 
             if (empty($cdUsuario)) {
+                if (!empty($senha)) {
+                    if (strlen(trim($senha)) < 6) {
+                        throw new Exception("A senha precisa ter pelo menos 6 caracteres.", 400);
+                        return;
+                    }
+                } else {
+                    throw new Exception("Preencha o campo senha");
+                }
                 $usuarios->Insert();
             } else {
+                if (!empty($senha)) {
+                    if (strlen(trim($senha)) < 6) {
+                        throw new Exception("A senha precisa ter pelo menos 6 caracteres.", 400);
+                        return;
+                    }
+                }
                 $usuarios->Update();
             }
 
@@ -174,7 +187,7 @@ class Usuarios
             $usuario = \App\Models\Usuarios::efetuarLogin($usuarioConfirma, $senhaAtual);
 
             if (empty($usuario->getCodigo())) throw new Exception('Senha atual informado não corresponde aos dados de acesso válidos do usuário.');
-            if(strlen(trim($novaSenha)) < 6) throw new Exception('A nova senha precisa ter pelo menos 6 caracteres');
+            if (strlen(trim($novaSenha)) < 6) throw new Exception('A nova senha precisa ter pelo menos 6 caracteres');
 
             $usuario->setSenha($novaSenha);
             $usuario->Update();

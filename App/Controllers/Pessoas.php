@@ -228,7 +228,7 @@ class Pessoas
 
                 $parametrosPesquisa = [
                     "COLUNAS" => "PESSOAS.CD_PESSOA AS id, PESSOAS.NM_PESSOA AS text",
-                    "descricaoPesquisa" => empty($descricao) ? '' : $descricao
+                    "NM_PESSOA" => empty($descricao) ? '' : $descricao
                 ];
 
                 $busca->GeneralSearch($parametrosPesquisa);
