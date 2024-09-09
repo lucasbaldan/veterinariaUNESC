@@ -58,10 +58,12 @@
 </div>
 
 {% if exibeDados %}
-<div class="container-fluid d-flex justify-content-center align-items-center mt-2 mb-3">
+<div class="container-fluid justify-content-center align-items-center mt-2 mb-3">
     <div class="card rounded" style="min-width: 100%;">
         <div class="card-body border border-1S rounded-2">
-            {{ table | raw }}
+            <div class="table-responsive">
+                {{ table | raw }}
+            </div>
         </div>
     </div>
 </div>
