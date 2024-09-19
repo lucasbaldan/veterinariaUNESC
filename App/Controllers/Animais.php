@@ -134,9 +134,7 @@ class Animais
                 if (empty($cdPessoa)) {
                     $tutor->Insert();
                 } else {
-                    if ($alterouPessoa == 'S') {
-                        $tutor->Update();
-                    }
+                    $tutor->Update();
                 }
                 if (!$tutor->getResult()) {
                     throw new Exception($tutor->getMessage());

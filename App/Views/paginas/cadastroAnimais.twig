@@ -1,8 +1,8 @@
 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;); background-color: #F8F9FA ;"
     aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/veterinaria/paginas/inicial"><i
-                    class="bi bi-house-door-fill"></i></a></li>
+        <li class="breadcrumb-item"><a href="/veterinaria/paginas/inicial"><i class="bi bi-house-door-fill"></i></a>
+        </li>
         <li class="breadcrumb-item" aria-current="page">Animais</li>
         <li class="breadcrumb-item" aria-current="page">Cadastro</li>
     </ol>
@@ -40,128 +40,115 @@
                             <div class="content__wrapper">
 
                                 <h5>Informações Gerais do Animal</h5>
-                        <hr>
+                                <hr>
 
-                        <div class="row mb-4">
-                            <div class="col">
-                                <label for="especieAnimal" class="form-label">Espécie </label>
-                                <select class="form-select" id="select2especieAnimal" name="select2especieAnimal"
-                                    aria-label="">
-                                    {{selectEspecieAnimal|raw}}
-                                </select>
-                            </div>
-                            <div class="col">
-                                <label for="racaAnimal" class="form-label">Raça </label>
-                                <select class="form-select" id="select2racaAnimal" name="select2racaAnimal"
-                                    aria-label="">
-                                    {{selectRacaAnimal|raw}}
-                                </select>
-                            </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-3 col-sm-12">
+                                        <label for="especieAnimal" class="form-label">Espécie </label>
+                                        <select class="form-select" id="select2especieAnimal"
+                                            name="select2especieAnimal" aria-label="">
+                                            {{selectEspecieAnimal|raw}}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 col-sm-12">
+                                        <label for="racaAnimal" class="form-label">Raça </label>
+                                        <select class="form-select" id="select2racaAnimal" name="select2racaAnimal"
+                                            aria-label="">
+                                            {{selectRacaAnimal|raw}}
+                                        </select>
+                                    </div>
 
-                            <div class="col">
-                                <label for="dsSexo" class="mb-2">Sexo do animal</label>
-                                <!-- <div class="form-select"> -->
-                                {{selectSexoAnimal|raw}}
-                                <!-- </div> -->
-                            </div>
+                                    <div class="col-md-3 col-sm-12">
+                                        <label for="dsSexo" class="mb-2">Sexo do animal</label>
+                                        <!-- <div class="form-select"> -->
+                                        {{selectSexoAnimal|raw}}
+                                        <!-- </div> -->
+                                    </div>
 
-                            <div class="col">
-                                <label for="flCastrado" class="mb-2">Castrado</label>
-                                <!-- <div class="form-select"> -->
-                                {{selectFlCastrado|raw}}
-                                <!-- </div> -->
-                            </div>
-                        </div>
+                                    <div class="col-md-3 col-sm-12">
+                                        <label for="flCastrado" class="mb-2">Castrado</label>
+                                        <!-- <div class="form-select"> -->
+                                        {{selectFlCastrado|raw}}
+                                        <!-- </div> -->
+                                    </div>
+                                </div>
                             </div>
                         </li>
                         <li>
                             <div class="content__wrapper">
                                 <h5>Dados da Pessoa (Responsável pelo Animal)</h5>
-                        <hr>
+                                <hr>
 
-                        <div class="row">
-                            <div class="col-1 col-md-9 col-sm-10 mb-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="tutorNaoDeclarado"
-                                        name="tutorNaoDeclarado" {% if donoNaoDeclarado %}checked{% endif %}>
-                                    <label class="form-check-label" for="tutorNaoDeclarado">
-                                        Tutor do Animal Não Declarado / Não informado / Ignorado
-                                    </label>
-                                </div>
-                            </div>
+                                <div class="row">
+                                    <div class="col-1 col-md-9 col-sm-10 mb-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="tutorNaoDeclarado"
+                                                name="tutorNaoDeclarado" {% if donoNaoDeclarado %}checked{% endif %}>
+                                            <label class="form-check-label" for="tutorNaoDeclarado">
+                                                Tutor do Animal Não Declarado / Não informado / Ignorado
+                                            </label>
+                                        </div>
+                                    </div>
 
-                            <div class="col col-md-3 col-sm-2 mb-4 d-flex justify-content-end">
-                                <div class="btn-group" role="group">
-                                    <button class="btn btn-success" id="buscaRapidaPessoa" type="button"><i
-                                            class="bi bi-plus-circle-dotted"></i> <i
-                                            class="bi bi-person-arms-up"></i></button>
-                                    </button>
-                                    <button class="btn btn-secondary" id="alterarPessoaAtual" type="button"><i
+                                    <div class="col col-md-3 col-sm-2 mb-4 d-flex justify-content-end">
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-success" id="buscaRapidaPessoa" type="button"><i class="bi bi-search"></i> <i
+                                                    class="bi bi-person-arms-up"></i></button>
+                                            </button>
+                                            <!-- <button class="btn btn-secondary" id="alterarPessoaAtual" type="button"><i
                                             class="bi bi-pencil-fill"></i> <i class="bi bi-person-arms-up"></i></button>
-                                    </button>
-                                    <button class="btn btn-danger" id="desvincularPessoa" type="button"><i
-                                            class="bi bi-x-lg"></i> <i class="bi bi-person-arms-up"></i></button>
-                                    </button>
+                                    </button> -->
+                                            <button class="btn btn-danger" id="desvincularPessoa" type="button"><i
+                                                    class="bi bi-x-lg"></i> <i
+                                                    class="bi bi-person-arms-up"></i></button>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">    
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            Caso tenha dúvida se a pessoa já está cadastrada no sistema, realize a pesquise disponível no botão verde acima para evitar duplicações de registros. 😉
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <input type="hidden" readonly class="form-control" id="cdPessoa" name="cdPessoa"
+                                            value="{{cdPessoa}}">
+                                        <input type="hidden" readonly class="form-control" id="alterouPessoa"
+                                            name="alterouPessoa" value="N">
+                                    </div>
+
+                                    <div class="mb-4 col-md-8">
+                                        <label for="nmPessoa" class="form-label">Nome</label>
+                                        <input type="text" class="form-control" id="nmPessoa" name="nmPessoa"
+                                            placeholder=" " value="{{nmPessoa}}" required>
+                                    </div>
+                                    <div class="mb-4 col-md-4">
+                                        <label for="nrTelefone" class="form-label">Telefone</label>
+                                        <input type="text" class="form-control" id="nrTelefone" name="nrTelefone"
+                                            placeholder=" " value="{{nrTelefone}}" required>
+                                    </div>
+                                    <div class="mb-4 col-md-4">
+                                        <label for="dsCidade" class="form-label">Cidade</label>
+                                        <select class="form-select" id="select2cdCidade" name="select2cdCidade">
+                                            {{selectCidadePessoa|raw}}
+                                        </select>
+                                    </div>
+                                    <div class="mb-4 col-md-4">
+                                        <label for="dsCidade" class="form-label">Bairro</label>
+                                        <select class="form-select" id="select2cdBairro" name="select2cdBairro">
+                                            {{selectBairroPessoa|raw}}
+                                        </select>
+                                    </div>
+                                    <div class="mb-4 col-md-4">
+                                        <label for="dsCidade" class="form-label">Logradouro</label>
+                                        <select class="form-select" id="select2cdLogradouro" name="select2cdLogradouro">
+                                            {{selectLogradouroPessoa|raw}}
+                                        </select>
+                                    </div>
+
                                 </div>
-                            </div>
-
-                            <div class="col-12">
-                                <input type="hidden" readonly class="form-control" id="cdPessoa" name="cdPessoa"
-                                    value="{{cdPessoa}}">
-                                <input type="hidden" readonly class="form-control" id="alterouPessoa"
-                                    name="alterouPessoa" value="N">
-                            </div>
-
-                            <div class="mb-4 col-md-8">
-                                <label for="nmPessoa" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="nmPessoa" name="nmPessoa" placeholder=" "
-                                    value="{{nmPessoa}}" required>
-                            </div>
-                            <!-- <div class="mb-4 col-md-6">
-                                <label for="cpfPessoa" class="form-label">CPF</label>
-                                <input type="text" class="form-control" id="cpfPessoa" name="cpfPessoa" placeholder=" "
-                                    value="{{cpfPessoa}}" required>
-                            </div> -->
-                            <!-- <div class="mb-4 col-md-6">
-                                <label for="dataNascimento" class="form-label">Data de Nascimento</label>
-                                <input type="date" class="form-control" id="dataNascimento" name="dataNascimento"
-                                    placeholder=" " value="{{dataNascimento}}" required>
-                            </div> -->
-                            <div class="mb-4 col-md-4">
-                                <label for="nrTelefone" class="form-label">Telefone</label>
-                                <input type="text" class="form-control" id="nrTelefone" name="nrTelefone"
-                                    placeholder=" " value="{{nrTelefone}}" required>
-                            </div>
-                            <!-- <div class="mb-4 col-md-4">
-                                <label for="dsEmail" class="form-label">E-mail</label>
-                                <input type="email" class="form-control" id="dsEmail" name="dsEmail" placeholder=" "
-                                    value="{{dsEmail}}" required>
-                            </div> -->
-                            <!-- <div class="mb-4 col-md-4">
-                                <label for="nrCRMV" class="form-label">N° CRMV (Se possuir)</label>
-                                <input type="text" class="form-control" id="nrCRMV" name="nrCRMV" value="{{nrCRMV}}"
-                                    placeholder=" ">
-                            </div> -->
-                            <div class="mb-4 col-md-4">
-                                <label for="dsCidade" class="form-label">Cidade</label>
-                                <select class="form-select" id="select2cdCidade" name="select2cdCidade">
-                                    {{selectCidadePessoa|raw}}
-                                </select>
-                            </div>
-                            <div class="mb-4 col-md-4">
-                                <label for="dsCidade" class="form-label">Bairro</label>
-                                <select class="form-select" id="select2cdBairro" name="select2cdBairro">
-                                    {{selectBairroPessoa|raw}}
-                                </select>
-                            </div>
-                            <div class="mb-4 col-md-4">
-                                <label for="dsCidade" class="form-label">Logradouro</label>
-                                <select class="form-select" id="select2cdLogradouro" name="select2cdLogradouro">
-                                    {{selectLogradouroPessoa|raw}}
-                                </select>
-                            </div>
-
-                        </div>
                             </div>
                         </li>
                     </ul>

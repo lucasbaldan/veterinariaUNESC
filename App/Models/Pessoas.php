@@ -290,7 +290,7 @@ class Pessoas
         $orderAscDesc = $arrayParam['orderAscDesc'];
         $pesquisaCodigo = $arrayParam['pesquisaCodigo'];
         $pesquisaDescricao = $arrayParam['pesquisaDescricao'];
-        $pesquisaAtivo = $arrayParam['pesquisaAtivo'];
+        $pesquisaAtivo = $arrayParam['pesquisaAtivo'] != '' ? ($arrayParam['pesquisaAtivo'] == 1 ? "S" : "N") : '';
 
         $read = new \App\Conn\Read();
 
@@ -303,7 +303,7 @@ class Pessoas
                     FROM 
                         PESSOAS
                     WHERE 
-                        1=1;
+                        1=1
                     ";
 
         // $query = "SELECT PESSOAS.CD_PESSOA,

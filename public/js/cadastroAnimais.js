@@ -1,10 +1,11 @@
 $(document).ready(function () {
 
   if ($("#tutorNaoDeclarado").is(":checked")) {
-    $("#buscaRapidaPessoa, #desvincularPessoa, #alterarPessoaAtual").prop(
+    $("#buscaRapidaPessoa, #desvincularPessoa, #alterarPessoaAtual").prop( 
       "disabled",
       true
     );
+    bloquearCamposPessoa();
   }
 
   if ($('#select2especieAnimal').val() == '') {
@@ -20,8 +21,6 @@ $(document).ready(function () {
   } else {
     $("#buscaRapidaPessoa").prop("disabled", true);
   }
-
-  bloquearCamposPessoa();
 
   var selectEspecieAnimal = new Select2("#select2especieAnimal", {
     url: "/veterinaria/server/especie/general",
@@ -49,18 +48,19 @@ $(document).ready(function () {
   $("#tutorNaoDeclarado").on("change", function () {
     if ($(this).is(":checked")) {
       desvincularPessoa();
+      bloquearCamposPessoa();
       $("#buscaRapidaPessoa, #desvincularPessoa, #alterarPessoaAtual").prop(
         "disabled",
         true
       );
     } else {
       $("#buscaRapidaPessoa").prop("disabled", false);
+      desbloquearCamposPessoa();
     }
   });
 
   $("#cdPessoa").on("change", function () {
     if ($(this).val()) {
-      $("#buscaRapidaPessoa").prop("disabled", true);
       $("#desvincularPessoa, #alterarPessoaAtual").prop("disabled", false);
     } else {
       $("#buscaRapidaPessoa").prop("disabled", false);
@@ -117,13 +117,13 @@ $(document).ready(function () {
 
   $("#desvincularPessoa").on("click", function () {
     desvincularPessoa();
-    $('#alterouPessoa').val('N');
+   // $('#alterouPessoa').val('N');
   });
 
-  $("#alterarPessoaAtual").on("click", function () {
-    $('#alterouPessoa').val('S');
-    desbloquearCamposPessoa();
-  });
+  // $("#alterarPessoaAtual").on("click", function () {
+  //   $('#alterouPessoa').val('S');
+  //   desbloquearCamposPessoa();
+  // });
 });
 
 function salvarCadastroAnimais() {
@@ -206,7 +206,7 @@ function excluirCadastroAnimais() {
 
 function selecionarPessoa(id) {
   Loading.on();
-  bloquearCamposPessoa();
+ // bloquearCamposPessoa();
   $.ajax({
     url: "/veterinaria/server/pessoas/selecionarPessoa",
     method: "POST",
@@ -281,13 +281,13 @@ function desvincularPessoa() {
   $("#select2cdBairro").val(null).trigger("change");
   $("#select2cdLogradouro").val(null).trigger("change");
 
-  bloquearCamposPessoa();
+  //bloquearCamposPessoa();
 }
 
 function tableNaoEncontrado() {
   Notificacao.NotificacaoAviso('Nenhum registro encontrado!<br> <b>Campos habilitados para inserir nova Pessoa</b>');
   desvincularPessoa();
-  desbloquearCamposPessoa();
+  //desbloquearCamposPessoa();
   $("#buscaRapidaPessoa, #alterarPessoaAtual").prop("disabled", true);
   $("#desvincularPessoa").prop("disabled", false);
 }

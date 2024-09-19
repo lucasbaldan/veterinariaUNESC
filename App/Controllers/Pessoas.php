@@ -182,7 +182,7 @@ class Pessoas
             $orderBy = isset($grid['order'][0]['column']) ? (int)$grid['order'][0]['column'] : '';
             if ($orderBy == 0) $orderBy = "PESSOAS.CD_PESSOA";
             if ($orderBy == 1) $orderBy = "PESSOAS.NM_PESSOA";
-            if ($orderBy == 2) $orderBy = "PESSOAS.FL_EXCLUIDO";
+            if ($orderBy == 2) $orderBy = "PESSOAS.FL_ATIVO";
 
             $parametrosBusca = [
                 "pesquisaCodigo" => !empty($grid['columns'][0]['search']['value']) ? $grid['columns'][0]['search']['value'] : '',
