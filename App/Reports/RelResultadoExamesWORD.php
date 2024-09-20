@@ -103,6 +103,7 @@ class RelResultadoExamesWORD
         $section->addTextBreak(1);
 
         $section->addText('Referências:', ['bold' => true, 'size' => 12]);
+        $section->addText($DadosFicha->getReferencias(), ['bold' => false, 'size' => 12], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
 
         $section->addTextBreak(1);
 

@@ -164,6 +164,7 @@ class FormularioLPV
                 "diagnostico" => $Ficha->getDiagnostico(),
                 "relatorio" => $Ficha->getRelatorio(),
                 "urlGaleria" => $urlGaleria,
+                "referencias" => $Ficha->getReferencias(),
 
                 "exibeGaleria" => true,
                 "exibeExcluir" => $exibeExcluir,

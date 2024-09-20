@@ -26,6 +26,7 @@ class Atendimentos
     private $lessoesHistologicas;
     private $diagnostico;
     private $relatorio;
+    private $referencias;
     private $usuarioAcao;
 
     private $idImagem;
@@ -53,6 +54,7 @@ class Atendimentos
         $idadeAno,
         $idadeMes,
         $idadeDia,
+        $referencias,
         $codigo = null
     ) {
         $this->codigo = $codigo;
@@ -74,6 +76,7 @@ class Atendimentos
         $this->idadeAnimalAno = $idadeAno;
         $this->idadeAnimalMeses = $idadeMes;
         $this->idadeAnimalDias = $idadeDia;
+        $this->referencias = $referencias;
         $this->usuarioAcao = \App\Helpers\Sessao::getInfoSessao()['username'];
     }
 
@@ -111,10 +114,11 @@ class Atendimentos
                 $read->getResult()[0]['IDADE_ANIMAL_ANO'],
                 $read->getResult()[0]['IDADE_ANIMAL_MES'],
                 $read->getResult()[0]['IDADE_ANIMAL_DIA'],
+                $read->getResult()[0]['DS_REFERENCIAS'],
                 $read->getResult()[0]['CD_FICHA_LPV'],
             );
         } catch (Exception $e) {
-            return new self('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+            return new self('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
         }
     }
 
@@ -333,6 +337,7 @@ class Atendimentos
                 "IDADE_ANIMAL_ANO" => $this->idadeAnimalAno,
                 "IDADE_ANIMAL_MES" => $this->idadeAnimalMeses,
                 "IDADE_ANIMAL_DIA" => $this->idadeAnimalDias,
+                "DS_REFERENCIAS" => $this->referencias,
                 "USUARIO_CRIACAO" => $this->usuarioAcao
             ];
 
@@ -414,6 +419,7 @@ class Atendimentos
                     "IDADE_ANIMAL_ANO" => $this->idadeAnimalAno,
                     "IDADE_ANIMAL_MES" => $this->idadeAnimalMeses,
                     "IDADE_ANIMAL_DIA" => $this->idadeAnimalDias,
+                    "DS_REFERENCIAS" => $this->referencias,
                     "USUARIO_ALTERACAO" => $this->usuarioAcao
                 ];
 
@@ -597,5 +603,10 @@ class Atendimentos
     public function setImagem($e)
     {
         $this->idImagem = $e;
+    }
+
+    public function getReferencias()
+    {
+        return $this->referencias;
     }
 }

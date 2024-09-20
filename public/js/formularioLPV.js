@@ -188,15 +188,15 @@ function tableNaoEncontrado() {
   Notificacao.NotificacaoAviso(
     "Nenhum registro encontrado!<br> <b>Campos habilitados para inserir nova Pessoa</b>"
   );
-  $(
-    "#nmVeterinarioRemetente, #crmvVeterinarioRemetente, #nrTelVeterinarioRemetente, #dsEmailVeterinarioRemetente, #select2cdCidadeVeterinario"
-  ).prop("disabled", false);
+  // $(
+  //   "#nmVeterinarioRemetente, #crmvVeterinarioRemetente, #nrTelVeterinarioRemetente, #dsEmailVeterinarioRemetente, #select2cdCidadeVeterinario"
+  // ).prop("disabled", false);
 }
 
 function selecionarPessoa(id) {
-  $(
-    "#nmVeterinarioRemetente, #crmvVeterinarioRemetente, #nrTelVeterinarioRemetente, #dsEmailVeterinarioRemetente, #select2cdCidadeVeterinario"
-  ).prop("disabled", true);
+  // $(
+  //   "#nmVeterinarioRemetente, #crmvVeterinarioRemetente, #nrTelVeterinarioRemetente, #dsEmailVeterinarioRemetente, #select2cdCidadeVeterinario"
+  // ).prop("disabled", true);
   Loading.on();
   $.ajax({
     url: "/veterinaria/server/pessoas/selecionarPessoa",
@@ -241,23 +241,23 @@ function selecionarPessoa(id) {
   });
 }
 
-$("#alterarVeterinario").on("click", function () {
-  $(
-    "#nmVeterinarioRemetente, #crmvVeterinarioRemetente, #nrTelVeterinarioRemetente, #dsEmailVeterinarioRemetente, #select2cdCidadeVeterinario"
-  ).prop("disabled", false);
-  $("#alterouVeterinario").val("S");
-});
+// $("#alterarVeterinario").on("click", function () {
+//   $(
+//     "#nmVeterinarioRemetente, #crmvVeterinarioRemetente, #nrTelVeterinarioRemetente, #dsEmailVeterinarioRemetente, #select2cdCidadeVeterinario"
+//   ).prop("disabled", false);
+//   $("#alterouVeterinario").val("S");
+// });
 
 $("#desvincularVeterinario").on("click", function () {
-  $(
-    "#nmVeterinarioRemetente, #crmvVeterinarioRemetente, #nrTelVeterinarioRemetente, #dsEmailVeterinarioRemetente, #select2cdCidadeVeterinario"
-  ).prop("disabled", true);
+  // $(
+  //   "#nmVeterinarioRemetente, #crmvVeterinarioRemetente, #nrTelVeterinarioRemetente, #dsEmailVeterinarioRemetente, #select2cdCidadeVeterinario"
+  // ).prop("disabled", true);
   $("#cdVeterinarioRemetente").val("").trigger("change");
   $(
     "#nmVeterinarioRemetente, #crmvVeterinarioRemetente, #nrTelVeterinarioRemetente, #dsEmailVeterinarioRemetente"
   ).val("");
   $("#select2cdCidadeVeterinario").val(null).trigger("change");
-  $("#alterouVeterinario").val("N");
+  //$("#alterouVeterinario").val("N");
 });
 
 function salvarCadastroAtendimentos(atualizarPage = false) {

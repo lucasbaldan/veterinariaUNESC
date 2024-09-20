@@ -146,6 +146,7 @@ class Atendimentos
             $totalAnimais = !empty($dadosForm['totalAnimais']) ? $dadosForm['totalAnimais'] : 0;
             $animaisDoentes = !empty($dadosForm['qtdAnimaisDoentes']) ? $dadosForm['qtdAnimaisDoentes'] : 0;
             $animaisMortos = !empty($dadosForm['qtdAnimaisMortos']) ? $dadosForm['qtdAnimaisMortos'] : 0;
+            $referencias = !empty($dadosForm['dsReferencias']) ? $dadosForm['dsReferencias'] : '';
 
             // INPUTS DO ANIMAL
             $codigoAnimal = !empty($dadosForm['cdAnimal']) ? $dadosForm['cdAnimal'] : '';
@@ -225,7 +226,7 @@ class Atendimentos
                 }
             } else {
                 $VeterinarioFicha = \App\Models\Pessoas::findById($codigoVeterinario, $Conn);
-                if ($alterouVeterinario == 'S') {
+
                     $VeterinarioFicha->setNome($nomeVeterinario);
                     $VeterinarioFicha->setCRMV($crmvVeterinario);
                     $VeterinarioFicha->setTelefone($telefoneVeterinario);
@@ -237,10 +238,9 @@ class Atendimentos
                     if (!$VeterinarioFicha->getResult()) {
                         throw new Exception($VeterinarioFicha->getMessage());
                     }
-                }
             }
 
-            $Atendimento = new \App\Models\Atendimentos($data, $AnimalFicha->getCodigo(), $VeterinarioFicha->getCodigo(), $cdCidadePropridade, $totalAnimais, $animaisMortos, $animaisDoentes, $materialRecebido, $dsDiagnosticoPresuntivo, $flAvaliacaoTumoralComMargem, $dsEpidemiologia, $dsLesoesMacroscopicas, $dsLesoesHistologicas, $dsDiagnostico, $dsRelatorio, $idadeAno, $idadeMes, $idadeDia, $codigo);
+            $Atendimento = new \App\Models\Atendimentos($data, $AnimalFicha->getCodigo(), $VeterinarioFicha->getCodigo(), $cdCidadePropridade, $totalAnimais, $animaisMortos, $animaisDoentes, $materialRecebido, $dsDiagnosticoPresuntivo, $flAvaliacaoTumoralComMargem, $dsEpidemiologia, $dsLesoesMacroscopicas, $dsLesoesHistologicas, $dsDiagnostico, $dsRelatorio, $idadeAno, $idadeMes, $idadeDia, $referencias, $codigo);
             if ($inserirFicha) {
                 $Atendimento->Inserir($Conn);
             } else {
@@ -480,7 +480,7 @@ class Atendimentos
 
             $Imagem = \App\Models\Atendimentos::deleteImageById($filename);
 
-            if (!$filename) {
+            if (!$Imagem) {
                 throw new Exception("Erro ao excluir Imagem");
             }
 

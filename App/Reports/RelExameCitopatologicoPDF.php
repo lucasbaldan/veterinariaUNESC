@@ -96,7 +96,7 @@ class RelExameCitopatologicoPDF
         <br>
 
         <div style="text-align: justify;">
-        <p><b>Referências: </b></p> 
+        <p><b>Referências: </b></p> '.$DadosFicha->getReferencias().'
         </div>
     
     </body>

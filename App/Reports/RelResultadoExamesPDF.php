@@ -109,7 +109,7 @@ class RelResultadoExamesPDF
     <br>
 
     <div style="text-align: justify;">
-        <p><b>Referências: </b></p>
+        <p><b>Referências: </b></p> '.$DadosFicha->getReferencias().'
     </div>
 
     <br><br>
@@ -122,9 +122,6 @@ class RelResultadoExamesPDF
             submetido à avaliação do médico veterinário responsável, junto aos demais exames e histórico do
             paciente.</span>
     </div>
-
-    <br>
-
     <div style="text-align: center;">
         <img src="https://lpvunesc.com.br/veterinaria/public/img/AssClairton.png" width="150px">
     </div>
