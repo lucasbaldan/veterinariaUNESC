@@ -18,10 +18,22 @@ class RelExameCitopatologicoWORD
         $conteudo = $request->getParsedBody();
 
         $cdFichaLPV = !empty($conteudo['cdFichaLPV']) ? $conteudo['cdFichaLPV'] : '';
+        $cdLaboratorio = !empty($conteudo['cdLaboratorio']) ? $conteudo['cdLaboratorio'] : '';
 
         if (!empty($cdFichaLPV)) {
             $DadosFicha = \App\Models\Atendimentos::findById($cdFichaLPV);
         }
+
+        if(!empty($cdLaboratorio)) {
+            $laboratorio = \App\Models\Laboratorios::findById($cdLaboratorio);
+            $logo = $laboratorio->getLogoId();
+            $logo = $logo['ID_LOGO'];
+            $caminhoImg = "https://lpvunesc.com.br/public/veterinaria/App/Assets/imagens/logo_laboratorios/$logo";
+            // $caminhoImg = "http://localhost/veterinaria/App/Assets/Imagens/logo_laboratorios/$logo";
+        } else {
+            $caminhoImg = "https://lpvunesc.com.br/veterinaria/public/img/defaultCabecalhoFicha.png";
+        }
+
 
 
         $phpWord = new PhpWord();
@@ -31,7 +43,7 @@ class RelExameCitopatologicoWORD
 
         // Adiciona a imagem ao cabeçalho
         $header->addImage(
-            'https://lpvunesc.com.br/veterinaria/public/img/defaultCabecalhoFicha.png',
+            $caminhoImg,
             [
                 'width' => 450,
                 'height' => 90,

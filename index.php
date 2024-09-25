@@ -185,6 +185,16 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         return $tela->exibir($request, $response, $args);
     });
 
+    $group->get('/listLaboratorios', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\ListLaboratorios($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
+    $group->post('/cadastroLaboratorios', function (Request $request, Response $response, $args) use ($twig) {
+        $tela =  new App\Views\CadastroLaboratorios($twig);
+        return $tela->exibir($request, $response, $args);
+    });
+
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
@@ -210,6 +220,8 @@ $app->group('/paginas', function (RouteCollectorProxy $group) use ($twig) {
         '/veterinaria/paginas/relatorioFichaLPV',
         '/veterinaria/paginas/cadastroGruposUsuariosNovo',
         '/veterinaria/paginas/logs',
+        '/veterinaria/paginas/listLaboratorios',
+        '/veterinaria/paginas/cadastroLaboratorios',
     ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisicao foi efetuada de maneira incorreta.']));
@@ -272,7 +284,6 @@ $app->group('/modais', function (RouteCollectorProxy $group) use ($twig) {
         $tela =  new App\Views\resetarSenha($twig);
         return $tela->exibir($request, $response, $args);
     });
-
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
@@ -400,10 +411,20 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         // $fichaLPVGroup->post('/apagaFichaLPV',  App\Controllers\FormularioLPV::class . ':ApagarFichaLPV');
         $fichaLPVGroup->post('/relatorioFichaLPV',  App\Controllers\FormularioLPV::class . ':GerarRelatorioFichasLPV');
     });
+
+    $group->group('/laboratorios', function (RouteCollectorProxy $laboratoriosGroup) {
+        $laboratoriosGroup->post('/grid', App\Controllers\Laboratorios::class . ':montarGrid');
+        $laboratoriosGroup->post('/controlar', App\Controllers\Laboratorios::class . ':Salvar');
+        $laboratoriosGroup->post('/excluir', App\Controllers\Laboratorios::class . ':Excluir');
+        $laboratoriosGroup->post('/uploadLogo', App\Controllers\Laboratorios::class . ':UploadLogo');
+        $laboratoriosGroup->post('/excluirLogo', App\Controllers\Laboratorios::class . ':excluirLogo');
+        $laboratoriosGroup->post('/retornaLaboratorios', App\Controllers\Laboratorios::class . ':retornaLaboratorios');
+    });
+
 })->add(function (Request $request, RequestHandlerInterface $handler) {
     $uri = $request->getUri()->getPath();
     if (!in_array($uri, [
-        
+
         '/veterinaria/server/relatorios/exameCitopatologicoWORD',
         '/veterinaria/server/relatorios/exameCitopatologicoPDF',
         '/veterinaria/server/relatorios/exameHistopatologicoWORD',
@@ -482,6 +503,13 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         '/veterinaria/server/fichaLPV/relatorioFichaLPV',
 
         '/veterinaria/server/pdf/geraPdf',
+
+        '/veterinaria/server/laboratorios/grid',
+        '/veterinaria/server/laboratorios/controlar',
+        '/veterinaria/server/laboratorios/excluir',
+        '/veterinaria/server/laboratorios/uploadLogo',
+        '/veterinaria/server/laboratorios/excluirLogo',
+        '/veterinaria/server/laboratorios/retornaLaboratorios',
     ])) {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode(["retorno" => false, "mensagem" => 'A requisição foi efetuada de maneira incorreta.']));
@@ -497,6 +525,18 @@ $app->group('/server', function (RouteCollectorProxy $group) {
         $Group->get('/atendimento/{filename}', function (Request $request, Response $response, array $args) {
             $filename = $args['filename'];
             $filePath = __DIR__ . '/App/Assets/imagens/imagens_atendimento/' . $filename;
+
+            if (!file_exists($filePath)) {
+                return $response->withStatus(404);
+            }
+
+            $response->getBody()->write(file_get_contents($filePath));
+            return $response->withHeader('Content-Type', mime_content_type($filePath));
+        });
+
+        $Group->get('/laboratorio/{filename}', function (Request $request, Response $response, array $args) {
+            $filename = $args['filename'];
+            $filePath = __DIR__ . '/App/Assets/imagens/logos_laboratorios/' . $filename;
 
             if (!file_exists($filePath)) {
                 return $response->withStatus(404);

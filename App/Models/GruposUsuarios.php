@@ -134,6 +134,8 @@ class GruposUsuarios
         if (!$atualizado) {
           throw new Exception($update->getMessage());
         } else {
+          $logs = new \App\Models\Logs($_SESSION['username'], 'UPDATE', 'GRUPOS_USUARIOS', $cdGrupoUsuarios, $permissoes);
+          $logs->Insert();
           return true;
         }
         // $this->Result = true;

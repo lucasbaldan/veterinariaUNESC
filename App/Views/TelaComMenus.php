@@ -41,6 +41,7 @@ class TelaComMenus
         $itemUsuario = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('CADASTRO_USUARIOS', 'FL_ACESSAR');
         $itemRelFichaLPV = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('RELATORIOS', 'FL_ACESSAR');
         $itemLogs = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('LOGS', 'FL_ACESSAR');
+        $itemLaboratorios = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('LABORATORIOS', 'FL_ACESSAR');
 
         // $itemAnimal = true;
         // $itemPessoa = true;
@@ -70,6 +71,9 @@ class TelaComMenus
         if ($itemRelFichaLPV) $abaRelatorios = true;
         else $abaRelatorios = false;
 
+        if ($itemLaboratorios) $abaLaboratorios = true;
+        else $abaLaboratorios = false;
+
         return $this->twig->fetch('TelaComMenus.twig', [
             'conteudo_tela' => $conteudoPrincipal,
             'nomeUsuario' => $sessao['username'],
@@ -88,12 +92,14 @@ class TelaComMenus
             'itemGrupoUsuario' => $itemGrupoUsuario,
             'itemUsuario' => $itemUsuario,
             'itemLogs' => $itemLogs,
+            'itemLaboratorios' => $itemLaboratorios,
 
             'abaCadastrosGerais' => $abaCadastrosGerais,
             'abaAnimal' => $abaAnimal,
             'abaEndereco' => $abaEndereco,
             'abaControleAcesso' => $abaControleAcesso,
             'abaRelatorios' => $abaRelatorios,
+            'abaLaboratorios' => $abaLaboratorios,
 
         ]);
     }

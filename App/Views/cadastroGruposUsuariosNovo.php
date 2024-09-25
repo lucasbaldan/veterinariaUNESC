@@ -27,7 +27,7 @@ class CadastroGruposUsuariosNovo
                 'conteudo_tela' => $this->TelaComMenus->renderTelaComMenus($this->twig->fetch('telaErro.twig')),
             ]);
         }
-        
+
         $ajaxTela = $request->getParsedBody();
 
         $cdGrupoUsuarios = !empty($ajaxTela['id']) ? $ajaxTela['id'] : '';
@@ -149,6 +149,12 @@ class CadastroGruposUsuariosNovo
             $flEditarLogs = !empty($permissoesArray['LOGS']['FL_EDITAR']) ? $permissoesArray['LOGS']['FL_EDITAR'] : 'N';
             $flInserirLogs = !empty($permissoesArray['LOGS']['FL_INSERIR']) ? $permissoesArray['LOGS']['FL_INSERIR'] : 'N';
             $flExcluirLogs = !empty($permissoesArray['LOGS']['FL_EXCLUIR']) ? $permissoesArray['LOGS']['FL_EXCLUIR'] : 'N';
+
+            // LABORATORIOS
+            $flAcessarLaboratorios = !empty($permissoesArray['LABORATORIOS']['FL_ACESSAR']) ? $permissoesArray['LABORATORIOS']['FL_ACESSAR'] : 'N';
+            $flEditarLaboratorios = !empty($permissoesArray['LABORATORIOS']['FL_EDITAR']) ? $permissoesArray['LABORATORIOS']['FL_EDITAR'] : 'N';
+            $flInserirLaboratorios = !empty($permissoesArray['LABORATORIOS']['FL_INSERIR']) ? $permissoesArray['LABORATORIOS']['FL_INSERIR'] : 'N';
+            $flExcluirLaboratorios = !empty($permissoesArray['LABORATORIOS']['FL_EXCLUIR']) ? $permissoesArray['LABORATORIOS']['FL_EXCLUIR'] : 'N';
         } else {
             ///// REFERENTE AO CADASTRO DO GRUPO DE USUÁRIOS
             $exibirExcluirCadastroGrupoUsuarios = false;
@@ -253,6 +259,12 @@ class CadastroGruposUsuariosNovo
             $flEditarLogs = 'N';
             $flInserirLogs = 'N';
             $flExcluirLogs = 'N';
+
+            // CADASTRO_LABORATORIOS
+            $flAcessarLaboratorios = 'N';
+            $flEditarLaboratorios = 'N';
+            $flInserirLaboratorios = 'N';
+            $flExcluirLaboratorios = 'N';
         }
 
 
@@ -260,20 +272,17 @@ class CadastroGruposUsuariosNovo
         // $exibeSalvar = $permissaoSalvar == true ? true : false;
 
         $telaCadastroUsuarios = $this->twig->fetch('cadastroGruposUsuariosNovo.twig', [
-            
+
             // REFERENTE AO CADASTRO DO GRUPO DE USUÁRIOS
             'cdGrupoUsuarios' => $cdGrupoUsuarios,
             'nmGrupoUsuarios' => $nmGrupoUsuarios,
             'exibirExcluirCadastroGrupoUsuarios' => $exibirExcluirCadastroGrupoUsuarios,
             'exibirSalvarCadastroGrupoUsuarios' => $exibirSalvarCadastroGrupoUsuarios,
             'selectAtivoGrupoUsuarios' => $selectAtivoGrupoUsuarios,
-            
-            
-            
-            
+
             
             // REFERENTE ÀS PERMISSÕE DO GRUPO DE USUÁRIOS
-            
+
             'exibeSalvarPermissoes' => $exibeSalvarPermissoes,
             // Ficha LPV
             'flAcessarFichaLPV' => $flAcessarFichaLPV == 'S' ? 'checked' : '',
@@ -358,6 +367,13 @@ class CadastroGruposUsuariosNovo
             'flEditarLogs' => $flEditarLogs == 'S' ? 'checked' : '',
             'flInserirLogs' => $flInserirLogs == 'S' ? 'checked' : '',
             'flExcluirLogs' => $flExcluirLogs == 'S' ? 'checked' : '',
+
+            // CADASTRO_LABORATORIOS
+            'flAcessarLaboratorios' => $flAcessarLaboratorios == 'S' ? 'checked' : '',
+            'flEditarLaboratorios' => $flEditarLaboratorios == 'S' ? 'checked' : '',
+            'flInserirLaboratorios' => $flInserirLaboratorios == 'S' ? 'checked' : '',
+            'flExcluirLaboratorios' => $flExcluirLaboratorios == 'S' ? 'checked' : '',
+
         ]);
 
         $conteudoTela = $this->TelaComMenus->renderTelaComMenus($telaCadastroUsuarios);

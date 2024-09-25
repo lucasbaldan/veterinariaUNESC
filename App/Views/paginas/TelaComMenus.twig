@@ -56,6 +56,19 @@
                 </div>
                 {% endif %}
 
+                {% if abaLaboratorios %}
+                <a class="list-group-item list-group-item-action list-group-item-light ps-5" data-bs-toggle="collapse"
+                    href="#collapseLaboratorios" role="button" aria-expanded="false" aria-controls="collapseLaboratorios">
+                    <i class="bi bi-chevron-down ms-auto"></i> <b>Laboratórios</b>
+                </a>
+                <div class="collapse" id="collapseLaboratorios">
+                    {% if itemLaboratorios %}
+                    <a class="list-group-item list-group-item-action list-group-item-light ps-5 call-screen"
+                        href="/veterinaria/paginas/listLaboratorios"> <i class="bi bi-prescription2"></i> Laboratórios </a>
+                    {% endif %}
+                </div>
+                {% endif %}
+
                 {% if abaEndereco %}
                 <a class="list-group-item list-group-item-action list-group-item-light ps-5" data-bs-toggle="collapse"
                     href="#collapseEndereco" role="button" aria-expanded="false" aria-controls="collapseEndereco">

@@ -18,9 +18,20 @@ class RelExameCitopatologicoPDF
 
         $dompdf = new Dompdf(array('enable_remote' => true));
         $cdFichaLPV = !empty($conteudo['cdFichaLPV']) ? $conteudo['cdFichaLPV'] : '';
+        $cdLaboratorio = !empty($conteudo['cdLaboratorio']) ? $conteudo['cdLaboratorio'] : '';
 
         if (!empty($cdFichaLPV)) {
             $DadosFicha = \App\Models\Atendimentos::findById($cdFichaLPV);
+
+            if (!empty($cdLaboratorio)) {
+                $laboratorio = \App\Models\Laboratorios::findById($cdLaboratorio);
+                $logo = $laboratorio->getLogoId();
+                $logo = $logo['ID_LOGO'];
+                // $caminhoImg = "https://lpvunesc.com.br/public/veterinaria/App/Assets/imagens/logos_laboratorios/$logo";
+                $caminhoImg = "Assets/Imagens/logos_laboratorios/$logo";
+            } else {
+                $caminhoImg = "https://lpvunesc.com.br/veterinaria/public/img/defaultCabecalhoFicha.png";
+            }
 
             if (!$DadosFicha) $html = 'Erro interno ao gerar o documento';
 
@@ -40,25 +51,25 @@ class RelExameCitopatologicoPDF
     
     <body>
         <div style="text-align: center;">
-            <img src="https://lpvunesc.com.br/veterinaria/public/img/defaultCabecalhoFicha.png" style="width: 600px;">
+            <img src="'. $caminhoImg .'" style="width: 600px;">
         </div>
         <h2 style="text-align: center;">EXAME CITOPATOLÓGICO</h2>
         <br>
     
         <table style="width: 100%; border-collapse: collapse;">
     <tr>
-        <td style="width: 33.33%; text-align: left;"><b>Nome do Animal:</b> '.$DadosFicha->getAnimal()->getNome().'</td>
-        <td style="width: 33.33%; text-align: left;"><b>Espécie:</b> '. $DadosFicha->getAnimal()->getEspecie()->getDescricao().'</td>
-        <td style="width: 33.33%; text-align: left;"><b>Raça:</b> '. $DadosFicha->getAnimal()->getRaca()->getDescricao().'</td>
+        <td style="width: 33.33%; text-align: left;"><b>Nome do Animal:</b> ' . $DadosFicha->getAnimal()->getNome() . '</td>
+        <td style="width: 33.33%; text-align: left;"><b>Espécie:</b> ' . $DadosFicha->getAnimal()->getEspecie()->getDescricao() . '</td>
+        <td style="width: 33.33%; text-align: left;"><b>Raça:</b> ' . $DadosFicha->getAnimal()->getRaca()->getDescricao() . '</td>
     </tr>
 </table>
 
 <table style="width: 100%; border-collapse: collapse;">
     <tr>
-        <td style="width: 50%; text-align: left;"><b>Idade:</b> '.(empty($DadosFicha->getIdadeAno()) ? "" : $DadosFicha->getIdadeAno() . " Anos ") .
-        (empty($DadosFicha->getIdadeMes()) ? "" : $DadosFicha->getIdadeMes() . " Meses ") .
-        (empty($DadosFicha->getIdadeDia()) ? "" : $DadosFicha->getIdadeDia() . " Dias ").'</td>
-        <td style="width: 50%; text-align: left;"><b>Sexo:</b> '. ($DadosFicha->getAnimal()->getSexo() == 'M' ? "Macho" : "Fêmea").'</td>
+        <td style="width: 50%; text-align: left;"><b>Idade:</b> ' . (empty($DadosFicha->getIdadeAno()) ? "" : $DadosFicha->getIdadeAno() . " Anos ") .
+                (empty($DadosFicha->getIdadeMes()) ? "" : $DadosFicha->getIdadeMes() . " Meses ") .
+                (empty($DadosFicha->getIdadeDia()) ? "" : $DadosFicha->getIdadeDia() . " Dias ") . '</td>
+        <td style="width: 50%; text-align: left;"><b>Sexo:</b> ' . ($DadosFicha->getAnimal()->getSexo() == 'M' ? "Macho" : "Fêmea") . '</td>
     </tr>
 </table>
            
@@ -78,7 +89,7 @@ class RelExameCitopatologicoPDF
         <br>
     
         <div style="text-align: justify;">
-        <p><b>Descricão Microscópica: </b></p> ' .$DadosFicha->getLessoesHistologicas(). '
+        <p><b>Descricão Microscópica: </b></p> ' . $DadosFicha->getLessoesHistologicas() . '
         </div>
 
         <br>
@@ -90,13 +101,13 @@ class RelExameCitopatologicoPDF
         <br>
     
         <div style="text-align: justify;">
-        <p><b>Notas: </b></p> ' .$DadosFicha->getRelatorio(). ' 
+        <p><b>Notas: </b></p> ' . $DadosFicha->getRelatorio() . ' 
         </div>
 
         <br>
 
         <div style="text-align: justify;">
-        <p><b>Referências: </b></p> '.$DadosFicha->getReferencias().'
+        <p><b>Referências: </b></p> ' . $DadosFicha->getReferencias() . '
         </div>
     
     </body>

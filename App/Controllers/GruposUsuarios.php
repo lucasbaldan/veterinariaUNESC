@@ -199,6 +199,11 @@ class GruposUsuarios
             $flInserirLogs = !empty($Formulario['flInserirLogs']) ? $Formulario['flInserirLogs'] : '';
             $flExcluirLogs = !empty($Formulario['flExcluirLogs']) ? $Formulario['flExcluirLogs'] : '';
 
+            $flAcessarLaboratorios = !empty($Formulario['flAcessarLaboratorios']) ? $Formulario['flAcessarLaboratorios'] : '';
+            $flEditarLaboratorios = !empty($Formulario['flEditarLaboratorios']) ? $Formulario['flEditarLaboratorios'] : '';
+            $flInserirLaboratorios = !empty($Formulario['flInserirLaboratorios']) ? $Formulario['flInserirLaboratorios'] : '';
+            $flExcluirLaboratorios = !empty($Formulario['flExcluirLaboratorios']) ? $Formulario['flExcluirLaboratorios'] : '';
+
             $data = [
                 "FICHA_LPV" => [
                     "FL_ACESSAR" => $flAcessarFichaLPV ? "S" : "N",
@@ -277,7 +282,14 @@ class GruposUsuarios
                     "FL_EDITAR" => $flEditarLogs ? "S" : "N",
                     "FL_INSERIR" => $flInserirLogs ? "S" : "N",
                     "FL_EXCLUIR" => $flExcluirLogs ? "S" : "N"
+                ],
+                "LABORATORIOS" => [
+                    "FL_ACESSAR" => $flAcessarLaboratorios ? "S" : "N",
+                    "FL_EDITAR" => $flEditarLaboratorios ? "S" : "N",
+                    "FL_INSERIR" => $flInserirLaboratorios ? "S" : "N",
+                    "FL_EXCLUIR" => $flExcluirLaboratorios ? "S" : "N"
                 ]
+
             ];
 
 
