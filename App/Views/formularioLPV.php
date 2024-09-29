@@ -35,7 +35,6 @@ class FormularioLPV
         $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('FICHA_LPV', 'FL_INSERIR');;
         $exibeExcluir = true;
         $exibeSalvarGaleria = false;
-        $exibeImprimir = true;
 
         if (!empty($idAnimal)) {
             $exibeExcluir = false;
@@ -163,8 +162,8 @@ class FormularioLPV
                 "LesoesHistologicas" => $Ficha->getLessoesHistologicas(),
                 "diagnostico" => $Ficha->getDiagnostico(),
                 "relatorio" => $Ficha->getRelatorio(),
-                "urlGaleria" => $urlGaleria,
                 "referencias" => $Ficha->getReferencias(),
+                "urlGaleria" => $urlGaleria,
 
                 "exibeGaleria" => true,
                 "exibeExcluir" => $exibeExcluir,

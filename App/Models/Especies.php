@@ -57,20 +57,12 @@ class Especies
         $read = new \App\Conn\Read();
 
         $query = "SELECT ESPECIES.CD_ESPECIE,
-       ESPECIES.DESCRICAO,
-       (CASE WHEN ESPECIES.FL_ATIVO = 1 THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO,
-       (SELECT COUNT(*) FROM ESPECIES WHERE 1=1) AS TOTAL_FILTERED,  
-       (SELECT COUNT(*) FROM ESPECIES) AS TOTAL_TABLE 
-        FROM ESPECIES
-        WHERE 1=1";
-
-        // $query = "SELECT ESPECIES.CD_ESPECIE,
-        //           ESPECIES.DESCRICAO,
-        //           (CASE WHEN ESPECIES.FL_ATIVO = 1 THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO,
-        //           COUNT(ESPECIES.CD_ESPECIE) OVER() AS TOTAL_FILTERED,  
-        //           (SELECT COUNT(ESPECIES.CD_ESPECIE) FROM ESPECIES) AS TOTAL_TABLE 
-        //           FROM ESPECIES
-        //           WHERE 1=1";
+                  ESPECIES.DESCRICAO,
+                  (CASE WHEN ESPECIES.FL_ATIVO = 1 THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO,
+                  COUNT(ESPECIES.CD_ESPECIE) OVER() AS TOTAL_FILTERED,  
+                  (SELECT COUNT(ESPECIES.CD_ESPECIE) FROM ESPECIES) AS TOTAL_TABLE 
+                  FROM ESPECIES
+                  WHERE 1=1";
 
         if (!empty($pesquisaCodigo)) {
             $query .= " AND ESPECIES.CD_ESPECIE LIKE '%$pesquisaCodigo%'";

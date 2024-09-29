@@ -36,8 +36,8 @@ class Raças
             $dadosSelect = \App\Models\Raças::SelectGrid($parametrosBusca);
             $dados = [
                 "draw" => (int)$grid['draw'],
-                "recordsTotal" => isset($dadosSelect[0]['total_table']) ? $dadosSelect[0]['total_table'] : 0,
-                "recordsFiltered" => isset($dadosSelect[0]['total_filtered']) ? $dadosSelect[0]['total_filtered'] : 0,
+                "recordsTotal" => isset($dadosSelect[0]['TOTAL_TABLE']) ? $dadosSelect[0]['TOTAL_TABLE'] : 0,
+                "recordsFiltered" => isset($dadosSelect[0]['TOTAL_FILTERED']) ? $dadosSelect[0]['TOTAL_FILTERED'] : 0,
                 "data" => $dadosSelect
             ];
 

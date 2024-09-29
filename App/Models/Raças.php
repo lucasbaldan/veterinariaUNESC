@@ -60,24 +60,14 @@ class Raças
         $read = new \App\Conn\Read();
 
         $query = "SELECT RACAS.CD_RACA,
-       RACAS.DESCRICAO,
-       ESPECIES.DESCRICAO AS ESPECIE_DESCRICAO,
-       (CASE WHEN RACAS.FL_ATIVO = 1 THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO,
-       (SELECT COUNT(*) FROM RACAS INNER JOIN ESPECIES ON (RACAS.CD_ESPECIE = ESPECIES.CD_ESPECIE) WHERE 1=1) AS TOTAL_FILTERED,  
-       (SELECT COUNT(*) FROM RACAS) AS TOTAL_TABLE 
-        FROM RACAS
-        INNER JOIN ESPECIES ON (RACAS.CD_ESPECIE = ESPECIES.CD_ESPECIE)
-        WHERE 1=1";
-
-        // $query = "SELECT RACAS.CD_RACA,
-        //           RACAS.DESCRICAO,
-        //           ESPECIES.DESCRICAO AS ESPECIE_DESCRICAO,
-        //           (CASE WHEN RACAS.FL_ATIVO = 1 THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO,
-        //           COUNT(RACAS.CD_RACA) OVER() AS TOTAL_FILTERED,  
-        //           (SELECT COUNT(RACAS.CD_RACA) FROM RACAS) AS TOTAL_TABLE 
-        //           FROM RACAS
-        //           INNER JOIN ESPECIES ON (RACAS.CD_ESPECIE = ESPECIES.CD_ESPECIE)
-        //           WHERE 1=1";
+                  RACAS.DESCRICAO,
+                  ESPECIES.DESCRICAO AS ESPECIE_DESCRICAO,
+                  (CASE WHEN RACAS.FL_ATIVO = 1 THEN 'Sim' ELSE 'Não' END) AS FL_ATIVO,
+                  COUNT(RACAS.CD_RACA) OVER() AS TOTAL_FILTERED,  
+                  (SELECT COUNT(RACAS.CD_RACA) FROM RACAS) AS TOTAL_TABLE 
+                  FROM RACAS
+                  INNER JOIN ESPECIES ON (RACAS.CD_ESPECIE = ESPECIES.CD_ESPECIE)
+                  WHERE 1=1";
 
         if (!empty($pesquisaCodigo)) {
             $query .= " AND RACAS.CD_RACA LIKE '%$pesquisaCodigo%'";
