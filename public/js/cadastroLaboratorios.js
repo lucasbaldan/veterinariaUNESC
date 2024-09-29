@@ -22,7 +22,7 @@ $(document).ready(function () {
         withCredentials: false,
         headers: {},
         onerror: function (response) {
-          // console.log('Erro no envio:', response);
+          console.log('Erro no envio:', response);
         },
         ondata: function (formData) {
           formData.append('cdLaboratorio', $('#cdLaboratorio').val());

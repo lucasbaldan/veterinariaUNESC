@@ -174,7 +174,8 @@ class Laboratorios
             }
 
             // Diretório de upload
-            $uploadDirectory = __DIR__ . '/../Assets/imagens/logos_laboratorios';
+            // $uploadDirectory = __DIR__ . '/../Assets/imagens/logos_laboratorios';
+            $uploadDirectory = __DIR__ . '/../img/logos_laboratorios';
 
             // Gera um nome de arquivo único
             $filename = self::moveUploadedFile($uploadDirectory, $logo);

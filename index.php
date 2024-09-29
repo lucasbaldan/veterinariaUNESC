@@ -536,7 +536,8 @@ $app->group('/server', function (RouteCollectorProxy $group) {
 
         $Group->get('/laboratorio/{filename}', function (Request $request, Response $response, array $args) {
             $filename = $args['filename'];
-            $filePath = __DIR__ . '/App/Assets/imagens/logos_laboratorios/' . $filename;
+            // $filePath = __DIR__ . '/App/Assets/imagens/logos_laboratorios/' . $filename;
+            $filePath = __DIR__ . '/public/img/logos_laboratorios/' . $filename;
 
             if (!file_exists($filePath)) {
                 return $response->withStatus(404);

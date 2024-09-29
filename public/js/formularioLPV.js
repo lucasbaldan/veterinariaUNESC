@@ -505,7 +505,7 @@ function gerarRel(tpArquivo) {
     Notificacao.NotificacaoErro('Erro ao gerar relatório, tente novamente mais tarde');
     Loading.off();
   }
-  console.log($("#cdLaboratorio").val());
+  // console.log($("#cdLaboratorio").val());
 
   $.ajax({
     url: "/veterinaria/server/relatorios/" + modeloRelatorio + tipoArquivo,

@@ -13,6 +13,7 @@ class RelExameCitopatologicoPDF
 
     public static function gerar(Request $request, Response $response)
     {
+        session_start();
 
         $conteudo = $request->getParsedBody();
 
@@ -27,8 +28,8 @@ class RelExameCitopatologicoPDF
                 $laboratorio = \App\Models\Laboratorios::findById($cdLaboratorio);
                 $logo = $laboratorio->getLogoId();
                 $logo = $logo['ID_LOGO'];
-                // $caminhoImg = "https://lpvunesc.com.br/public/veterinaria/App/Assets/imagens/logos_laboratorios/$logo";
-                $caminhoImg = "Assets/Imagens/logos_laboratorios/$logo";
+                // $caminhoImg = "http://localhost/veterinaria/public/img/logos_laboratorios/$logo" ;
+                $caminhoImg = "https://lpvunesc.com.br/veterinaria/public/img/logos_laboratorios/$logo";
             } else {
                 $caminhoImg = "https://lpvunesc.com.br/veterinaria/public/img/defaultCabecalhoFicha.png";
             }
@@ -51,7 +52,7 @@ class RelExameCitopatologicoPDF
     
     <body>
         <div style="text-align: center;">
-            <img src="'. $caminhoImg .'" style="width: 600px;">
+            <img src="' . $caminhoImg . '" style="width: 600px;">
         </div>
         <h2 style="text-align: center;">EXAME CITOPATOLÓGICO</h2>
         <br>
