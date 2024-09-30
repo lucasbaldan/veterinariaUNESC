@@ -41,6 +41,15 @@
                 </div>
             </form>
 
+            {% if not exibeGaleria %}
+            <div class="alert alert-primary d-flex align-items-center" role="alert">
+                <i class="bi bi-info-circle" style="margin-right: 10px;"></i> 
+                <div>
+                   Para habilitar o Upload da logo do laboratório, salve o registro e retorne a essa página.
+                </div>
+              </div>
+              {% endif %}
+
             {% if exibeGaleria %}
             <div class="accordion mb-3" id="accordionAnexos">
                 <div class="accordion-item">
@@ -54,14 +63,14 @@
                     <div id="panelAnexos" class="accordion-collapse collapse show">
                         <div class="accordion-body">
                             <input type="file" class="my-pond" name="logoLaboratorio" />
-                            <br>
+                            <br> 
                             <hr>
+                            {% if carregaimagem %}
                             <div id="galeriaDIV" class="row">
-                                {% for imagem in urlGaleria %}
                                 <div class="col-md-4 mb-3">
                                     <div class="gallery-item border rounded position-relative">
                                         <a href="/veterinaria/server/midia/laboratorio/{{ imagem }}"
-                                            data-fancybox="gallery-a" data-caption="Anexo/imagem - {{ animal }}">
+                                            data-fancybox="gallery-a" data-caption="Anexo/imagem">
                                             <img src="/veterinaria/server/midia/laboratorio/{{ imagem }}"
                                                 class="img-fluid" alt="Imagem">
                                         </a>
@@ -70,8 +79,8 @@
                                             <i class="bi bi-trash"></i></button>
                                     </div>
                                 </div>
-                                {% endfor %}
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

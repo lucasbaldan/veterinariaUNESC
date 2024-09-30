@@ -10,7 +10,6 @@ class Laboratorios
     private $CdLaboratorio;
     private $NmLaboratorio;
     private $ativo;
-
     private $idLogo;
 
     private $Return;
@@ -18,14 +17,12 @@ class Laboratorios
     private $Message;
 
 
-    public function __construct($nmlaboratorio, $ativo, $cdlaboratorio = null)
+    public function __construct($nmlaboratorio, $ativo, $cdlaboratorio = null, $idlogo = null)
     {
         $this->CdLaboratorio = $cdlaboratorio;
         $this->NmLaboratorio = $nmlaboratorio;
         $this->ativo = $ativo;
-
-        $this->Result = true;
-        $this->Message = '';
+        $this->idLogo = $idlogo;
     }
 
 
@@ -48,6 +45,7 @@ class Laboratorios
                 $read->getResult()[0]['NM_LABORATORIO'],
                 $read->getResult()[0]['FL_ATIVO'],
                 $read->getResult()[0]['CD_LABORATORIO'],
+                $read->getResult()[0]['ID_LOGO'],
             );
         } catch (Exception $e) {
             return new self('', '', '');
@@ -317,5 +315,10 @@ class Laboratorios
     public function setLogo($e)
     {
         $this->idLogo = $e;
+    }
+
+    public function getLogo()
+    {
+        return $this->idLogo;
     }
 }

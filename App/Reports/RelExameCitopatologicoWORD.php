@@ -26,11 +26,9 @@ class RelExameCitopatologicoWORD
 
         if(!empty($cdLaboratorio)) {
             $laboratorio = \App\Models\Laboratorios::findById($cdLaboratorio);
-            $logo = $laboratorio->getLogoId();
-            $logo = $logo['ID_LOGO'];
-            // $caminhoImg = "https://lpvunesc.com.br/public/veterinaria/App/Assets/imagens/logos_laboratorios/$logo";
-            // $caminhoImg = "http://localhost/veterinaria/public/img/Imagens/logos_laboratorios/$logo";
-            $caminhoImg = "/server/midia/laboratorio/$logo";
+            $logo = $laboratorio->getLogo();
+            $systemPath = $GLOBALS['systempath'];
+            $caminhoImg = "$systemPath/server/midia/laboratorio/$logo";
         } else {
             $caminhoImg = "https://lpvunesc.com.br/veterinaria/public/img/defaultCabecalhoFicha.png";
         }

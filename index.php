@@ -519,9 +519,9 @@ $app->group('/server', function (RouteCollectorProxy $group) {
     return $handler->handle($request);
 })->add($sessionMiddleware);
 
-$app->group('/server', function (RouteCollectorProxy $group) {
+$app->group('/server', function (RouteCollectorProxy $group) use ($sessionMiddleware) {
 
-    $group->group('/midia', function (RouteCollectorProxy $Group) {
+    $group->group('/midia', function (RouteCollectorProxy $Group) use ($sessionMiddleware) {
         $Group->get('/atendimento/{filename}', function (Request $request, Response $response, array $args) {
             $filename = $args['filename'];
             $filePath = __DIR__ . '/App/Assets/imagens/imagens_atendimento/' . $filename;
@@ -532,12 +532,11 @@ $app->group('/server', function (RouteCollectorProxy $group) {
 
             $response->getBody()->write(file_get_contents($filePath));
             return $response->withHeader('Content-Type', mime_content_type($filePath));
-        });
+        })->add($sessionMiddleware);
 
         $Group->get('/laboratorio/{filename}', function (Request $request, Response $response, array $args) {
             $filename = $args['filename'];
-            // $filePath = __DIR__ . '/App/Assets/imagens/logos_laboratorios/' . $filename;
-            $filePath = __DIR__ . '/public/img/logos_laboratorios/' . $filename;
+            $filePath = __DIR__ . '/App/Assets/imagens/logos_laboratorios/' . $filename;
 
             if (!file_exists($filePath)) {
                 return $response->withStatus(404);
@@ -547,7 +546,7 @@ $app->group('/server', function (RouteCollectorProxy $group) {
             return $response->withHeader('Content-Type', mime_content_type($filePath));
         });
     });
-})->add($sessionMiddleware);
+});
 
 // $app->group('/gruposUsuarios', function (RouteCollectorProxy $group) {
 

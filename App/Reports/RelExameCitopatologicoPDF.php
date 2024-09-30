@@ -26,10 +26,9 @@ class RelExameCitopatologicoPDF
 
             if (!empty($cdLaboratorio)) {
                 $laboratorio = \App\Models\Laboratorios::findById($cdLaboratorio);
-                $logo = $laboratorio->getLogoId();
-                $logo = $logo['ID_LOGO'];
-                // $caminhoImg = "http://localhost/veterinaria/public/img/logos_laboratorios/$logo" ;
-                $caminhoImg = "https://lpvunesc.com.br/veterinaria/public/img/logos_laboratorios/$logo";
+                $logo = $laboratorio->getLogo();
+                $systemPath = $GLOBALS['systempath'];
+                $caminhoImg = "$systemPath/server/midia/laboratorio/$logo";
             } else {
                 $caminhoImg = "https://lpvunesc.com.br/veterinaria/public/img/defaultCabecalhoFicha.png";
             }

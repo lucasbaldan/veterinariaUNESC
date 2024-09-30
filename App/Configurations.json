@@ -1,9 +1,9 @@
 {
     "database": {
-        "host": "vetapp_unesc.mysql.dbaas.com.br",
-        "username": "vetapp_unesc",
-        "password": "vetappUnesc@24",
-        "database": "vetapp_unesc",
+        "host": "srv1603.hstgr.io",
+        "username": "u428433370_dev_user",
+        "password": "devlpvunesc@2018()NPM",
+        "database": "u428433370_dev_lpv",
         "driver": "mysql"
     },
     "database__f": {
@@ -15,5 +15,6 @@
     },
     "desenvolvimento": true,
     "timesession": 10800,
-    "versao": 1.013
+    "versao": 1.013,
+    "systempath": "http://localhost/veterinaria"
 }

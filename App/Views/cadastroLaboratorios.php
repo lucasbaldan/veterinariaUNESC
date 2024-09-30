@@ -40,7 +40,7 @@ class CadastroLaboratorios
         if (!empty($idAlteracao)) {
             $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('LABORATORIOS', 'FL_EDITAR');
             $exibeExcluir = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('LABORATORIOS', 'FL_EXCLUIR');
-            $urlGaleria = $laboratorio->getLogoId();
+            $urlGaleria = $laboratorio->getLogo();
         } else {
             $exibeExcluir = false;
             $exibeSalvar = \App\Controllers\GruposUsuarios::VerificaAcessosSemRequisicao('LABORATORIOS', 'FL_INSERIR');
@@ -59,11 +59,12 @@ class CadastroLaboratorios
             "ativo" => $selectAtivoLaboratorio,
             "nmLaboratorio" => $laboratorio->getNome(),
             "selectAtivoLaboratorio" => $selectAtivoLaboratorio,
-            "urlGaleria" => $urlGaleria,
+            "imagem" => $urlGaleria,
+            "carregaimagem" => $urlGaleria != '',
 
             "exibeExcluir" => $exibeExcluir,
             "exibeSalvar" => $exibeSalvar,
-            "exibeGaleria" => true
+            "exibeGaleria" => !empty($laboratorio->getCodigo())
         ]);
 
         $conteudoTela = $this->TelaComMenus->renderTelaComMenus($telaCadastroLaboratorios);
