@@ -255,7 +255,7 @@ class Atendimentos
             $respostaServidor = ["RESULT" => TRUE, "MESSAGE" => '', "RETURN" => $Atendimento->getCodigo()];
             $codigoHTTP = 200;
         } catch (Exception $e) {
-            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => $e->getMessage(), "RETURN" => ''];
+            $respostaServidor = ["RESULT" => FALSE, "MESSAGE" => \App\Helpers\TratamentoErro::SqlError($e->getMessage()), "RETURN" => ''];
             $codigoHTTP = 500;
         }
         $response->getBody()->write(json_encode($respostaServidor, JSON_UNESCAPED_UNICODE));
